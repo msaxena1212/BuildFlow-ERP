@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vendor Profile - BuildFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-dim": "#d8dadc",
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-container": "#bc4800",
+              "surface": "#f7f9fb",
+              "secondary-fixed-dim": "#ffb95f",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-primary-fixed": "#00174b",
+              "on-secondary-fixed": "#2a1700",
+              "inverse-surface": "#2d3133",
+              "tertiary": "#943700",
+              "error": "#ba1a1a",
+              "on-error-container": "#93000a",
+              "surface-container": "#eceef0",
+              "on-primary": "#ffffff",
+              "secondary": "#855300",
+              "surface-container-low": "#f2f4f6",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-fixed": "#ffddb8",
+              "primary": "#004ac6",
+              "inverse-primary": "#b4c5ff",
+              "error-container": "#ffdad6",
+              "outline": "#737686",
+              "on-surface": "#191c1e",
+              "on-surface-variant": "#434655",
+              "primary-container": "#2563eb",
+              "on-tertiary-container": "#ffede6",
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-tint": "#0053db",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#684000",
+              "on-secondary-fixed-variant": "#653e00",
+              "on-background": "#191c1e",
+              "outline-variant": "#c3c6d7",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-tertiary-fixed": "#360f00",
+              "background": "#f7f9fb",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#eeefff",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffdbcd",
+              "secondary-container": "#fea619"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .blueprint-grid {
+            background-image: radial-gradient(circle, #c3c6d7 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.1;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .text-editorial {
+            letter-spacing: -0.02em;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-900 font-inter antialiased text-sm font-medium flex flex-col py-6 px-4 z-50">
+<div class="mb-10 px-2">
+<h1 class="text-xl font-black tracking-tight text-blue-700 dark:text-blue-500">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-outline">Construction Mgmt</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">work_outline</span>
+                Projects
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-blue-700 dark:text-blue-400 font-bold bg-white dark:bg-slate-800 rounded-lg shadow-sm group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">group</span>
+                Vendors
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">description</span>
+                Contracts
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">settings</span>
+                Settings
+            </a>
+</nav>
+<button class="mt-auto bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+            New Project
+        </button>
+</aside>
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/20 dark:border-slate-800/20 shadow-sm flex justify-between items-center h-16 px-8">
+<div class="flex items-center gap-8">
+<div class="relative flex items-center bg-surface-container-low px-4 py-2 rounded-full w-64 group focus-within:ring-2 ring-primary/30 transition-all">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full" placeholder="Search..." type="text"/>
+</div>
+<nav class="flex gap-6 text-sm font-inter tracking-tight">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all" href="#">Directory</a>
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 pb-1" href="#">Compliance</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-all" href="#">Payments</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:text-blue-600 opacity-80 hover:opacity-100 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-blue-600 opacity-80 hover:opacity-100 transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-px bg-outline-variant/20 mx-2"></div>
+<button class="bg-surface-container-highest text-primary px-4 py-2 rounded-lg text-sm font-bold hover:bg-surface-container-high transition-colors">
+                Add Vendor
+            </button>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="professional portrait of a project manager in a minimalist white studio setting with clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqTAiTaXyO9etZLAxStpI-LkROCADiMhSFvCxeFdv8n8U1OXAh5k8qeeliW4oC9nYSn-OOT4FlNP969suEVPQ2_bIPxLbPBHPJqzlvf-vRKxbK4n9UO8LfvtXa_NQQ26ThCuH01BbWAB9XkQd_wxU59qNSvkv3IArjjvF5mrDRJpPOZn6x0-5VI5B8CG_KH788VK-7tKSEShT-FJ_eFWDDWW4CIsNIt7Icu547khG6kE3PIPtDgecHPapFgwnUvRVAauWrPpMVC_Tq"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-12 min-h-screen relative overflow-hidden">
+<div class="blueprint-grid absolute inset-0 pointer-events-none"></div>
+<!-- Vendor Header Section -->
+<div class="relative flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
+<div class="flex gap-8 items-start">
+<div class="w-32 h-32 rounded-2xl bg-surface-container-lowest shadow-xl p-2 rotate-1">
+<img alt="Vendor Logo" class="w-full h-full object-cover rounded-xl" data-alt="Modern architectural construction company logo with geometric blue shapes and crisp white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrsQJnz6ID43CSIK6qn5xSclI8ZMXb587XbM5og1LfKVUy8xKoBAgWvwaRA4uk_xeKNO_Oyw8ab_0mFz_6Qg86DWT8QArVC44-38jkvxjedaseT7K0nBBuI5mqp2J-iW0PO7F2SfBz-nXcs4vjQU17Zka3HJ-F69LEznxuv2TJ6N0bXhdB-_xhzrO4dUy40QS4oQwdJKHJPFqkbfngdEBSehYrfIbREb4ow8hVKdx7BGfPgAc5cStrcnG52-VxzWRvjJtHQkFYjH2l"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Verified</span>
+<span class="text-outline text-xs">ID: VEND-2024-089</span>
+</div>
+<h2 class="text-4xl font-black text-editorial text-on-surface mb-1">Structural Steel Solutions Inc.</h2>
+<p class="text-outline text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                        1402 Industry Way, Seattle, WA 98101
+                    </p>
+<div class="flex gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">mail</span>
+<span class="text-sm font-medium">contact@steel-solutions.com</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">call</span>
+<span class="text-sm font-medium">+1 (206) 555-0192</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<div class="flex gap-3">
+<button class="bg-surface-container-lowest text-on-surface p-3 rounded-xl shadow-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="bg-surface-container-lowest text-on-surface p-3 rounded-xl shadow-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="bg-primary text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">description</span>
+                        Draft New Contract
+                    </button>
+</div>
+</div>
+</div>
+<!-- Tabs Navigation -->
+<div class="flex gap-10 border-b border-outline-variant/20 mb-10 overflow-x-auto">
+<button class="pb-4 border-b-2 border-primary text-primary font-bold text-sm tracking-wide">Overview</button>
+<button class="pb-4 border-b-2 border-transparent text-outline font-medium text-sm tracking-wide hover:text-on-surface transition-colors">Contracts</button>
+<button class="pb-4 border-b-2 border-transparent text-outline font-medium text-sm tracking-wide hover:text-on-surface transition-colors">Performance</button>
+<button class="pb-4 border-b-2 border-transparent text-outline font-medium text-sm tracking-wide hover:text-on-surface transition-colors">Payments</button>
+<button class="pb-4 border-b-2 border-transparent text-outline font-medium text-sm tracking-wide hover:text-on-surface transition-colors">Documents</button>
+</div>
+<!-- Bento Layout Grid -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Metrics & Projects -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<!-- Metrics Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-4">Compliance Score</p>
+<div class="flex items-end justify-between">
+<h3 class="text-4xl font-black text-editorial">98%</h3>
+<div class="text-green-600 flex items-center text-sm font-bold">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                                +2.4%
+                            </div>
+</div>
+<div class="mt-4 h-2 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 98%"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-4">Performance Rating</p>
+<div class="flex items-end justify-between">
+<h3 class="text-4xl font-black text-editorial">4.9<span class="text-xl text-outline font-normal">/5</span></h3>
+<div class="flex gap-0.5 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-xs text-outline mt-4">Based on 12 project evaluations</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-4">Total Paid (YTD)</p>
+<div class="flex items-end justify-between">
+<h3 class="text-3xl font-black text-editorial">$2.4M</h3>
+<span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded">Net 30</span>
+</div>
+<p class="text-xs text-outline mt-5">6 Invoices pending approval</p>
+</div>
+</div>
+<!-- Projects Table (Architectural List) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden border border-outline-variant/10">
+<div class="p-6 flex justify-between items-center border-b border-outline-variant/10">
+<h4 class="text-lg font-bold">Project Engagement</h4>
+<button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline">View All Projects</button>
+</div>
+<div class="divide-y divide-outline-variant/10">
+<!-- Project Item 1 -->
+<div class="p-6 flex items-center justify-between hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img alt="Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="high-angle architectural shot of Skyline Plaza, a glass and steel skyscraper against a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIk4mIKUvvUp3FfLq-acNjeDfeEi_R8CD_gVpyLQI6xk0WSLmHWBr5lKAPpSVAjvb6d4MandGJLQQed_mfM1xz0OVXtDFXxCK9qQXZFaxCsYeAAaHnQpDYrhyaJWXlmVtDlNp8AlfnhiZpj6vL-s0BmK2VinB7edON51FsfGai5ocDj4R9Q5A9tSgzqIfjCBhlF0kUW_mvL1G14RAmYQ7LWwnjIrM8YHMQfJynE5lhPdoYDXN-dLQxpLqEbqzNgRHz1jrwl6t3gQt9"/>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest">Ongoing</p>
+<h5 class="text-md font-bold text-on-surface">Skyline Plaza Phase II</h5>
+<p class="text-xs text-outline">Scope: Main Structural Framing</p>
+</div>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold">$1,250,000</p>
+<p class="text-xs text-outline">Due: Dec 2024</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-xs font-bold text-green-600">On Track</p>
+<div class="w-24 h-1.5 bg-surface-container-low rounded-full mt-1">
+<div class="h-full bg-green-500 rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+<!-- Project Item 2 -->
+<div class="p-6 flex items-center justify-between hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img alt="Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Modern waterfront apartment complex Harbor Heights with wooden accents and sunset lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS6UNcdJdORPWxz6_a1PtbHvHTXNZp1YzGrzuFolGRlehFHq0F4mW4jtJars8jspunuZU5J1qj6nu_5hetZcSNn1L0mcYaoNvXVmGg6vQjtqpplRTCptsSHlJKCgn3L6V9BATBqZIpEtSCO2SNS36m_EM6cg_ZoHNvll1jENTyrNWDjUDeMA4zsefphjJWXr4qht5UgveRiko5rUIsUNGy8oWIxPaTP1Ksk-oBK81lgSWddD1Oezxxk_0dtn72cCY1yDpajc-6glPg"/>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest">Completed</p>
+<h5 class="text-md font-bold text-on-surface">Harbor Heights Residencies</h5>
+<p class="text-xs text-outline">Scope: Balcony Framing &amp; Supports</p>
+</div>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold">$680,000</p>
+<p class="text-xs text-outline">Closed: Aug 2023</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-xs font-bold text-primary">Finalized</p>
+<div class="w-24 h-1.5 bg-surface-container-low rounded-full mt-1">
+<div class="h-full bg-primary rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+<!-- Project Item 3 -->
+<div class="p-6 flex items-center justify-between hover:bg-surface-container-low/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img alt="Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Interior architectural view of a large modern atrium with massive steel beams and glass ceilings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO9nxrb-3EjJ1Nwyalus2Nw5K2dLFvCnLNJHpeJUh6sDfdKrbWMwjZ4YGaz6IzKAcfW4DIV987jSwdQoAX9OCWv_eONRQNhD7Rt60v1glb12dXU2-Q_fLlcEAl0PXiORdtN07FcOOtdzjLvGHTxFYdorGVzbJj6YFQbmCYpZvFKybe3Q59XTLU7FRHWb6JmyNYqTk8jatHxVBlT2DTD6Uov2REBQLRgEat0jlntyNpNaU2WJSIdwp3qxqjCisSwH6Zk5VCGjbOqYcn"/>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest">Completed</p>
+<h5 class="text-md font-bold text-on-surface">The Atrium Office Park</h5>
+<p class="text-xs text-outline">Scope: Custom Staircase Fabrication</p>
+</div>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold">$425,000</p>
+<p class="text-xs text-outline">Closed: Jan 2023</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-xs font-bold text-primary">Finalized</p>
+<div class="w-24 h-1.5 bg-surface-container-low rounded-full mt-1">
+<div class="h-full bg-primary rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Details & Insights -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Compliance Widget -->
+<div class="bg-primary text-white p-8 rounded-xl shadow-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-8xl">verified_user</span>
+</div>
+<h4 class="text-lg font-bold mb-6">Compliance Status</h4>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm opacity-80">General Liability</span>
+<span class="text-sm font-bold">Active</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm opacity-80">Worker's Comp</span>
+<span class="text-sm font-bold">Active</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm opacity-80">Safety Certification</span>
+<span class="text-sm font-bold">Active</span>
+</div>
+<div class="h-px bg-white/20 my-4"></div>
+<p class="text-[10px] uppercase font-bold tracking-widest opacity-60">Next Audit Date</p>
+<p class="text-lg font-bold">October 15, 2024</p>
+</div>
+<button class="w-full mt-8 bg-white/10 hover:bg-white/20 py-3 rounded-lg font-bold transition-colors">
+                        Download Report Package
+                    </button>
+</div>
+<!-- Payment History Preview -->
+<div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+<h4 class="text-lg font-bold mb-6">Recent Payments</h4>
+<div class="space-y-6">
+<div class="flex justify-between items-center">
+<div>
+<p class="text-sm font-bold">INV-0982</p>
+<p class="text-xs text-outline">Aug 24, 2024</p>
+</div>
+<p class="text-sm font-bold text-on-surface">$45,200.00</p>
+<span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded font-bold uppercase">Paid</span>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<p class="text-sm font-bold">INV-0941</p>
+<p class="text-xs text-outline">Aug 12, 2024</p>
+</div>
+<p class="text-sm font-bold text-on-surface">$112,000.00</p>
+<span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded font-bold uppercase">Paid</span>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<p class="text-sm font-bold">INV-0889</p>
+<p class="text-xs text-outline">Jul 28, 2024</p>
+</div>
+<p class="text-sm font-bold text-on-surface">$89,450.00</p>
+<span class="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded font-bold uppercase">Pending</span>
+</div>
+</div>
+<button class="w-full mt-8 text-primary text-xs font-bold uppercase tracking-widest hover:underline">Full Payment History</button>
+</div>
+<!-- Performance Evaluation Heatmap (Simplified) -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<h4 class="text-lg font-bold mb-6">Performance Matrix</h4>
+<div class="space-y-5">
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-tighter mb-2">
+<span>Quality of Work</span>
+<span>95%</span>
+</div>
+<div class="h-2 bg-surface-container-low rounded-full">
+<div class="h-full bg-secondary rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-tighter mb-2">
+<span>Communication</span>
+<span>88%</span>
+</div>
+<div class="h-2 bg-surface-container-low rounded-full">
+<div class="h-full bg-secondary rounded-full" style="width: 88%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-tighter mb-2">
+<span>Safety Adherence</span>
+<span>100%</span>
+</div>
+<div class="h-2 bg-surface-container-low rounded-full">
+<div class="h-full bg-secondary rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold uppercase tracking-tighter mb-2">
+<span>Schedule Reliability</span>
+<span>92%</span>
+</div>
+<div class="h-2 bg-surface-container-low rounded-full">
+<div class="h-full bg-secondary rounded-full" style="width: 92%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (Optional contextual) -->
+<div class="fixed bottom-12 right-12 flex flex-col gap-4">
+<button class="w-14 h-14 bg-surface-container-lowest text-on-surface shadow-xl rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all scale-100 active:scale-90">
+<span class="material-symbols-outlined">forum</span>
+</button>
+</div>
+</main>
+</body></html>

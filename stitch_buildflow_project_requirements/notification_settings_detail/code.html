@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Preferences | BuildFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00174b",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-container": "#684000",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-primary-container": "#eeefff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary": "#855300",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-tint": "#0053db",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-surface-variant": "#434655",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#ffede6",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-primary": "#b4c5ff",
+                        "on-background": "#191c1e",
+                        "tertiary": "#943700",
+                        "on-surface": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-secondary-fixed": "#2a1700",
+                        "secondary-fixed": "#ffddb8",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "primary": "#004ac6",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-fixed": "#360f00",
+                        "secondary-container": "#fea619",
+                        "tertiary-container": "#bc4800",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-dim": "#d8dadc",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #004ac6;
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-slate-100 dark:bg-slate-800/50 flex flex-col p-4 space-y-2 font-inter text-sm font-medium no-border shadow-none">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-700 dark:text-blue-500 leading-tight">BuildFlow</h1>
+<p class="text-[10px] text-slate-500 tracking-widest uppercase">Construction Mgmt</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">architecture</span>
+                Projects
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                Team
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                Schedule
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+                Documents
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 shadow-sm rounded-xl active:scale-98" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-700 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-64 right-0 z-40 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center h-16 px-8 w-auto font-inter tracking-tight no-border">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">Settings</h2>
+<span class="text-outline-variant">/</span>
+<span class="text-sm font-medium text-slate-500">Notifications</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-1.5">
+<span class="material-symbols-outlined text-slate-400 text-sm">search</span>
+<input class="bg-transparent border-none text-xs focus:ring-0 w-48 text-slate-900 dark:text-slate-100" placeholder="Search settings..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-200/50 p-2 rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-200/50 p-2 rounded-full transition-colors">help</button>
+</div>
+<button class="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">Upgrade Plan</button>
+<div class="w-8 h-8 rounded-full bg-slate-300 overflow-hidden ring-2 ring-white ring-offset-2 ring-offset-slate-100">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="professional headshot of a construction project manager in a minimalist office setting with soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK3f34GdseH0lT52FUDhmbPzWagWE1tKde5JfMOjTwf5urnnidCmHpMU2uO9TbNgxQo9QL_xhg8EJneHihZe4-cmZfd3IWCav607T-TS4xGseoV8-Xco7exxtmsHjEe4VvzskEUaNvEQ5Pfh75TBctqu3W65EyOFzSCa0_L62WYXRjCeXIhCpv7aZpoI3pvhHTn_8G-25FIfja2XT9txPf9hlDSnvZySTbNOZIFAjApsvRnHtYPsjMKG2W8sQZYreXgjXl5JK1fGv6"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="pt-24 px-12 pb-12 max-w-5xl mx-auto">
+<div class="mb-12">
+<h3 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Notification Center</h3>
+<p class="text-on-surface-variant text-lg max-w-2xl">Control how and when you receive updates about project milestones, team communications, and system status.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Main Controls Grid -->
+<div class="md:col-span-2 space-y-8">
+<!-- Email Summaries Section -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">mail</span>
+</div>
+<h4 class="text-xl font-bold">Email Summaries</h4>
+</div>
+<div class="space-y-6">
+<!-- Toggle Item 1 -->
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="font-semibold text-on-surface">Daily Blueprint</p>
+<p class="text-sm text-on-surface-variant">Every morning summary of your projects' status.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle Item 2 -->
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="font-semibold text-on-surface">Weekly Retrospective</p>
+<p class="text-sm text-on-surface-variant">Detailed performance metrics delivered every Friday.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="pt-4 mt-4 border-t border-surface-container flex items-center gap-4">
+<span class="text-xs font-bold uppercase tracking-widest text-outline">Preferred Time</span>
+<select class="bg-surface-container-low border-none rounded-lg text-sm px-4 py-2 focus:ring-primary/20">
+<option>08:00 AM</option>
+<option>09:00 AM</option>
+<option>10:00 AM</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Push Notifications Section -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary">notifications_active</span>
+</div>
+<h4 class="text-xl font-bold">Push Notifications</h4>
+</div>
+<button class="text-sm font-bold text-primary hover:underline">Global Mute</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="p-4 rounded-xl border border-surface-container-low hover:bg-surface-container-low transition-colors group cursor-pointer">
+<div class="flex justify-between mb-2">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">chat_bubble</span>
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<p class="font-bold text-sm">Direct Mentions</p>
+<p class="text-xs text-on-surface-variant">When someone tags you in a comment.</p>
+</div>
+<div class="p-4 rounded-xl border border-surface-container-low hover:bg-surface-container-low transition-colors group cursor-pointer">
+<div class="flex justify-between mb-2">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">warning</span>
+<input checked="" class="rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<p class="font-bold text-sm">Safety Alerts</p>
+<p class="text-xs text-on-surface-variant">Critical site safety and weather warnings.</p>
+</div>
+<div class="p-4 rounded-xl border border-surface-container-low hover:bg-surface-container-low transition-colors group cursor-pointer">
+<div class="flex justify-between mb-2">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">task_alt</span>
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<p class="font-bold text-sm">Task Updates</p>
+<p class="text-xs text-on-surface-variant">When tasks you follow change status.</p>
+</div>
+<div class="p-4 rounded-xl border border-surface-container-low hover:bg-surface-container-low transition-colors group cursor-pointer">
+<div class="flex justify-between mb-2">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">history</span>
+<input class="rounded text-primary focus:ring-primary" type="checkbox"/>
+</div>
+<p class="font-bold text-sm">Version Logs</p>
+<p class="text-xs text-on-surface-variant">New document versions or revisions.</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Project Specific Sidebar -->
+<div class="space-y-8">
+<section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm">
+<h4 class="text-lg font-bold mb-4">Project Specific Alerts</h4>
+<p class="text-sm text-on-surface-variant mb-6">Customize frequency for individual active sites.</p>
+<div class="space-y-4">
+<!-- Project Item -->
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img alt="Skyline Towers" class="w-full h-full object-cover" data-alt="architectural visualization of a modern glass skyscraper reflecting a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGPMlbKHRSS6HbdCnTKeWXeqw6W2qCN1SDTS3eEBMB467fAOXen1xqlzhZtpaNEwMRHLSCl6vPNNFvr819AnOS78IIOGad5EsPrla4sV5ck5HzDk3PPoJzRDJYhM2mZzmHsBRK6WPn1rKOe70nzA3u87lnfWcR_HphDV7X_yHV3cCMHW5msyUEPG6ADxJ9EjRqCRsEGogX_DAYBU81PjckCiVel4ruid47piatV3MqJlF_fibM6NWgzABmcQ0TP17Gm6VvX04IKSAd"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-bold text-sm truncate">Skyline Towers</p>
+<p class="text-xs text-primary font-medium">All Activity</p>
+</div>
+<button class="material-symbols-outlined text-outline text-lg">more_vert</button>
+</div>
+<!-- Project Item -->
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img alt="Harbor Bridge" class="w-full h-full object-cover" data-alt="close up of heavy steel beams and orange cranes at a massive bridge construction site" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0InVWuiTKCP8gjNiQdmvAxmU0AgxXsAB-oBQBL__9RQa2K_51r-OGiq44X8HMcrv2eI6qcYGp1CY0ZKOV6CvS80oD5BXdFcHlrY8JcPIyucJ3VvCv54Xn_6kV5lGIarc3owATKRiY-g7kqYsRrrZcPlKNkQWGOL903z-NI9BpQmNcX8YxTF6KizM9Z0mBa_sAArAIa1uG9-Q6naZBe4y5_qXkJxGmDlATHWoFifCEXwb0hf_PasFZUcx6gyxqFDGinQSXgh2r0NsU"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-bold text-sm truncate">Harbor Bridge</p>
+<p class="text-xs text-on-surface-variant font-medium">Critical Only</p>
+</div>
+<button class="material-symbols-outlined text-outline text-lg">more_vert</button>
+</div>
+<!-- Project Item -->
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img alt="Oakwood Estates" class="w-full h-full object-cover" data-alt="aerial drone shot of a luxury residential housing development under construction with green surroundings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2HV_WoY4pRc3Avmof8a3rooV7Ti571VbVouhUm9fHHOT8DR5wlBIjkLct_p2ec-n-7FSGttNBj9a66bGEXPIrzK3fFioCC28knXcq2gtO9pdAl-QXQwcus27jPcPkx1MQuoiAGsSFwgBHoDqECLBHA4oPAjiq9rH_cV-D--I4pVQIyciqayy0XGqkVD2W8icirFW_GiS2wMPnNTeY8HCHx-wFw4Tlr_Bf2B-fmjNYyTS_Yr10FNaGjclW3GWvH_pzGA97UkKanMCn"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-bold text-sm truncate">Oakwood Estates</p>
+<p class="text-xs text-on-surface-variant font-medium">Muted</p>
+</div>
+<button class="material-symbols-outlined text-outline text-lg">more_vert</button>
+</div>
+</div>
+<button class="w-full mt-6 py-2 rounded-lg border border-primary/20 text-primary text-sm font-bold hover:bg-primary/5 transition-colors">
+                            Manage Projects
+                        </button>
+</section>
+<!-- Help Card -->
+<div class="bg-primary-container text-on-primary-container rounded-xl p-6 relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-bold mb-2">Quiet Hours</h4>
+<p class="text-sm opacity-90 mb-4">Set up schedules to silence all non-critical notifications during your off-hours.</p>
+<button class="bg-white text-primary px-4 py-2 rounded-lg text-xs font-bold shadow-md">Enable Schedule</button>
+</div>
+<div class="absolute -bottom-4 -right-4 text-white/10">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'wght' 700;">bedtime</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="mt-12 pt-8 border-t border-surface-container flex justify-end gap-4">
+<button class="px-6 py-2.5 rounded-xl font-bold text-on-surface-variant hover:bg-surface-container-low transition-colors">
+                    Discard Changes
+                </button>
+<button class="px-8 py-2.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    Save Preferences
+                </button>
+</div>
+</div>
+</main>
+</body></html>

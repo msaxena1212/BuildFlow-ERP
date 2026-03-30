@@ -1,0 +1,163 @@
+<section class="p-8 flex flex-col gap-8 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <!-- Page Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-1">
+            <h2 class="text-3xl font-black tracking-tight text-on-surface">Vendors &amp; Partners</h2>
+            <p class="text-on-surface-variant max-w-lg">Coordinate with 24 active contractors and material suppliers across your current developments.</p>
+        </div>
+        <button class="cursor-pointer bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all active:scale-95">
+            <span class="material-symbols-outlined">person_add</span>
+            Add New Vendor
+        </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
+            <p class="text-xs font-bold uppercase tracking-widest text-outline">Total Active</p>
+            <p class="text-4xl font-black text-on-surface">24</p>
+            <div class="h-1 w-12 bg-primary rounded-full"></div>
+        </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
+            <p class="text-xs font-bold uppercase tracking-widest text-outline">Pending Payments</p>
+            <p class="text-4xl font-black text-secondary">$142k</p>
+            <div class="h-1 w-12 bg-secondary rounded-full"></div>
+        </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
+            <p class="text-xs font-bold uppercase tracking-widest text-outline">Material Lead Time</p>
+            <p class="text-4xl font-black text-on-surface">8.2d</p>
+            <div class="h-1 w-12 bg-surface-variant rounded-full"></div>
+        </div>
+        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
+            <p class="text-xs font-bold uppercase tracking-widest text-outline">Compliance Rate</p>
+            <p class="text-4xl font-black text-on-surface">98%</p>
+            <div class="h-1 w-12 bg-primary-container rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- Vendor Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (v of vendors; track v.id) {
+            <div [routerLink]="['/vendors', v.id]" class="cursor-pointer bg-surface-container-lowest p-6 rounded-2xl group hover:shadow-2xl hover:border-primary/20 border border-transparent transition-all duration-300 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4">
+                    <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full" [ngClass]="v.statusColor">{{ v.status }}</span>
+                </div>
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="w-14 h-14 bg-surface-container-high rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-outline">{{ v.icon }}</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">{{ v.name }}</h3>
+                        <p class="text-sm text-outline">{{ v.type }}</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-sm text-on-surface-variant">
+                        <span class="material-symbols-outlined text-lg">mail</span>
+                        {{ v.email }}
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-on-surface-variant">
+                        <span class="material-symbols-outlined text-lg">call</span>
+                        {{ v.phone }}
+                    </div>
+                    <div class="pt-3 border-t border-surface-variant">
+                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider mb-2">Active Projects</p>
+                        <div class="flex flex-wrap gap-2">
+                            @for (proj of v.projects; track proj) {
+                                <span class="bg-surface-container-low px-2 py-1 rounded-lg text-xs font-medium">{{ proj }}</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Balance</p>
+                        <p class="font-black text-lg" [ngClass]="v.status === 'Due' ? 'text-error' : (v.status === 'Pending' ? 'text-secondary' : '')">{{ v.balance }}</p>
+                    </div>
+                    <button class="cursor-pointer p-2 text-primary hover:bg-primary/5 rounded-full transition-colors">
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        }
+
+        <!-- Spotlight card: Structural Solutions -->
+        <div class="bg-surface-container-lowest p-6 rounded-2xl lg:col-span-2 group hover:shadow-2xl transition-all duration-300 flex flex-col md:flex-row gap-8 relative overflow-hidden cursor-pointer border border-transparent hover:border-primary/20">
+            <div class="absolute top-0 right-0 p-4">
+                <span class="px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-full">Pending Analysis</span>
+            </div>
+            <div class="md:w-1/3">
+                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-primary text-3xl">engineering</span>
+                </div>
+                <h3 class="font-bold text-xl text-on-surface group-hover:text-primary transition-colors">Structural Solutions Inc.</h3>
+                <p class="text-sm text-outline mb-4">Lead Structural Engineering</p>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2 text-sm text-on-surface-variant">
+                        <span class="material-symbols-outlined text-sm">verified</span> Certified Tier 1
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-on-surface-variant">
+                        <span class="material-symbols-outlined text-sm">schedule</span> 12 Year Partner
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 flex flex-col justify-between">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-surface-container-low rounded-xl">
+                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider">YTD Spend</p>
+                        <p class="text-lg font-black">$482,000</p>
+                    </div>
+                    <div class="p-4 bg-surface-container-low rounded-xl">
+                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Active Tasks</p>
+                        <p class="text-lg font-black">12 Open</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-xs font-bold text-on-surface-variant">Milestone Progress</span>
+                        <span class="text-xs font-bold text-primary">85%</span>
+                    </div>
+                    <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+                        <div class="bg-primary h-full w-[85%] rounded-full"></div>
+                    </div>
+                </div>
+                <div class="mt-6 flex gap-3">
+                    <button class="cursor-pointer flex-1 bg-surface-container-high text-on-surface font-bold py-2 rounded-lg text-sm hover:bg-surface-variant transition-colors">View Contract</button>
+                    <button class="cursor-pointer flex-1 bg-primary text-white font-bold py-2 rounded-lg text-sm hover:opacity-90 transition-opacity">Request Audit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-surface-container-low rounded-3xl p-8">
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="text-xl font-black text-on-surface">Recent Vendor Activity</h3>
+            <button class="cursor-pointer text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+                View All History
+                <span class="material-symbols-outlined text-sm">chevron_right</span>
+            </button>
+        </div>
+        <div class="space-y-6">
+            @for (act of activities; track act.title) {
+                <div class="flex items-center gap-6 group">
+                    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm flex-shrink-0">
+                        <span class="material-symbols-outlined" [ngClass]="act.iconColor">{{ act.icon }}</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-on-surface font-bold">{{ act.title }}</p>
+                        <p class="text-sm text-on-surface-variant">{{ act.desc }}</p>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                        <p class="text-xs font-bold text-outline uppercase tracking-widest">{{ act.time }}</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 cursor-pointer">
+    <span class="material-symbols-outlined text-3xl">add</span>
+</button>

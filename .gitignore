@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Build outputs
+dist/
+build/
+*.pyc
+
+# IDE / System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Environment / Sensitive
+.env
+*.pem
+.gemini/
+.agent/
+_agent/
+.agents/
+_agents/
+
+# Artifacts & Temporary
+brain/
+tmp/
+logs/
+*.webp
+*.png
+*.gif
+*.jpg
+*.jpeg

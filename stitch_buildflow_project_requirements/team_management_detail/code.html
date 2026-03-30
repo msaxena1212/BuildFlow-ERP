@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Team Management | BuildFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00174b",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-container": "#684000",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-primary-container": "#eeefff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary": "#855300",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "surface-tint": "#0053db",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-surface-variant": "#434655",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#ffede6",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-primary": "#b4c5ff",
+                        "on-background": "#191c1e",
+                        "tertiary": "#943700",
+                        "on-surface": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-secondary-fixed": "#2a1700",
+                        "secondary-fixed": "#ffddb8",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "primary": "#004ac6",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-fixed": "#360f00",
+                        "secondary-container": "#fea619",
+                        "tertiary-container": "#bc4800",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-dim": "#d8dadc",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .architectural-shadow {
+            box-shadow: 0px 12px 32px rgba(15, 23, 42, 0.06);
+        }
+        .text-display-md {
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-40 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center h-16 px-6 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">BuildFlow</span>
+<div class="hidden md:flex items-center space-x-6 font-inter tracking-tight">
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors p-2 rounded-lg" href="#">Dashboard</a>
+<a class="text-blue-600 dark:text-blue-400 font-semibold p-2 rounded-lg" href="#">Team</a>
+<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors p-2 rounded-lg" href="#">Projects</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/30 w-64" placeholder="Search..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-xl font-semibold text-sm hover:scale-95 duration-150 transition-transform">
+                Upgrade Plan
+            </button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full object-cover" data-alt="Close up portrait of a professional male architect in a bright office setting with soft natural window lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsOtSFj-237BFe5tIg7COBeeOw-ZqC2ZsnbCMRzfj7lz7H_Ml_q7J7oRtAbCoUe1ugbKGHNuvFDiaoZeiOZnHc0fxxMO824-SWIcIx0yrVhjv6hX70mzeI9_Gz9UUV3-CFTxjM1uf5XAkLkUXOLPEG0haItoIJ0oXXtn_XDeM9WYLnxH6tOgLiDZ4aQoV_WyDdsWwsmjXy9yc7oYCPW9chDPApHu-H9o4T8jW2HpZFhjk6AkXIipvzdbh1HxEmV_-zj5ZckA6yvVbb"/>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-slate-100 dark:bg-slate-800/50 flex flex-col p-4 space-y-2 hidden md:flex">
+<div class="mb-8 px-2 pt-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">architecture</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-blue-700 dark:text-blue-500 leading-none">BuildFlow</h2>
+<p class="text-[10px] uppercase tracking-widest text-outline font-bold mt-1">Construction Mgmt</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">architecture</span> Projects
+            </a>
+<a class="flex items-center gap-3 p-3 text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 shadow-sm rounded-xl font-inter text-sm font-medium active:scale-98" href="#">
+<span class="material-symbols-outlined">group</span> Team
+            </a>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">calendar_today</span> Schedule
+            </a>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">description</span> Documents
+            </a>
+<a class="flex items-center gap-3 p-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200 font-inter text-sm font-medium" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 mb-4">
+<span class="material-symbols-outlined">add</span> New Project
+        </button>
+<div class="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-1">
+<a class="flex items-center gap-3 p-3 text-slate-500 font-inter text-sm font-medium hover:text-slate-900" href="#">
+<span class="material-symbols-outlined">contact_support</span> Support
+            </a>
+<a class="flex items-center gap-3 p-3 text-slate-500 font-inter text-sm font-medium hover:text-error" href="#">
+<span class="material-symbols-outlined">logout</span> Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 pt-24 pb-12 px-6 lg:px-12">
+<header class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+<div>
+<h1 class="text-display-md text-on-surface">Team Members</h1>
+<p class="text-on-surface-variant max-w-xl mt-2 font-medium">Manage your architectural and construction staff, adjust permission levels, and monitor workspace activity.</p>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl font-bold tracking-tight architectural-shadow hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 self-start lg:self-end">
+<span class="material-symbols-outlined">person_add</span>
+                Invite New Member
+            </button>
+</header>
+<!-- Stats Bento Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Total Members</p>
+<p class="text-2xl font-black text-on-surface">42</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Pending Invites</p>
+<p class="text-2xl font-black text-on-surface">8</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Active Now</p>
+<p class="text-2xl font-black text-on-surface">15</p>
+</div>
+</div>
+</div>
+<!-- Member Table Container -->
+<div class="bg-surface-container-lowest rounded-xl architectural-shadow overflow-hidden">
+<!-- Table Header / Filter Bar -->
+<div class="p-6 border-b border-outline-variant/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="relative w-full sm:w-96">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-sm font-medium" placeholder="Search by name, email, or role..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filter
+                    </button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Export
+                    </button>
+</div>
+</div>
+<!-- The Architectural Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-outline">Team Member</th>
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-outline">Role</th>
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-outline">Status</th>
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-outline text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img alt="David Miller" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a senior project manager with glasses in a professional studio setting, sharp focus and soft gray background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPAONKTFXfNFAFRRCG77D7RtfG2-5qauZoyBKNC1x0SRt2H8iJPvCXp7AM1P89q3l7Qq_WyVlxe-FCeO2w_TrrsWe3ipppdbXy4eAZ7Hkh2lrwVptC5XQPxN9HBETRqIpg4-uNcEjsntXscqTil-e0AN3GQuq9mZVq9ZMIAM6L4OvALlJ4xFyyfFpm60RTggfLM-l5B3BFZHl1L_LR2HS8xHl6Qmm8Xp6A7xkIfXh7bvDiIFsG7NNYD4lN-9MWVG_ASp6Rtje5zuGq"/>
+<div>
+<p class="text-sm font-bold text-on-surface">David Miller</p>
+<p class="text-xs text-outline">david.m@buildflow.co</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md">Admin</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-sm font-medium text-on-surface">Active</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-primary/10 text-primary rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-2 hover:bg-error/10 text-error rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img alt="Sarah Chen" class="w-10 h-10 rounded-full object-cover" data-alt="Modern professional woman smiling with vibrant architectural blueprints visible in the background, warm natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy6kguFDpbdu22RXyzkZYEhqX6zZEB61_rkYQakGSdDaKyicjFqwYwX-xV5AeD4JAF9upktLl2kbkNOl3sxreIDp_iEcEWUdbCVjEz9nEXXpojx3wKwjlZF92kfgLYHm5oSnZe9N6e1e2YfXckf7J2h87fMzxNpkEyhzpr3Xf1vGcvdgdN7DSMD0iPxAN7SB3qZK_Q68q__M_ytxq4yEtFU89urVWQwwb00q9zAV-1Fegc3uv9XKviFvE0GKZzh7pIyTXBVUF2Pjd0"/>
+<div>
+<p class="text-sm font-bold text-on-surface">Sarah Chen</p>
+<p class="text-xs text-outline">sarah.c@buildflow.co</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-secondary/10 text-secondary text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md">Editor</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-sm font-medium text-on-surface">Active</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-primary/10 text-primary rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-2 hover:bg-error/10 text-error rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Marcus Thorne</p>
+<p class="text-xs text-outline">m.thorne@partner-arch.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md">Viewer</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-secondary-container rounded-full"></span>
+<span class="text-sm font-medium text-on-surface">Pending</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-primary/10 text-primary rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">mail</span></button>
+<button class="p-2 hover:bg-error/10 text-error rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">close</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<img alt="Alex Rivera" class="w-10 h-10 rounded-full object-cover" data-alt="Young man with short dark hair in a clean white shirt, looking towards the camera with a confident expression, architectural office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuSRaxFRCZy5vtgs6eC3Fe6saNDnVqmuBCukTiTi6g-KMe1GwjExT-Sj7VfBuya_ow8JFfPpvP_g7sThX9xzpHfrbJyEB0A7kLzwyGg4m9s1Q-25ALOvAxBABZOZ2p0C7VpAod1OGtD7j7t_-oVAlzrFAihlg7_2ExJNupLJ8jIEgTLPQfHD97lZprD6_HuvRbQ11jQuOYvyuNr4TtQowrt2fogOlQvyylnZOU35zXoCzNgw6f1uxAF3onOI99DKHDn8n1wkK7WIN0"/>
+<div>
+<p class="text-sm font-bold text-on-surface">Alex Rivera</p>
+<p class="text-xs text-outline">alex.r@buildflow.co</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="bg-secondary/10 text-secondary text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md">Editor</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-sm font-medium text-on-surface">Active</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-primary/10 text-primary rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">edit</span></button>
+<button class="p-2 hover:bg-error/10 text-error rounded-lg transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-6 bg-surface-container-low/30 border-t border-outline-variant/10 flex justify-between items-center">
+<p class="text-xs font-medium text-on-surface-variant">Showing <span class="font-bold">1-4</span> of <span class="font-bold">42</span> team members</p>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface-container-lowest text-outline hover:text-on-surface disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded-lg bg-primary text-on-primary font-bold text-xs">1</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant font-bold text-xs hover:bg-surface-container-high transition-colors">2</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-lowest text-on-surface-variant font-bold text-xs hover:bg-surface-container-high transition-colors">3</button>
+<button class="p-2 rounded-lg bg-surface-container-lowest text-outline hover:text-on-surface">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Role Permissions Bento Info -->
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="p-8 bg-surface-container-low rounded-3xl relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-xl font-black text-on-surface mb-4">Workspace Permissions</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Understand what each member can do within your workspace. Roles can be adjusted at any time by an Admin.</p>
+<div class="space-y-4">
+<div class="flex items-start gap-4">
+<span class="text-primary material-symbols-outlined mt-1">verified_user</span>
+<div>
+<p class="text-sm font-bold">Admin</p>
+<p class="text-xs text-outline">Full access to projects, billing, and team management settings.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="text-secondary material-symbols-outlined mt-1">edit_note</span>
+<div>
+<p class="text-sm font-bold">Editor</p>
+<p class="text-xs text-outline">Can edit blueprints, upload documents, and manage project schedules.</p>
+</div>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -bottom-8 -right-8 text-9xl text-outline/5 select-none">security</span>
+</div>
+<div class="p-8 bg-primary-container text-on-primary-container rounded-3xl architectural-shadow flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-black mb-2">Need to scale your team?</h3>
+<p class="text-sm opacity-90 leading-relaxed mb-6">Our Enterprise plan offers advanced audit logs, SAML single sign-on, and unlimited viewers for larger architectural firms.</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-3">
+<img class="w-10 h-10 rounded-full border-4 border-primary-container object-cover" data-alt="Female designer portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnM26frwBdK21QyAS52Y1KRLfD5YSgJWdt4r-4c-XPO-ZY2DDkKWXtDou6DKQU6tO3uqx35459ICU6qArBtQcKZsxQZto6ESnYthopPYlGqKKcTnUe4nGFth5HyXPbPZMtuLQbgI43GtR3JLTUClpTDO8u8tCeIYqCUAoTAbQ71pf7Lg6nbQy4Qj20m_kX2K5qFmynJpqzTRUgy5RKvu48JYPgK4xeG-ot72kv_ipJM26YZZ6yMnXd5Ia6zp77NGbydKDOSs2nr1LU"/>
+<img class="w-10 h-10 rounded-full border-4 border-primary-container object-cover" data-alt="Male engineer portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqWB_Hk3JTybuneyk5IxXy4mjMZOC_IhlyQ0gI17t0EpDcZjMLKdU5M_F-cpPMXmGz3NvLHTYvaScGjuUol1Zzq9g5h2Vr5rx7iQzJETFDAeAGExN1i4n9QES34cW0QSjiSbekz71VMtOtZyI5eNI1uiq-xe642mD8cKVdAZxpWGkX8pq8i9JrNQ0j4WquMwQzsTr4t0ZlOjWq44I8_tkqlEUd4owgoOqOJjzU45Tti1Nc7kRFO4wlRHDs_EK7EWGlaJh5Ga6rOe7T"/>
+<img class="w-10 h-10 rounded-full border-4 border-primary-container object-cover" data-alt="Young professional portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtvRA1qQ4tcxg6J3TaSny8wls965y802vecn1jvP4mzzS74oAiC6egbv_hFal7kuSdwSZwW-sHpJgbWieV5iQFvWA0yk1K31zoWp1EcoA6uHACNnbNbcNn3VTbcxNQi3OkHRv51i4qSqpFz_ot7UowbK-sAQBdp6rKcvZafIZnoYk5ti-8elO5Qj-496HWMD-4YD2GcqGQOLUNqD2zGAJNqxmEitsvHcxIBpthAjb5Hb55PmYNMuTYY-RhrMGorAx05eREMkcrkw9r"/>
+<div class="w-10 h-10 rounded-full border-4 border-primary-container bg-surface-container-lowest flex items-center justify-center text-[10px] font-black text-primary">+12</div>
+</div>
+<button class="bg-surface-container-lowest text-primary px-6 py-3 rounded-xl font-bold text-sm hover:scale-95 transition-transform">
+                        Talk to Sales
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Navigation (Bottom Bar) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest border-t border-outline-variant/10 px-6 py-3 flex justify-between items-center z-50">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-blue-600" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-[10px] font-bold">Team</span>
+</a>
+<div class="bg-primary text-on-primary w-12 h-12 rounded-full -mt-10 architectural-shadow flex items-center justify-center">
+<span class="material-symbols-outlined">add</span>
+</div>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="text-[10px] font-bold">Projects</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold">Settings</span>
+</a>
+</nav>
+</body></html>

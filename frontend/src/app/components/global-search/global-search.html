@@ -1,0 +1,144 @@
+<!-- Backdrop + Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-start justify-center pt-[100px] px-4" (click)="close.emit()">
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
+
+    <!-- Palette Modal -->
+    <div class="relative w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden border border-white/40 animate-in fade-in zoom-in-95 duration-200"
+         style="background: rgba(255,255,255,0.85); backdrop-filter: blur(24px);"
+         (click)="$event.stopPropagation()">
+
+        <!-- Search Input -->
+        <div class="p-6 border-b border-slate-200/50">
+            <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-primary text-3xl font-light">search</span>
+                <input autofocus class="flex-1 bg-transparent border-none focus:ring-0 text-xl font-medium placeholder:text-slate-400 text-slate-800"
+                       placeholder="Search anything or ask BuildFlow AI..."
+                       [(ngModel)]="query" type="text">
+                <kbd class="px-2 py-1 text-[10px] font-bold text-slate-500 bg-white/50 border border-slate-200 rounded-md shadow-sm">ESC</kbd>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="max-h-[550px] overflow-y-auto">
+
+            <!-- Quick Actions -->
+            <div class="p-6 pb-2">
+                <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-4 px-2">Quick Actions</h3>
+                <div class="grid grid-cols-4 gap-3">
+                    @for (action of quickActions; track action.label) {
+                        <button [routerLink]="action.route" (click)="close.emit()" class="cursor-pointer flex flex-col items-center justify-center p-4 bg-white/40 hover:bg-white/80 transition-all rounded-xl gap-2 group">
+                            <span class="material-symbols-outlined p-2 rounded-lg group-hover:scale-110 transition-transform" [ngClass]="action.color">{{ action.icon }}</span>
+                            <span class="text-xs font-semibold text-slate-600">{{ action.label }}</span>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- AI Suggestions -->
+            <div class="px-6 py-4">
+                <div class="bg-gradient-to-r from-blue-600/5 to-primary/5 rounded-xl p-4 border border-primary/10">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                        <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-primary">BuildFlow AI Integration</h3>
+                    </div>
+                    <div class="space-y-2">
+                        @for (s of aiSuggestions; track s) {
+                            <button class="cursor-pointer w-full text-left px-3 py-2 text-sm text-slate-600 hover:text-primary transition-colors hover:bg-white/50 rounded-lg flex items-center justify-between group">
+                                <span>{{ s }}</span>
+                                <span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100">keyboard_return</span>
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="px-6 pb-4 space-y-6">
+                <section>
+                    <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Projects</h3>
+                    <div class="space-y-1">
+                        @for (p of projects; track p.name) {
+                            <div [routerLink]="p.route" (click)="close.emit()" class="cursor-pointer flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl group transition-all">
+                                <div class="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-slate-500">{{ p.icon }}</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-semibold text-slate-800">{{ p.name }}</p>
+                                    <p class="text-xs text-slate-500">{{ p.subtitle }}</p>
+                                </div>
+                                <span class="material-symbols-outlined text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+                            </div>
+                        }
+                    </div>
+                </section>
+
+                <!-- Tasks -->
+                <section>
+                    <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Tasks</h3>
+                    <div class="space-y-1">
+                        @for (t of tasks; track t.name) {
+                            <div class="cursor-pointer flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl group transition-all">
+                                <span class="material-symbols-outlined" [ngClass]="t.iconColor" style="font-variation-settings: 'FILL' 1;">{{ t.icon }}</span>
+                                <div class="flex-1">
+                                    <p class="text-sm font-semibold text-slate-800">{{ t.name }}</p>
+                                    <p class="text-xs text-slate-500">{{ t.subtitle }}</p>
+                                </div>
+                                @if (t.badge) {
+                                    <span class="text-[10px] font-bold text-slate-400 border border-slate-200 px-2 py-0.5 rounded uppercase">{{ t.badge }}</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </section>
+
+                <!-- Files -->
+                <section>
+                    <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Files</h3>
+                    <div class="space-y-1">
+                        @for (f of files; track f.name) {
+                            <div class="cursor-pointer flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl group transition-all">
+                                <div class="h-10 w-10 rounded-lg flex items-center justify-center" [ngClass]="f.iconBg">
+                                    <span class="material-symbols-outlined">{{ f.icon }}</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-semibold text-slate-800">{{ f.name }}</p>
+                                    <p class="text-xs text-slate-500">{{ f.subtitle }}</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </section>
+
+                <!-- Recent Searches -->
+                <section class="pb-4">
+                    <h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Recent Searches</h3>
+                    <div class="flex flex-wrap gap-2 px-2">
+                        @for (s of recentSearches; track s) {
+                            <span class="cursor-pointer bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-600 hover:bg-slate-200 transition-colors flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[14px]">history</span>
+                                {{ s }}
+                            </span>
+                        }
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-slate-50/80 p-3 px-6 border-t border-slate-200/50 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <div class="flex gap-4">
+                <span class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">keyboard_arrow_up</span>
+                    <span class="material-symbols-outlined text-[14px]">keyboard_arrow_down</span>
+                    Navigate
+                </span>
+                <span class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">keyboard_return</span>
+                    Select
+                </span>
+                <span>ESC to close</span>
+            </div>
+            <div>Powered by BuildFlow Intelligence</div>
+        </div>
+    </div>
+</div>

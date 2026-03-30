@@ -1,0 +1,169 @@
+<div class="max-w-7xl mx-auto p-8 animate-in">
+  <header class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+    <div class="space-y-4">
+      <h1 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">Team Members</h1>
+      <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">Manage your architectural and construction staff, adjust permission levels, and monitor workspace activity.</p>
+    </div>
+    <button class="bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 rounded-2xl font-black shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.95] transition-all flex items-center gap-3 self-start lg:self-end text-sm">
+      <span class="material-symbols-outlined text-[20px]">person_add</span>
+      Invite New Member
+    </button>
+  </header>
+
+  <!-- Stats Bento Row -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    @for (stat of stats; track stat.label) {
+      <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl flex items-center gap-6 group hover:border-blue-500/30 transition-all">
+        <div [class]="stat.bg + ' ' + stat.color" class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-3xl">{{ stat.icon }}</span>
+        </div>
+        <div>
+          <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">{{ stat.label }}</p>
+          <p class="text-3xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">{{ stat.value }}</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Member Table Container -->
+  <div class="glass-card rounded-3xl shadow-2xl border border-white/40 dark:border-slate-800/50 overflow-hidden">
+    <!-- Table Header / Filter Bar -->
+    <div class="p-8 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-6 bg-white/50 dark:bg-slate-900/50">
+      <div class="relative w-full sm:w-96 group">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">search</span>
+        <input class="w-full pl-12 pr-6 py-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl focus:ring-4 focus:ring-blue-100/50 dark:focus:ring-blue-900/20 text-sm font-bold placeholder-slate-400 outline-none transition-all shadow-sm" placeholder="Search by name, email, or role..." type="text"/>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 px-6 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2.5 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[18px]">filter_list</span>
+          Filter
+        </button>
+        <button class="bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 px-6 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2.5 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[18px]">download</span>
+          Export
+        </button>
+      </div>
+    </div>
+
+    <!-- The Architectural Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-slate-50/50 dark:bg-slate-800/30 text-slate-400">
+          <tr>
+            <th class="px-10 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Team Member</th>
+            <th class="px-10 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Role</th>
+            <th class="px-10 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Status</th>
+            <th class="px-10 py-5 text-[10px] uppercase tracking-[0.2em] font-black text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+          @for (member of members; track member.email) {
+            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors group">
+              <td class="px-10 py-7">
+                <div class="flex items-center gap-5">
+                  <div class="relative">
+                    <img [src]="member.avatar" class="w-14 h-14 rounded-2xl object-cover ring-4 ring-white dark:ring-slate-900 shadow-md transition-transform group-hover:scale-110" />
+                    <span [class]="member.statusDot" class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-4 border-white dark:border-slate-900 shadow-sm"></span>
+                  </div>
+                  <div>
+                    <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ member.name }}</p>
+                    <p class="text-[11px] text-slate-500 font-bold uppercase tracking-widest mt-1">{{ member.email }}</p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-10 py-7">
+                <span [class]="member.roleClass" class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-sm">
+                  {{ member.role }}
+                </span>
+              </td>
+              <td class="px-10 py-7">
+                <div class="flex items-center gap-3">
+                  <span [class]="member.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'" class="px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    {{ member.status }}
+                  </span>
+                </div>
+              </td>
+              <td class="px-10 py-7 text-right">
+                <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
+                  <button class="w-10 h-10 flex items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl hover:scale-110 transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-lg">edit</span>
+                  </button>
+                  <button class="w-10 h-10 flex items-center justify-center bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl hover:scale-110 transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-lg">delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="p-8 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white/50 dark:bg-slate-900/50">
+      <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Showing <span class="text-slate-900 dark:text-slate-50">1-4</span> of <span class="text-slate-900 dark:text-slate-50">42</span> team members</p>
+      <div class="flex gap-3">
+        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-600 transition-all shadow-sm">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-blue-600 text-white font-black text-xs shadow-lg shadow-blue-500/20">1</button>
+        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-black text-xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">2</button>
+        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-600 transition-all shadow-sm">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Role Permissions Bento Info -->
+  <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <div class="p-10 bg-slate-900 rounded-[32px] relative overflow-hidden group shadow-2xl">
+      <div class="absolute -bottom-10 -right-10 opacity-10 group-hover:rotate-12 transition-transform duration-1000">
+        <span class="material-symbols-outlined text-[300px] text-white">security</span>
+      </div>
+      <div class="relative z-10 space-y-8">
+        <h3 class="text-3xl font-black text-white tracking-tighter">Workspace Permissions</h3>
+        <p class="text-slate-400 text-lg leading-relaxed font-light">Understand what each member can do within your workspace. Roles can be adjusted at any time by an Admin.</p>
+        <div class="space-y-6">
+          <div class="flex items-start gap-5">
+            <div class="w-12 h-12 rounded-2xl bg-blue-600/20 flex items-center justify-center text-blue-500 shadow-inner">
+              <span class="material-symbols-outlined">verified_user</span>
+            </div>
+            <div>
+              <p class="text-sm font-black text-white tracking-tight uppercase">Admin</p>
+              <p class="text-xs text-slate-400 font-semibold mt-1">Full access to projects, billing, and team management settings.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-5">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-500 shadow-inner">
+              <span class="material-symbols-outlined">edit_note</span>
+            </div>
+            <div>
+              <p class="text-sm font-black text-white tracking-tight uppercase">Editor</p>
+              <p class="text-xs text-slate-400 font-semibold mt-1">Can edit blueprints, upload documents, and manage project schedules.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="p-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[32px] text-white shadow-2xl flex flex-col justify-between group">
+      <div class="space-y-6">
+        <div class="bg-white/20 w-max px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">Enterprise Feature</div>
+        <h3 class="text-3xl font-black tracking-tighter leading-none">Scaling your team to multiple regions?</h3>
+        <p class="text-blue-100 text-lg leading-relaxed font-light">Our Enterprise plan offers advanced audit logs, SAML single sign-on, and unlimited viewers for larger architectural firms.</p>
+      </div>
+      <div class="flex items-center justify-between mt-12">
+        <div class="flex -space-x-4">
+          <img class="w-12 h-12 rounded-2xl border-4 border-indigo-700 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnM26frwBdK21QyAS52Y1KRLfD5YSgJWdt4r-4c-XPO-ZY2DDkKWXtDou6DKQU6tO3uqx35459ICU6qArBtQcKZsxQZto6ESnYthopPYlGqKKcTnUe4nGFth5HyXPbPZMtuLQbgI43GtR3JLTUClpTDO8u8tCeIYqCUAoTAbQ71pf7Lg6nbQy4Qj20m_kX2K5qFmynJpqzTRUgy5RKvu48JYPgK4xeG-ot72kv_ipJM26YZZ6yMnXd5Ia6zp77NGbydKDOSs2nr1LU" />
+          <img class="w-12 h-12 rounded-2xl border-4 border-indigo-700 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqWB_Hk3JTybuneyk5IxXy4mjMZOC_IhlyQ0gI17t0EpDcZjMLKdU5M_F-cpPMXmGz3NvLHTYvaScGjuUol1Zzq9g5h2Vr5rx7iQzJETFDAeAGExN1i4n9QES34cW0QSjiSbekz71VMtOtZyI5eNI1uiq-xe642mD8cKVdAZxpWGkX8pq8i9JrNQ0j4WquMwQzsTr4t0ZlOjWq44I8_tkqlEUd4owgoOqOJjzU45Tti1Nc7kRFO4wlRHDs_EK7EWGlaJh5Ga6rOe7T" />
+          <img class="w-12 h-12 rounded-2xl border-4 border-indigo-700 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtvRA1qQ4tcxg6J3TaSny8wls965y802vecn1jvP4mzzS74oAiC6egbv_hFal7kuSdwSZwW-sHpJgbWieV5iQFvWA0yk1K31zoWp1EcoA6uHACNnbNbcNn3VTbcxNQi3OkHRv51i4qSqpFz_ot7UowbK-sAQBdp6rKcvZafIZnoYk5ti-8elO5Qj-496HWMD-4YD2GcqGQOLUNqD2zGAJNqxmEitsvHcxIBpthAjb5Hb55PmYNMuTYY-RhrMGorAx05eREMkcrkw9r" />
+          <div class="w-12 h-12 rounded-2xl border-4 border-indigo-700 bg-white/20 flex items-center justify-center text-[10px] font-black">+12</div>
+        </div>
+        <button class="bg-white text-blue-700 px-8 py-3.5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:scale-[1.05] transition-all shadow-xl">
+          Talk to Sales
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

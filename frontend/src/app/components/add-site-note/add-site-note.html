@@ -1,0 +1,92 @@
+<!-- Contextual Action Modal: Add Site Note Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" (click)="closeModal()"></div>
+    
+    <!-- Modal Container -->
+    <div class="relative w-full max-w-xl bg-surface-container-lowest rounded-xl shadow-[0px_12px_32px_rgba(15,23,42,0.12)] overflow-hidden flex flex-col transform transition-all animate-in fade-in zoom-in duration-200">
+        <!-- Modal Header -->
+        <div class="px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary-fixed text-primary rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">note_add</span>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-on-surface tracking-tight">Add Site Note</h3>
+                    <p class="text-xs text-outline font-medium uppercase tracking-wider">Oakwood Estate • Sector 7</p>
+                </div>
+            </div>
+            <button class="text-outline hover:text-on-surface transition-colors cursor-pointer" (click)="closeModal()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <!-- Modal Body / Form -->
+        <div class="px-6 pb-6 space-y-6">
+            <!-- Rich Text Editor Simulated -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Note Content</label>
+                <div class="bg-surface-container-low rounded-xl overflow-hidden border border-transparent focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+                    <div class="px-4 py-2 border-b border-outline-variant/20 flex items-center gap-4 text-outline">
+                        <span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">format_bold</span>
+                        <span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">format_italic</span>
+                        <span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">format_list_bulleted</span>
+                        <span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">link</span>
+                    </div>
+                    <textarea class="w-full bg-transparent border-none focus:ring-0 p-4 text-sm resize-none outline-none" placeholder="Detail the site conditions or updates..." rows="4"></textarea>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Assignee Selection -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-outline uppercase tracking-wider">Notify Member</label>
+                    <div class="relative">
+                        <select class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-sm appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer outline-none">
+                            <option>Select Assignee</option>
+                            <option>Marcus Thorne (Lead Arch)</option>
+                            <option>Sarah Chen (Safety Officer)</option>
+                            <option>David Miller (Site Super)</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-[18px] pointer-events-none">expand_more</span>
+                    </div>
+                </div>
+                <!-- Urgent Toggle -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-outline uppercase tracking-wider">Safety Status</label>
+                    <div class="flex items-center justify-between bg-surface-container-low px-4 py-3 rounded-xl border-outline-variant/10 cursor-pointer hover:bg-surface-container-high transition-colors">
+                        <span class="text-sm font-medium text-on-surface">Urgent Issue</span>
+                        <button class="w-10 h-6 bg-surface-container-highest rounded-full p-1 transition-colors relative">
+                            <div class="w-4 h-4 bg-white rounded-full shadow-sm"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Attach Photo Button -->
+            <div class="flex items-center gap-4">
+                <button class="flex items-center gap-2 px-4 py-3 bg-surface-container-high text-on-surface-variant rounded-xl text-sm font-semibold hover:bg-surface-container-highest transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined">add_a_photo</span>
+                    Attach Photo
+                </button>
+                <div class="flex -space-x-2">
+                    <!-- Placeholder for attached thumbnails -->
+                    <div class="w-12 h-12 rounded-lg bg-surface-container-highest border-2 border-white relative overflow-hidden group">
+                        <img class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8wJTGwNTlsjpBawtCZczj7ToAoFCSKSMOoDGo5JVw3Ntkip_ckUiEpsQ8EEQnlneQEROACRMSOrSA63S3HTv8zLRIb7juJU-MQkXOJPZMWkVa_Q4DPsw72YNK92ndQbpNiWC6aDVjGrXc_ejxss2o3zrxiXyezsSMXUeFJnJ8I1Wy6qsVP61WnWbDDwEHDidsZTXcs-tj0rLfTsvpH_juTzuB_cPhObLPUPRyB7ViZy7lGuJrCNV9ks_t6I9U6lrUpLz9n_2dZYN2"/>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                            <span class="material-symbols-outlined text-sm text-on-surface">close</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Footer Actions -->
+        <div class="px-6 py-6 bg-surface-container-low/50 flex items-center justify-end gap-3">
+            <button class="px-6 py-3 text-sm font-bold text-outline hover:text-on-surface transition-colors cursor-pointer" (click)="closeModal()">Cancel</button>
+            <button class="px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-[0_4px_12px_rgba(0,74,198,0.2)] hover:shadow-[0_6px_16px_rgba(0,74,198,0.3)] transition-all cursor-pointer" (click)="closeModal()">
+                Post Site Note
+            </button>
+        </div>
+    </div>
+</div>

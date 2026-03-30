@@ -1,0 +1,204 @@
+<!-- Content Area -->
+<section class="p-8 flex flex-col gap-8 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <!-- Page Header & Key Metrics -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="space-y-1">
+            <h2 class="text-4xl font-extrabold tracking-tight text-on-surface">Materials Inventory</h2>
+            <p class="text-on-surface-variant/80 font-medium">Precision tracking across 4 active construction sites</p>
+        </div>
+        <div class="flex gap-3">
+            <button class="px-5 py-2.5 bg-surface-container-highest text-primary rounded-xl font-bold flex items-center gap-2 hover:bg-surface-dim transition-colors cursor-pointer">
+                <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">filter_list</span>
+                Filters
+            </button>
+            <button class="px-5 py-2.5 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-bold shadow-lg shadow-primary/20 flex items-center gap-2 hover:scale-[1.02] transition-transform cursor-pointer">
+                <span class="material-symbols-outlined text-lg">download</span>
+                Export Report
+            </button>
+            <button class="hidden md:flex items-center gap-2 px-6 py-2.5 bg-surface-container-lowest text-on-surface font-bold rounded-xl shadow-sm border border-outline-variant/20 hover:border-primary/30 transition-all cursor-pointer">
+                <span class="material-symbols-outlined" style="font-size: 20px;">add_box</span>
+                New Material
+            </button>
+        </div>
+    </div>
+
+    <!-- Bento Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32">
+            <span class="text-xs font-bold uppercase tracking-widest text-outline">Total SKU</span>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-black">1,248</span>
+                <span class="text-xs font-bold text-green-600">+12%</span>
+            </div>
+        </div>
+        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32 border-l-4 border-l-secondary-container">
+            <span class="text-xs font-bold uppercase tracking-widest text-outline">Low Stock Alerts</span>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-black text-secondary">24</span>
+                <span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">warning</span>
+            </div>
+        </div>
+        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32">
+            <span class="text-xs font-bold uppercase tracking-widest text-outline">Inventory Value</span>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-black text-primary">$412.5k</span>
+            </div>
+        </div>
+        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32">
+            <span class="text-xs font-bold uppercase tracking-widest text-outline">Awaiting Delivery</span>
+            <div class="flex items-baseline gap-2">
+                <span class="text-3xl font-black">8</span>
+                <span class="material-symbols-outlined text-outline">local_shipping</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
+        <button class="px-6 py-2 bg-primary text-white rounded-full font-bold text-sm whitespace-nowrap cursor-pointer">All Materials</button>
+        <button class="cursor-pointer px-6 py-2 bg-surface-container text-on-surface-variant hover:bg-surface-dim transition-colors rounded-full font-bold text-sm whitespace-nowrap">Low Stock</button>
+        <button class="cursor-pointer px-6 py-2 bg-surface-container text-on-surface-variant hover:bg-surface-dim transition-colors rounded-full font-bold text-sm whitespace-nowrap">Concrete</button>
+        <button class="cursor-pointer px-6 py-2 bg-surface-container text-on-surface-variant hover:bg-surface-dim transition-colors rounded-full font-bold text-sm whitespace-nowrap">Steel</button>
+        <button class="cursor-pointer px-6 py-2 bg-surface-container text-on-surface-variant hover:bg-surface-dim transition-colors rounded-full font-bold text-sm whitespace-nowrap">Electrical</button>
+        <button class="cursor-pointer px-6 py-2 bg-surface-container text-on-surface-variant hover:bg-surface-dim transition-colors rounded-full font-bold text-sm whitespace-nowrap">Lumber</button>
+        <div class="ml-auto flex items-center gap-4 text-xs font-bold text-outline uppercase tracking-widest px-4 cursor-pointer hover:text-primary transition-colors">
+            Sorted by: Usage Rate
+            <span class="material-symbols-outlined text-sm">unfold_more</span>
+        </div>
+    </div>
+
+    <!-- Inventory Table Container -->
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface-container-low/50">
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Material Name</th>
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Category</th>
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline w-64">Stock Level</th>
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Unit Cost</th>
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Supplier</th>
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline text-right">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-surface-container">
+                @for (item of materials; track item.sku) {
+                    <tr [routerLink]="['/materials', item.sku]" class="transition-colors group cursor-pointer" [ngClass]="item.status === 'Critical' ? 'hover:bg-error-container/5' : (item.status === 'Optimal' || item.status === 'Adequate' ? 'hover:bg-surface-container-low/30' : '')">
+                        <td class="px-6 py-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center border" [ngClass]="item.bg + ' ' + (item.border || 'border-transparent')">
+                                    <span class="material-symbols-outlined" [ngClass]="item.text">{{ item.icon }}</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-on-surface group-hover:text-primary transition-colors">{{ item.name }}</p>
+                                    <p class="text-xs text-outline">SKU: {{ item.sku }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5">
+                            <span class="px-3 py-1 bg-surface-container text-xs font-bold rounded-full text-outline uppercase">{{ item.category }}</span>
+                        </td>
+                        <td class="px-6 py-5">
+                            <div class="flex flex-col gap-1.5">
+                                <div class="flex justify-between text-xs font-bold" [ngClass]="item.status === 'Critical' ? 'text-error' : (item.stock.percent < 20 ? 'text-secondary' : '')">
+                                    <span [ngClass]="item.status === 'Critical' ? '' : 'text-on-surface'">{{ item.stock.current }}/{{ item.stock.total }} Units</span>
+                                    <span [ngClass]="item.status === 'Critical' ? '' : 'text-outline'">{{ item.stock.percent }}%</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full overflow-hidden" [ngClass]="item.status === 'Critical' ? 'bg-error-container/30' : 'bg-surface-container'">
+                                    <div class="h-full rounded-full" [ngClass]="item.status === 'Critical' ? 'bg-error' : (item.stock.percent > 70 ? 'bg-primary' : 'bg-primary-container')" [style.width]="item.stock.percent + '%'"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 font-medium text-on-surface">{{ item.cost }}</td>
+                        <td class="px-6 py-5 text-sm text-on-surface-variant font-medium">{{ item.supplier }}</td>
+                        <td class="px-6 py-5 text-right flex items-center justify-end h-full">
+                            @if (item.status === 'Critical') {
+                                <div class="flex items-center justify-end gap-1.5 text-error font-black text-[10px] uppercase tracking-tighter animate-pulse pt-2">
+                                    <span class="material-symbols-outlined text-sm">emergency</span>
+                                    Critical
+                                </div>
+                            } @else if (item.status === 'Optimal') {
+                                <span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-black uppercase tracking-tighter rounded-md mt-2 block w-fit ml-auto">Optimal</span>
+                            } @else {
+                                <span class="px-3 py-1 bg-surface-container-high text-outline text-[10px] font-black uppercase tracking-tighter rounded-md mt-2 block w-fit ml-auto">Adequate</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        <div class="bg-surface-container-low/30 px-6 py-4 flex items-center justify-between border-t border-surface-container">
+            <p class="text-xs font-bold text-outline uppercase tracking-wider">Showing 1 to 5 of 1,248 materials</p>
+            <div class="flex gap-2">
+                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-sm">chevron_left</span>
+                </button>
+                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-primary text-white font-bold text-xs cursor-pointer">1</button>
+                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors font-bold text-xs text-outline cursor-pointer">2</button>
+                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors font-bold text-xs text-outline cursor-pointer">3</button>
+                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Asymmetric Bottom Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Upcoming Deliveries -->
+        <div class="lg:col-span-2 bg-white rounded-xl p-8 border border-outline-variant/10 shadow-sm overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-12 -mt-12"></div>
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h3 class="text-xl font-black text-on-surface">Scheduled Deliveries</h3>
+                    <p class="text-sm text-outline font-medium">Next 48 hours activity log</p>
+                </div>
+                <button class="text-primary font-bold text-sm hover:underline cursor-pointer">View Logistics Map</button>
+            </div>
+            
+            <div class="space-y-6">
+                @for (delivery of deliveries; track delivery.item) {
+                    <div class="flex items-center gap-6 group">
+                        <div class="flex flex-col items-center min-w-[40px]">
+                            <span class="text-lg font-black" [ngClass]="delivery.status === 'In Transit' ? 'text-primary' : 'text-on-surface'">{{ delivery.time }}</span>
+                            <span class="text-[10px] font-bold text-outline uppercase">{{ delivery.period }}</span>
+                        </div>
+                        <div class="w-px h-12 bg-slate-200"></div>
+                        <div class="flex-1">
+                            <p class="text-sm font-black text-on-surface">{{ delivery.item }}</p>
+                            <p class="text-xs text-outline">{{ delivery.location }}</p>
+                        </div>
+                        <span class="px-3 py-1 text-[10px] font-black uppercase rounded" [ngClass]="delivery.statusColor">{{ delivery.status }}</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Vendor Performance Heatmap -->
+        <div class="bg-primary p-8 rounded-xl text-white shadow-xl shadow-primary/30 flex flex-col justify-between">
+            <div>
+                <h3 class="text-xl font-black mb-1">Vendor Health</h3>
+                <p class="text-primary-fixed-dim text-xs font-bold uppercase tracking-widest">Global Supply Efficiency</p>
+            </div>
+            <div class="mt-8 space-y-4">
+                <div class="flex justify-between text-xs font-bold">
+                    <span>Fulfillment Rate</span>
+                    <span>98.4%</span>
+                </div>
+                <div class="w-full h-2 bg-white/20 rounded-full overflow-hidden">
+                    <div class="h-full bg-white rounded-full" style="width: 98%;"></div>
+                </div>
+                <div class="flex justify-between text-xs font-bold mt-4">
+                    <span>Lead Time Variance</span>
+                    <span>-1.2 Days</span>
+                </div>
+                <div class="w-full h-2 bg-white/20 rounded-full overflow-hidden">
+                    <div class="h-full bg-secondary-container rounded-full" style="width: 75%;"></div>
+                </div>
+            </div>
+            <button class="cursor-pointer mt-8 w-full py-3 bg-white text-primary rounded-xl font-black text-sm hover:bg-slate-50 transition-colors">
+                Manage Suppliers
+            </button>
+        </div>
+    </div>
+</section>

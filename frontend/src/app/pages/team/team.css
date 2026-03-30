@@ -1,0 +1,15 @@
+/* Team Styles */
+.architectural-shadow {
+    box-shadow: 0px 12px 32px rgba(15, 23, 42, 0.06);
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+}
+.animate-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

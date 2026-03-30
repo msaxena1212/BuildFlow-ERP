@@ -1,0 +1,108 @@
+<div class="p-8 max-w-7xl mx-auto w-full">
+    <!-- Header -->
+    <div class="flex justify-between items-end mb-8">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight text-on-surface">Schedule & Calendar</h1>
+            <p class="text-on-surface-variant font-medium mt-1">Manage project timelines and site operations</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="bg-surface-container-low px-4 py-2 rounded-lg font-bold text-sm border-outline-variant/10 hover:bg-surface-container-high transition-colors cursor-pointer">
+                Today
+            </button>
+            <div class="flex items-center bg-surface-container-lowest border border-outline-variant/20 rounded-lg overflow-hidden">
+                <button class="p-2 hover:bg-surface-container-low transition-colors cursor-pointer border-r border-outline-variant/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-outline">chevron_left</span>
+                </button>
+                <div class="px-6 py-2 font-bold text-sm tracking-widest uppercase">
+                    October 2023
+                </div>
+                <button class="p-2 hover:bg-surface-container-low transition-colors cursor-pointer border-l border-outline-variant/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-outline">chevron_right</span>
+                </button>
+            </div>
+            <button class="bg-primary text-white font-bold text-sm px-6 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">add</span> Add Event
+            </button>
+        </div>
+    </div>
+
+    <!-- Layout Grid -->
+    <div class="grid grid-cols-12 gap-8">
+        <!-- Calendar Grid -->
+        <div class="col-span-12 lg:col-span-9 bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10">
+            <!-- Day Headers -->
+            <div class="grid grid-cols-7 mb-4">
+                @for (day of daysOfWeek; track day) {
+                    <div class="text-center font-bold text-xs uppercase tracking-widest text-outline pb-4 border-b border-outline-variant/20">
+                        {{ day }}
+                    </div>
+                }
+            </div>
+            
+            <!-- Dates View -->
+            <div class="grid grid-cols-7 grid-rows-5 gap-px bg-outline-variant/10">
+                <!-- Empty Slots for offset -->
+                <div class="h-32 bg-surface-container-lowest/50"></div>
+                <!-- Active Dates -->
+                @for (day of days; track day) {
+                    <div class="h-32 bg-surface-container-lowest p-2 border border-transparent hover:border-primary/20 transition-colors group relative cursor-pointer group">
+                        <span class="font-bold text-sm w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-primary/5" [class]="day === 12 ? 'bg-primary text-white' : 'text-on-surface'">
+                            {{ day }}
+                        </span>
+                        
+                        <!-- Event Indicators -->
+                        <div class="mt-2 space-y-1 px-1">
+                            @for (event of getEventsForDay(day); track event.title) {
+                                <div class="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold truncate">
+                                    {{ event.time }} - {{ event.title }}
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar (Upcoming Events) -->
+        <div class="col-span-12 lg:col-span-3 space-y-6">
+            <div class="bg-surface-container-lowest border border-outline-variant/10 rounded-2xl p-6 shadow-sm">
+                <h3 class="font-bold text-lg mb-6 tracking-tight flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">pending_actions</span>
+                    Upcoming
+                </h3>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex flex-col items-center min-w-[3rem]">
+                            <span class="text-xs font-bold text-outline uppercase tracking-wider">Oct</span>
+                            <span class="text-xl font-black text-on-surface">12</span>
+                        </div>
+                        <div class="flex-1 border-l-2 border-primary pl-4">
+                            <p class="text-sm font-bold text-on-surface">Concrete Pouring</p>
+                            <p class="text-[11px] text-on-surface-variant font-medium mt-1">02:00 PM • Site B</p>
+                            <div class="mt-2 flex -space-x-2">
+                                <div class="w-6 h-6 rounded-full bg-slate-200 border border-white"></div>
+                                <div class="w-6 h-6 rounded-full bg-slate-300 border border-white"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="flex flex-col items-center min-w-[3rem]">
+                            <span class="text-xs font-bold text-outline uppercase tracking-wider">Oct</span>
+                            <span class="text-xl font-black text-on-surface">15</span>
+                        </div>
+                        <div class="flex-1 border-l-2 border-secondary pl-4">
+                            <p class="text-sm font-bold text-on-surface">Client Walkthrough</p>
+                            <p class="text-[11px] text-on-surface-variant font-medium mt-1">10:00 AM • Main Lobby</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full mt-8 py-3 bg-surface-container-low text-primary font-bold text-sm rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer">
+                    View Full Schedule
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

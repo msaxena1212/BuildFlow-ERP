@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow - Reports Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-container": "#bc4800",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#434655",
+                        "surface-tint": "#0053db",
+                        "outline": "#737686",
+                        "secondary-fixed": "#ffddb8",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "secondary": "#855300",
+                        "secondary-container": "#fea619",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary-container": "#ffede6",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-primary-fixed": "#00174b",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#684000",
+                        "outline-variant": "#c3c6d7",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-fixed": "#ffdbcd",
+                        "tertiary": "#943700",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary-container": "#2563eb",
+                        "surface": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191c1e",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-container": "#eeefff",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-primary": "#b4c5ff",
+                        "primary": "#004ac6"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-900 border-r border-slate-200/20 dark:border-slate-800/20 flex flex-col h-full p-4 gap-y-2 z-50">
+<div class="mb-8 px-2 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-600 dark:text-blue-400">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Construction Mgmt</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-medium text-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-medium text-sm">Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium text-sm">Vendors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-medium text-sm">Materials</span>
+</a>
+<!-- Active State: Reports -->
+<a class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm rounded-lg transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-semibold text-sm">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-lg transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full py-3 px-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>New Project</span>
+</button>
+</div>
+</aside>
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="w-full h-16 sticky top-0 z-40 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl flex items-center justify-between px-8 border-b border-transparent">
+<div class="flex items-center gap-4 bg-slate-100 dark:bg-slate-900 rounded-full px-4 py-1.5 w-96">
+<span class="material-symbols-outlined text-slate-400">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-500" placeholder="Search reports or project logs..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-800">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Alex Mercer</p>
+<p class="text-[10px] text-slate-500 font-medium">Project Admin</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-primary-fixed ring-2 ring-white" data-alt="portrait of a professional man in his 40s wearing a blue shirt, neutral studio lighting, high quality corporate headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3Q2lXQXI0te8buSLWcHMnB0cOjbLyvQdJs99uCAc8LKzQkrXWXpyDJ765egTUzAOC1zNUVJUTu0mawgsuh5F666jFOFpWMiTfx9os-HxcdJNp7zc-H-cGlFpBIxPJC3nWKGhdP-XjuGC94wD7Z-IAiEsb5wYlglM7DlvFI-tphrC2ShAWncUbIWGq51f51bj-igkt4pNqDlNX8AB-a-JmmRVfxXv_YaREB_krBHYoPypUCiqdor0UEV-zm16LtD1AOhFigSBEeXN4"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 max-w-7xl mx-auto space-y-10">
+<!-- Hero Header Section -->
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<h2 class="text-4xl font-black tracking-tight text-on-surface">Reports Dashboard</h2>
+<p class="text-on-surface-variant max-w-md">Real-time analytical oversight across all active job sites and logistical pipelines.</p>
+</div>
+<button class="px-6 py-3 bg-primary text-on-primary rounded-xl font-bold flex items-center gap-2 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-95">
+<span class="material-symbols-outlined">add_chart</span>
+                    Generate New Report
+                </button>
+</div>
+<!-- Summary Stats Bento -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold tracking-widest text-slate-500 uppercase">Weekly Progress</span>
+<span class="text-green-600 bg-green-50 px-2 py-0.5 rounded text-[10px] font-black">+12%</span>
+</div>
+<p class="text-3xl font-black text-on-surface">84.2%</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold tracking-widest text-slate-500 uppercase">Budget Variance</span>
+<span class="text-red-600 bg-red-50 px-2 py-0.5 rounded text-[10px] font-black">-4.3%</span>
+</div>
+<p class="text-3xl font-black text-on-surface">$2.4M</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold tracking-widest text-slate-500 uppercase">Labor Efficiency</span>
+<span class="text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-[10px] font-black">Stable</span>
+</div>
+<p class="text-3xl font-black text-on-surface">96.8%</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold tracking-widest text-slate-500 uppercase">Active Hazards</span>
+<span class="text-amber-600 bg-amber-50 px-2 py-0.5 rounded text-[10px] font-black">Low</span>
+</div>
+<p class="text-3xl font-black text-on-surface">02</p>
+</div>
+</div>
+<!-- Main Analytical View -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Large Chart Placeholder Section -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 relative overflow-hidden group">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Material Usage Trends</h3>
+<p class="text-sm text-slate-500">Inventory consumption across last 30 days</p>
+</div>
+<div class="flex gap-2">
+<span class="w-3 h-3 rounded-full bg-primary inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-secondary inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-outline-variant inline-block"></span>
+</div>
+</div>
+<!-- Simplified Visual Chart Representation -->
+<div class="h-64 flex items-end justify-between gap-4">
+<div class="w-full bg-surface-container-low rounded-t-lg relative group/bar h-[40%] hover:bg-primary/20 transition-colors">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[60%] group-hover/bar:h-[80%]"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg relative group/bar h-[60%] hover:bg-primary/20 transition-colors">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[40%] group-hover/bar:h-[55%]"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg relative group/bar h-[55%] hover:bg-primary/20 transition-colors">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[70%] group-hover/bar:h-[90%]"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg relative group/bar h-[80%] hover:bg-primary/20 transition-colors">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[30%] group-hover/bar:h-[50%]"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg relative group/bar h-[45%] hover:bg-primary/20 transition-colors">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[50%] group-hover/bar:h-[75%]"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg relative group/bar h-[70%] hover:bg-primary/20 transition-colors">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[85%] group-hover/bar:h-[95%]"></div>
+</div>
+<div class="w-full bg-surface-container-low rounded-t-lg relative group/bar h-[30%] hover:bg-primary/20 transition-colors">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all h-[40%] group-hover/bar:h-[60%]"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+<span>WK 01</span><span>WK 02</span><span>WK 03</span><span>WK 04</span><span>WK 05</span><span>WK 06</span><span>WK 07</span>
+</div>
+</div>
+<!-- Report Templates Sidebar -->
+<div class="space-y-6">
+<h3 class="text-sm font-black uppercase tracking-widest text-slate-500 px-1">Report Templates</h3>
+<div class="space-y-3">
+<div class="p-4 bg-white hover:bg-blue-50/50 rounded-xl transition-colors cursor-pointer flex items-center gap-4 group border border-outline-variant/10">
+<div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">event_note</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface leading-tight">Weekly Progress</h4>
+<p class="text-xs text-slate-500">Site milestones &amp; delay logs</p>
+</div>
+</div>
+<div class="p-4 bg-white hover:bg-amber-50/50 rounded-xl transition-colors cursor-pointer flex items-center gap-4 group border border-outline-variant/10">
+<div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface leading-tight">Budget Variance</h4>
+<p class="text-xs text-slate-500">Projected vs actual overhead</p>
+</div>
+</div>
+<div class="p-4 bg-white hover:bg-green-50/50 rounded-xl transition-colors cursor-pointer flex items-center gap-4 group border border-outline-variant/10">
+<div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-700 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">engineering</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface leading-tight">Labor Efficiency</h4>
+<p class="text-xs text-slate-500">Worker hours &amp; task completion</p>
+</div>
+</div>
+<div class="p-4 bg-white hover:bg-slate-50 rounded-xl transition-colors cursor-pointer flex items-center gap-4 group border border-outline-variant/10">
+<div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-700 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">inventory</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface leading-tight">Material Usage</h4>
+<p class="text-xs text-slate-500">Waste reduction &amp; stock levels</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Reports Table (Asymmetric Layout) -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-2xl font-black text-on-surface">Recent Reports</h3>
+<button class="text-sm font-bold text-primary hover:underline">View History</button>
+</div>
+<div class="bg-surface-container-low rounded-2xl overflow-hidden p-1">
+<table class="w-full text-left">
+<thead>
+<tr class="text-[11px] font-black uppercase tracking-[0.1em] text-slate-500">
+<th class="px-6 py-4">Report Name</th>
+<th class="px-6 py-4">Generated By</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Download</th>
+</tr>
+</thead>
+<tbody class="text-sm divide-y divide-slate-200/40">
+<tr class="bg-surface-container-lowest hover:bg-blue-50/30 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-slate-500">description</span>
+</div>
+<span class="font-bold text-on-surface">Site_A_Progress_Q3.pdf</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">Michael Chen</td>
+<td class="px-6 py-5 text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-green-100 text-green-700">COMPLETED</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-end gap-3">
+<button class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="PDF">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-green-600 transition-colors" title="CSV">
+<span class="material-symbols-outlined">csv</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="bg-white hover:bg-blue-50/30 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-slate-500">analytics</span>
+</div>
+<span class="font-bold text-on-surface">Labor_Allocation_Sept.csv</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">Sarah Jenkins</td>
+<td class="px-6 py-5 text-on-surface-variant">Oct 10, 2023</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-green-100 text-green-700">COMPLETED</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-end gap-3">
+<button class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="PDF">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-green-600 transition-colors" title="CSV">
+<span class="material-symbols-outlined">csv</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-blue-50/30 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-slate-500">payments</span>
+</div>
+<span class="font-bold text-on-surface">Full_Budget_Review_2023.pdf</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-medium">Alex Mercer</td>
+<td class="px-6 py-5 text-on-surface-variant">Oct 08, 2023</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-primary-fixed text-primary">ARCHIVED</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-end gap-3">
+<button class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="PDF">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bottom Floating Action Module -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+<div class="relative rounded-2xl p-8 overflow-hidden bg-primary group">
+<div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2)_0%,transparent_50%)]"></div>
+<div class="relative z-10 flex flex-col h-full">
+<h4 class="text-white text-2xl font-black mb-2">Automated Scheduling</h4>
+<p class="text-primary-fixed text-sm mb-6 max-w-xs">Configure recurring reports to be delivered directly to stakeholder inboxes every Monday at 8 AM.</p>
+<button class="mt-auto self-start px-6 py-2 bg-white text-primary rounded-lg font-bold text-sm hover:bg-opacity-90 transition-all">Configure Automations</button>
+</div>
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10 group-hover:rotate-12 transition-transform duration-700">
+<span class="material-symbols-outlined text-[160px] text-white" style="font-variation-settings: 'FILL' 1;">schedule</span>
+</div>
+</div>
+<div class="relative rounded-2xl p-8 overflow-hidden bg-secondary group">
+<div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.1)_0%,transparent_50%)]"></div>
+<div class="relative z-10 flex flex-col h-full">
+<h4 class="text-white text-2xl font-black mb-2">Custom Dashboard</h4>
+<p class="text-secondary-fixed text-sm mb-6 max-w-xs">Filter and pin the most relevant charts to your personal view for instant site awareness.</p>
+<button class="mt-auto self-start px-6 py-2 bg-inverse-surface text-white rounded-lg font-bold text-sm hover:bg-opacity-90 transition-all">Edit Layout</button>
+</div>
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10 group-hover:-rotate-12 transition-transform duration-700">
+<span class="material-symbols-outlined text-[160px] text-white" style="font-variation-settings: 'FILL' 1;">dashboard_customize</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

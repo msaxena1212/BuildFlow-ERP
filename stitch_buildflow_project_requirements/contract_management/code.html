@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow | Contract Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#bc4800",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary-fixed": "#00174b",
+                        "on-secondary-fixed": "#2a1700",
+                        "inverse-surface": "#2d3133",
+                        "tertiary": "#943700",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "secondary": "#855300",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed": "#ffddb8",
+                        "primary": "#004ac6",
+                        "inverse-primary": "#b4c5ff",
+                        "error-container": "#ffdad6",
+                        "outline": "#737686",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#434655",
+                        "primary-container": "#2563eb",
+                        "on-tertiary-container": "#ffede6",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "surface-tint": "#0053db",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-container": "#684000",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "on-background": "#191c1e",
+                        "outline-variant": "#c3c6d7",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary-fixed": "#360f00",
+                        "background": "#f7f9fb",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-container": "#eeefff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "secondary-container": "#fea619"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .blueprint-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-900 flex flex-col py-6 px-4 font-inter antialiased text-sm font-medium z-50">
+<div class="mb-10 px-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg blueprint-gradient flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-black tracking-tight text-blue-700 dark:text-blue-500 leading-none">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Construction Mgmt</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">work_outline</span> Projects
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span> Vendors
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-blue-700 dark:text-blue-400 font-bold bg-white dark:bg-slate-800 rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span> Contracts
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Inventory
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<div class="mt-auto px-2">
+<button class="w-full blueprint-gradient text-white py-3 rounded-xl font-bold text-sm shadow-md hover:shadow-xl transition-all scale-100 active:scale-95">
+                New Project
+            </button>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/20 dark:border-slate-800/20 shadow-sm dark:shadow-none h-16 px-8 flex justify-between items-center font-inter text-sm tracking-tight">
+<div class="flex items-center flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary/30 transition-all text-sm" placeholder="Search contracts, legal, or files..." type="text"/>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-8 px-8">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all" href="#">Directory</a>
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 pb-1 font-medium" href="#">Compliance</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all" href="#">Payments</a>
+</nav>
+<div class="flex items-center gap-5">
+<button class="opacity-80 hover:opacity-100 duration-200 text-on-surface">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="opacity-80 hover:opacity-100 duration-200 text-on-surface">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/20 mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="text-xs font-bold leading-none">Alex Sterling</p>
+<p class="text-[10px] text-outline">Site Manager</p>
+</div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border-2 border-primary-container group-hover:scale-105 transition-transform" data-alt="professional headshot of a middle-aged male architect with glasses and a friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAmzV1_KPiD6FiaZcI92Epqwks1pxEWidClLxFGMK9NMK9ql-tor3Mh2GaJ1Wv__ENaAgNmkvUTBYhZzGxsnXd9dk9hZDmEBDTxZxpCCW8txI4vc8gKC_ulKTlFzyPyc5_6UHELzI9qJTbrCsc6LBWaUiBTpHkMr7RVBFgJPOIJFePHz_2nkz2ZqkFe2WDJdD2hQh_QK_t7315S3ZccYG_DmP6NQx29ADXGX1Ry6tvSvH23wuOkSPFMXQCEqlUvMUcQWeeH1kpYptg"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-[1400px] mx-auto p-8">
+<!-- Vendor Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div class="space-y-2">
+<div class="flex items-center gap-3 mb-1">
+<span class="bg-secondary-container/20 text-secondary px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest uppercase">Verified Tier 1</span>
+<span class="text-outline text-xs flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Seattle, WA</span>
+</div>
+<h2 class="text-4xl font-black tracking-tight text-on-surface">Titan Structural Steel, LLC</h2>
+<p class="text-on-surface-variant max-w-xl leading-relaxed">Lead structural contractor for Project Meridian and Skyline Plaza. Primary scope: reinforced steel framing and fabrication.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-6 py-3 bg-surface-container-highest text-primary font-bold rounded-xl hover:bg-surface-container-high transition-colors text-sm">
+                        View Vendor Profile
+                    </button>
+<button class="px-8 py-3 blueprint-gradient text-white font-bold rounded-xl shadow-lg hover:shadow-primary/20 transition-all text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">history_edu</span> Renew Contract
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Dashboard -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Active Contract Summary (Glassmorphism Card) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8">
+<span class="material-symbols-outlined text-8xl text-primary/5 -rotate-12 group-hover:rotate-0 transition-transform duration-700">description</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xs font-bold tracking-[0.15em] uppercase text-outline">Active Master Service Agreement</h3>
+<span class="flex items-center gap-2 text-primary font-bold text-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                                Currently Active
+                            </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<div>
+<p class="text-[11px] text-outline uppercase font-bold mb-1">Contract Value</p>
+<p class="text-3xl font-black text-on-surface">$1,420,000.00</p>
+<div class="mt-4 bg-surface-container-low rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 68%;"></div>
+</div>
+<p class="text-[10px] text-outline-variant mt-2">68% Budget Utilized</p>
+</div>
+<div>
+<p class="text-[11px] text-outline uppercase font-bold mb-1">Effective Date</p>
+<p class="text-xl font-bold text-on-surface">Jan 12, 2024</p>
+<p class="text-xs text-on-surface-variant mt-1">Signed by R. Thompson</p>
+</div>
+<div class="bg-tertiary-fixed/30 p-4 rounded-xl border border-tertiary/10">
+<div class="flex items-center gap-2 text-tertiary mb-1">
+<span class="material-symbols-outlined text-sm">warning</span>
+<p class="text-[11px] uppercase font-bold">Expiration Alert</p>
+</div>
+<p class="text-xl font-bold text-on-tertiary-fixed-variant">34 Days Left</p>
+<p class="text-xs text-on-tertiary-fixed-variant/70 mt-1">Renewal negotiation required by Oct 15.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Stats -->
+<div class="col-span-12 lg:col-span-4 grid grid-rows-2 gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 border border-outline-variant/10 flex items-center justify-between">
+<div>
+<p class="text-[11px] text-outline uppercase font-bold mb-1">Liability Insurance</p>
+<p class="text-lg font-bold text-green-600">Compliant</p>
+<p class="text-xs text-outline mt-1 italic">Expires Mar 2025</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 border border-outline-variant/10 flex items-center justify-between">
+<div>
+<p class="text-[11px] text-outline uppercase font-bold mb-1">Amendments</p>
+<p class="text-lg font-bold text-on-surface">03 Pending</p>
+<p class="text-xs text-outline mt-1 italic">Last update: 2 days ago</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+</div>
+</div>
+<!-- Document Preview List -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-low rounded-xl p-1 overflow-hidden">
+<div class="bg-surface-container-lowest p-6 rounded-t-xl flex justify-between items-center">
+<h3 class="text-lg font-black tracking-tight">Recent Documentation</h3>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-outline">filter_list</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-outline">grid_view</span>
+</button>
+</div>
+</div>
+<div class="p-2 space-y-2">
+<!-- Document Item -->
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest hover:bg-surface-container-low transition-all group rounded-lg cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-red-50 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Titan_Structural_MSA_2024.pdf</p>
+<p class="text-[10px] text-outline uppercase font-medium">Master Agreement • 2.4 MB</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs text-outline font-medium">Added Sep 02</span>
+<button class="opacity-0 group-hover:opacity-100 p-2 hover:bg-primary/10 text-primary rounded-lg transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<!-- Document Item -->
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest hover:bg-surface-container-low transition-all group rounded-lg cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-blue-50 flex items-center justify-center text-blue-500">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Change_Order_004_Skyline.docx</p>
+<p class="text-[10px] text-outline uppercase font-medium">Amendment • 45 KB</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs text-outline font-medium">Added Aug 28</span>
+<button class="opacity-0 group-hover:opacity-100 p-2 hover:bg-primary/10 text-primary rounded-lg transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<!-- Document Item -->
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest hover:bg-surface-container-low transition-all group rounded-lg cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-amber-50 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined">policy</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">OSHA_Compliance_Certificate_2024.pdf</p>
+<p class="text-[10px] text-outline uppercase font-medium">Compliance • 1.1 MB</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs text-outline font-medium">Added Aug 15</span>
+<button class="opacity-0 group-hover:opacity-100 p-2 hover:bg-primary/10 text-primary rounded-lg transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<!-- Document Item -->
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest hover:bg-surface-container-low transition-all group rounded-lg cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-slate-50 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined">folder_shared</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Site_Safety_Plan_v2.zip</p>
+<p class="text-[10px] text-outline uppercase font-medium">Operational • 12.8 MB</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs text-outline font-medium">Added Jul 30</span>
+<button class="opacity-0 group-hover:opacity-100 p-2 hover:bg-primary/10 text-primary rounded-lg transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-b-xl border-t border-outline-variant/10 text-center">
+<button class="text-xs font-bold text-primary hover:underline">View All 24 Documents</button>
+</div>
+</div>
+<!-- Signed History & Timeline -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10">
+<h3 class="text-lg font-black tracking-tight mb-8">Agreement History</h3>
+<div class="space-y-8 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-surface-container-high">
+<div class="relative pl-10">
+<div class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-primary border-4 border-surface-container-lowest shadow-sm z-10"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">MSA Renewal Signed</p>
+<p class="text-xs text-on-surface-variant mt-1">Legally binding signature collected via DocuSign.</p>
+<div class="flex items-center gap-3 mt-3">
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-full border border-white" data-alt="close up of a professional woman with brown hair and a blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8TDdsqqYQJGbYpLmn8Lf_SCiThKyaYOfeGCjEWG51HX9N5S9gEDJ6FjFohkigCi_O0rWOFKoSaGQwFJfR9GGQaj4H3d7IswUq6CeD4wl7y6nq99p7G9KHSnVMrD6aS4K2h1tEHLAKNA4WZs6jn4qNpMOODwrgZLYMtPWdsUbmiURTCJi96kEUa3IA-NFDII9u2uE6ZSHfyyfKOtaLlVf8YQ-oS-NQ4mT1qP96sBr-mxJPlgRwt7cM8CJuqr4B1-GHPqAUg4XpDh1K"/>
+<img class="w-6 h-6 rounded-full border border-white" data-alt="close up of a professional man in a hard hat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApo0O3d0Z-xpV6SEBfpvggs6S4_zQrwOmeazaljTtglIIuyxQXrKxcEgxQIrxde2DdE3RLNTgarAQ2gmsDDWJ7tZfaMS4pasi7R9uCpjPL-ko4A9To7dNtTulOepdayA0lMDx9Nqx-d6axK7HpS-kNNf2voe26qjnCRR0EIucWXjJfrf3JYBVqc0eII9HEXrLJpBJlMEdZgG2wFtHCLGYjd6b5HTJWObBWn_c2KvgIel6iV9BGqPWQ7M6D99B6E7YY9GhE92TSUO4C"/>
+</div>
+<span class="text-[10px] text-outline font-bold">JAN 12, 2024 • 14:32 PM</span>
+</div>
+</div>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-outline-variant border-4 border-surface-container-lowest shadow-sm z-10"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Project Scope Amendment #03</p>
+<p class="text-xs text-on-surface-variant mt-1">Revised structural load requirements for Sky-Deck A.</p>
+<div class="mt-3">
+<span class="text-[10px] text-outline font-bold uppercase">OCT 14, 2023</span>
+</div>
+</div>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-outline-variant border-4 border-surface-container-lowest shadow-sm z-10"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Project Scope Amendment #02</p>
+<p class="text-xs text-on-surface-variant mt-1">Foundation reinforcement phase completion approval.</p>
+<div class="mt-3">
+<span class="text-[10px] text-outline font-bold uppercase">AUG 05, 2023</span>
+</div>
+</div>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-outline-variant border-4 border-surface-container-lowest shadow-sm z-10"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Initial Partnership Onboarding</p>
+<p class="text-xs text-on-surface-variant mt-1">Vendor vetting and initial compliance certification.</p>
+<div class="mt-3">
+<span class="text-[10px] text-outline font-bold uppercase">MAY 21, 2023</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Compliance Notice -->
+<footer class="mt-12 pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-outline font-medium">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">lock</span> Encrypted Document Storage</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">gavel</span> ASTM International Standard Compliant</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<span>© 2024 BuildFlow Systems</span>
+</div>
+</footer>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on this transactional detail page as per rules, but showing for semantic adherence if intended as a sub-action shell) -->
+<!-- Suppressed as per: "suppress the FAB on Settings, Profile, Details, and Transactional screens" -->
+</body></html>

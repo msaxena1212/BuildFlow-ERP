@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Billing &amp; Plan Details | BuildFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline": "#737686",
+              "primary-fixed-dim": "#b4c5ff",
+              "outline-variant": "#c3c6d7",
+              "on-error-container": "#93000a",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed": "#00174b",
+              "secondary-fixed-dim": "#ffb95f",
+              "surface-variant": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-container": "#684000",
+              "tertiary-fixed": "#ffdbcd",
+              "on-primary-container": "#eeefff",
+              "on-primary-fixed-variant": "#003ea8",
+              "surface-container-high": "#e6e8ea",
+              "secondary": "#855300",
+              "inverse-surface": "#2d3133",
+              "on-secondary-fixed-variant": "#653e00",
+              "surface-tint": "#0053db",
+              "surface-container": "#eceef0",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-surface-variant": "#434655",
+              "error": "#ba1a1a",
+              "on-tertiary-container": "#ffede6",
+              "on-primary": "#ffffff",
+              "background": "#f7f9fb",
+              "inverse-primary": "#b4c5ff",
+              "on-background": "#191c1e",
+              "tertiary": "#943700",
+              "on-surface": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-secondary-fixed": "#2a1700",
+              "secondary-fixed": "#ffddb8",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#2563eb",
+              "primary": "#004ac6",
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-bright": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-fixed": "#360f00",
+              "secondary-container": "#fea619",
+              "tertiary-container": "#bc4800",
+              "surface-container-highest": "#e0e3e5",
+              "surface-dim": "#d8dadc",
+              "on-error": "#ffffff",
+              "surface": "#f7f9fb"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .architectural-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 z-50 bg-slate-100 dark:bg-slate-800/50 flex flex-col p-4 space-y-2 font-inter text-sm font-medium">
+<div class="mb-8 px-2">
+<h1 class="text-lg font-black text-blue-700 dark:text-blue-500">BuildFlow</h1>
+<p class="text-xs text-slate-500 uppercase tracking-widest">Construction Mgmt</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">architecture</span> Projects
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">group</span> Team
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span> Schedule
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">description</span> Documents
+            </a>
+<!-- ACTIVE: Settings (Matches Billing intent) -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 shadow-sm rounded-xl active:scale-98" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<button class="architectural-gradient text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 mb-6">
+<span class="material-symbols-outlined">add</span> New Project
+        </button>
+<div class="pt-4 border-t border-slate-200/50 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">contact_support</span> Support
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span> Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 left-64 z-40 bg-slate-50/80 backdrop-blur-xl h-16 px-6 flex justify-between items-center no-border">
+<div class="flex items-center gap-4">
+<span class="font-headline font-bold text-xl tracking-tighter text-slate-900">Billing &amp; Subscription</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<button class="text-blue-600 font-semibold px-4 py-2 hover:bg-blue-50 transition-colors rounded-lg">Upgrade Plan</button>
+<div class="flex items-center gap-3 pl-2">
+<img alt="User avatar" class="w-8 h-8 rounded-full" data-alt="professional portrait of a male architect in a modern office with natural light and blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4jh6IXSlnofr4xOhzz61O1lTf39jSNIu2gmjBXDW0K6VnfB6-0trv-HL92rmOcfezVy6guqjiS4-rEYvcTe5OQOb-9V6Mo7amvzwDCYJjj183s8GUMbVDdAYsR0e54-IR_xcnPPLOAxIMrB-KPvf-tc9hpYzilOh2BjAI-_u3t2Ai_FOY3NXFPfVZjPeqfN3QNZYxLMZJO_b896NlRTk6HA50nrlOofg8VYwsZLHJOe01jZ7rzUOiWJAZMxl0CHkcOVtuWm6DfOKV"/>
+</div>
+</div>
+</header>
+<!-- Canvas Content -->
+<div class="pt-24 px-8 pb-12 max-w-7xl mx-auto">
+<!-- Bento Layout Section -->
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- Current Plan High-End Card -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex justify-between items-start mb-12">
+<div>
+<span class="bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Current Plan</span>
+<h2 class="text-4xl font-headline font-black tracking-tight mt-4 text-on-surface">Enterprise Plan</h2>
+<p class="text-on-surface-variant mt-2 max-w-md">Unlimited scalability for multi-regional construction firms with advanced analytics and BIM integration.</p>
+</div>
+<div class="text-right">
+<span class="text-5xl font-black text-primary">$1,250</span>
+<p class="text-on-surface-variant font-medium">per month, billed yearly</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="architectural-gradient text-on-primary font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-primary/20 transition-all active:scale-95">
+                            Change Plan
+                        </button>
+<button class="text-primary font-bold px-8 py-4 rounded-xl hover:bg-surface-container-low transition-colors">
+                            Manage Payment Method
+                        </button>
+</div>
+</div>
+<!-- Usage Metrics Card (The Blueprint Pulse) -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-low rounded-xl p-8">
+<h3 class="font-headline font-bold text-lg mb-8">Resource Allocation</h3>
+<div class="space-y-8">
+<div>
+<div class="flex justify-between items-end mb-3">
+<span class="text-label-sm font-bold uppercase tracking-widest text-on-surface-variant">Active Projects</span>
+<span class="text-on-surface font-black">42 / 50</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 84%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-end mb-3">
+<span class="text-label-sm font-bold uppercase tracking-widest text-on-surface-variant">Cloud Storage</span>
+<span class="text-on-surface font-black">1.2 TB / 2.0 TB</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 60%;"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-end mb-3">
+<span class="text-label-sm font-bold uppercase tracking-widest text-on-surface-variant">Team Seats</span>
+<span class="text-on-surface font-black">18 / 25</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 72%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-surface-container-lowest rounded-xl flex items-center gap-4 border border-outline-variant/20">
+<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">auto_graph</span>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-medium">Predicted usage shows you may hit limits in 3 months.</p>
+<a class="text-xs text-primary font-bold hover:underline" href="#">View detailed projections</a>
+</div>
+</div>
+</div>
+<!-- Invoice Table Section -->
+<div class="col-span-12 bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm mt-4">
+<div class="p-8 border-b border-surface-container-low flex justify-between items-center">
+<h3 class="font-headline font-black text-2xl tracking-tight">Payment History</h3>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-on-surface-variant">
+<tr>
+<th class="px-8 py-4 font-bold text-xs uppercase tracking-widest">Invoice Date</th>
+<th class="px-8 py-4 font-bold text-xs uppercase tracking-widest">Invoice ID</th>
+<th class="px-8 py-4 font-bold text-xs uppercase tracking-widest">Amount</th>
+<th class="px-8 py-4 font-bold text-xs uppercase tracking-widest">Status</th>
+<th class="px-8 py-4 font-bold text-xs uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-6 font-medium">Oct 12, 2023</td>
+<td class="px-8 py-6 text-on-surface-variant font-mono">BF-INV-2023-10-001</td>
+<td class="px-8 py-6 font-bold text-on-surface">$1,250.00</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            Paid
+                                        </span>
+</td>
+<td class="px-8 py-6 text-right">
+<a class="text-primary font-bold hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-lg">download</span>
+                                            PDF
+                                        </a>
+</td>
+</tr>
+<tr class="bg-surface-container-low/20">
+<td class="px-8 py-6 font-medium">Sep 12, 2023</td>
+<td class="px-8 py-6 text-on-surface-variant font-mono">BF-INV-2023-09-082</td>
+<td class="px-8 py-6 font-bold text-on-surface">$1,250.00</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            Paid
+                                        </span>
+</td>
+<td class="px-8 py-6 text-right">
+<a class="text-primary font-bold hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-lg">download</span>
+                                            PDF
+                                        </a>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-6 font-medium">Aug 12, 2023</td>
+<td class="px-8 py-6 text-on-surface-variant font-mono">BF-INV-2023-08-041</td>
+<td class="px-8 py-6 font-bold text-on-surface">$1,250.00</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            Paid
+                                        </span>
+</td>
+<td class="px-8 py-6 text-right">
+<a class="text-primary font-bold hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-lg">download</span>
+                                            PDF
+                                        </a>
+</td>
+</tr>
+<tr class="bg-surface-container-low/20">
+<td class="px-8 py-6 font-medium">Jul 12, 2023</td>
+<td class="px-8 py-6 text-on-surface-variant font-mono">BF-INV-2023-07-003</td>
+<td class="px-8 py-6 font-bold text-on-surface">$1,100.00</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                            Paid
+                                        </span>
+</td>
+<td class="px-8 py-6 text-right">
+<a class="text-primary font-bold hover:text-primary-container transition-colors inline-flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-lg">download</span>
+                                            PDF
+                                        </a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface-container-low/50 flex justify-center">
+<button class="text-on-surface-variant font-bold text-sm hover:text-on-surface transition-colors flex items-center gap-2">
+                            View all transactions <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Auxiliary Information -->
+<div class="col-span-12 md:col-span-6 flex gap-6 mt-4">
+<div class="flex-1 bg-surface-container-high/50 p-6 rounded-xl">
+<h4 class="font-bold text-sm mb-2">Payment Method</h4>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-8 bg-slate-900 rounded flex items-center justify-center">
+<span class="text-white font-black text-[10px] italic">VISA</span>
+</div>
+<span class="font-medium text-sm">•••• 8821</span>
+</div>
+<button class="text-primary font-bold text-xs">Edit</button>
+</div>
+</div>
+<div class="flex-1 bg-surface-container-high/50 p-6 rounded-xl">
+<h4 class="font-bold text-sm mb-2">Tax ID / VAT</h4>
+<div class="flex items-center justify-between">
+<span class="font-medium text-sm text-on-surface-variant">US99-8123-112</span>
+<button class="text-primary font-bold text-xs">Update</button>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-6 bg-slate-900 text-white rounded-xl p-6 mt-4 relative overflow-hidden flex items-center justify-between">
+<div class="z-10">
+<h4 class="font-bold text-lg mb-1">Need help with custom billing?</h4>
+<p class="text-slate-400 text-sm">Our sales team can help set up multi-entity invoicing.</p>
+</div>
+<button class="bg-white text-slate-900 font-bold px-6 py-3 rounded-lg z-10 hover:bg-slate-100 transition-colors">
+                        Contact Sales
+                    </button>
+<!-- Abstract Blueprint Texture -->
+<div class="absolute -right-4 -top-8 opacity-20 transform rotate-12">
+<span class="material-symbols-outlined text-9xl">architecture</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

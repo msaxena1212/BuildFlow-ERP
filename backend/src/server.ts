@@ -1,0 +1,43 @@
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import { projects, updates } from './data/mock-data';
+
+const app = express();
+const port = 3000;
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+app.use(express.json());
+
+// Routes
+app.get('/api/projects', (req: Request, res: Response) => {
+  res.json(projects);
+});
+
+app.get('/api/projects/:id', (req: Request, res: Response) => {
+  const project = projects.find(p => p.id === req.params.id);
+  if (project) {
+    res.json(project);
+  } else {
+    res.status(404).send('Project not found');
+  }
+});
+
+app.get('/api/updates', (req: Request, res: Response) => {
+  res.json(updates);
+});
+
+app.get('/health', (req: Request, res: Response) => {
+  res.send('BuildFlow API is running');
+});
+
+app.listen(port, () => {
+  console.log(`BuildFlow Backend listening at http://localhost:${port}`);
+});

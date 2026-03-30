@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-dim": "#d8dadc",
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-container": "#bc4800",
+              "surface": "#f7f9fb",
+              "secondary-fixed-dim": "#ffb95f",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-primary-fixed": "#00174b",
+              "on-secondary-fixed": "#2a1700",
+              "inverse-surface": "#2d3133",
+              "tertiary": "#943700",
+              "error": "#ba1a1a",
+              "on-error-container": "#93000a",
+              "surface-container": "#eceef0",
+              "on-primary": "#ffffff",
+              "secondary": "#855300",
+              "surface-container-low": "#f2f4f6",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-fixed": "#ffddb8",
+              "primary": "#004ac6",
+              "inverse-primary": "#b4c5ff",
+              "error-container": "#ffdad6",
+              "outline": "#737686",
+              "on-surface": "#191c1e",
+              "on-surface-variant": "#434655",
+              "primary-container": "#2563eb",
+              "on-tertiary-container": "#ffede6",
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-tint": "#0053db",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#684000",
+              "on-secondary-fixed-variant": "#653e00",
+              "on-background": "#191c1e",
+              "outline-variant": "#c3c6d7",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-tertiary-fixed": "#360f00",
+              "background": "#f7f9fb",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-container": "#eeefff",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffdbcd",
+              "secondary-container": "#fea619"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-step-line {
+            background: linear-gradient(90deg, #004ac6 0%, #2563eb 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 flex flex-col py-6 px-4 font-inter antialiased text-sm font-medium z-50">
+<div class="mb-10 px-2">
+<h1 class="text-xl font-black tracking-tight text-blue-700">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-widest text-outline mt-1">Construction Mgmt</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="work_outline">work_outline</span>
+<span>Projects</span>
+</div>
+<!-- Active Tab: Vendors (Registration Context) -->
+<div class="flex items-center gap-3 px-3 py-2 text-blue-700 font-bold bg-white rounded-lg shadow-sm">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span>Vendors</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Contracts</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Inventory</span>
+</div>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200/50">
+<div class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</div>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 backdrop-blur-xl z-40 px-8 flex justify-between items-center shadow-sm">
+<div class="flex items-center gap-8">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/30 w-64" placeholder="Search resources..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-6 text-sm font-medium">
+<a class="text-slate-500 hover:text-blue-600 transition-all" href="#">Directory</a>
+<a class="text-slate-500 hover:text-blue-600 transition-all" href="#">Compliance</a>
+<a class="text-slate-500 hover:text-blue-600 transition-all" href="#">Payments</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="User Profile" data-alt="professional portrait of a construction project manager in business casual attire with architectural drawings in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgK4lgm-TrIxDsQxg6A_xX3tju02GfYgfSaTcyCnG_6FEnjFLPtPSJDlR95mModujQNqqOXFTSsTC1p4oUvDMyv3pmMvNcPInQsnukBowBgBEztt-lvVMTbJ7F9EZRGHksEeRRW1WN_LUBgCfKyX44aLyTCsWzQzFp6aZ7kvav2WDiqOoQ_XMkEcnMn60ajaX2yxGYRDBnD46WxrSImCdMnMkScGOQdumoPBeKAlts4ZYFXc6MSv21cU7mSVWwOZQsnozMIdBzqG6_"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-5xl mx-auto px-12 py-12">
+<!-- Header Section -->
+<div class="mb-12">
+<div class="flex items-center gap-2 text-primary font-bold mb-2">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+<span class="text-xs tracking-widest uppercase">Back to Directory</span>
+</div>
+<h1 class="text-4xl font-headline font-extrabold tracking-tight text-on-surface mb-2">New Vendor Registration</h1>
+<p class="text-on-surface-variant text-lg max-w-2xl">Onboard a new strategic partner. Complete the architectural profile, compliance verification, and financial arrangements.</p>
+</div>
+<!-- Wizard Progress Indicator -->
+<div class="grid grid-cols-3 gap-4 mb-12">
+<div class="relative group">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-primary/20">1</div>
+<span class="font-bold text-on-surface">Basic Info</span>
+</div>
+<div class="h-1.5 w-full bg-primary rounded-full"></div>
+</div>
+<div class="relative group">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-outline-variant/30 flex items-center justify-center text-outline font-bold text-sm">2</div>
+<span class="font-medium text-outline">Compliance</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full"></div>
+</div>
+<div class="relative group">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-outline-variant/30 flex items-center justify-center text-outline font-bold text-sm">3</div>
+<span class="font-medium text-outline">Financials</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full"></div>
+</div>
+</div>
+<!-- Form Content -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Form Fields -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<div class="bg-surface-container-lowest p-10 rounded-xl shadow-sm border border-outline-variant/10">
+<h2 class="text-xl font-bold mb-8 text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="domain">domain</span>
+                            Company Identity
+                        </h2>
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Company Legal Name</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="e.g. Ironclad Structural Steel Ltd." type="text"/>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Trade Specialty</label>
+<select class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all appearance-none">
+<option>Select Specialty</option>
+<option>Concrete &amp; Foundation</option>
+<option>Structural Steel</option>
+<option>Electrical Systems</option>
+<option>HVAC &amp; Mechanical</option>
+</select>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Registration ID / EIN</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="XX-XXXXXXX" type="text"/>
+</div>
+<div class="col-span-2">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Primary Headquarters Address</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="Street, Suite, City, State, ZIP" rows="3"></textarea>
+</div>
+</div>
+<div class="mt-12 pt-8 border-t border-surface-container-high">
+<h2 class="text-xl font-bold mb-8 text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+                                Key Point of Contact
+                            </h2>
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-1">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Full Name</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="Authorized Representative" type="text"/>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Position / Title</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="Project Manager" type="text"/>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Email Address</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="contact@company.com" type="email"/>
+</div>
+<div class="col-span-1">
+<label class="block text-xs font-bold uppercase tracking-wider text-outline mb-2">Phone Number</label>
+<input class="w-full bg-surface-container-low border border-outline-variant/20 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Footer -->
+<div class="flex items-center justify-between py-6">
+<button class="px-8 py-3 rounded-lg font-bold text-outline hover:bg-surface-container-high transition-all flex items-center gap-2">
+                            Save Draft
+                        </button>
+<div class="flex gap-4">
+<button class="px-10 py-4 bg-primary rounded-xl font-bold text-white shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 bg-gradient-to-br from-primary to-primary-container">
+                                Continue to Compliance
+                                <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Context & Metadata -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+<h3 class="font-bold text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+                            Blueprint Tip
+                        </h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Ensuring accurate company details now will speed up the verification process by <span class="text-primary font-bold">48 hours</span>. Double-check your legal name against your W-9.
+                        </p>
+</div>
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<h3 class="font-bold text-on-surface mb-6">Partner Requirements</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-500 text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<p class="text-sm font-bold">Identity Verification</p>
+<p class="text-xs text-outline">Verified via Tax ID</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-outline text-lg" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<div>
+<p class="text-sm font-bold text-outline">COI Certification</p>
+<p class="text-xs text-outline">Pending upload</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-outline text-lg" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<div>
+<p class="text-sm font-bold text-outline">Payment Terms</p>
+<p class="text-xs text-outline">Net 30 standard</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="relative rounded-xl overflow-hidden aspect-video group">
+<img alt="Construction Site" class="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0" data-alt="dramatic wide angle shot of a massive steel construction framework against a clear blue sky with cranes in the distance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4SanPu8CaIrnZFg81WzvWscrNGWy4kLyWik5tHPQtJLlU5PbJYXfJ1x7o5n28qFkRTNvnv3AE31c8m9nzgMpTyeVoBw_BViZokA4f80MgYQx-dXXswu_mtW1Kq6wu9i5Zv3pC-aTxKXRTAywhzK0V2pri9ADy66dbMyeaSswGvNm1q066xm052tU7WRcY4BTpvjmsEaFhyrC-d1bhtcjhpvBCUNQafZxB6qjZIFxm0to_mjTWfmFq7RftvOI_uCNR31f0uRVaAF6l"/>
+<div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+<div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur p-4 rounded-lg shadow-lg">
+<p class="text-[10px] uppercase tracking-widest font-black text-primary mb-1">Active Site</p>
+<p class="text-xs font-bold">Project: Horizon Tower</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,202 @@
+<!-- Main Content Canvas -->
+<main class="flex-grow p-4 md:p-8 lg:p-12 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-32">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-outline text-xs uppercase tracking-widest mb-6">
+        <a class="hover:text-primary transition-colors cursor-pointer" routerLink="/materials">Inventory</a>
+        <span class="material-symbols-outlined text-xs">chevron_right</span>
+        <span class="text-on-surface">Concrete Mix Grade-A</span>
+    </div>
+
+    <!-- Material Header Asymmetric Layout -->
+    <div class="flex flex-col xl:flex-row gap-8 mb-12 items-start">
+        <div class="flex-grow">
+            <div class="flex items-center gap-4 mb-2">
+                <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-black uppercase tracking-tighter">Status: Optimal</span>
+                <span class="text-outline text-sm font-medium">SKU: CONC-MIX-GR-A-{{ materialId || '09' }}</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface mb-4">Concrete Mix Grade-A</h1>
+            <p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+                High-performance structural concrete mix designed for heavy-duty foundations and reinforcement columns. Verified for Site 102 specifications.
+            </p>
+        </div>
+        <div class="flex flex-wrap gap-3 xl:mt-4">
+            <button class="flex items-center gap-2 bg-surface-container-highest text-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-surface-container-high transition-all cursor-pointer">
+                <span class="material-symbols-outlined" style="font-size: 20px;">edit_document</span>
+                Adjust Stock
+            </button>
+            <button class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold text-sm shadow-md active:scale-95 transition-all cursor-pointer">
+                <span class="material-symbols-outlined" style="font-size: 20px;">local_shipping</span>
+                Schedule Delivery
+            </button>
+            <button class="p-3 bg-surface-container-low text-on-surface-variant rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">print</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bento Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+        <!-- Inventory Analytics Card -->
+        <div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 shadow-sm">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h3 class="text-xs font-black uppercase tracking-widest text-outline mb-1">Inventory Analytics</h3>
+                    <h4 class="text-2xl font-bold tracking-tight">Stock Level (Last 30 Days)</h4>
+                </div>
+                <div class="text-right">
+                    <p class="text-3xl font-black text-primary tracking-tighter">4,250 kg</p>
+                    <p class="text-[10px] text-green-600 font-bold uppercase tracking-widest">+12.4% vs last week</p>
+                </div>
+            </div>
+
+            <!-- SVG Chart Mockup -->
+            <div class="h-64 w-full relative group">
+                <svg class="w-full h-full" viewBox="0 0 800 200">
+                    <defs>
+                        <linearGradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+                            <stop offset="0%" stop-color="#2563eb" stop-opacity="0.2"></stop>
+                            <stop offset="100%" stop-color="#2563eb" stop-opacity="0"></stop>
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,150 Q100,140 200,160 T400,100 T600,120 T800,40 L800,200 L0,200 Z" fill="url(#chartGradient)"></path>
+                    <path d="M0,150 Q100,140 200,160 T400,100 T600,120 T800,40" fill="none" stroke="#004ac6" stroke-linecap="round" stroke-width="4"></path>
+                    
+                    <!-- Grid Lines -->
+                    <line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="180" y2="180"></line>
+                    <line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="130" y2="130"></line>
+                    <line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="80" y2="80"></line>
+                </svg>
+                <div class="absolute top-1/2 left-3/4 -translate-y-full px-3 py-2 bg-inverse-surface text-inverse-on-surface rounded-lg text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                    May 18: 4,250 kg
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-4 text-[10px] font-bold text-outline uppercase tracking-widest">
+                <span>20 Apr</span>
+                <span>30 Apr</span>
+                <span>10 May</span>
+                <span>Today</span>
+            </div>
+        </div>
+
+        <!-- Related Documents Asymmetric Card -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/5">
+                <h3 class="text-xs font-black uppercase tracking-widest text-outline mb-6">Documentation</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+                        <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold text-on-surface">Safety Data Sheet (SDS)</p>
+                            <p class="text-[10px] text-outline uppercase">v2.4 • Updated Jan 2024</p>
+                        </div>
+                        <span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold text-on-surface">Quality Certification</p>
+                            <p class="text-[10px] text-outline uppercase">ASTM-C39-GradeA</p>
+                        </div>
+                        <span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+                        <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold text-on-surface">Usage Guidelines</p>
+                            <p class="text-[10px] text-outline uppercase">Site Manual PDF</p>
+                        </div>
+                        <span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warehouse Visualization Mockup -->
+            <div class="relative rounded-xl overflow-hidden h-40 group shadow-sm bg-slate-200">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-white/60 mb-1 z-10">Stored at</p>
+                    <h5 class="text-xl font-bold text-white tracking-tight z-10">Zone B, Row 12, Rack 4</h5>
+                </div>
+                <!-- CSS overlay to mimic brightness and contrast -->
+                <div class="absolute inset-0 bg-black/40 z-0"></div>
+            </div>
+        </div>
+
+        <!-- Recent Deliveries Table -->
+        <div class="lg:col-span-12 bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/5">
+            <div class="px-8 py-6 flex justify-between items-center border-b border-outline-variant/10">
+                <h3 class="text-xs font-black uppercase tracking-widest text-outline">Recent Deliveries &amp; Logistics</h3>
+                <button class="text-primary text-xs font-bold uppercase hover:underline cursor-pointer">View All Logs</button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-[10px] font-black uppercase tracking-widest text-outline">
+                            <th class="px-8 py-4">Delivery Date</th>
+                            <th class="px-8 py-4">Quantity</th>
+                            <th class="px-8 py-4">Batch Number</th>
+                            <th class="px-8 py-4">Inspector</th>
+                            <th class="px-8 py-4">Status</th>
+                            <th class="px-8 py-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm font-medium">
+                        @for (log of deliveries; track log.batch) {
+                            <tr class="transition-colors hover:bg-surface-container-high/40 cursor-pointer" [ngClass]="log.status === 'Approved' ? 'bg-surface-container-lowest' : 'bg-surface-container-lowest'">
+                                <td class="px-8 py-5 text-on-surface">{{ log.date }}</td>
+                                <td class="px-8 py-5">{{ log.qty }}</td>
+                                <td class="px-8 py-5 font-mono text-xs">{{ log.batch }}</td>
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-full bg-slate-300"></div>
+                                        <span>{{ log.inspector }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-1.5" [ngClass]="{'text-green-600': log.status === 'Approved', 'text-amber-600': log.status === 'Pending QC'}">
+                                        <span class="w-2 h-2 rounded-full" [ngClass]="log.dotColor"></span>
+                                        <span class="text-xs font-bold uppercase tracking-tighter">{{ log.textStatus }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5 text-right">
+                                    <span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contextual Footer Pulse -->
+    <footer class="mt-16 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-outline-variant/10 pt-12 pb-12">
+        <div class="flex items-center gap-12">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Material Integrity</p>
+                <p class="text-lg font-bold text-on-surface">100% Quality Pass</p>
+            </div>
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Consumption Rate</p>
+                <p class="text-lg font-bold text-on-surface">420kg / Day</p>
+            </div>
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Next Restock</p>
+                <p class="text-lg font-bold text-secondary">Jun 04, 2024</p>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <button class="text-xs font-bold uppercase tracking-widest text-outline hover:text-primary transition-colors cursor-pointer">Export Report</button>
+            <button class="text-xs font-bold uppercase tracking-widest text-outline hover:text-primary transition-colors cursor-pointer">Archive Material</button>
+        </div>
+    </footer>
+</main>

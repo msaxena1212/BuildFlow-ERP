@@ -1,0 +1,181 @@
+<div class="max-w-[1400px] mx-auto p-8 animate-in">
+  <!-- Vendor Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <div class="space-y-3">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase shadow-sm">Verified Tier 1</span>
+        <span class="text-slate-500 dark:text-slate-400 text-xs font-bold flex items-center gap-1.5 uppercase tracking-widest">
+          <span class="material-symbols-outlined text-[16px]">location_on</span> Seattle, WA
+        </span>
+      </div>
+      <h2 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">Titan Structural Steel, LLC</h2>
+      <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">Lead structural contractor for Project Meridian and Skyline Plaza. Primary scope: reinforced steel framing and fabrication.</p>
+    </div>
+    <div class="flex items-center gap-4">
+      <button routerLink="/vendors/v1" class="px-6 py-3.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-bold rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm border border-slate-200 dark:border-slate-700 shadow-sm">
+        View Vendor Profile
+      </button>
+      <button class="px-8 py-3.5 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm flex items-center gap-2.5">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">history_edu</span> Renew Contract
+      </button>
+    </div>
+  </div>
+
+  <!-- Bento Grid Dashboard -->
+  <div class="grid grid-cols-12 gap-8">
+    <!-- Active Contract Summary -->
+    <div class="col-span-12 lg:col-span-8 glass-card rounded-3xl p-10 shadow-2xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden group border border-white/40 dark:border-slate-800/50">
+      <div class="absolute -top-12 -right-12 p-8">
+        <span class="material-symbols-outlined text-[240px] text-primary/5 -rotate-12 group-hover:rotate-0 transition-all duration-1000">description</span>
+      </div>
+      <div class="relative z-10">
+        <div class="flex items-center justify-between mb-10">
+          <h3 class="text-xs font-black tracking-[0.2em] uppercase text-slate-400">Active Master Service Agreement</h3>
+          <span class="flex items-center gap-2.5 text-blue-600 dark:text-blue-400 font-black text-xs uppercase tracking-widest">
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></span>
+            Agreement Active
+          </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="space-y-4">
+            <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Contract Value</p>
+            <p class="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">$1,420,000.00</p>
+            <div class="bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden shadow-inner border border-slate-200/50 dark:border-slate-700/50">
+              <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-1000 shadow-lg" style="width: 68%;"></div>
+            </div>
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">68% Budget Utilized • Project Phase II</p>
+          </div>
+          <div class="space-y-2">
+            <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Effective Date</p>
+            <p class="text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight">Jan 12, 2024</p>
+            <p class="text-xs text-slate-500 font-medium italic mt-2">Certified by BuildFlow Compliance</p>
+          </div>
+          <div class="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-2xl border border-amber-200/50 dark:border-amber-800/50 shadow-sm">
+            <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+              <p class="text-[10px] uppercase font-black tracking-[0.1em]">Expiration Alert</p>
+            </div>
+            <p class="text-2xl font-black text-amber-700 dark:text-amber-400 tracking-tight">34 Days Left</p>
+            <p class="text-[11px] text-amber-700/70 dark:text-amber-400/70 mt-2 leading-relaxed font-semibold uppercase tracking-tighter">Renewal negotiation required by Oct 15th.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="col-span-12 lg:col-span-4 flex flex-col gap-8">
+      <div class="flex-1 glass-card rounded-3xl p-8 border border-white/40 dark:border-slate-800/50 shadow-xl flex items-center justify-between group hover:border-green-500/30 transition-all">
+        <div class="space-y-4">
+          <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Liability Insurance</p>
+          <div class="flex items-baseline gap-2">
+            <p class="text-2xl font-black text-green-600">Compliant</p>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Gold Tier</span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium mt-1">Expires March 15, 2025</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 shadow-inner group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+        </div>
+      </div>
+      <div class="flex-1 glass-card rounded-3xl p-8 border border-white/40 dark:border-slate-800/50 shadow-xl flex items-center justify-between group hover:border-blue-500/30 transition-all">
+        <div class="space-y-4">
+          <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Amendments</p>
+          <div class="flex items-baseline gap-2">
+            <p class="text-2xl font-black text-slate-900 dark:text-slate-50">03 Pending</p>
+            <span class="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Review</span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium mt-1">Last update: 2 days ago</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-4xl">edit_note</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Preview List -->
+    <div class="col-span-12 lg:col-span-7 glass-card rounded-3xl shadow-2xl border border-white/40 dark:border-slate-800/50 overflow-hidden">
+      <div class="bg-white/50 dark:bg-slate-900/50 px-8 py-6 flex justify-between items-center border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-4">
+          <span class="material-symbols-outlined text-blue-600 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-xl">folder_open</span>
+          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Legal Documentation</h3>
+        </div>
+        <div class="flex gap-2.5">
+          <button class="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-slate-400">filter_list</span>
+          </button>
+          <button class="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-slate-400">grid_view</span>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 space-y-3 max-h-[480px] overflow-y-auto">
+        @for (doc of documents; track doc.name) {
+          <div class="flex items-center justify-between p-5 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all group rounded-2xl border border-slate-100 dark:border-slate-800 cursor-pointer">
+            <div class="flex items-center gap-5">
+              <div [class]="doc.bg + ' ' + doc.color" class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+                <span class="material-symbols-outlined text-3xl">{{ doc.icon }}</span>
+              </div>
+              <div>
+                <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ doc.name }}</p>
+                <div class="flex items-center gap-3 mt-1">
+                  <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">{{ doc.type }}</p>
+                  <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                  <p class="text-[10px] text-slate-400 font-bold">{{ doc.size }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-8">
+              <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Added {{ doc.date }}</span>
+              <button class="opacity-0 group-hover:opacity-100 p-2.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl transition-all shadow-sm">
+                <span class="material-symbols-outlined text-xl">download</span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="bg-slate-50/50 dark:bg-slate-800/30 p-6 text-center border-t border-slate-100 dark:border-slate-800">
+        <button class="text-[11px] font-black text-blue-600 dark:text-blue-400 hover:underline uppercase tracking-widest bg-white dark:bg-slate-900 px-6 py-2.5 rounded-full shadow-sm">View All 24 Legal Files</button>
+      </div>
+    </div>
+
+    <!-- Signed History & Timeline -->
+    <div class="col-span-12 lg:col-span-5 glass-card rounded-3xl p-10 border border-white/40 dark:border-slate-800/50 shadow-2xl relative">
+      <h3 class="text-xl font-bold tracking-tight mb-10 text-slate-900 dark:text-slate-50 flex items-center gap-3">
+        <span class="material-symbols-outlined text-amber-500">history_edu</span> Partnership Evolution
+      </h3>
+      <div class="space-y-12 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100 dark:before:bg-slate-800">
+        @for (item of history; track item.event) {
+          <div class="relative pl-12 group">
+            <div [class]="item.active ? 'bg-blue-600 ring-4 ring-blue-100 dark:ring-blue-900/30' : 'bg-slate-200 dark:bg-slate-700 ring-4 ring-white dark:ring-slate-900'" class="absolute left-0 top-1.5 w-6 h-6 rounded-full shadow-md z-10 transition-all group-hover:scale-110"></div>
+            <div class="animate-in fade-in slide-in-from-left-4 duration-700">
+              <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight leading-none">{{ item.event }}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium leading-relaxed">{{ item.description }}</p>
+              <div class="flex items-center gap-4 mt-5">
+                @if (item.event === 'MSA Renewal Signed') {
+                  <div class="flex -space-x-3">
+                    <img class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-800 shadow-sm object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ6NqbeyzXdDdcKy8rA12bnb-D1XcFS2rr8zDl-BPEQQPcKodHtE3lG-MeVtaXdaulKwMjvYGMWDgMz7L1bQywZjuRsjgcfxQn9iVDDjn-S9c-U0mM0KIKQF0_U3aXqMPM9QZTt7m8khqSuD08ogwyCw24ghRW9YUe2bwt0s3THMMrL1xo9qBGM2z9kv1ZFUv238GeBHrkyEjR7jq4de8FvFuAzlnEaAF35yr9AkBXXUF3tIkIsYaqfofbVxV6-BNl4CPa95StjdLi" />
+                    <img class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-800 shadow-sm object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8TDdsqqYQJGbYpLmn8Lf_SCiThKyaYOfeGCjEWG51HX9N5S9gEDJ6FjFohkigCi_O0rWOFKoSaGQwFJfR9GGQaj4H3d7IswUq6CeD4wl7y6nq99p7G9KHSnVMrD6aS4K2h1tEHLAKNA4WZs6jn4qNpMOODwrgZLYMtPWdsUbmiURTCJi96kEUa3IA-NFDII9u2uE6ZSHfyyfKOtaLlVf8YQ-oS-NQ4mT1qP96sBr-mxJPlgRwt7cM8CJuqr4B1-GHPqAUg4XpDh1K" />
+                  </div>
+                }
+                <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-[0.2em]">{{ item.date }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Compliance Notice -->
+  <footer class="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] text-slate-400 font-black uppercase tracking-[0.15em]">
+    <div class="flex items-center gap-8">
+      <span class="flex items-center gap-2 group cursor-help"><span class="material-symbols-outlined text-xs text-blue-600 group-hover:scale-125 transition-transform">lock</span> Encrypted AES-256 Cloud Storage</span>
+      <span class="flex items-center gap-2 group cursor-help"><span class="material-symbols-outlined text-xs text-blue-600 group-hover:scale-125 transition-transform">gavel</span> ISO 27001 Certified Infrastructure</span>
+    </div>
+    <div class="flex items-center gap-10">
+      <a class="hover:text-blue-600 transition-colors" href="#">Legal Compliance</a>
+      <a class="hover:text-blue-600 transition-colors" href="#">Privacy Audit</a>
+      <span class="text-slate-300 dark:text-slate-700">© 2024 BuildFlow Systems Intelligence</span>
+    </div>
+  </footer>
+</div>

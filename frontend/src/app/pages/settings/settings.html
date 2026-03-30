@@ -1,0 +1,123 @@
+<div class="max-w-5xl mx-auto p-8 animate-in">
+  <header class="mb-12">
+    <h1 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">Account Settings</h1>
+    <p class="text-slate-500 dark:text-slate-400 mt-4 leading-relaxed text-lg font-light">Customise your BuildFlow experience, manage security, and notification preferences.</p>
+  </header>
+
+  <!-- Horizontal Tabs -->
+  <div class="flex gap-8 border-b border-slate-100 dark:border-slate-800 mb-10 overflow-x-auto pb-px">
+    <button (click)="activeTab = 'general'" [class.text-blue-600]="activeTab === 'general'" [class.border-blue-600]="activeTab === 'general'" [class.text-slate-400]="activeTab !== 'general'" class="pb-4 text-xs font-black uppercase tracking-[0.2em] border-b-2 border-transparent transition-all hover:text-slate-600 whitespace-nowrap">
+      General Profile
+    </button>
+    <button (click)="activeTab = 'notifications'" [class.text-blue-600]="activeTab === 'notifications'" [class.border-blue-600]="activeTab === 'notifications'" [class.text-slate-400]="activeTab !== 'notifications'" class="pb-4 text-xs font-black uppercase tracking-[0.2em] border-b-2 border-transparent transition-all hover:text-slate-600 whitespace-nowrap">
+      Notifications
+    </button>
+    <button (click)="activeTab = 'security'" [class.text-blue-600]="activeTab === 'security'" [class.border-blue-600]="activeTab === 'security'" [class.text-slate-400]="activeTab !== 'security'" class="pb-4 text-xs font-black uppercase tracking-[0.2em] border-b-2 border-transparent transition-all hover:text-slate-600 whitespace-nowrap">
+      Security & Privacy
+    </button>
+  </div>
+
+  <div class="space-y-12">
+    @if (activeTab === 'general') {
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+        <div class="md:col-span-4 space-y-4">
+          <h3 class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-slate-50">Profile Identity</h3>
+          <p class="text-xs text-slate-500 leading-relaxed font-medium">Update your professional details and how others see you in the workspace.</p>
+        </div>
+        <div class="md:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-xl space-y-8">
+          <div class="flex items-center gap-6">
+            <img class="w-20 h-20 rounded-2xl object-cover ring-4 ring-blue-50 dark:ring-blue-900/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4jh6IXSlnofr4xOhzz61O1lTf39jSNIu2gmjBXDW0K6VnfB6-0trv-HL92rmOcfezVy6guqjiS4-rEYvcTe5OQOb-9V6Mo7amvzwDCYJjj183s8GUMbVDdAYsR0e54-IR_xcnPPLOAxIMrB-KPvf-tc9hpYzilOh2BjAI-_u3t2Ai_FOY3NXFPfVZjPeqfN3QNZYxLMZJO_b896NlRTk6HA50nrlOofg8VYwsZLHJOe01jZ7rzUOiWJAZMxl0CHkcOVtuWm6DfOKV" />
+            <div class="flex gap-3">
+              <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/20 hover:scale-[1.05] transition-all">Upload New Photo</button>
+              <button class="bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest border border-slate-200 dark:border-slate-700">Remove</button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Full Name</label>
+              <input type="text" value="Daniel S. Miller" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 dark:text-slate-50 outline-none focus:ring-2 focus:ring-blue-600/20 transition-all shadow-inner">
+            </div>
+            <div class="space-y-2">
+              <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Professional Title</label>
+              <input type="text" value="Senior Project Architect" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 dark:text-slate-50 outline-none focus:ring-2 focus:ring-blue-600/20 transition-all shadow-inner">
+            </div>
+            <div class="col-span-full space-y-2">
+              <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Email Address</label>
+              <input type="email" value="d.miller@buildflow.co" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl px-4 py-3.5 text-sm font-bold text-slate-900 dark:text-slate-50 outline-none focus:ring-2 focus:ring-blue-600/20 transition-all shadow-inner">
+            </div>
+          </div>
+          <div class="pt-4 flex justify-end">
+            <button class="bg-slate-900 text-white px-10 py-3.5 rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (activeTab === 'notifications') {
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+        <div class="md:col-span-4 space-y-4">
+          <h3 class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-slate-50">Update Streams</h3>
+          <p class="text-xs text-slate-500 leading-relaxed font-medium">Configure what events trigger real-time push and email notifications.</p>
+        </div>
+        <div class="md:col-span-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl divide-y divide-slate-100 dark:divide-slate-800">
+          @for (setting of notificationSettings; track setting.id) {
+            <div class="p-8 flex items-center justify-between group">
+              <div class="space-y-1">
+                <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ setting.title }}</p>
+                <p class="text-xs text-slate-500 font-medium leading-relaxed">{{ setting.description }}</p>
+              </div>
+              <button (click)="setting.enabled = !setting.enabled;" [class]="setting.enabled ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-800'" class="w-14 h-8 rounded-full relative transition-all shadow-inner">
+                <div [class.translate-x-7]="setting.enabled" [class.translate-x-1]="!setting.enabled" class="absolute top-1 left-0 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300"></div>
+              </button>
+            </div>
+          }
+          <div class="p-8 bg-blue-50/50 dark:bg-blue-900/10 rounded-b-3xl">
+            <div class="flex items-start gap-4">
+              <span class="material-symbols-outlined text-blue-600">info</span>
+              <div>
+                <p class="text-xs text-blue-700 dark:text-blue-400 font-black uppercase tracking-widest mb-1">Weekly Digest</p>
+                <p class="text-[11px] text-blue-600/70 dark:text-blue-400/70 font-medium leading-relaxed">By default, we send a summary of all missed activity every Monday morning at 8:00 AM.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (activeTab === 'security') {
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+        <div class="md:col-span-4 space-y-4">
+          <h3 class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-slate-50">Data Safety</h3>
+          <p class="text-xs text-slate-500 leading-relaxed font-medium">Protect your workspace with two-factor authentication and session management.</p>
+        </div>
+        <div class="md:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-100 dark:border-slate-800 shadow-xl space-y-10">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-5">
+              <div class="w-12 h-12 rounded-xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 shadow-inner">
+                <span class="material-symbols-outlined">verified_user</span>
+              </div>
+              <div>
+                <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight uppercase">2-Factor Authentication</p>
+                <p class="text-xs text-green-600 font-bold tracking-tight">Enabled via Authenticator App</p>
+              </div>
+            </div>
+            <button class="text-blue-600 font-black text-[10px] uppercase tracking-widest">Update</button>
+          </div>
+          <div class="pt-8 border-t border-slate-100 dark:border-slate-800 space-y-6">
+            <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Current Sessions</h4>
+            <div class="flex items-center justify-between p-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-slate-400">laptop_mac</span>
+                <div>
+                  <p class="text-sm font-bold text-slate-900 dark:text-slate-50">Chrome on macOS</p>
+                  <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">United States • IP: 192.168.1.1 (Current)</p>
+                </div>
+              </div>
+              <button class="text-red-500 dark:text-red-400 font-black text-[10px] uppercase tracking-widest">Revoke</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow - Command Palette</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#653e00",
+              "inverse-surface": "#2d3133",
+              "surface-container": "#eceef0",
+              "on-tertiary-container": "#ffede6",
+              "secondary-fixed-dim": "#ffb95f",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "background": "#f7f9fb",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#2563eb",
+              "on-primary-fixed": "#00174b",
+              "error-container": "#ffdad6",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-fixed": "#2a1700",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-secondary-container": "#684000",
+              "on-primary-container": "#eeefff",
+              "on-secondary": "#ffffff",
+              "secondary": "#855300",
+              "on-error-container": "#93000a",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-fixed": "#ffdbcd",
+              "on-background": "#191c1e",
+              "surface-container-highest": "#e0e3e5",
+              "surface-tint": "#0053db",
+              "tertiary-container": "#bc4800",
+              "secondary-container": "#fea619",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "primary-fixed-dim": "#b4c5ff",
+              "tertiary": "#943700",
+              "outline": "#737686",
+              "surface-variant": "#e0e3e5",
+              "primary": "#004ac6",
+              "on-surface-variant": "#434655",
+              "on-tertiary-fixed": "#360f00",
+              "secondary-fixed": "#ffddb8",
+              "on-error": "#ffffff",
+              "surface": "#f7f9fb",
+              "outline-variant": "#c3c6d7",
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-dim": "#d8dadc",
+              "inverse-primary": "#b4c5ff",
+              "on-surface": "#191c1e"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .button-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 flex flex-col p-4 gap-2 z-30">
+<div class="mb-8 px-2">
+<h1 class="text-xl font-bold tracking-tighter text-slate-900">BuildFlow</h1>
+<p class="text-xs text-slate-500 font-medium">Construction Mgmt</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 bg-white text-blue-600 shadow-sm rounded-lg font-semibold transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="text-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-sm">Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm">Vendors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-sm">Materials</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="text-sm">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 space-y-1">
+<button class="w-full button-gradient text-white py-2.5 rounded-lg text-sm font-semibold mb-4 shadow-md">New Project</button>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-slate-200/50 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md flex items-center justify-between h-16 px-8 ml-64 border-b border-slate-100">
+<div class="flex items-center bg-surface-container-low px-4 py-2 rounded-full w-96 gap-3">
+<span class="material-symbols-outlined text-slate-400 text-lg">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-400" placeholder="Search project, task, or command..." readonly="" type="text"/>
+<span class="text-[10px] font-bold text-slate-400 bg-white px-1.5 py-0.5 rounded border border-slate-200">⌘K</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="button-gradient text-white text-xs font-semibold px-4 py-2 rounded-lg">Invite Team</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 bg-slate-200">
+<img class="h-full w-full object-cover" data-alt="portrait of a professional male architect in a bright modern office setting with architectural blueprints in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoqpsDNuxjpmOqLSYtScWvPPt_BRZSjQoPahMGdYAf_0ZMaOhEqdYiWC157HBs-9qwoFjEKs7aWt44470L6BON24LhGeX8dG-k7yb1vZHOlEVyV86NB-0YjO7zc-lPBn6vFuYomoSnMj73qOVMs8agQlKzAVvuID_8zO4y_9B3S4zHTHtCVv4CL2n7oK8AeCLvRcr8AdKOL5gwB8Yd_MoYBC97edEH_xCdHTEarqz6pisLdO2Mfh27G1eDJALDo3ypjD8M4gSVwROD"/>
+</div>
+</div>
+</header>
+<!-- Main Content (Dashboard Background) -->
+<main class="ml-64 p-8 bg-surface min-h-[calc(100vh-64px)]">
+<div class="mb-8">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-1">Project Overview</h2>
+<p class="text-outline">Real-time status of your active construction sites.</p>
+</div>
+<div class="grid grid-cols-12 gap-6">
+<!-- Project Card 1 -->
+<div class="col-span-8 bg-surface-container-lowest rounded-xl p-6 border border-outline-variant/20">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-[10px] font-bold tracking-widest uppercase text-secondary mb-1 block">Active Site</span>
+<h3 class="text-xl font-bold">Harbor View Apartments</h3>
+</div>
+<span class="bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">84% Complete</span>
+</div>
+<div class="h-48 w-full rounded-lg overflow-hidden mb-6">
+<img class="w-full h-full object-cover" data-alt="large scale construction site of a modern apartment complex with cranes and concrete structures under a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIs6KUKWuhkeH2fj08mAVObHWJQ1fI_R0Pj2A0FBPVyQmsU9toT25KlWZ1LChQfB8t32Q06FJJ0YrNe8EpqD3T0I-3zNF_uIO1hXv4fhTf0rpZdKaGDwgNslkvFd3pep9i01lj3Y0VQBaR5HTmvDLRfX4413s1kV7ItubVktk2zveO2y2IyO25KUYklL6g4fIXPBVApUQFHUMoK_is_X-ByyilMHjIPO_hqvHt4A6NfYoAt6tbl2_dKd1Q1REe7eE19zToIu6tngYy"/>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-surface-container-low p-4 rounded-lg">
+<p class="text-[10px] font-bold uppercase text-outline mb-1">Budget Spent</p>
+<p class="text-lg font-bold">$4.2M</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<p class="text-[10px] font-bold uppercase text-outline mb-1">Next Milestone</p>
+<p class="text-lg font-bold">Roofing</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<p class="text-[10px] font-bold uppercase text-outline mb-1">Team Size</p>
+<p class="text-lg font-bold">128</p>
+</div>
+</div>
+</div>
+<!-- Stats Column -->
+<div class="col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 border border-outline-variant/20 flex-1">
+<h4 class="font-bold mb-4">Daily Productivity</h4>
+<div class="flex items-end gap-2 h-32">
+<div class="bg-primary/20 w-full rounded-t-sm h-[40%]"></div>
+<div class="bg-primary/40 w-full rounded-t-sm h-[60%]"></div>
+<div class="bg-primary/60 w-full rounded-t-sm h-[85%]"></div>
+<div class="bg-primary w-full rounded-t-sm h-[70%]"></div>
+<div class="bg-primary/80 w-full rounded-t-sm h-[95%]"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] font-bold text-outline">
+<span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span>
+</div>
+</div>
+<div class="bg-secondary-container rounded-xl p-6 text-on-secondary-container">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined">warning</span>
+<h4 class="font-bold">Weather Alert</h4>
+</div>
+<p class="text-sm opacity-90">Heavy rain expected tomorrow. Secure site B and pause exterior foundation work.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- COMMAND PALETTE OVERLAY -->
+<div class="fixed inset-0 z-50 flex items-start justify-center pt-[102px] px-4">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
+<!-- Palette Modal -->
+<div class="relative w-full max-w-3xl glass-panel rounded-2xl shadow-2xl overflow-hidden border border-white/40">
+<!-- Search Input Area -->
+<div class="p-6 border-b border-slate-200/50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl font-light">search</span>
+<input autofocus="" class="flex-1 bg-transparent border-none focus:ring-0 text-xl font-medium placeholder:text-slate-400 text-slate-800" placeholder="Search anything or ask BuildFlow AI..." type="text"/>
+<div class="flex items-center gap-1.5">
+<kbd class="px-2 py-1 text-[10px] font-bold text-slate-500 bg-white/50 border border-slate-200 rounded-md shadow-sm">ESC</kbd>
+</div>
+</div>
+</div>
+<!-- Content Area -->
+<div class="max-h-[614px] overflow-y-auto custom-scrollbar">
+<!-- Quick Actions Grid -->
+<div class="p-6 pb-2">
+<h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-4 px-2">Quick Actions</h3>
+<div class="grid grid-cols-4 gap-3">
+<button class="flex flex-col items-center justify-center p-4 bg-white/40 hover:bg-white/80 transition-all rounded-xl gap-2 group">
+<span class="material-symbols-outlined text-primary p-2 bg-primary/10 rounded-lg group-hover:scale-110 transition-transform">add_task</span>
+<span class="text-xs font-semibold text-slate-600">New Task</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-white/40 hover:bg-white/80 transition-all rounded-xl gap-2 group">
+<span class="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg group-hover:scale-110 transition-transform">upload_file</span>
+<span class="text-xs font-semibold text-slate-600">Upload Plan</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-white/40 hover:bg-white/80 transition-all rounded-xl gap-2 group">
+<span class="material-symbols-outlined text-blue-600 p-2 bg-blue-50 rounded-lg group-hover:scale-110 transition-transform">person_add</span>
+<span class="text-xs font-semibold text-slate-600">Add Vendor</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 bg-white/40 hover:bg-white/80 transition-all rounded-xl gap-2 group">
+<span class="material-symbols-outlined text-slate-700 p-2 bg-slate-100 rounded-lg group-hover:scale-110 transition-transform">print</span>
+<span class="text-xs font-semibold text-slate-600">Print Report</span>
+</button>
+</div>
+</div>
+<!-- BuildFlow AI Section -->
+<div class="px-6 py-4">
+<div class="bg-gradient-to-r from-blue-600/5 to-primary/5 rounded-xl p-4 border border-primary/10">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-primary">BuildFlow AI Integration</h3>
+</div>
+<div class="space-y-2">
+<button class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:text-primary transition-colors hover:bg-white/50 rounded-lg flex items-center justify-between group">
+<span>"Show me the overdue tasks"</span>
+<span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100">keyboard_return</span>
+</button>
+<button class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:text-primary transition-colors hover:bg-white/50 rounded-lg flex items-center justify-between group">
+<span>"Find the HVAC permit for Harbor View"</span>
+<span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100">keyboard_return</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Categorized Results -->
+<div class="p-6 pt-2 space-y-8">
+<!-- Projects -->
+<section>
+<h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Projects</h3>
+<div class="space-y-1">
+<div class="flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl cursor-pointer group transition-all">
+<div class="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500">apartment</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-800">Harbor View Apartments</p>
+<p class="text-xs text-slate-500">Active · Phase 3: Finishing</p>
+</div>
+<span class="material-symbols-outlined text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<div class="flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl cursor-pointer group transition-all">
+<div class="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-500">construction</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-800">Oakwood Heights Renovation</p>
+<p class="text-xs text-slate-500">Active · Phase 1: Demolition</p>
+</div>
+<span class="material-symbols-outlined text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Tasks -->
+<section>
+<h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Tasks</h3>
+<div class="space-y-1">
+<div class="flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl cursor-pointer group transition-all">
+<span class="material-symbols-outlined text-amber-500" style="font-variation-settings: 'FILL' 1;">priority_high</span>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-800">Review Concrete Pour Quality</p>
+<p class="text-xs text-slate-500">Harbor View · High Priority</p>
+</div>
+<span class="text-[10px] font-bold text-slate-400 border border-slate-200 px-2 py-0.5 rounded uppercase">Today</span>
+</div>
+<div class="flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl cursor-pointer group transition-all">
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-800">Approve Electrical Schematics</p>
+<p class="text-xs text-slate-500">Oakwood Heights · Completed</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl cursor-pointer group transition-all">
+<span class="material-symbols-outlined text-slate-300">circle</span>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-800">Finalize Flooring Selection</p>
+<p class="text-xs text-slate-500">Harbor View · Pending</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Files -->
+<section>
+<h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Files</h3>
+<div class="space-y-1">
+<div class="flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl cursor-pointer group transition-all">
+<div class="h-10 w-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-800">Blueprint_Level_02_Final.pdf</p>
+<p class="text-xs text-slate-500">24 MB · Updated 2h ago by Sarah</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-2.5 hover:bg-white/60 rounded-xl cursor-pointer group transition-all">
+<div class="h-10 w-10 bg-blue-50 text-blue-500 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-800">Safety_Compliance_Report_Q3.docx</p>
+<p class="text-xs text-slate-500">1.2 MB · 1 day ago</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent -->
+<section class="pb-6">
+<h3 class="text-[10px] font-extrabold uppercase tracking-[0.15em] text-slate-400 mb-3 px-2">Recent Searches</h3>
+<div class="flex flex-wrap gap-2 px-2">
+<span class="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-600 hover:bg-slate-200 cursor-pointer transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                                HVAC Inspection
+                            </span>
+<span class="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-600 hover:bg-slate-200 cursor-pointer transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                                Vendor Invoices
+                            </span>
+<span class="bg-slate-100 px-3 py-1 rounded-full text-xs font-medium text-slate-600 hover:bg-slate-200 cursor-pointer transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">history</span>
+                                Q4 Planning
+                            </span>
+</div>
+</section>
+</div>
+</div>
+<!-- Footer Meta -->
+<div class="bg-slate-50/80 p-3 px-6 border-t border-slate-200/50 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+<div class="flex gap-4">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">keyboard_arrow_up</span> <span class="material-symbols-outlined text-[14px]">keyboard_arrow_down</span> Navigate</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">keyboard_return</span> Select</span>
+</div>
+<div>
+                    Powered by BuildFlow Intelligence
+                </div>
+</div>
+</div>
+</div>
+</body></html>

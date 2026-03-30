@@ -1,0 +1,185 @@
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 mt-6">
+  <div class="space-y-2">
+    <p class="text-primary font-bold tracking-[0.2em] uppercase text-xs">Analytics Core</p>
+    <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter leading-none">Labor Efficiency.</h1>
+    <p class="text-slate-500 max-w-md mt-4 text-lg font-light leading-relaxed">
+      Real-time tracking of workforce velocity and contractor performance across all active job sites.
+    </p>
+  </div>
+  <div class="flex gap-3">
+    <div class="bg-slate-100 p-4 rounded-xl flex items-center gap-4 border border-slate-200/50">
+      <div class="text-right">
+        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Active Crews</p>
+        <p class="text-2xl font-bold text-slate-900">42</p>
+      </div>
+      <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+        <span class="material-symbols-outlined">group</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bento Grid Main Visualization -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+  <!-- Primary Efficiency & Safety Trends -->
+  <div class="md:col-span-8 space-y-6">
+    <div class="bg-white rounded-xl p-8 shadow-xl border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+      <div class="flex justify-between items-start mb-10">
+        <div>
+          <h3 class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50">Workforce Productivity Heatmap</h3>
+          <p class="text-sm text-slate-500 font-medium">Task completion density per hour interval</p>
+        </div>
+        <div class="flex gap-2">
+            <span class="bg-blue-50 text-blue-600 text-[10px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest">Real-time Sync</span>
+        </div>
+      </div>
+
+      <!-- Heatmap Grid -->
+      <div class="grid grid-cols-7 gap-3 mb-12">
+        <!-- Day labels omitted if already present in header -->
+        @for (row of heatmap; track $index) {
+          @for (val of row; track $index) {
+            <div [class]="'aspect-square rounded-xl transition-all duration-500 hover:scale-110 cursor-help ' + (val === 4 ? 'bg-blue-600 shadow-lg shadow-blue-500/20' : (val === 3 ? 'bg-blue-400' : (val === 2 ? 'bg-blue-200' : (val === 1 ? 'bg-blue-50' : 'bg-slate-50'))))"></div>
+          }
+        }
+      </div>
+
+      <!-- Safety Trends Mini-Chart -->
+      <div class="pt-10 border-t border-slate-100 dark:border-slate-800">
+        <div class="flex justify-between items-center mb-6">
+           <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Safety Performance Index (SPI)</h4>
+           <span class="text-emerald-600 font-black text-sm flex items-center gap-1">98.4 <span class="material-symbols-outlined text-sm">trending_up</span></span>
+        </div>
+        <div class="flex items-end gap-1.5 h-16 w-full">
+            <div class="flex-1 bg-emerald-500 h-[90%] rounded-t-md opacity-20"></div>
+            <div class="flex-1 bg-emerald-500 h-[85%] rounded-t-md opacity-30"></div>
+            <div class="flex-1 bg-emerald-500 h-[95%] rounded-t-md opacity-50"></div>
+            <div class="flex-1 bg-emerald-500 h-[100%] rounded-t-md"></div>
+            <div class="flex-1 bg-emerald-500 h-[92%] rounded-t-md"></div>
+            <div class="flex-1 bg-emerald-500 h-[98%] rounded-t-md"></div>
+            <div class="flex-1 bg-emerald-200 h-[40%] rounded-t-md animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Labor Requirement Forecast -->
+  <div class="md:col-span-4 bg-primary text-white rounded-xl p-6 flex flex-col justify-between overflow-hidden relative shadow-2xl shadow-primary/30">
+    <div class="absolute top-0 right-0 p-8 opacity-10">
+      <span class="material-symbols-outlined text-9xl">trending_up</span>
+    </div>
+    <div class="relative z-10">
+      <h3 class="text-sm font-bold tracking-widest uppercase opacity-70 mb-2">Requirement Forecast</h3>
+      <p class="text-3xl font-black leading-tight">1,240 <span class="text-lg font-medium opacity-80">Man-Hours</span></p>
+      <p class="text-sm mt-2 opacity-80">Projected demand for the upcoming week based on phase 4 scheduling.</p>
+    </div>
+    <div class="relative z-10 mt-8 space-y-4">
+      <div class="space-y-1">
+        <div class="flex justify-between text-xs font-bold uppercase"><span>Structural Steel</span><span>82%</span></div>
+        <div class="h-2 bg-white/20 rounded-full overflow-hidden"><div class="h-full bg-amber-400 w-[82%] rounded-full"></div></div>
+      </div>
+      <div class="space-y-1">
+        <div class="flex justify-between text-xs font-bold uppercase"><span>Electrical Grid</span><span>45%</span></div>
+        <div class="h-2 bg-white/20 rounded-full overflow-hidden"><div class="h-full bg-white w-[45%] rounded-full"></div></div>
+      </div>
+      <button class="w-full bg-white/10 hover:bg-white/20 transition-colors py-3 rounded-lg text-sm font-bold mt-2">View Detailed Schedule</button>
+    </div>
+  </div>
+
+  <!-- Top Performing Contractors -->
+  <div class="md:col-span-12 lg:col-span-7 bg-slate-50 rounded-xl p-6 border border-slate-200/50">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="font-bold text-lg text-slate-900">Top Performing Contractors</h3>
+      <button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline">Full Audit</button>
+    </div>
+    <div class="space-y-4">
+      @for (c of contractors; track c.name) {
+        <div class="bg-white p-4 rounded-xl flex items-center justify-between group hover:scale-[1.01] transition-transform duration-300 shadow-sm border border-slate-100">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100 p-1">
+              <img [src]="c.logo" class="w-full h-full object-contain rounded" />
+            </div>
+            <div>
+              <p class="font-bold text-slate-900">{{ c.name }}</p>
+              <p class="text-xs text-slate-500 font-medium">{{ c.personnel }} Active Personnel</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-8">
+            <div class="text-right">
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Efficiency</p>
+              <p [class]="'text-lg font-black ' + (c.efficiency > 90 ? 'text-green-600' : (c.efficiency > 80 ? 'text-blue-600' : 'text-amber-600'))">{{ c.efficiency }}%</p>
+            </div>
+            <div class="text-right hidden sm:block">
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Tasks</p>
+              <p class="text-lg font-black text-slate-900">{{ c.tasks }}</p>
+            </div>
+            <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Productivity Velocity -->
+  <div class="md:col-span-12 lg:col-span-5 bg-white rounded-xl p-6 shadow-sm border border-slate-200/50">
+    <h3 class="font-bold text-lg text-slate-900 mb-6">Productivity Velocity</h3>
+    <div class="relative h-64 w-full flex items-end gap-1 px-4">
+      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[40%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK1</p></div>
+      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[55%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK2</p></div>
+      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[48%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK3</p></div>
+      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[75%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK4</p></div>
+      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary h-[85%] group-hover:brightness-110 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-primary text-center mt-2">WK5</p></div>
+      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-slate-200 h-[20%] border-t-2 border-dashed border-slate-400 rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK6</p></div>
+    </div>
+    <div class="mt-8 grid grid-cols-2 gap-4">
+      <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+        <p class="text-[10px] font-bold text-slate-500 uppercase">Weekly Delta</p>
+        <p class="text-xl font-black text-green-600">+12.4%</p>
+      </div>
+      <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
+        <p class="text-[10px] font-bold text-slate-500 uppercase">Avg Completion</p>
+        <p class="text-xl font-black text-slate-900">4.2 <span class="text-xs font-normal">days</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Active Shift Activity -->
+<section class="mt-12">
+  <div class="flex items-center gap-4 mb-8">
+    <h2 class="text-2xl font-black tracking-tight text-slate-900">Active Shift Activity</h2>
+    <div class="h-px flex-1 bg-slate-200"></div>
+  </div>
+  <div class="overflow-x-auto pb-4">
+    <div class="min-w-[800px] flex flex-col gap-2">
+      @for (worker of shiftActivity; track worker.name) {
+        <div class="grid grid-cols-12 items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+          <div class="col-span-2 flex items-center gap-3">
+            <img [src]="worker.avatar" class="w-8 h-8 rounded-full shadow-sm" />
+            <div>
+              <p class="text-sm font-bold text-slate-900">{{ worker.name }}</p>
+              <p class="text-[10px] text-slate-500">{{ worker.role }}</p>
+            </div>
+          </div>
+          <div class="col-span-8 px-4">
+            <div class="relative h-4 w-full bg-slate-100 rounded-full overflow-hidden">
+              @for (act of worker.activities; track act.label) {
+                <div [class]="'absolute h-full border-x flex items-center px-2 ' + (act.type === 'primary' ? 'bg-primary/20 border-primary/40' : (act.type === 'secondary' ? 'bg-amber-100 border-amber-300' : 'bg-primary border-white/20'))" [style.left]="act.left" [style.width]="act.width">
+                  <span [class]="'text-[8px] font-bold truncate ' + (act.type === 'solid' ? 'text-white' : (act.type === 'primary' ? 'text-primary' : 'text-amber-700'))">{{ act.label }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="col-span-2 text-right">
+            <span [class]="'text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider ' + worker.statusClass">{{ worker.status }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform duration-200 z-50 group">
+  <span class="material-symbols-outlined text-2xl">add</span>
+  <span class="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">Add Labor Entry</span>
+</button>

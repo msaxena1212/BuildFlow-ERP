@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Project Wizard | BuildFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f4f6",
+              "on-primary-fixed": "#00174b",
+              "error-container": "#ffdad6",
+              "on-tertiary": "#ffffff",
+              "outline": "#737686",
+              "on-secondary-container": "#684000",
+              "tertiary-fixed-dim": "#ffb596",
+              "on-tertiary-fixed": "#360f00",
+              "secondary-fixed-dim": "#ffb95f",
+              "secondary-fixed": "#ffddb8",
+              "on-error": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-surface": "#191c1e",
+              "surface": "#f7f9fb",
+              "surface-dim": "#d8dadc",
+              "primary-fixed-dim": "#b4c5ff",
+              "tertiary-fixed": "#ffdbcd",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "tertiary-container": "#bc4800",
+              "primary": "#004ac6",
+              "surface-tint": "#0053db",
+              "secondary": "#855300",
+              "on-background": "#191c1e",
+              "on-secondary-fixed": "#2a1700",
+              "primary-container": "#2563eb",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c3c6d7",
+              "inverse-primary": "#b4c5ff",
+              "on-surface-variant": "#434655",
+              "inverse-surface": "#2d3133",
+              "surface-variant": "#e0e3e5",
+              "on-primary-container": "#eeefff",
+              "on-secondary-fixed-variant": "#653e00",
+              "on-secondary": "#ffffff",
+              "background": "#f7f9fb",
+              "tertiary": "#943700",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "on-primary-fixed-variant": "#003ea8",
+              "secondary-container": "#fea619",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#dbe1ff",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-container": "#ffede6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-active {
+            box-shadow: 0px 12px 32px rgba(0, 74, 198, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen">
+<!-- Top Navigation (Shell Suprpressed for Wizard Focus, but keeping Brand Identity) -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl flex justify-between items-center h-16 px-8">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black tracking-tighter text-primary">BuildFlow</span>
+<div class="h-6 w-px bg-outline-variant/30"></div>
+<span class="text-sm font-medium text-on-surface-variant">New Project Wizard</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined align-middle">close</span>
+<span class="text-sm ml-1">Cancel &amp; Exit</span>
+</button>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-8 py-12">
+<div class="flex flex-col md:flex-row gap-12">
+<!-- Left Column: Architectural Progress & Context -->
+<aside class="w-full md:w-72 shrink-0">
+<div class="space-y-8">
+<div>
+<h2 class="text-3xl font-bold tracking-tight mb-2">Create Project</h2>
+<p class="text-sm text-on-surface-variant leading-relaxed">Defining the structural foundation and logistical parameters for your next milestone.</p>
+</div>
+<nav class="flex flex-col gap-1">
+<!-- Step 1: Active -->
+<div class="flex items-center gap-4 py-3 px-4 bg-surface-container-lowest rounded-xl border-l-4 border-primary step-active">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-xs font-bold">01</span>
+<div>
+<p class="text-sm font-bold text-on-surface">General Info</p>
+<p class="text-[10px] uppercase tracking-wider text-primary font-bold">In Progress</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex items-center gap-4 py-3 px-4 grayscale opacity-50">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-high text-on-surface text-xs font-bold">02</span>
+<div>
+<p class="text-sm font-medium text-on-surface">Team &amp; Roles</p>
+<p class="text-[10px] uppercase tracking-wider text-outline">Upcoming</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex items-center gap-4 py-3 px-4 grayscale opacity-50">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-high text-on-surface text-xs font-bold">03</span>
+<div>
+<p class="text-sm font-medium text-on-surface">Budget &amp; Schedule</p>
+<p class="text-[10px] uppercase tracking-wider text-outline">Upcoming</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex items-center gap-4 py-3 px-4 grayscale opacity-50">
+<span class="flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-high text-on-surface text-xs font-bold">04</span>
+<div>
+<p class="text-sm font-medium text-on-surface">Documentation</p>
+<p class="text-[10px] uppercase tracking-wider text-outline">Upcoming</p>
+</div>
+</div>
+</nav>
+<div class="p-6 bg-secondary-container/10 rounded-xl">
+<span class="material-symbols-outlined text-secondary mb-2" data-icon="lightbulb">lightbulb</span>
+<p class="text-xs font-medium text-on-secondary-container leading-relaxed">
+                            Pro-tip: You can import existing project templates from your Dashboard to speed up this setup.
+                        </p>
+</div>
+</div>
+</aside>
+<!-- Right Column: Form Canvas -->
+<section class="flex-1 space-y-8">
+<div class="bg-surface-container-lowest rounded-xl p-10 shadow-[0px_12px_32px_rgba(15,23,42,0.04)]">
+<!-- Form Header -->
+<div class="mb-10">
+<h3 class="text-xl font-bold text-on-surface mb-1">General Project Information</h3>
+<p class="text-sm text-on-surface-variant">Establish the identity and physical location of the project site.</p>
+</div>
+<!-- Form Content -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="col-span-full">
+<label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Project Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" placeholder="e.g., Sky-Rise Residences Phase II" type="text" value="BuildFlow HQ Modernization"/>
+</div>
+<div class="space-y-2">
+<label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Project Type</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none appearance-none cursor-pointer">
+<option>Commercial Renovation</option>
+<option>Residential New Build</option>
+<option>Industrial Facility</option>
+<option>Infrastructure</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Estimated Completion</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" type="date"/>
+</div>
+</div>
+<div class="col-span-full">
+<label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Project Site Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-lg">location_on</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-4 pl-12 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" placeholder="Search address or enter coordinates" type="text"/>
+</div>
+</div>
+<!-- Team Member Selector Integration -->
+<div class="col-span-full pt-6 border-t border-outline-variant/20">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Assign Initial Team</h3>
+<p class="text-sm text-on-surface-variant">Select key stakeholders to notify immediately.</p>
+</div>
+<button class="text-primary text-xs font-bold uppercase tracking-wider hover:underline">Manage All Members</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Member Card 1 -->
+<div class="flex items-center gap-3 p-3 bg-surface border border-outline-variant/20 rounded-xl hover:border-primary/50 cursor-pointer transition-all group">
+<img alt="Sarah Jenkins" class="w-10 h-10 rounded-full object-cover" data-alt="professional headshot of a senior project manager in a bright office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADifZFnzI5-5J6bjvzpwRRz4H7HkafoCfutiB40cPuViYxDi2aOSS2CI19EYSQ5MZZc8va9hfDXtDHP2jx-SvfArNsaZ-G2kSE1gR5Elv6Lh4J8H1XNPStDmpIX9rgeNF6mY6pKq5JY6wVMBuY2kLYn_PumPlqTt9nh9aVeVVL8ftiQUOfOwK79GIRk3SSdfH_nkEzRitswvj8havlIqaiCyQ7_ZN4qfYtoZlQLeh3c9lYdtk4U-rVub4P0s4lgVKhG7q27VTGEMBi"/>
+<div class="flex-1">
+<p class="text-xs font-bold text-on-surface">Sarah Jenkins</p>
+<p class="text-[10px] text-on-surface-variant">Project Lead</p>
+</div>
+<span class="material-symbols-outlined text-primary scale-0 group-[.selected]:scale-100 transition-transform">check_circle</span>
+</div>
+<!-- Member Card 2 -->
+<div class="flex items-center gap-3 p-3 bg-primary/5 border border-primary rounded-xl cursor-pointer transition-all selected">
+<img alt="Marcus Chen" class="w-10 h-10 rounded-full object-cover" data-alt="smiling man wearing a modern business casual outfit in a minimalist workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTFxkRfStB-dKClUhLwe29S3vdKVYbtIT2NbLt3Mdh9Uk4MZORXBdHRNFsXLpVaiu4rJoD9mD-akO3Ix6DbZuLub2TXm0tfzXEefAInKXfncAd_mq99BSWJZE9nAj-bVCnv0lsueKGwasIF-zHtsHHm2uulR3oyqegZ8gqYvV9ENmTsOC2IP34E_sTlUYIOHWe1USn8AbdCrGrWuvTsQX3xLm9bDwtumBj-VfHx8xbxgArPhJkHqAZPAAhtXVxGYpoF4_w6CqvtiGv"/>
+<div class="flex-1">
+<p class="text-xs font-bold text-on-surface">Marcus Chen</p>
+<p class="text-[10px] text-on-surface-variant">Site Supervisor</p>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Add Button -->
+<button class="flex items-center justify-center gap-2 p-3 bg-surface-container-low border border-dashed border-outline-variant rounded-xl hover:bg-surface-container-high transition-all text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">add</span>
+<span class="text-xs font-bold">Invite New</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex justify-end items-center gap-4 mt-12 pt-8 border-t border-outline-variant/20">
+<button class="px-6 py-3 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low transition-colors">Save as Draft</button>
+<button class="flex items-center gap-2 px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                            Next: Team &amp; Roles
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Secondary Context / Bento Preview -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-low rounded-xl p-6">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h4 class="text-sm font-bold uppercase tracking-widest text-on-surface">Resource Forecast</h4>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden mb-2">
+<div class="h-full bg-primary rounded-full w-[45%]"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Initial resource allocation based on project type and scope.</p>
+</div>
+<div class="bg-surface-container-low rounded-xl p-6 flex items-center justify-between">
+<div>
+<h4 class="text-sm font-bold uppercase tracking-widest text-on-surface mb-1">Auto-Sync Maps</h4>
+<p class="text-[11px] text-on-surface-variant">Topographic data linked.</p>
+</div>
+<div class="w-12 h-12 rounded-lg bg-surface flex items-center justify-center ring-1 ring-outline-variant/20">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">map</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer Identity -->
+<footer class="mt-auto border-t border-outline-variant/10 py-10">
+<div class="max-w-6xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="text-lg font-black tracking-tighter text-on-surface/40">BuildFlow</span>
+<span class="text-[10px] uppercase tracking-[0.2em] font-bold text-outline">v4.2 Precision</span>
+</div>
+<div class="flex gap-8">
+<a class="text-xs font-medium text-outline hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="text-xs font-medium text-outline hover:text-primary transition-colors" href="#">Support Portal</a>
+<a class="text-xs font-medium text-outline hover:text-primary transition-colors" href="#">Security Standards</a>
+</div>
+</div>
+</footer>
+</body></html>

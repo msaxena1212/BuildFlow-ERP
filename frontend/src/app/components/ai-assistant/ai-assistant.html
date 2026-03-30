@@ -1,0 +1,116 @@
+<aside [class.translate-x-full]="!isOpen" class="fixed right-6 top-24 bottom-6 w-[400px] bg-white/75 backdrop-blur-xl rounded-2xl shadow-2xl flex flex-col border border-white/40 z-50 overflow-hidden transition-transform duration-300 ease-in-out">
+  <!-- Header -->
+  <div class="p-6 border-b border-slate-200/20 flex items-center justify-between bg-gradient-to-r from-primary/5 to-transparent">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+        <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">bolt</span>
+      </div>
+      <div>
+        <h4 class="font-bold text-slate-900">BuildFlow AI</h4>
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Real-time Analysis</span>
+        </div>
+      </div>
+    </div>
+    <button (click)="toggleAssistant()" class="text-slate-400 hover:text-slate-900 transition-colors">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <!-- Scrollable Content -->
+  <div class="flex-1 overflow-y-auto p-6 space-y-6">
+    <!-- Insight Cards -->
+    <div class="space-y-4">
+      <p class="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 px-1">Smart Insights</p>
+      
+      <!-- Predictive Delay Alert -->
+      <div class="p-4 rounded-xl bg-red-50 border border-red-100 space-y-3">
+        <div class="flex items-center gap-2 text-red-600">
+          <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+          <span class="text-xs font-bold uppercase">Predictive Delay Alert</span>
+        </div>
+        <p class="text-sm text-slate-600 leading-relaxed">Incoming storm front on Oct 26 likely to delay <span class="font-bold text-slate-900">Exterior Finishing</span> by 48 hours.</p>
+        <button class="w-full py-2 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-700 transition-all">Reschedule Material Delivery</button>
+      </div>
+
+      <!-- Cost Optimization Tip -->
+      <div class="p-4 rounded-xl bg-amber-50 border border-amber-100 space-y-2">
+        <div class="flex items-center gap-2 text-amber-700">
+          <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+          <span class="text-xs font-bold uppercase">Cost Optimization Tip</span>
+        </div>
+        <p class="text-sm text-slate-600">Switching to <span class="font-bold text-slate-900">Vendor B</span> for bulk cement could save $4,200 this quarter.</p>
+      </div>
+    </div>
+
+    <!-- Conversational Thread -->
+    <div class="space-y-4">
+      <p class="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 px-1">Chat Assistant</p>
+      
+      <div #chatScroll class="space-y-4 max-h-64 overflow-y-auto pr-2 scrollbar-hide">
+        @for (msg of messages; track msg) {
+          @if (msg.role === 'ai') {
+            <!-- AI Message -->
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-primary text-sm">smart_toy</span>
+              </div>
+              <div class="space-y-3 flex-1">
+                <div class="p-4 rounded-2xl rounded-tl-none bg-slate-50 shadow-sm text-sm text-slate-900 leading-relaxed border border-slate-100">
+                  {{ msg.text }}
+                </div>
+              </div>
+            </div>
+          } @else {
+            <!-- User Message -->
+            <div class="flex gap-3 flex-row-reverse">
+              <div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden shrink-0">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsIGXLMEzyzLlUBhma9PnOpz8xztrKRFCVzDB01iyOKOnUGV3S3jd0PAZ7uQNWrpf1n6iK_dkjzISrvBmbVg-tQDEJE3xHUaLj7K42EDWfHGKuT_GNOZ5WJWED_XjrVLmqbzODGX4tskpCoo7kSUru3XSMdyBCUFhze2E9lSKmPs49fBaGLaVqCh8P9wZGGcU_y929k-q8KnmBNijrmxAZVSTC7MhFxWKSFjJGIbiYCVTCYwub5Iwp-oks5mxwF1jhQKeRx_JPcESH" alt="User" class="w-full h-full object-cover">
+              </div>
+              <div class="p-4 rounded-2xl rounded-tr-none bg-primary text-white text-sm leading-relaxed shadow-lg shadow-primary/10">
+                {{ msg.text }}
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 gap-2">
+      <button class="flex items-center gap-3 p-3 bg-white hover:bg-slate-50 transition-colors rounded-xl border border-slate-100 text-left group">
+        <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">description</span>
+        <span class="text-xs font-bold text-slate-900">Auto-generate Daily Report</span>
+      </button>
+      <button class="flex items-center gap-3 p-3 bg-white hover:bg-slate-50 transition-colors rounded-xl border border-slate-100 text-left group">
+        <span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">account_balance_wallet</span>
+        <span class="text-xs font-bold text-slate-900">Export Budget Variances</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer / Input Area -->
+  <div class="p-4 bg-white/50 border-t border-slate-200/20">
+    <div class="relative flex items-center">
+      <input [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" class="w-full bg-white border border-slate-200/30 rounded-xl py-4 pl-4 pr-12 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all outline-none" placeholder="Ask BuildFlow anything..." type="text">
+      <button (click)="sendMessage()" class="absolute right-3 w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center hover:shadow-lg hover:shadow-primary/20 transition-all cursor-pointer">
+        <span class="material-symbols-outlined text-sm">arrow_upward</span>
+      </button>
+    </div>
+    <p class="text-center text-[9px] text-slate-400 mt-3 font-medium uppercase tracking-widest">Enhanced by GPT-4</p>
+  </div>
+</aside>
+
+<!-- Floating Toggle Button when closed -->
+@if (!isOpen) {
+  <button (click)="toggleAssistant()" class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl hover:scale-110 transition-all flex items-center justify-center z-50 cursor-pointer">
+    <span class="material-symbols-outlined">bolt</span>
+  </button>
+}
+
+<!-- Floating Action Button (Voice Command) -->
+<button (click)="startVoiceCommand()" [class]="isListening ? 'animate-pulse bg-red-500 scale-105 shadow-red-500/50' : 'bg-primary shadow-primary/20'" class="fixed bottom-8 left-72 text-white p-4 rounded-full shadow-2xl hover:scale-105 transition-all flex items-center gap-2 z-40 cursor-pointer">
+  <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+  <span class="text-sm font-bold pr-2">{{ isListening ? 'Listening...' : 'Voice Command' }}</span>
+</button>
