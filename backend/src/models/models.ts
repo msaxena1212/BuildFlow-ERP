@@ -44,3 +44,60 @@ export interface SiteUpdate {
   author: string;
   type: 'Safety' | 'Material' | 'Progress' | 'Archive';
 }
+
+export interface Material {
+  name: string;
+  sku: string;
+  category: string;
+  icon: string;
+  bg: string;
+  text: string;
+  border?: string;
+  stock: {
+    current: number;
+    total: number;
+    percent: number;
+  };
+  cost: string;
+  supplier: string;
+  status: 'Optimal' | 'Adequate' | 'Critical';
+}
+
+export interface Vendor {
+  id: number | string;
+  name: string;
+  type: string;
+  email: string;
+  phone: string;
+  spoc: {
+    name: string;
+    role: string;
+    phone: string;
+    email: string;
+  };
+  kyc: {
+    gst: string;
+    pan: string;
+  };
+  address: {
+    street: string;
+    city: string;
+    pincode: string;
+  };
+  projects: string[];
+  balance: string;
+  budget: string;
+  status: 'Paid' | 'Pending' | 'Due' | 'Approved' | 'Onboarding';
+  statusColor: string;
+  icon: string;
+  assignee: string;
+  services: string[];
+  contract?: {
+    uploaded: boolean;
+    fileName?: string;
+    expiryDate?: string;
+  };
+  tasks: { title: string; status: string; date: string }[];
+  audits: { date: string; score: number; notes: string }[];
+  invoices: { number: string; amount: string; status: string; date: string }[];
+}

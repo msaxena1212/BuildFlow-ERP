@@ -22,4 +22,8 @@ export class ProjectService {
   getUpdates(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/updates`);
   }
+
+  getTasks(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/tasks`);
+  }
 }

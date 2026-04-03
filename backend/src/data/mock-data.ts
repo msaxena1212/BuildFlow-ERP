@@ -1,4 +1,4 @@
-import { Project, Task, SiteUpdate } from '../models/models';
+import { Project, Task, SiteUpdate, Material, Vendor } from '../models/models';
 
 export const projects: Project[] = [
   {
@@ -63,5 +63,50 @@ export const updates: SiteUpdate[] = [
     description: 'Concrete batch delayed by 4 hours for Harbor Bridge site.',
     author: 'Logistics',
     type: 'Material'
+  }
+];
+
+export const materials: Material[] = [
+  { name: 'Concrete Mix Grade-A', sku: 'CON-442-B', category: 'Concrete', icon: 'texture', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 420, total: 500, percent: 84 }, cost: '₹14.50', supplier: 'Titan Aggregates Ltd.', status: 'Optimal' },
+  { name: 'Rebar Steel 12mm', sku: 'STL-12-REB', category: 'Steel', icon: 'grid_4x4', bg: 'bg-amber-50', text: 'text-secondary-container', border: 'border-amber-100', stock: { current: 45, total: 300, percent: 15 }, cost: '₹228.00', supplier: 'Foundry Steel Corp.', status: 'Critical' },
+  { name: 'Copper Wiring 2.5mm', sku: 'ELEC-WR-25', category: 'Electrical', icon: 'bolt', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 1200, total: 2000, percent: 60 }, cost: '₹1.20', supplier: 'VoltStream Supplies', status: 'Adequate' },
+  { name: 'Ceramic Floor Tiles', sku: 'FIN-CER-60', category: 'Finishing', icon: 'square', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 850, total: 1000, percent: 85 }, cost: '₹45.00', supplier: 'Modern Surfaces Int.', status: 'Optimal' },
+  { name: 'Waterproof Sealant', sku: 'CHM-SEA-L', category: 'Chemicals', icon: 'water_drop', bg: 'bg-red-50', border: 'border-red-100', text: 'text-error', stock: { current: 12, total: 250, percent: 4.8 }, cost: '₹82.00', supplier: 'BuildSafe Chemicals', status: 'Critical' },
+  { name: 'Structural Lumber 2x4', sku: 'LUM-24-12', category: 'Lumber', icon: 'forest', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 150, total: 800, percent: 18.75 }, cost: '₹412.00', supplier: 'Westside Timber Co.', status: 'Critical' }
+];
+
+export const tasks: Task[] = [
+  { id: 't1', projectId: 'p1', title: 'Foundation Pour', description: 'Complete the main foundation pour for the North Wing.', status: 'Completed', priority: 'High', deadline: '2024-05-12' },
+  { id: 't2', projectId: 'p1', title: 'Steel Reinforcement', description: 'Install rebar for level 1-4 columns.', status: 'In Progress', priority: 'Critical', deadline: '2024-06-01' },
+  { id: 't3', projectId: 'p2', title: 'Scaffolding Safety Audit', description: 'Inspect all suspended scaffolds on the West Pier.', status: 'Pending', priority: 'Medium', deadline: '2024-06-15' }
+];
+
+export const vendors: Vendor[] = [
+  { 
+    id: 1, name: 'VoltStream Electrical', type: 'Subcontractor', email: 'contact@voltstream.com', phone: '+1 (555) 012-3456',
+    spoc: { name: 'Kevin Drake', role: 'Ops Lead', phone: '+1 555-1029', email: 'k.drake@voltstream.com' },
+    kyc: { gst: '22AAAAA0000A1Z5', pan: 'ABCDE1234F' },
+    address: { street: '12-A Newton St', city: 'Metropolis', pincode: '560001' },
+    projects: ['Skyline Plaza', 'Harbor Heights'], balance: '₹0.00', budget: '₹5,000,000', status: 'Paid', 
+    statusColor: 'bg-green-100 text-green-700', icon: 'electric_bolt', assignee: 'Marcus Thorne',
+    services: ['Electrical Wiring', 'Substation Setup', 'HVAC Controls'],
+    tasks: [
+      { title: 'Wiring Phase 1 - 4th Floor', status: 'Completed', date: 'May 10, 2024' },
+      { title: 'External Transformer Installation', status: 'In Progress', date: 'May 20, 2024' }
+    ],
+    audits: [{ date: 'May 01, 2024', score: 98, notes: 'Excellent compliance' }],
+    invoices: [{ number: 'INV-1029', amount: '₹125,000.00', status: 'Paid', date: 'May 05, 2024' }]
+  },
+  { 
+    id: 2, name: 'SolidRock Concrete', type: 'Supplier', email: 'billing@solidrock.io', phone: '+1 (555) 987-6543',
+    spoc: { name: 'Sarah Miller', role: 'Sales Head', phone: '+1 555-9087', email: 's.miller@solidrock.io' },
+    kyc: { gst: '29BBBBB1111B2Z6', pan: 'FGHIJ5678K' },
+    address: { street: 'Industrial Area Phase 2', city: 'Metropolis', pincode: '560048' },
+    projects: ['Metro Hub'], balance: '₹24,500.00', budget: '₹2,500,000', status: 'Pending', 
+    statusColor: 'bg-secondary-container/20 text-secondary', icon: 'foundation', assignee: 'Sarah Chen',
+    services: ['Ready-mix Concrete', 'Aggregate Supply'],
+    tasks: [{ title: 'Foundation Pour - Block A', status: 'Scheduled', date: 'May 25, 2024' }],
+    audits: [{ date: 'Apr 15, 2024', score: 92, notes: 'Good turnaround time' }],
+    invoices: [{ number: 'INV-SR-9012', amount: '₹12,500.00', status: 'Pending', date: 'May 12, 2024' }]
   }
 ];
