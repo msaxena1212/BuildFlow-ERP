@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class QuickActions {
   isOpen = false;
+  projectName = 'Skyline Plaza - Phase 1'; // Global Context
 
   // Modal Visibility
   showPhotoModal = false;

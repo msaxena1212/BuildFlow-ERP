@@ -22,7 +22,15 @@ export class MaterialDetailView implements OnInit {
 
   showScheduleModal = false;
   showAdjustModal = false;
+  
+  // Batch operational modals
+  showQCModal = false;
+  showLogModal = false;
+  showDeliveryModal = false;
+  showUpdateModal = false;
+  
   activeActionMenu: string | null = null;
+  selectedBatch: any = null;
   
   newDelivery = {
     date: '',
@@ -34,8 +42,8 @@ export class MaterialDetailView implements OnInit {
   adjustStockValue = 0;
 
   deliveries = [
-    { date: 'May 12, 2024', qty: '2,500 kg', batch: '#BTC-882-A', inspector: 'M. Henderson', status: 'Approved', statusColor: 'bg-green-600', dotColor: 'bg-green-600', textStatus: 'Approved' },
-    { date: 'May 05, 2024', qty: '2,500 kg', batch: '#BTC-741-A', inspector: 'S. Petrov', status: 'Approved', statusColor: 'bg-green-600', dotColor: 'bg-green-600', textStatus: 'Approved' },
+    { date: 'May 12, 2024', qty: '2,500 kg', batch: '#BTC-882-A', inspector: 'M. Henderson', status: 'Rejected', statusColor: 'text-red-600', dotColor: 'bg-red-600', textStatus: 'Rejected' },
+    { date: 'May 05, 2024', qty: '2,500 kg', batch: '#BTC-741-A', inspector: 'S. Petrov', status: 'Approved', statusColor: 'text-green-600', dotColor: 'bg-green-600', textStatus: 'Approved' },
     { date: 'Apr 28, 2024', qty: '1,200 kg', batch: '#BTC-612-B', inspector: 'M. Henderson', status: 'Pending QC', statusColor: 'text-amber-600', dotColor: 'bg-amber-600', textStatus: 'Pending QC' }
   ];
 
@@ -48,6 +56,64 @@ export class MaterialDetailView implements OnInit {
       }
     }
   }
+
+  // --- Modals ---
+  
+  openQC(batch: any) {
+    this.selectedBatch = { ...batch };
+    this.activeActionMenu = null;
+    this.showQCModal = true;
+  }
+
+  confirmQC(status: string) {
+    if (this.selectedBatch) {
+      const idx = this.deliveries.findIndex(d => d.batch === this.selectedBatch.batch);
+      if (idx !== -1) {
+        this.deliveries[idx].status = status;
+        this.deliveries[idx].textStatus = status;
+        this.deliveries[idx].statusColor = status === 'Approved' ? 'text-green-600' : 'text-red-600';
+        this.deliveries[idx].dotColor = status === 'Approved' ? 'bg-green-600' : 'bg-red-600';
+      }
+      this.showQCModal = false;
+      this.showAlert(`QC ${status} for batch ${this.selectedBatch.batch}`);
+    }
+  }
+
+  openLogs(batch: any) {
+    this.selectedBatch = batch;
+    this.activeActionMenu = null;
+    this.showLogModal = true;
+  }
+
+  openDelivery(batch: any) {
+    this.selectedBatch = batch;
+    this.activeActionMenu = null;
+    this.showDeliveryModal = true;
+  }
+
+  openUpdate(batch: any) {
+    this.selectedBatch = { ...batch };
+    this.activeActionMenu = null;
+    this.showUpdateModal = true;
+  }
+
+  saveBatchUpdate() {
+    if (this.selectedBatch) {
+      const idx = this.deliveries.findIndex(d => d.batch === this.selectedBatch.batch);
+      if (idx !== -1) {
+        this.deliveries[idx] = { ...this.selectedBatch };
+      }
+      this.showUpdateModal = false;
+      this.showAlert('Batch details updated.');
+    }
+  }
+
+  finalConfirmDelivery() {
+    this.showDeliveryModal = false;
+    this.showAlert('Delivery confirmed and inventory synchronized.');
+  }
+
+  // --- Standard Actions ---
 
   openAdjustModal() {
     if (this.material) {

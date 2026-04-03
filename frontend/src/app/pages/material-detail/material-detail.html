@@ -180,24 +180,24 @@
                                     <!-- Contextual Action Dropdown -->
                                     @if(activeActionMenu === log.batch) {
                                         <div class="absolute right-8 top-12 z-50 bg-white dark:bg-slate-900 shadow-2xl rounded-xl border border-outline-variant/10 py-2 w-48 animate-in fade-in slide-in-from-top-2" (click)="$event.stopPropagation()">
-                                            <button (click)="updateDeliveryStatus(log.batch, 'Approved')" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-green-600 cursor-pointer">
+                                            <button (click)="openQC(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-green-600 cursor-pointer">
                                                 <span class="material-symbols-outlined text-sm">verified_user</span>
                                                 Perform QC Pass
                                             </button>
-                                            <button (click)="updateDeliveryStatus(log.batch, 'Rejected')" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-error cursor-pointer">
+                                            <button (click)="openQC(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-error cursor-pointer">
                                                 <span class="material-symbols-outlined text-sm">report</span>
                                                 Log QC Failure
                                             </button>
                                             <div class="h-[1px] bg-slate-100 my-1 mx-2"></div>
-                                            <button (click)="activeActionMenu = null; viewLogs(log.batch)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-on-surface cursor-pointer">
+                                            <button (click)="openLogs(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-on-surface cursor-pointer">
                                                 <span class="material-symbols-outlined text-sm">description</span>
                                                 Full View Logs
                                             </button>
-                                            <button (click)="activeActionMenu = null; showAlert('Redirecting to Confirm Delivery Form...')" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-primary cursor-pointer">
+                                            <button (click)="openDelivery(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-primary cursor-pointer">
                                                 <span class="material-symbols-outlined text-sm">fact_check</span>
                                                 Confirm Delivery
                                             </button>
-                                            <button (click)="activeActionMenu = null; showAlert('Updating Batch Metadata...')" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-outline cursor-pointer">
+                                            <button (click)="openUpdate(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-outline cursor-pointer">
                                                 <span class="material-symbols-outlined text-sm">edit</span>
                                                 Update Entry
                                             </button>
@@ -208,6 +208,169 @@
                         }
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL OVERLAYS (Batch Specific) -->
+
+<!-- 1. QC Decision Modal -->
+@if (showQCModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showQCModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight text-on-surface">Material QC Decision</h3>
+                    <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1">Batch: {{ selectedBatch.batch }}</p>
+                </div>
+                <button (click)="showQCModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <div class="p-4 bg-slate-50 rounded-2xl flex flex-col gap-2">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-outline">Checklist Highlights</p>
+                    <div class="flex items-center gap-3 text-xs font-bold text-on-surface">
+                        <span class="material-symbols-outlined text-green-600 text-sm">check_circle</span>
+                        Packaging Integrity Verified
+                    </div>
+                    <div class="flex items-center gap-3 text-xs font-bold text-on-surface">
+                        <span class="material-symbols-outlined text-green-600 text-sm">check_circle</span>
+                        Quantity Match ({{ selectedBatch.qty }})
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <button (click)="confirmQC('Rejected')" class="flex-1 py-4 rounded-2xl bg-red-50 text-red-700 font-black uppercase tracking-widest border border-red-100 hover:bg-red-100 transition-colors cursor-pointer">Log Failure</button>
+                    <button (click)="confirmQC('Approved')" class="flex-1 py-4 rounded-2xl bg-green-600 text-white font-black uppercase tracking-widest shadow-lg shadow-green-200 hover:scale-[1.02] transition-transform cursor-pointer">Pass QC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- 2. Logistics Journey Logs Modal -->
+@if (showLogModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showLogModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl w-full max-w-lg p-10" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-10">
+                <h3 class="text-3xl font-black tracking-tight">Logistics Timeline</h3>
+                <button (click)="showLogModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-0 relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-4 top-2 bottom-2 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
+
+                <div class="relative pl-12 pb-10">
+                    <div class="absolute left-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center border-4 border-white dark:border-slate-900">
+                        <span class="material-symbols-outlined text-xs text-green-700 font-black">check</span>
+                    </div>
+                    <p class="text-xs font-black uppercase tracking-widest text-outline">May 10, 09:42 AM</p>
+                    <p class="font-bold text-on-surface">Material Dispatched</p>
+                    <p class="text-xs text-outline">Vendor Facility Outbound - Hyderabad Hub</p>
+                </div>
+
+                <div class="relative pl-12 pb-10">
+                    <div class="absolute left-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center border-4 border-white dark:border-slate-900">
+                        <span class="material-symbols-outlined text-xs text-blue-700 font-black">local_shipping</span>
+                    </div>
+                    <p class="text-xs font-black uppercase tracking-widest text-outline">May 11, 04:15 PM</p>
+                    <p class="font-bold text-on-surface">In Transit</p>
+                    <p class="text-xs text-outline">Courier Partner: BlueDart Logistics</p>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center border-4 border-white dark:border-slate-900">
+                        <span class="material-symbols-outlined text-xs text-amber-700 font-black">login</span>
+                    </div>
+                    <p class="text-xs font-black uppercase tracking-widest text-outline">{{ selectedBatch.date }}</p>
+                    <p class="font-bold text-on-surface">Arrived at Site</p>
+                    <p class="text-xs text-outline">Gate Entry Recorded - Inspector: {{ selectedBatch.inspector }}</p>
+                </div>
+            </div>
+
+            <button (click)="showLogModal = false" class="w-full mt-10 py-4 rounded-2xl bg-on-surface text-white font-black uppercase tracking-widest cursor-pointer">Close Tracking</button>
+        </div>
+    </div>
+}
+
+<!-- 3. Confirm Delivery Modal -->
+@if (showDeliveryModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showDeliveryModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black tracking-tight">Final Confirmation</h3>
+                <button (click)="showDeliveryModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <div class="p-4 bg-primary/5 rounded-2xl border border-primary/10">
+                    <p class="text-xs text-primary font-bold">You are confirming the physical receipt of {{ selectedBatch.qty }} for Batch {{ selectedBatch.batch }}.</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Receiver Name</label>
+                        <input type="text" value="James Wilson" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 bg-slate-50 text-sm font-bold outline-none cursor-not-allowed">
+                    </div>
+                    <div class="border-2 border-dashed border-outline-variant/20 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 hover:bg-slate-50 cursor-pointer">
+                        <span class="material-symbols-outlined text-primary text-3xl">signature</span>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-outline">Digital Signature Required</p>
+                    </div>
+                </div>
+
+                <button (click)="finalConfirmDelivery()" class="w-full py-4 rounded-2xl bg-primary text-white font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform cursor-pointer">Confirm Receipt</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- 4. Update Batch Metadata Modal -->
+@if (showUpdateModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showUpdateModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-black tracking-tight">Edit Batch Entry</h3>
+                <button (click)="showUpdateModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Batch Identity</label>
+                    <input [(ngModel)]="selectedBatch.batch" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Arrived Qty</label>
+                        <input [(ngModel)]="selectedBatch.qty" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Arrival Date</label>
+                        <input [(ngModel)]="selectedBatch.date" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Assigned Inspector</label>
+                    <input [(ngModel)]="selectedBatch.inspector" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-10">
+                <button (click)="showUpdateModal = false" class="flex-1 py-3.5 rounded-2xl border border-outline-variant/20 text-sm font-black uppercase tracking-widest cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="saveBatchUpdate()" class="flex-1 py-3.5 rounded-2xl bg-primary text-white text-sm font-black uppercase tracking-widest cursor-pointer shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">Save Changes</button>
+            </div>
+        </div>
+    </div>
+}
             </div>
         </div>
     </div>
