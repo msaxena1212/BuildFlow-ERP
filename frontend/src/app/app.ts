@@ -17,6 +17,6 @@ export class AppComponent implements OnInit {
   title = 'frontend';
 
   ngOnInit() {
-    console.log('BuildFlow Site Initialization Complete.');
+    console.log('ZYNO Site Initialization Complete.');
   }
 }

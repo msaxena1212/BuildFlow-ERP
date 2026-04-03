@@ -69,6 +69,36 @@ export class ProjectDetail implements OnInit {
     return this.updates.filter(u => u.assignee === this.selectedMember);
   }
 
+  showRFIComposer = false;
+  showDrawingUpload = false;
+  rfiForm = { to: '', cc: '', bcc: '', subject: '', content: '' };
+  uploadedDrawings: any[] = [];
+
+  openRFIComposer() {
+    this.showRFIComposer = true;
+  }
+
+  sendRFI() {
+    if (this.rfiForm.to && this.rfiForm.subject) {
+      console.log('Sending RFI...', this.rfiForm);
+      this.rfiForm = { to: '', cc: '', bcc: '', subject: '', content: '' };
+      this.showRFIComposer = false;
+    }
+  }
+
+  openDrawingUpload() {
+    this.showDrawingUpload = true;
+  }
+
+  submitDrawing() {
+    const fileName = `drawing_submission_${this.uploadedDrawings.length + 1}.pdf`;
+    this.uploadedDrawings.push({
+      name: fileName,
+      date: new Date().toLocaleDateString()
+    });
+    this.showDrawingUpload = false;
+  }
+
   fetchProjectDetails(id: string) {
     this.projectService.getProjectById(id).pipe(
       catchError(() => of(this.getMockProject(id)))

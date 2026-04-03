@@ -21,8 +21,8 @@
         />
       </div>
 
-      <!-- Priority & Status -->
-      <div class="grid grid-cols-2 gap-4">
+      <!-- Priority, Status & Assignee -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="space-y-2">
           <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Priority</label>
           <select [(ngModel)]="task.priority" class="w-full bg-surface-container-low border-none rounded-lg p-3 text-xs ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none cursor-pointer">
@@ -30,11 +30,18 @@
           </select>
         </div>
         <div class="space-y-2">
+          <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Assignee</label>
+          <select (change)="onAssigneeSelect($event)" class="w-full bg-surface-container-low border-none rounded-lg p-3 text-xs flex items-center gap-2 ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none cursor-pointer">
+            <option value="" disabled selected>Select Assignee</option>
+            <option *ngFor="let member of teamMembers" [value]="member.name">{{ member.name }}</option>
+          </select>
+        </div>
+        <div class="space-y-2">
           <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Initial Status</label>
           <input 
             [(ngModel)]="task.status" 
             readonly 
-            class="w-full bg-surface-container-high border-none rounded-lg p-3 text-xs text-outline font-bold outline-none"
+            class="w-full bg-surface-container-high border-none rounded-lg p-3 text-xs text-outline font-bold outline-none cursor-not-allowed"
           />
         </div>
       </div>

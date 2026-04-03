@@ -99,7 +99,7 @@
               <div class="hidden md:block w-px h-8 bg-surface-container-high"></div>
               <div class="flex flex-col">
                 <span class="text-xs text-outline uppercase font-bold tracking-widest">Budget Used</span>
-                <span class="text-on-surface font-semibold">${{ (project.budget.used / 1000000).toFixed(1) }}M / ${{ (project.budget.total / 1000000).toFixed(1) }}M</span>
+                <span class="text-on-surface font-semibold">₹{{ (project.budget.used / 1000000).toFixed(1) }}M / ₹{{ (project.budget.total / 1000000).toFixed(1) }}M</span>
               </div>
             </div>
             
@@ -116,14 +116,14 @@
       <div>
         <h3 class="text-xl font-bold mb-4 tracking-tight">Active Command</h3>
         <div class="space-y-3">
-          <button class="w-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors p-4 rounded-xl flex items-center gap-4 text-left">
+          <button (click)="openRFIComposer()" class="w-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors p-4 rounded-xl flex items-center gap-4 text-left cursor-pointer">
             <span class="material-symbols-outlined">description</span>
             <div>
               <p class="font-bold text-sm leading-none">RFI Request</p>
               <p class="text-white/60 text-xs mt-1">Request info from client</p>
             </div>
           </button>
-          <button class="w-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors p-4 rounded-xl flex items-center gap-4 text-left">
+          <button (click)="openDrawingUpload()" class="w-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors p-4 rounded-xl flex items-center gap-4 text-left cursor-pointer">
             <span class="material-symbols-outlined">upload_file</span>
             <div>
               <p class="font-bold text-sm leading-none">Submit Drawing</p>
@@ -213,7 +213,7 @@
 } @else if (activeTab === 'Budget') {
   <app-project-budget></app-project-budget>
 } @else if (activeTab === 'Gallery') {
-  <app-site-gallery [projectId]="project.id"></app-site-gallery>
+  <app-site-gallery [projectId]="project.id" [newlyUploaded]="uploadedDrawings"></app-site-gallery>
 } @else if (activeTab === 'Files') {
   <app-project-files></app-project-files>
 } @else if (activeTab === 'Updates') {
@@ -269,4 +269,70 @@
         <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         <p class="mt-4 text-on-surface-variant font-bold tracking-widest text-sm uppercase">Loading Blueprint...</p>
     </div>
+}
+
+<!-- RFI Composer Mock Window (Bottom Right) -->
+@if (showRFIComposer) {
+  <div class="fixed bottom-4 right-4 z-[100] w-[450px] bg-white dark:bg-slate-900 rounded-t-2xl rounded-b-xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden animate-in slide-in-from-bottom-8 duration-300">
+    <div class="bg-slate-900 dark:bg-slate-950 text-white px-4 py-3 flex justify-between items-center">
+      <h4 class="text-sm font-bold tracking-widest uppercase flex items-center gap-2">
+        <span class="material-symbols-outlined text-[16px]">mail</span> Request Form Info
+      </h4>
+      <button (click)="showRFIComposer = false" class="text-slate-400 hover:text-white cursor-pointer">
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+    </div>
+    <div class="p-4 space-y-3 bg-slate-50 dark:bg-slate-800/20">
+      <div class="flex items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+        <span class="text-xs font-bold text-slate-400 w-12">To:</span>
+        <input type="text" [(ngModel)]="rfiForm.to" class="flex-1 bg-transparent border-none outline-none text-sm text-slate-900 dark:text-slate-50">
+      </div>
+      <div class="flex items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+        <span class="text-xs font-bold text-slate-400 w-12">Cc:</span>
+        <input type="text" [(ngModel)]="rfiForm.cc" class="flex-1 bg-transparent border-none outline-none text-sm text-slate-900 dark:text-slate-50">
+      </div>
+      <div class="flex items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+        <span class="text-xs font-bold text-slate-400 w-12">Bcc:</span>
+        <input type="text" [(ngModel)]="rfiForm.bcc" class="flex-1 bg-transparent border-none outline-none text-sm text-slate-900 dark:text-slate-50">
+      </div>
+      <div class="flex items-center border-b border-slate-200 dark:border-slate-800 pb-2">
+        <span class="text-xs font-bold text-slate-400 w-12">Subject:</span>
+        <input type="text" [(ngModel)]="rfiForm.subject" placeholder="RFI Project Inquiry" class="flex-1 bg-transparent border-none outline-none font-bold text-sm text-slate-900 dark:text-slate-50">
+      </div>
+    </div>
+    <div class="flex-1 p-4 bg-white dark:bg-slate-900">
+      <textarea [(ngModel)]="rfiForm.content" placeholder="Type your request here..." class="w-full h-32 bg-transparent border-none outline-none text-sm text-slate-700 dark:text-slate-300 resize-none"></textarea>
+    </div>
+    <div class="p-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
+      <button class="text-slate-400 hover:text-blue-500 cursor-pointer">
+        <span class="material-symbols-outlined text-[20px]">attach_file</span>
+      </button>
+      <button (click)="sendRFI()" [disabled]="!rfiForm.to || !rfiForm.subject" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow-md hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer flex items-center gap-2">
+        <span class="material-symbols-outlined text-[16px]">send</span> Send
+      </button>
+    </div>
+  </div>
+}
+
+<!-- Submit Drawing Upload Modal (Center) -->
+@if (showDrawingUpload) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm" (click)="showDrawingUpload = false">
+    <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl p-8 transform animate-in zoom-in-95 duration-200" (click)="$event.stopPropagation()">
+      <h3 class="text-xl font-bold text-slate-900 dark:text-slate-50 mb-2">Submit Project Drawing</h3>
+      <p class="text-xs text-slate-500 mb-6">Upload CAD, PDF, or image files. They will be added to the project gallery.</p>
+      
+      <div class="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-50 transition-colors mb-6">
+        <span class="material-symbols-outlined text-[32px] text-blue-500 mb-2">cloud_upload</span>
+        <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Click to Select Files</p>
+        <p class="text-[10px] text-slate-400 mt-1">DXF, DWG, PDF up to 100MB</p>
+      </div>
+
+      <div class="flex items-center justify-end gap-3">
+        <button (click)="showDrawingUpload = false" class="px-4 py-2 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-xl">Cancel</button>
+        <button (click)="submitDrawing()" class="px-6 py-2 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-700 shadow-md flex items-center gap-2 cursor-pointer">
+           <span class="material-symbols-outlined text-sm">cloud_upload</span> Upload
+        </button>
+      </div>
+    </div>
+  </div>
 }

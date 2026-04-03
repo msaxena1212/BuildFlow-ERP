@@ -128,11 +128,27 @@
                                 </div>
                                 <span class="material-symbols-outlined text-primary">check_circle</span>
                             </div>
-                            <button class="flex items-center justify-center gap-3 p-4 bg-surface-container-low border border-dashed border-outline-variant rounded-2xl hover:bg-surface-container-high transition-all text-on-surface-variant cursor-pointer group">
-                                <span class="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform">add</span>
-                                <span class="text-xs font-bold uppercase tracking-wider">Assign More</span>
-                            </button>
+                            <div class="relative">
+                                <button (click)="showAssignDropdown = !showAssignDropdown" class="w-full flex items-center justify-center gap-3 p-4 bg-surface-container-low border border-dashed border-outline-variant rounded-2xl hover:bg-surface-container-high transition-all text-on-surface-variant cursor-pointer group">
+                                    <span class="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform">add</span>
+                                    <span class="text-xs font-bold uppercase tracking-wider">Assign More</span>
+                                </button>
+                                @if (showAssignDropdown) {
+                                  <div class="absolute top-full left-0 mt-2 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl z-50 overflow-hidden">
+                                    @for (member of availableMembers; track member.name) {
+                                      <div (click)="addMember(member)" class="flex items-center gap-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+                                        <img [src]="member.avatar" class="w-8 h-8 rounded-full">
+                                        <div class="flex-1">
+                                          <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ member.name }}</p>
+                                          <p class="text-[10px] text-slate-500 uppercase tracking-widest">{{ member.role }}</p>
+                                        </div>
+                                      </div>
+                                    }
+                                  </div>
+                                }
+                            </div>
                         </div>
+
                         <div class="p-6 bg-primary/5 rounded-2xl border border-primary/10">
                             <h4 class="text-sm font-bold text-primary mb-2 flex items-center gap-2">
                                 <span class="material-symbols-outlined text-[18px]">verified_user</span>
@@ -153,7 +169,7 @@
                         <div class="space-y-2">
                             <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Total Project Budget</label>
                             <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">£</span>
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold">₹</span>
                                 <input class="w-full bg-surface-container-low border-none rounded-lg p-4 pl-8 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" placeholder="0.00" type="number"/>
                             </div>
                         </div>
@@ -163,21 +179,22 @@
                         </div>
                         <div class="col-span-full pt-4">
                             <h4 class="text-xs font-bold uppercase tracking-widest text-outline mb-4">Initial Milestones</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
-                                    <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-outline">panorama_fish_eye</span>
-                                        <span class="text-sm font-bold">Site Preparation & Foundations</span>
+                            <div class="space-y-3 mb-4">
+                                @for (ms of projectForm.milestones; track ms.name) {
+                                    <div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
+                                        <div class="flex items-center gap-3">
+                                            <span class="material-symbols-outlined text-outline">panorama_fish_eye</span>
+                                            <span class="text-sm font-bold">{{ ms.name }}</span>
+                                        </div>
+                                        <span [class]="'text-' + ms.color + ' bg-' + ms.color + '/10'" class="text-[10px] font-bold px-2 py-1 rounded">{{ ms.phase }}</span>
                                     </div>
-                                    <span class="text-[10px] font-bold text-primary px-2 py-1 bg-primary/10 rounded">Phase 1</span>
-                                </div>
-                                <div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl">
-                                    <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-outline">panorama_fish_eye</span>
-                                        <span class="text-sm font-bold">Structural Framing</span>
-                                    </div>
-                                    <span class="text-[10px] font-bold text-outline px-2 py-1 bg-surface-container-high rounded">Phase 2</span>
-                                </div>
+                                }
+                            </div>
+                            <div class="flex items-center gap-3">
+                              <input type="text" [(ngModel)]="newMilestoneName" (keyup.enter)="addMilestone()" placeholder="New milestone name..." class="flex-1 bg-surface-container-low border-none rounded-lg p-3 text-sm ring-1 ring-outline-variant/20 outline-none">
+                              <button (click)="addMilestone()" class="p-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors cursor-pointer">
+                                <span class="material-symbols-outlined text-sm">add</span>
+                              </button>
                             </div>
                         </div>
                     </div>
@@ -190,14 +207,30 @@
                         <p class="text-sm text-on-surface-variant">Review all settings and initialize the project workspace.</p>
                     </div>
                     <div class="space-y-6">
-                        <div class="p-8 bg-surface border-2 border-dashed border-outline-variant/30 rounded-3xl flex flex-col items-center text-center group hover:border-primary/50 transition-all cursor-pointer">
+                        <div (click)="simulateUpload()" class="p-8 bg-surface border-2 border-dashed border-outline-variant/30 rounded-3xl flex flex-col items-center text-center group hover:border-primary/50 transition-all cursor-pointer">
                             <div class="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-outline group-hover:bg-primary-fixed group-hover:text-primary transition-all mb-4">
                                 <span class="material-symbols-outlined text-3xl">cloud_upload</span>
                             </div>
                             <h4 class="font-bold text-on-surface mb-1">Upload Project Blueprints</h4>
                             <p class="text-xs text-on-surface-variant mb-6">Drag and drop architecture plans, floor layouts, or site maps (PDF, DWG).</p>
-                            <button class="px-6 py-2 bg-surface-container-high rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-surface-container-highest transition-all">Browse Files</button>
+                            <button class="px-6 py-2 bg-surface-container-high rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-surface-container-highest transition-all pointer-events-none">Browse Files</button>
                         </div>
+                        
+                        @if (projectForm.documents.length > 0) {
+                          <div class="space-y-3">
+                            <h4 class="text-xs font-bold uppercase tracking-widest text-outline">Uploaded Documents</h4>
+                            @for (doc of projectForm.documents; track doc.name) {
+                              <div class="flex items-center justify-between p-3 bg-surface-container-low rounded-xl border border-outline-variant/20">
+                                <div class="flex items-center gap-3">
+                                  <span class="material-symbols-outlined text-primary">description</span>
+                                  <span class="text-sm font-bold text-on-surface">{{ doc.name }}</span>
+                                </div>
+                                <span class="text-[10px] text-outline font-bold uppercase">{{ doc.size }}</span>
+                              </div>
+                            }
+                          </div>
+                        }
+
                         <div class="grid grid-cols-2 gap-4">
                             <div class="p-4 bg-secondary-container/10 border border-secondary/10 rounded-2xl flex items-center gap-4">
                                 <div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">

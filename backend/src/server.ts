@@ -35,9 +35,9 @@ app.get('/api/updates', (req: Request, res: Response) => {
 });
 
 app.get('/health', (req: Request, res: Response) => {
-  res.send('BuildFlow API is running');
+  res.send('ZYNO API is running');
 });
 
 app.listen(port, () => {
-  console.log(`BuildFlow Backend listening at http://localhost:${port}`);
+  console.log(`ZYNO Backend listening at http://localhost:${port}`);
 });
