@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 export class SiteGallery implements OnInit {
   @Input() projectId: string = '';
   @Input() newlyUploaded: any[] = [];
+  @Output() uploadMedia = new EventEmitter<void>();
 
   photos = [
     { url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQ6m0Gz8C9mN_W-vJ4kZ7y5_u9r5t1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o1_l8qW-o', title: 'Foundation Pouring', date: 'Oct 12, 2023', category: 'Construction' },

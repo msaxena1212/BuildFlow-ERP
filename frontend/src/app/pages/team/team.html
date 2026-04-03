@@ -4,9 +4,9 @@
       <h1 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">Team Members</h1>
       <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">Manage your architectural and construction staff, adjust permission levels, and monitor workspace activity.</p>
     </div>
-    <button class="bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 rounded-2xl font-black shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.95] transition-all flex items-center gap-3 self-start lg:self-end text-sm">
+    <button (click)="openAddModal()" class="bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 rounded-2xl font-black shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.95] transition-all flex items-center gap-3 self-start lg:self-end text-sm cursor-pointer">
       <span class="material-symbols-outlined text-[20px]">person_add</span>
-      Invite New Member
+      Add Member
     </button>
   </header>
 
@@ -38,7 +38,7 @@
         </div>
         <div class="relative flex-1 sm:w-80 group">
           <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">search</span>
-          <input class="w-full pl-12 pr-6 py-3.5 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl focus:ring-4 focus:ring-blue-100/50 dark:focus:ring-blue-900/20 text-sm font-bold placeholder-slate-400 outline-none transition-all shadow-sm" placeholder="Search members..." type="text"/>
+          <input [(ngModel)]="searchTerm" (ngModelChange)="currentPage = 1" class="w-full pl-12 pr-6 py-3.5 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl focus:ring-4 focus:ring-blue-100/50 dark:focus:ring-blue-900/20 text-sm font-bold placeholder-slate-400 outline-none transition-all shadow-sm" placeholder="Search members..." type="text"/>
         </div>
       </div>
       <div class="flex items-center gap-3">
@@ -65,12 +65,16 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-          @for (member of filteredMembers; track member.email) {
+          @for (member of paginatedMembers; track member.email) {
             <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors group">
               <td class="px-10 py-7">
                 <div class="flex items-center gap-5">
                   <div class="relative">
-                    <img [src]="member.avatar" class="w-14 h-14 rounded-2xl object-cover ring-4 ring-white dark:ring-slate-900 shadow-md transition-transform group-hover:scale-110" />
+                    @if (member.avatar) {
+                      <img [src]="member.avatar" class="w-14 h-14 rounded-2xl object-cover ring-4 ring-white dark:ring-slate-900 shadow-md transition-transform group-hover:scale-110" />
+                    } @else {
+                      <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-black text-lg ring-4 ring-white dark:ring-slate-900 shadow-md">{{ member.name[0] }}</div>
+                    }
                     <span [class]="member.statusDot" class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-4 border-white dark:border-slate-900 shadow-sm"></span>
                   </div>
                   <div>
@@ -93,10 +97,10 @@
               </td>
               <td class="px-10 py-7 text-right">
                 <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
-                  <button class="w-10 h-10 flex items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl hover:scale-110 transition-all shadow-sm">
+                  <button (click)="openEditModal(member)" class="w-10 h-10 flex items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl hover:scale-110 transition-all shadow-sm cursor-pointer">
                     <span class="material-symbols-outlined text-lg">edit</span>
                   </button>
-                  <button class="w-10 h-10 flex items-center justify-center bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl hover:scale-110 transition-all shadow-sm">
+                  <button (click)="deleteMember(member)" class="w-10 h-10 flex items-center justify-center bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl hover:scale-110 transition-all shadow-sm cursor-pointer">
                     <span class="material-symbols-outlined text-lg">delete</span>
                   </button>
                 </div>
@@ -109,14 +113,16 @@
 
     <!-- Pagination -->
     <div class="p-8 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white/50 dark:bg-slate-900/50">
-      <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Showing <span class="text-slate-900 dark:text-slate-50">1-4</span> of <span class="text-slate-900 dark:text-slate-50">42</span> team members</p>
+      <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Showing <span class="text-slate-900 dark:text-slate-50">{{ (currentPage - 1) * pageSize + 1 }}–{{ currentPage * pageSize < searchedMembers.length ? currentPage * pageSize : searchedMembers.length }}</span> of <span class="text-slate-900 dark:text-slate-50">{{ searchedMembers.length }}</span> members</p>
       <div class="flex gap-3">
-        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-600 transition-all shadow-sm">
+        <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-600 transition-all shadow-sm disabled:opacity-40 cursor-pointer">
           <span class="material-symbols-outlined">chevron_left</span>
         </button>
-        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-blue-600 text-white font-black text-xs shadow-lg shadow-blue-500/20">1</button>
-        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-black text-xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">2</button>
-        <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-600 transition-all shadow-sm">
+        @for (pg of pageNumbers; track pg) {
+          <button (click)="goToPage(pg)" class="w-10 h-10 flex items-center justify-center rounded-xl font-black text-xs shadow-sm cursor-pointer transition-all"
+            [ngClass]="pg === currentPage ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50'">{{ pg }}</button>
+        }
+        <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-blue-600 transition-all shadow-sm disabled:opacity-40 cursor-pointer">
           <span class="material-symbols-outlined">chevron_right</span>
         </button>
       </div>
@@ -175,3 +181,51 @@
     </div>
   </div>
 </div>
+
+<!-- Add Member Modal -->
+@if (showAddModal) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm" (click)="showAddModal = false">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+      <h3 class="text-xl font-black tracking-tight mb-6">Add Team Member</h3>
+      <div class="space-y-4">
+        <input [(ngModel)]="newMember.name" type="text" placeholder="Full Name" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/30">
+        <input [(ngModel)]="newMember.email" type="email" placeholder="Email Address" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/30">
+        <select [(ngModel)]="newMember.role" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none bg-white dark:bg-slate-900">
+          @for (r of roleOptions; track r) { <option [value]="r">{{ r }}</option> }
+        </select>
+        <select [(ngModel)]="newMember.status" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none bg-white dark:bg-slate-900">
+          <option value="Active">Active</option>
+          <option value="Pending">Pending</option>
+        </select>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button (click)="showAddModal = false" class="flex-1 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold cursor-pointer hover:bg-slate-50">Cancel</button>
+        <button (click)="addMember()" class="flex-1 py-3 rounded-xl bg-primary text-white text-sm font-bold cursor-pointer shadow-md hover:shadow-lg">Add Member</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Edit Member Modal -->
+@if (showEditModal && editingMember) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm" (click)="showEditModal = false">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+      <h3 class="text-xl font-black tracking-tight mb-6">Edit Member</h3>
+      <div class="space-y-4">
+        <input [(ngModel)]="editingMember.name" type="text" placeholder="Full Name" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/30">
+        <input [(ngModel)]="editingMember.email" type="email" placeholder="Email Address" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/30 bg-slate-100 dark:bg-slate-800" readonly>
+        <select [(ngModel)]="editingMember.role" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none bg-white dark:bg-slate-900">
+          @for (r of roleOptions; track r) { <option [value]="r">{{ r }}</option> }
+        </select>
+        <select [(ngModel)]="editingMember.status" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold outline-none bg-white dark:bg-slate-900">
+          <option value="Active">Active</option>
+          <option value="Pending">Pending</option>
+        </select>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button (click)="showEditModal = false" class="flex-1 py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-sm font-bold cursor-pointer hover:bg-slate-50">Cancel</button>
+        <button (click)="saveEdit()" class="flex-1 py-3 rounded-xl bg-primary text-white text-sm font-bold cursor-pointer shadow-md hover:shadow-lg">Save Changes</button>
+      </div>
+    </div>
+  </div>
+}

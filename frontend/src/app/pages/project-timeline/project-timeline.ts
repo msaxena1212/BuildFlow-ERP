@@ -36,6 +36,8 @@ export class ProjectTimeline implements OnInit {
   showTeamView = false;
   currentMonthIndex = 0;
   months = ['October 2024', 'November 2024', 'December 2024'];
+  selectedProject = 'Skyline Plaza';
+  projects = ['All Projects', 'Skyline Plaza', 'Harbor Bridge Renovation', 'Meridian Towers', 'Westside Condos'];
   
   team = [
     { name: 'All Members', avatar: '' },

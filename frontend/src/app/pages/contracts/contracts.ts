@@ -11,12 +11,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./contracts.css']
 })
 export class ContractManagement implements OnInit {
-  team = [
-    { name: 'All Members' },
-    { name: 'Marcus Thorne' },
-    { name: 'Sarah Chen' }
-  ];
-  selectedMember = 'All Members';
+  selectedVendor = 'All Vendors';
+  vendors = ['All Vendors', 'Titan Structural Steel, LLC', 'VoltStream Electrical', 'Apex Concrete Co.'];
+
   contracts = [
     {
       id: 'c1',
@@ -25,9 +22,11 @@ export class ContractManagement implements OnInit {
       utilized: 68,
       status: 'Active',
       effectiveDate: 'Jan 12, 2024',
+      expiryDate: 'Dec 31, 2024',
       expiryDays: 34,
       location: 'Seattle, WA',
-      owner: 'Marcus Thorne'
+      owner: 'Marcus Thorne',
+      type: 'Master Service Agreement'
     },
     {
       id: 'c2',
@@ -36,15 +35,30 @@ export class ContractManagement implements OnInit {
       utilized: 45,
       status: 'Active',
       effectiveDate: 'Feb 05, 2024',
+      expiryDate: 'Jul 15, 2025',
       expiryDays: 120,
       location: 'Bellevue, WA',
-      owner: 'Sarah Chen'
+      owner: 'Sarah Chen',
+      type: 'Subcontractor Agreement'
+    },
+    {
+      id: 'c3',
+      vendor: 'Apex Concrete Co.',
+      value: 2300000,
+      utilized: 90,
+      status: 'Expiring Soon',
+      effectiveDate: 'Mar 10, 2023',
+      expiryDate: 'Apr 10, 2024',
+      expiryDays: 15,
+      location: 'Seattle, WA',
+      owner: 'James Wilson',
+      type: 'Material Supply Contract'
     }
   ];
 
   get filteredContracts() {
-    if (this.selectedMember === 'All Members') return this.contracts;
-    return this.contracts.filter(c => c.owner === this.selectedMember);
+    if (this.selectedVendor === 'All Vendors') return this.contracts;
+    return this.contracts.filter(c => c.vendor === this.selectedVendor);
   }
 
   documents = [

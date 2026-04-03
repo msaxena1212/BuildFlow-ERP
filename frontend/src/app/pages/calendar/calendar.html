@@ -6,6 +6,12 @@
             <p class="text-on-surface-variant font-medium mt-1">Manage project timelines and site operations</p>
         </div>
         <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
+              <span class="material-symbols-outlined text-slate-400 text-sm">folder_open</span>
+              <select [(ngModel)]="selectedProject" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">
+                @for (p of projects; track p) { <option [value]="p">{{ p }}</option> }
+              </select>
+            </div>
             <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/10 shadow-sm">
               <span class="material-symbols-outlined text-outline text-sm">filter_alt</span>
               <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">

@@ -20,6 +20,8 @@ export class CalendarView {
     { name: 'Sarah Chen', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1RmRziofMuKPCOGKlk1YnapBSbLaEfo01m3q_4lcO8xWYBy9DKhbId94OYnRLdh0YKtETgTw4OBQS76xCwa3GI8lqHXQEh4qQQyAWfHCmwY_elYYp6wMji5eXHwrqZcUD4iEoGkyYIRyKMxXR2lEAw34APWS_Omi6iwEz2PTn97envSoQbpymAyVXp1E00dhY0AgRi3UNTNPZdT8tKT6Oe6M4gpGCg1r2U1-D3cACjbZQSMZS2qrf08cBFkc50Xkbgk1epsoox4yv' }
   ];
   selectedMember = 'All Members';
+  selectedProject = 'Skyline Plaza';
+  projects = ['All Projects', 'Skyline Plaza', 'Harbor Bridge Renovation', 'Meridian Towers', 'Westside Condos'];
 
   events = [
     { day: 5, time: '09:00 AM', title: 'Site Inspection', assignee: 'Marcus Thorne' },

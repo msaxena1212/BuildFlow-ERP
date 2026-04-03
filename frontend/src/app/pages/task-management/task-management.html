@@ -1,7 +1,15 @@
 <div class="mb-10 mt-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
   <div>
-    <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary mb-2 block">Skyline Plaza Project</span>
-    <h2 class="text-4xl font-black tracking-tight text-slate-900 leading-none">Task Management</h2>
+    <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary mb-2 block">Project</span>
+    <div class="flex items-center gap-3">
+      <h2 class="text-4xl font-black tracking-tight text-slate-900 leading-none">Task Management</h2>
+      <div class="flex items-center gap-2 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-sm">
+        <span class="material-symbols-outlined text-slate-400 text-sm">folder_open</span>
+        <select [(ngModel)]="selectedProject" class="bg-transparent border-none text-xs font-black uppercase tracking-widest text-slate-700 outline-none cursor-pointer appearance-none pr-4">
+          @for (p of projects; track p) { <option [value]="p">{{ p }}</option> }
+        </select>
+      </div>
+    </div>
   </div>
   <div class="flex items-center gap-3">
     <div class="flex -space-x-3">

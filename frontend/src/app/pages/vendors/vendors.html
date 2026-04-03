@@ -1,169 +1,512 @@
 <section class="p-8 flex flex-col gap-8 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
-    <!-- Page Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div class="space-y-1">
-            <h2 class="text-3xl font-black tracking-tight text-on-surface">Vendors &amp; Partners</h2>
-            <p class="text-on-surface-variant max-w-lg">Coordinate with 24 active contractors and material suppliers across your current developments.</p>
-        </div>
-        <div class="flex items-center gap-3 bg-surface-container-low px-4 py-3 rounded-xl border border-outline-variant/10 shadow-sm">
-          <span class="material-symbols-outlined text-outline text-sm">filter_alt</span>
-          <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">
-              <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
-          </select>
-        </div>
-        <button class="cursor-pointer bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all active:scale-95">
-            <span class="material-symbols-outlined">person_add</span>
-            Add New Vendor
-        </button>
-    </div>
-
-    <!-- Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-outline">Total Active</p>
-            <p class="text-4xl font-black text-on-surface">24</p>
-            <div class="h-1 w-12 bg-primary rounded-full"></div>
-        </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-outline">Pending Payments</p>
-            <p class="text-4xl font-black text-secondary">$142k</p>
-            <div class="h-1 w-12 bg-secondary rounded-full"></div>
-        </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-outline">Material Lead Time</p>
-            <p class="text-4xl font-black text-on-surface">8.2d</p>
-            <div class="h-1 w-12 bg-surface-variant rounded-full"></div>
-        </div>
-        <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-outline">Compliance Rate</p>
-            <p class="text-4xl font-black text-on-surface">98%</p>
-            <div class="h-1 w-12 bg-primary-container rounded-full"></div>
-        </div>
-    </div>
-
-    <!-- Vendor Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (v of vendors; track v.id) {
-            <div [routerLink]="['/vendors', v.id]" class="cursor-pointer bg-surface-container-lowest p-6 rounded-2xl group hover:shadow-2xl hover:border-primary/20 border border-transparent transition-all duration-300 relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4">
-                    <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full" [ngClass]="v.statusColor">{{ v.status }}</span>
-                </div>
-                <div class="flex items-start gap-4 mb-6">
-                    <div class="w-14 h-14 bg-surface-container-high rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-outline">{{ v.icon }}</span>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">{{ v.name }}</h3>
-                        <p class="text-sm text-outline">{{ v.type }}</p>
-                    </div>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 text-sm text-on-surface-variant">
-                        <span class="material-symbols-outlined text-lg">mail</span>
-                        {{ v.email }}
-                    </div>
-                    <div class="flex items-center gap-3 text-sm text-on-surface-variant">
-                        <span class="material-symbols-outlined text-lg">call</span>
-                        {{ v.phone }}
-                    </div>
-                    <div class="pt-3 border-t border-surface-variant">
-                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider mb-2">Active Projects</p>
-                        <div class="flex flex-wrap gap-2">
-                            @for (proj of v.projects; track proj) {
-                                <span class="bg-surface-container-low px-2 py-1 rounded-lg text-xs font-medium">{{ proj }}</span>
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-5 flex items-center justify-between">
-                    <div>
-                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Balance</p>
-                        <p class="font-black text-lg" [ngClass]="v.status === 'Due' ? 'text-error' : (v.status === 'Pending' ? 'text-secondary' : '')">{{ v.balance }}</p>
-                    </div>
-                    <button class="cursor-pointer p-2 text-primary hover:bg-primary/5 rounded-full transition-colors">
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                </div>
+    <!-- Page Header (Shared for List) -->
+    @if (!selectedVendor) {
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div class="space-y-1">
+                <h2 class="text-3xl font-black tracking-tight text-on-surface">Vendors &amp; Partners</h2>
+                <p class="text-on-surface-variant max-w-lg">Coordinate with {{ vendors.length }} active contractors and material suppliers.</p>
             </div>
-        }
-
-        <!-- Spotlight card: Structural Solutions -->
-        <div class="bg-surface-container-lowest p-6 rounded-2xl lg:col-span-2 group hover:shadow-2xl transition-all duration-300 flex flex-col md:flex-row gap-8 relative overflow-hidden cursor-pointer border border-transparent hover:border-primary/20">
-            <div class="absolute top-0 right-0 p-4">
-                <span class="px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase tracking-wider rounded-full">Pending Analysis</span>
+            <div class="flex items-center gap-3 bg-surface-container-low px-4 py-3 rounded-xl border border-outline-variant/10 shadow-sm">
+              <span class="material-symbols-outlined text-outline text-sm">filter_alt</span>
+              <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">
+                  <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
+              </select>
             </div>
-            <div class="md:w-1/3">
-                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-4">
-                    <span class="material-symbols-outlined text-primary text-3xl">engineering</span>
-                </div>
-                <h3 class="font-bold text-xl text-on-surface group-hover:text-primary transition-colors">Structural Solutions Inc.</h3>
-                <p class="text-sm text-outline mb-4">Lead Structural Engineering</p>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2 text-sm text-on-surface-variant">
-                        <span class="material-symbols-outlined text-sm">verified</span> Certified Tier 1
-                    </div>
-                    <div class="flex items-center gap-2 text-sm text-on-surface-variant">
-                        <span class="material-symbols-outlined text-sm">schedule</span> 12 Year Partner
-                    </div>
-                </div>
-            </div>
-            <div class="flex-1 flex flex-col justify-between">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="p-4 bg-surface-container-low rounded-xl">
-                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider">YTD Spend</p>
-                        <p class="text-lg font-black">$482,000</p>
-                    </div>
-                    <div class="p-4 bg-surface-container-low rounded-xl">
-                        <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Active Tasks</p>
-                        <p class="text-lg font-black">12 Open</p>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-xs font-bold text-on-surface-variant">Milestone Progress</span>
-                        <span class="text-xs font-bold text-primary">85%</span>
-                    </div>
-                    <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-                        <div class="bg-primary h-full w-[85%] rounded-full"></div>
-                    </div>
-                </div>
-                <div class="mt-6 flex gap-3">
-                    <button class="cursor-pointer flex-1 bg-surface-container-high text-on-surface font-bold py-2 rounded-lg text-sm hover:bg-surface-variant transition-colors">View Contract</button>
-                    <button class="cursor-pointer flex-1 bg-primary text-white font-bold py-2 rounded-lg text-sm hover:opacity-90 transition-opacity">Request Audit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="bg-surface-container-low rounded-3xl p-8">
-        <div class="flex items-center justify-between mb-8">
-            <h3 class="text-xl font-black text-on-surface">Recent Vendor Activity</h3>
-            <button class="cursor-pointer text-primary text-sm font-bold flex items-center gap-1 hover:underline">
-                View All History
-                <span class="material-symbols-outlined text-sm">chevron_right</span>
+            <button (click)="openAddModal()" class="cursor-pointer bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all active:scale-95">
+                <span class="material-symbols-outlined">person_add</span>
+                Add New Vendor
             </button>
         </div>
-        <div class="space-y-6">
-            @for (act of activities; track act.title) {
-                <div class="flex items-center gap-6 group">
-                    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm flex-shrink-0">
-                        <span class="material-symbols-outlined" [ngClass]="act.iconColor">{{ act.icon }}</span>
+
+        <!-- Global Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
+                <p class="text-xs font-bold uppercase tracking-widest text-outline">Total Active</p>
+                <p class="text-4xl font-black text-on-surface">{{ vendors.length }}</p>
+                <div class="h-1 w-12 bg-primary rounded-full"></div>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
+                <p class="text-xs font-bold uppercase tracking-widest text-outline">Pending Payments</p>
+                <p class="text-4xl font-black text-secondary">₹142k</p>
+                <div class="h-1 w-12 bg-secondary rounded-full"></div>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-2xl space-y-2">
+                <p class="text-xs font-bold uppercase tracking-widest text-outline">Compliant Partners</p>
+                <p class="text-4xl font-black text-on-surface">98%</p>
+                <div class="h-1 w-12 bg-primary-container rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- Directory Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (v of filteredVendors; track v.id) {
+                <div [routerLink]="['/vendors', v.id]" class="cursor-pointer bg-surface-container-lowest p-6 rounded-2xl group hover:shadow-2xl hover:border-primary/20 border border-transparent transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4">
+                        <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full" [ngClass]="v.statusColor">{{ v.status }}</span>
                     </div>
-                    <div class="flex-1">
-                        <p class="text-on-surface font-bold">{{ act.title }}</p>
-                        <p class="text-sm text-on-surface-variant">{{ act.desc }}</p>
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="w-14 h-14 bg-surface-container-high rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-outline">{{ v.icon }}</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-on-surface leading-tight group-hover:text-primary transition-colors">{{ v.name }}</h3>
+                            <p class="text-sm text-outline">{{ v.type }}</p>
+                        </div>
                     </div>
-                    <div class="text-right flex-shrink-0">
-                        <p class="text-xs font-bold text-outline uppercase tracking-widest">{{ act.time }}</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-lg">mail</span>
+                            {{ v.email }}
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-lg">call</span>
+                            {{ v.phone }}
+                        </div>
+                    </div>
+                    <div class="mt-5 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Current Balance</p>
+                            <p class="font-black text-lg" [ngClass]="v.status === 'Due' ? 'text-error' : (v.status === 'Pending' ? 'text-secondary' : '')">{{ v.balance }}</p>
+                        </div>
+                        <button class="cursor-pointer p-2 text-primary hover:bg-primary/5 rounded-full transition-colors">
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
                     </div>
                 </div>
             }
         </div>
-    </div>
+
+        <!-- Recent Activity Module -->
+        <div class="bg-surface-container-low rounded-3xl p-8 mt-4">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-xl font-black text-on-surface">Compliance & Billing Activity</h3>
+                <button class="cursor-pointer text-primary text-sm font-bold flex items-center gap-1 hover:underline">View All History</button>
+            </div>
+            <div class="space-y-6">
+                @for (act of activities; track act.title) {
+                    <div class="flex items-center gap-6 group">
+                        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+                            <span class="material-symbols-outlined" [ngClass]="act.iconColor">{{ act.icon }}</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-on-surface font-bold">{{ act.title }}</p>
+                            <p class="text-sm text-on-surface-variant">{{ act.desc }}</p>
+                        </div>
+                        <p class="text-xs font-bold text-outline uppercase tracking-widest">{{ act.time }}</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+    } @else {
+        <!-- VENDOR DETAIL VIEW ("Command Center") -->
+        <div class="space-y-8 animate-in slide-in-from-right duration-500">
+            <div class="flex items-center gap-4">
+                <button (click)="closeDetail()" class="p-2 hover:bg-surface-container rounded-lg cursor-pointer transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </button>
+                <div>
+                    <h2 class="text-3xl font-black tracking-tight text-on-surface">{{ selectedVendor.name }}</h2>
+                    <p class="text-sm text-outline font-medium">Partner Overview & Execution Hub</p>
+                </div>
+                <div class="ml-auto flex gap-3">
+                    <button class="px-5 py-2.5 bg-surface-container-highest text-primary rounded-xl font-bold flex items-center gap-2 hover:bg-surface-dim transition-colors cursor-pointer" (click)="openAudit()">
+                        <span class="material-symbols-outlined text-lg">fact_check</span>
+                        Audits
+                    </button>
+                    <button class="px-5 py-2.5 bg-primary text-white rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform cursor-pointer" (click)="openBilling()">
+                        <span class="material-symbols-outlined text-lg">receipt</span>
+                        Billing
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bento Stats Panel -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- ... existing stats ... -->
+                <div class="bg-surface-container-low p-6 rounded-2xl flex flex-col justify-between h-32 border-l-4 border-primary">
+                    <span class="text-xs font-bold text-outline uppercase tracking-widest">Yearly Spend</span>
+                    <p class="text-2xl font-black">{{ selectedVendor.budget }}</p>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-2xl flex flex-col justify-between h-32 border-l-4 border-secondary">
+                    <span class="text-xs font-bold text-outline uppercase tracking-widest">Active Jobs</span>
+                    <p class="text-2xl font-black">{{ selectedVendor.tasks.length }} Tasks</p>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-2xl flex flex-col justify-between h-32">
+                    <span class="text-xs font-bold text-outline uppercase tracking-widest">Status</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider w-fit" [ngClass]="selectedVendor.statusColor">{{ selectedVendor.status }}</span>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-2xl flex flex-col justify-between h-32">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-outline uppercase tracking-widest">SLA Score</span>
+                        <span class="text-sm font-black text-green-600">98%</span>
+                    </div>
+                    <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+                        <div class="bg-green-600 h-full w-[98%]"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Modules Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Tasks & Execution -->
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+                        <h3 class="text-xl font-black mb-6">Service Tasks & Performance</h3>
+                        <div class="space-y-4">
+                            @for (task of selectedVendor.tasks; track task.title) {
+                                <div class="flex items-center gap-6 p-4 bg-surface-container-low rounded-2xl border border-transparent hover:border-primary/20 transition-all group">
+                                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-primary">{{ selectedVendor.icon }}</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-bold text-on-surface">{{ task.title }}</p>
+                                        <p class="text-xs text-outline">{{ task.date }}</p>
+                                    </div>
+                                    <span class="px-3 py-1 bg-surface-container-lowest rounded-lg text-[10px] font-black uppercase tracking-widest">{{ task.status }}</span>
+                                </div>
+                            } @empty {
+                                <p class="text-center py-12 text-outline font-bold italic">No active tasks detected.</p>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Invoices Section -->
+                    <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-black">Vendor Invoicing</h3>
+                            <button (click)="openSubmission()" class="text-primary text-xs font-black uppercase tracking-widest cursor-pointer hover:underline">+ New Submission</button>
+                        </div>
+                        <table class="w-full text-left">
+                            <!-- ... existing invoice table ... -->
+                            <thead>
+                                <tr class="text-[10px] font-black uppercase tracking-widest text-outline border-b border-surface-container">
+                                    <th class="py-4">Invoice #</th>
+                                    <th class="py-4">Amount</th>
+                                    <th class="py-4">Date</th>
+                                    <th class="py-4 text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (inv of selectedVendor.invoices; track inv.number) {
+                                    <tr class="border-b border-surface-container/50 hover:bg-surface-container-low/30 transition-colors">
+                                        <td class="py-4 font-bold">{{ inv.number }}</td>
+                                        <td class="py-4 font-black">{{ inv.amount }}</td>
+                                        <td class="py-4 text-sm text-outline">{{ inv.date }}</td>
+                                        <td class="py-4 text-right">
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter"
+                                                  [ngClass]="inv.status === 'Paid' ? 'bg-green-100 text-green-700' : 'bg-secondary-container/20 text-secondary'">
+                                                {{ inv.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                } @empty {
+                                    <tr><td colspan="4" class="text-center py-8 text-outline font-bold italic">No records found.</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Secondary Detail Cards -->
+                <div class="lg:col-span-4 space-y-6">
+                    <!-- Contract Metadata Card -->
+                    <div class="bg-primary text-white p-8 rounded-3xl shadow-xl space-y-4">
+                        <h3 class="text-xl font-black">Contract Details</h3>
+                        <div>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-60">SPOC Info</p>
+                            <p class="font-bold">{{ selectedVendor.spoc.name }} ({{ selectedVendor.spoc.role }})</p>
+                            <p class="text-xs opacity-70">{{ selectedVendor.spoc.phone }}</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-60">KYC Status</p>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">verified</span>
+                                <p class="text-sm font-bold uppercase">{{ selectedVendor.kyc.gst }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-60">Services Provided</p>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                @for (serv of selectedVendor.services; track serv) {
+                                    <span class="bg-white/20 px-2 py-1 rounded text-[10px] font-bold">{{ serv }}</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location & Logistics Card -->
+                    <div class="bg-surface-container-low p-8 rounded-3xl space-y-4">
+                        <h3 class="text-xl font-black">Logistics</h3>
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary">location_on</span>
+                            <div>
+                                <p class="text-sm font-bold">{{ selectedVendor.address.street }}</p>
+                                <p class="text-[10px] text-outline font-black uppercase tracking-widest">{{ selectedVendor.address.city }} - {{ selectedVendor.address.pincode }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </section>
 
-<!-- FAB -->
-<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 cursor-pointer">
-    <span class="material-symbols-outlined text-3xl">add</span>
-</button>
+<!-- ALL OPERATIONAL MODALS -->
+
+<!-- New Invoice Submission Modal -->
+@if (showInvoiceModal) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showInvoiceModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight">New Submission</h3>
+                    <p class="text-sm text-outline font-medium">Upload completion logs and service invoice.</p>
+                </div>
+                <button (click)="showInvoiceModal = false" class="p-2 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Invoice Number</label>
+                    <input [(ngModel)]="invoiceForm.number" readonly type="text" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 bg-slate-50 text-sm font-bold outline-none cursor-not-allowed uppercase">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Billing Amount (Gross)</label>
+                    <input [(ngModel)]="invoiceForm.amount" type="text" placeholder="₹0.00" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-lg font-black outline-none focus:ring-2 focus:ring-primary/20">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Service Category</label>
+                    <select class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none bg-white">
+                        <option>Material Delivery</option>
+                        <option>Labor Milestone</option>
+                        <option>Service Fee</option>
+                        <option>Maintenance</option>
+                    </select>
+                </div>
+                <div class="border-2 border-dashed border-outline-variant/20 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 hover:bg-slate-50 transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-outline">Upload Proof of Work (PDF)</p>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button (click)="showInvoiceModal = false" class="flex-1 py-3.5 rounded-2xl border border-outline-variant/20 text-sm font-black uppercase tracking-widest cursor-pointer hover:bg-slate-50">Cancel</button>
+                <button (click)="submitInvoice()" class="flex-1 py-3.5 rounded-2xl bg-primary text-white text-sm font-black uppercase tracking-widest cursor-pointer shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">Submit Invoice</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Quality Audit Modal -->
+@if (showAuditModal) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showAuditModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight text-on-surface">Service Quality Audit</h3>
+                    <p class="text-sm text-outline font-medium">Evaluate partner performance for current projects.</p>
+                </div>
+                <button (click)="showAuditModal = false" class="p-2 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="p-4 bg-surface-container-low rounded-2xl space-y-4">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-outline text-center">Quality</p>
+                        <div class="flex flex-col items-center gap-2">
+                          <input type="range" min="1" max="5" [(ngModel)]="auditForm.quality" class="w-full accent-primary">
+                          <span class="text-lg font-black text-primary">{{ auditForm.quality }}/5</span>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-surface-container-low rounded-2xl space-y-4">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-outline text-center">Timing</p>
+                        <div class="flex flex-col items-center gap-2">
+                          <input type="range" min="1" max="5" [(ngModel)]="auditForm.timeliness" class="w-full accent-secondary">
+                          <span class="text-lg font-black text-secondary">{{ auditForm.timeliness }}/5</span>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-surface-container-low rounded-2xl space-y-4">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-outline text-center">Safety</p>
+                        <div class="flex flex-col items-center gap-2">
+                          <input type="range" min="1" max="5" [(ngModel)]="auditForm.safety" class="w-full accent-on-tertiary-fixed-variant">
+                          <span class="text-lg font-black text-on-tertiary-fixed-variant">{{ auditForm.safety }}/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Observations & Field Notes</label>
+                    <textarea [(ngModel)]="auditForm.observations" placeholder="Document any compliance issues or exceptional performance..." rows="4" class="w-full px-4 py-3 rounded-2xl border border-outline-variant/20 text-sm font-medium outline-none focus:ring-2 focus:ring-primary/20 resize-none bg-surface-container-lowest"></textarea>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+                <button (click)="showAuditModal = false" class="flex-1 py-3.5 rounded-2xl border border-outline-variant/20 text-sm font-black uppercase tracking-widest cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="submitAudit()" class="flex-1 py-3.5 rounded-2xl bg-on-surface text-white text-sm font-black uppercase tracking-widest cursor-pointer hover:scale-[1.02] transition-transform">Finalize Audit</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Billing Overview Modal -->
+@if (showBillingModal && selectedVendor) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showBillingModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl w-full max-w-3xl p-10 overflow-hidden" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-start mb-10">
+                <div class="space-y-1">
+                    <h3 class="text-3xl font-black tracking-tight text-on-surface">Billing Reconciliation</h3>
+                    <p class="text-sm text-outline font-medium">Financial health overview for {{ selectedVendor.name }}.</p>
+                </div>
+                <button (click)="showBillingModal = false" class="p-3 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-2xl">close</span>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-6">
+                    <div class="bg-primary/5 p-8 rounded-[2rem] space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black uppercase tracking-widest text-primary/60">YTD Budget</span>
+                            <span class="material-symbols-outlined text-primary text-xl">account_balance_wallet</span>
+                        </div>
+                        <p class="text-4xl font-black text-primary">{{ selectedVendor.budget }}</p>
+                        <div class="w-full bg-primary/10 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-primary h-full w-[65%]"></div>
+                        </div>
+                        <p class="text-[10px] font-bold text-primary/70 uppercase">65% OF TOTAL UTILIZATION</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-surface-container-low p-6 rounded-[1.5rem] space-y-1">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-outline">Paid Clean</p>
+                            <p class="text-xl font-black text-green-600">₹425k</p>
+                        </div>
+                        <div class="bg-surface-container-low p-6 rounded-[1.5rem] space-y-1">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-outline">In Dispute</p>
+                            <p class="text-xl font-black text-error">₹0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <h4 class="text-sm font-black uppercase tracking-widest text-outline">Tax & Compliance Stats</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-secondary">verified</span>
+                                <span class="text-xs font-bold text-on-surface">GST Compliance</span>
+                            </div>
+                            <span class="text-[10px] font-black uppercase text-green-600">VERIFIED</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">history_edu</span>
+                                <span class="text-xs font-bold text-on-surface">TDS Slab</span>
+                            </div>
+                            <span class="text-[10px] font-black uppercase text-outline">Section 194C (2%)</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-surface-container-low rounded-2xl">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-amber-600">warning</span>
+                                <span class="text-xs font-bold text-on-surface">MSME Status</span>
+                            </div>
+                            <span class="text-[10px] font-black uppercase text-amber-700">Small Enterprise</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-surface-container flex justify-end gap-4">
+                <button (click)="showBillingModal = false" class="px-8 py-3.5 rounded-2xl bg-on-surface text-white text-sm font-black uppercase tracking-widest cursor-pointer shadow-lg hover:scale-[1.02] transition-transform">Done</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Add Vendor Modal -->
+@if (showAddModal) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 overflow-y-auto" (click)="showAddModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-2xl p-8 my-auto" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight">Onboard New Partner</h3>
+                    <p class="text-sm text-outline font-medium mt-1">Complete the onboarding documentation to begin work.</p>
+                </div>
+                <button (click)="showAddModal = false" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Section 1: Basics -->
+                <div class="md:col-span-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Vendor Legal Name</label>
+                    <input [(ngModel)]="newVendor.name" type="text" placeholder="e.g. Skyline Structural Engineering" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20">
+                </div>
+
+                <div class="md:col-span-1">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">SPOC Primary Contact</label>
+                    <input [(ngModel)]="newVendor.spoc.name" type="text" placeholder="Name" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none mb-2">
+                    <input [(ngModel)]="newVendor.spoc.phone" type="text" placeholder="Phone" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+
+                <div class="md:col-span-1">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Official Email & Phone</label>
+                    <input [(ngModel)]="newVendor.email" type="email" placeholder="official@vendor.com" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none mb-2">
+                    <input [(ngModel)]="newVendor.phone" type="text" placeholder="+1 (555) 000-0000" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+
+                <!-- Section 2: KYC -->
+                <div>
+                  <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">GST No.</label>
+                  <input [(ngModel)]="newVendor.kyc.gst" type="text" placeholder="22AAAAA0000A1Z5" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+                <div>
+                  <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">PAN Card No.</label>
+                  <input [(ngModel)]="newVendor.kyc.pan" type="text" placeholder="ABCDE1234F" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+
+                <!-- Section 3: Address -->
+                <div class="md:col-span-2 grid grid-cols-3 gap-4">
+                    <div class="col-span-2">
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Physical Address</label>
+                        <input [(ngModel)]="newVendor.address.street" type="text" placeholder="Suite #, Industrial Area..." class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">PINCODE</label>
+                        <input [(ngModel)]="newVendor.address.pincode" type="text" placeholder="600001" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                    </div>
+                </div>
+
+                <!-- Section 4: Details -->
+                <div class="md:col-span-1">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Budget Allocation</label>
+                    <input [(ngModel)]="newVendor.budget" type="text" placeholder="₹,000,000" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+                <div class="md:col-span-1">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Services (Comma Separated)</label>
+                    <input [(ngModel)]="newVendor.services" type="text" placeholder="Painting, Electrical..." class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+
+                <!-- Contract Upload Mockup -->
+                <div class="md:col-span-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Contract Documentation</label>
+                    <div class="border-2 border-dashed border-outline-variant/20 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 hover:bg-slate-50 transition-colors cursor-pointer">
+                        <span class="material-symbols-outlined text-primary text-3xl">upload_file</span>
+                        <p class="text-xs font-bold text-outline uppercase tracking-widest">Click or drag contract PDF</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-10">
+                <button (click)="showAddModal = false" class="flex-1 py-3.5 rounded-2xl border border-outline-variant/20 text-sm font-black uppercase tracking-widest cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="addVendor()" class="flex-1 py-3.5 rounded-2xl bg-primary text-white text-sm font-black uppercase tracking-widest cursor-pointer shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">Approve & Onboard</button>
+            </div>
+        </div>
+    </div>
+}

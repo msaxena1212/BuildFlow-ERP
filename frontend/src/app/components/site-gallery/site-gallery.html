@@ -5,7 +5,7 @@
       <button class="p-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl text-slate-400 hover:text-blue-600 transition-all shadow-sm">
         <span class="material-symbols-outlined">filter_list</span>
       </button>
-      <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/20 hover:scale-105 transition-all">
+      <button (click)="uploadMedia.emit()" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/20 hover:scale-105 transition-all cursor-pointer">
         Upload Media
       </button>
     </div>
@@ -41,7 +41,6 @@
       </div>
       <span class="text-[10px] font-black uppercase tracking-widest">Add New Capture</span>
     </button>
-  </div>
   </div>
 
   @if (newlyUploaded.length > 0) {
