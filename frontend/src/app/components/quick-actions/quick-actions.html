@@ -29,7 +29,14 @@
         <div class="flex justify-between items-start mb-6">
             <div>
                 <h3 class="text-2xl font-black tracking-tight text-emerald-600">Capture Site Progress</h3>
-                <p class="text-[10px] font-bold text-outline uppercase tracking-widest mt-1">Project: {{ projectName }}</p>
+                <div class="mt-1 flex items-center gap-2">
+                    <span class="text-[10px] font-bold text-outline uppercase tracking-widest">Project:</span>
+                    <select [(ngModel)]="selectedProject" class="bg-slate-50 border border-outline-variant/20 rounded text-[10px] font-bold px-2 py-1 outline-none cursor-pointer text-on-surface uppercase tracking-widest min-w-[200px]">
+                        @for (project of projects; track project) {
+                            <option [value]="project">{{ project }}</option>
+                        }
+                    </select>
+                </div>
             </div>
             <button (click)="showPhotoModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
                 <span class="material-symbols-outlined">close</span>
@@ -62,7 +69,14 @@
         <div class="flex justify-between items-start mb-6">
             <div>
                 <h3 class="text-2xl font-black tracking-tight text-blue-600">Add Field Observation</h3>
-                <p class="text-[10px] font-bold text-outline uppercase tracking-widest mt-1">Project: {{ projectName }}</p>
+                <div class="mt-1 flex items-center gap-2">
+                    <span class="text-[10px] font-bold text-outline uppercase tracking-widest">Project:</span>
+                    <select [(ngModel)]="selectedProject" class="bg-slate-50 border border-outline-variant/20 rounded text-[10px] font-bold px-2 py-1 outline-none cursor-pointer text-on-surface uppercase tracking-widest min-w-[200px]">
+                        @for (project of projects; track project) {
+                            <option [value]="project">{{ project }}</option>
+                        }
+                    </select>
+                </div>
             </div>
             <button (click)="showNoteModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
                 <span class="material-symbols-outlined">close</span>

@@ -12,7 +12,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class QuickActions {
   isOpen = false;
-  projectName = 'Skyline Plaza - Phase 1'; // Global Context
+  selectedProject = 'Skyline Plaza - Phase 1';
+  projects = [
+    'Skyline Plaza - Phase 1',
+    'Harbor Heights - Phase 2',
+    'Metro Hub - Section B',
+    'Oakwood Residences'
+  ];
 
   // Modal Visibility
   showPhotoModal = false;
