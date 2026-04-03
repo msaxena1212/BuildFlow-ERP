@@ -8,6 +8,14 @@
     <p class="text-lg text-slate-500 max-w-xl leading-relaxed">
       Week 32 Summary: Structural topping out achieved for the North Wing. Interior finishing commenced on levels 12-15 ahead of schedule.
     </p>
+    
+    <div class="mt-8 flex items-center gap-3 bg-white border border-slate-100 px-6 py-4 rounded-xl shadow-sm w-max">
+      <span class="material-symbols-outlined text-slate-400 text-sm">filter_alt</span>
+      <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-slate-700 outline-none cursor-pointer appearance-none pr-4">
+          <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
+      </select>
+    </div>
+
     <div class="mt-10 flex flex-wrap gap-4">
       <div class="px-6 py-4 bg-white rounded-xl shadow-sm border border-slate-100 flex flex-col">
         <span class="text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400 mb-1">Weekly Delta</span>
@@ -41,7 +49,7 @@
         </div>
       </div>
       <div class="space-y-6">
-        @for (phase of phases; track phase.name) {
+        @for (phase of filteredPhases; track phase.name) {
           <div>
             <div class="flex justify-between text-xs font-bold mb-2">
               <span class="text-slate-900">{{ phase.name }}</span>
@@ -75,7 +83,7 @@
       <h2 class="text-xl font-bold text-slate-900">Key Achievements</h2>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-      @for (item of achievements; track item.num) {
+      @for (item of filteredAchievements; track item.num) {
         <div class="flex gap-4">
           <span class="text-primary font-black text-2xl">{{ item.num }}</span>
           <div>

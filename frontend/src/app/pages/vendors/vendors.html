@@ -5,6 +5,12 @@
             <h2 class="text-3xl font-black tracking-tight text-on-surface">Vendors &amp; Partners</h2>
             <p class="text-on-surface-variant max-w-lg">Coordinate with 24 active contractors and material suppliers across your current developments.</p>
         </div>
+        <div class="flex items-center gap-3 bg-surface-container-low px-4 py-3 rounded-xl border border-outline-variant/10 shadow-sm">
+          <span class="material-symbols-outlined text-outline text-sm">filter_alt</span>
+          <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">
+              <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
+          </select>
+        </div>
         <button class="cursor-pointer bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all active:scale-95">
             <span class="material-symbols-outlined">person_add</span>
             Add New Vendor

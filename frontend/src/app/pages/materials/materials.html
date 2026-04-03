@@ -7,6 +7,12 @@
             <p class="text-on-surface-variant/80 font-medium">Precision tracking across 4 active construction sites</p>
         </div>
         <div class="flex gap-3">
+            <div class="flex items-center gap-3 bg-surface-container-highest px-4 py-2 rounded-xl border border-outline-variant/10 shadow-sm">
+              <span class="material-symbols-outlined text-outline text-sm">filter_alt</span>
+              <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">
+                  <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
+              </select>
+            </div>
             <button class="px-5 py-2.5 bg-surface-container-highest text-primary rounded-xl font-bold flex items-center gap-2 hover:bg-surface-dim transition-colors cursor-pointer">
                 <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">filter_list</span>
                 Filters
@@ -157,7 +163,7 @@
             </div>
             
             <div class="space-y-6">
-                @for (delivery of deliveries; track delivery.item) {
+                @for (delivery of filteredDeliveries; track delivery.item) {
                     <div class="flex items-center gap-6 group">
                         <div class="flex flex-col items-center min-w-[40px]">
                             <span class="text-lg font-black" [ngClass]="delivery.status === 'In Transit' ? 'text-primary' : 'text-on-surface'">{{ delivery.time }}</span>

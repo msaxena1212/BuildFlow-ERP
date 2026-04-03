@@ -1,20 +1,32 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vendors',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './vendors.html'
 })
 export class VendorManagement {
-  vendors = [
-    { id: 1, name: 'VoltStream Electrical', type: 'Primary Subcontractor', email: 'contact@voltstream.com', phone: '+1 (555) 012-3456', projects: ['Skyline Plaza', 'Harbor Heights'], balance: '$0.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700', icon: 'electric_bolt', wide: false },
-    { id: 2, name: 'SolidRock Concrete', type: 'Material Supplier', email: 'billing@solidrock.io', phone: '+1 (555) 987-6543', projects: ['Metro Hub'], balance: '$24,500.00', status: 'Pending', statusColor: 'bg-secondary-container/20 text-secondary', icon: 'foundation', wide: false },
-    { id: 3, name: 'Elite Finishes Co.', type: 'Finishing & Painting', email: 'ops@elitefinishes.com', phone: '+1 (555) 456-7890', projects: ['The Ridge Condos', 'Westside Loft'], balance: '$12,400.00', status: 'Due', statusColor: 'bg-red-100 text-error', icon: 'imagesearch_roller', wide: false },
-    { id: 4, name: 'FlowMasters HVAC', type: 'Subcontractor', email: 'support@flowmasters.net', phone: '+1 (555) 123-0000', projects: ['Skyline Plaza'], balance: '$0.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700', icon: 'plumbing', wide: false }
+  team = [
+    { name: 'All Members' },
+    { name: 'Marcus Thorne' },
+    { name: 'Sarah Chen' }
   ];
+  selectedMember = 'All Members';
+  vendors = [
+    { id: 1, name: 'VoltStream Electrical', type: 'Primary Subcontractor', email: 'contact@voltstream.com', phone: '+1 (555) 012-3456', projects: ['Skyline Plaza', 'Harbor Heights'], balance: '$0.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700', icon: 'electric_bolt', wide: false, assignee: 'Marcus Thorne' },
+    { id: 2, name: 'SolidRock Concrete', type: 'Material Supplier', email: 'billing@solidrock.io', phone: '+1 (555) 987-6543', projects: ['Metro Hub'], balance: '$24,500.00', status: 'Pending', statusColor: 'bg-secondary-container/20 text-secondary', icon: 'foundation', wide: false, assignee: 'Sarah Chen' },
+    { id: 3, name: 'Elite Finishes Co.', type: 'Finishing & Painting', email: 'ops@elitefinishes.com', phone: '+1 (555) 456-7890', projects: ['The Ridge Condos', 'Westside Loft'], balance: '$12,400.00', status: 'Due', statusColor: 'bg-red-100 text-error', icon: 'imagesearch_roller', wide: false, assignee: 'Marcus Thorne' },
+    { id: 4, name: 'FlowMasters HVAC', type: 'Subcontractor', email: 'support@flowmasters.net', phone: '+1 (555) 123-0000', projects: ['Skyline Plaza'], balance: '$0.00', status: 'Paid', statusColor: 'bg-green-100 text-green-700', icon: 'plumbing', wide: false, assignee: 'Sarah Chen' }
+  ];
+
+  get filteredVendors() {
+    if (this.selectedMember === 'All Members') return this.vendors;
+    return this.vendors.filter(v => v.assignee === this.selectedMember);
+  }
 
   activities = [
     { icon: 'receipt_long', iconColor: 'text-secondary', title: 'New Invoice Uploaded', desc: 'SolidRock Concrete submitted invoice #SR-9012 for $12,500.00', time: '2 hours ago' },

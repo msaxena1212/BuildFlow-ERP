@@ -29,9 +29,17 @@
   <div class="glass-card rounded-3xl shadow-2xl border border-white/40 dark:border-slate-800/50 overflow-hidden">
     <!-- Table Header / Filter Bar -->
     <div class="p-8 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-6 bg-white/50 dark:bg-slate-900/50">
-      <div class="relative w-full sm:w-96 group">
-        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">search</span>
-        <input class="w-full pl-12 pr-6 py-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl focus:ring-4 focus:ring-blue-100/50 dark:focus:ring-blue-900/20 text-sm font-bold placeholder-slate-400 outline-none transition-all shadow-sm" placeholder="Search by name, email, or role..." type="text"/>
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <div class="flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 px-6 py-3.5 rounded-2xl shadow-sm">
+          <span class="material-symbols-outlined text-slate-400 text-sm">filter_alt</span>
+          <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 outline-none cursor-pointer appearance-none pr-4">
+              <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
+          </select>
+        </div>
+        <div class="relative flex-1 sm:w-80 group">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">search</span>
+          <input class="w-full pl-12 pr-6 py-3.5 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl focus:ring-4 focus:ring-blue-100/50 dark:focus:ring-blue-900/20 text-sm font-bold placeholder-slate-400 outline-none transition-all shadow-sm" placeholder="Search members..." type="text"/>
+        </div>
       </div>
       <div class="flex items-center gap-3">
         <button class="bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 px-6 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2.5 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-all shadow-sm">
@@ -57,7 +65,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-          @for (member of members; track member.email) {
+          @for (member of filteredMembers; track member.email) {
             <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors group">
               <td class="px-10 py-7">
                 <div class="flex items-center gap-5">

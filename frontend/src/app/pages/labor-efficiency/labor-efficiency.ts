@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-labor-efficiency',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './labor-efficiency.html',
   styleUrls: ['./labor-efficiency.css']
 })
 export class LaborEfficiency implements OnInit {
+  team = [
+    { name: 'All Members' },
+    { name: 'Sarah Jenkins' },
+    { name: 'Mark Thompson' }
+  ];
+  selectedMember = 'All Members';
+
   contractors = [
     { name: 'Apex Concrete Solutions', personnel: 12, efficiency: 94.8, tasks: '28/30', logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfGGCdUe8xfkR9yXzgVibDJjqB4GMs5H9sHqZOiLEhewQk1KAFCdSwAV-pjonjSog_907IsMGuA3Xl48EVpXenMONqdnHSKVkUpTjtnCqhw7aKS3Wb1JzcNYALG2FW2aCExHIxZ9_vVr7ItmDEtev-g5rlCMSeR3onFG55egOz7t5BtbEm3WmqoW2B-qGB6dkhdYUEdkNG2SMEGmzPyQQnt4MTrqk_lK7IXZyZtNBjMC5XpwN84Fk6TBr9nyq5agIdfXdy_lxRZepa' },
     { name: 'Vanguard Electrical', personnel: 8, efficiency: 88.2, tasks: '15/17', logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBjZUEAAaayP_P5xTmog9TMmo9VEmQnJeC1OtYoxOgjqZveHg24LtXHJEoiSVMkGa6YZlt-5woRIjA0vklSLugtCnRH9ALFN9Em6Gp2jNCyb_Xz5aO5PEtMZhlAruvrMXrKibO64O4N0GBDx-oJjbD5C9OK8U-C5DYWNxI1VV4SNWOnp8SOGHtsx4lVNYv47148qaTiJDnBzhSiqGLIVbtUtfkQAAVTLgl_qygqS0r44FIHgyug5gk418l1uK-F6KeghH13lLDwRIjS' },
@@ -25,4 +33,9 @@ export class LaborEfficiency implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  get filteredShiftActivity() {
+    if (this.selectedMember === 'All Members') return this.shiftActivity;
+    return this.shiftActivity.filter(w => w.name === this.selectedMember);
+  }
 }

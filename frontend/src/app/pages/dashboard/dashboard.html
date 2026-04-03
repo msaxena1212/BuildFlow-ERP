@@ -11,6 +11,12 @@
     <p class="text-slate-500 dark:text-slate-400 text-lg font-light max-w-2xl">Monitor your active site portfolios and cross-project status in real-time.</p>
   </div>
   <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 px-6 py-4 rounded-2xl shadow-sm">
+      <span class="material-symbols-outlined text-slate-400 text-sm">filter_alt</span>
+      <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 outline-none cursor-pointer appearance-none pr-4">
+          <option *ngFor="let member of team" [value]="member.name">{{ member.name }}</option>
+      </select>
+    </div>
     <button routerLink="/reports" class="cursor-pointer flex items-center gap-2 px-8 py-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-300 font-black text-[11px] uppercase tracking-widest rounded-2xl hover:bg-slate-100 transition-all shadow-sm">
       <span class="material-symbols-outlined text-[18px]">download</span>
       Export Audit
@@ -24,13 +30,10 @@
 
 <!-- Intelligence Command Grid (Main Dashboard UI) -->
 <div class="grid grid-cols-12 gap-8 mb-12">
-  
   <!-- Left Side: Core Intelligence (Col 8) -->
   <div class="col-span-12 lg:col-span-8 space-y-8">
-    
     <!-- Primary Metrics Row -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
         <!-- Aggregate Budget Health -->
         <div class="bg-white dark:bg-slate-900 p-8 rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-xl relative overflow-hidden group">
           <div class="absolute -top-6 -right-6 opacity-5 group-hover:scale-110 transition-transform duration-700">
@@ -128,7 +131,7 @@
     </div>
     
     <div class="flex-1 overflow-y-auto space-y-8 pr-2 scrollbar-hide">
-      @for (update of updates; track update.id) {
+      @for (update of filteredUpdates; track update.id) {
         <div class="flex gap-6 group cursor-pointer">
           <div [class]="update.type === 'Safety' ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : (update.type === 'Material' ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400' : 'bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400')" class="w-14 h-14 rounded-[20px] flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 transition-transform duration-300">
             <span class="material-symbols-outlined text-2xl">{{ update.type === 'Safety' ? 'health_and_safety' : (update.type === 'Material' ? 'inventory_2' : 'history') }}</span>

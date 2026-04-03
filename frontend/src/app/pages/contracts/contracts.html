@@ -12,6 +12,12 @@
       <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">Lead structural contractor for Project Meridian and Skyline Plaza. Primary scope: reinforced steel framing and fabrication.</p>
     </div>
     <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3 bg-white dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <span class="material-symbols-outlined text-slate-400 text-sm">filter_alt</span>
+        <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-slate-50 outline-none cursor-pointer appearance-none pr-4">
+            <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
+        </select>
+      </div>
       <button routerLink="/vendors/v1" class="px-6 py-3.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-bold rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm border border-slate-200 dark:border-slate-700 shadow-sm">
         View Vendor Profile
       </button>
@@ -30,33 +36,33 @@
       </div>
       <div class="relative z-10">
         <div class="flex items-center justify-between mb-10">
-          <h3 class="text-xs font-black tracking-[0.2em] uppercase text-slate-400">Active Master Service Agreement</h3>
+          <h3 class="text-xs font-black tracking-[0.2em] uppercase text-slate-400">Active Master Service Agreement {{ filteredContracts.length > 0 ? '- ' + filteredContracts[0].vendor : '' }}</h3>
           <span class="flex items-center gap-2.5 text-blue-600 dark:text-blue-400 font-black text-xs uppercase tracking-widest">
             <span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></span>
-            Agreement Active
+            Agreement {{ filteredContracts.length > 0 ? filteredContracts[0].status : 'Inactive' }}
           </span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div class="space-y-4">
             <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Contract Value</p>
-            <p class="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">$1,420,000.00</p>
+            <p class="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">${{ filteredContracts.length > 0 ? (filteredContracts[0].value | number) : '0.00' }}</p>
             <div class="bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden shadow-inner border border-slate-200/50 dark:border-slate-700/50">
-              <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-1000 shadow-lg" style="width: 68%;"></div>
+              <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-1000 shadow-lg" [style.width.%]="filteredContracts.length > 0 ? filteredContracts[0].utilized : 0"></div>
             </div>
-            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">68% Budget Utilized • Project Phase II</p>
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{{ filteredContracts.length > 0 ? filteredContracts[0].utilized : 0 }}% Budget Utilized • {{ filteredContracts.length > 0 ? filteredContracts[0].location : 'N/A' }}</p>
           </div>
           <div class="space-y-2">
             <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Effective Date</p>
-            <p class="text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight">Jan 12, 2024</p>
-            <p class="text-xs text-slate-500 font-medium italic mt-2">Certified by BuildFlow Compliance</p>
+            <p class="text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ filteredContracts.length > 0 ? filteredContracts[0].effectiveDate : '--' }}</p>
+            <p class="text-xs text-slate-500 font-medium italic mt-2">{{ filteredContracts.length > 0 ? ('Owner: ' + filteredContracts[0].owner) : 'No active contract' }}</p>
           </div>
           <div class="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-2xl border border-amber-200/50 dark:border-amber-800/50 shadow-sm">
             <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
               <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
               <p class="text-[10px] uppercase font-black tracking-[0.1em]">Expiration Alert</p>
             </div>
-            <p class="text-2xl font-black text-amber-700 dark:text-amber-400 tracking-tight">34 Days Left</p>
-            <p class="text-[11px] text-amber-700/70 dark:text-amber-400/70 mt-2 leading-relaxed font-semibold uppercase tracking-tighter">Renewal negotiation required by Oct 15th.</p>
+            <p class="text-2xl font-black text-amber-700 dark:text-amber-400 tracking-tight">{{ filteredContracts.length > 0 ? filteredContracts[0].expiryDays : '0' }} Days Left</p>
+            <p class="text-[11px] text-amber-700/70 dark:text-amber-400/70 mt-2 leading-relaxed font-semibold uppercase tracking-tighter">Renewal negotiation required.</p>
           </div>
         </div>
       </div>

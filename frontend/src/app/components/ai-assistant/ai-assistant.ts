@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 export class AiAssistant {
   @ViewChild('chatScroll') private chatScrollContainer!: ElementRef;
   isOpen = false;
-  isListening = false;
   newMessage = '';
 
   messages: any[] = [
@@ -35,17 +34,6 @@ export class AiAssistant {
       this.messages.push({ role: 'ai', text: 'I am analyzing your request regarding "' + content + '". The updated insights will be reflected in your dashboard shortly.' });
       this.scrollToBottom();
     }, 1200);
-  }
-
-  startVoiceCommand() {
-    if (this.isListening) return;
-    this.isListening = true;
-    
-    setTimeout(() => {
-      this.isListening = false;
-      this.isOpen = true;
-      this.sendMessage('Show me the latest safety reports from Sector 7.');
-    }, 2500);
   }
 
   private scrollToBottom(): void {

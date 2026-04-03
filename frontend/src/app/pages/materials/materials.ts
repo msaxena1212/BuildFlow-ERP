@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-materials-management',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './materials.html'
 })
 export class MaterialsManagement implements OnInit {
+  team = [
+    { name: 'All Members' },
+    { name: 'Marcus Thorne' },
+    { name: 'Sarah Chen' }
+  ];
+  selectedMember = 'All Members';
+
   materials = [
     { name: 'Concrete Mix Grade-A', sku: 'CON-442-B', category: 'Concrete', icon: 'texture', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 420, total: 500, percent: 84 }, cost: '$14.50', supplier: 'Titan Aggregates Ltd.', status: 'Optimal' },
     { name: 'Rebar Steel 12mm', sku: 'STL-12-REB', category: 'Steel', icon: 'grid_4x4', bg: 'bg-amber-50', text: 'text-secondary-container', border: 'border-amber-100', stock: { current: 45, total: 300, percent: 15 }, cost: '$228.00', supplier: 'Foundry Steel Corp.', status: 'Critical' },
@@ -18,9 +26,14 @@ export class MaterialsManagement implements OnInit {
   ];
 
   deliveries = [
-    { time: '09:00', period: 'AM', item: 'Lumber Pine Planks (400 Units)', location: 'Site A - Skyline Towers', status: 'In Transit', statusColor: 'bg-blue-50 text-blue-600' },
-    { time: '14:30', period: 'PM', item: 'HVAC Ducting Components', location: 'Site C - Riverside Mall', status: 'Confirmed', statusColor: 'bg-surface-container text-outline' }
+    { time: '09:00', period: 'AM', item: 'Lumber Pine Planks (400 Units)', location: 'Site A - Skyline Towers', status: 'In Transit', statusColor: 'bg-blue-50 text-blue-600', assignee: 'Marcus Thorne' },
+    { time: '14:30', period: 'PM', item: 'HVAC Ducting Components', location: 'Site C - Riverside Mall', status: 'Confirmed', statusColor: 'bg-surface-container text-outline', assignee: 'Sarah Chen' }
   ];
+
+  get filteredDeliveries() {
+    if (this.selectedMember === 'All Members') return this.deliveries;
+    return this.deliveries.filter(d => d.assignee === this.selectedMember);
+  }
 
   constructor() {}
 

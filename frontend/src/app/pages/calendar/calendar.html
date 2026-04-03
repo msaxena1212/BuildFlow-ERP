@@ -6,6 +6,12 @@
             <p class="text-on-surface-variant font-medium mt-1">Manage project timelines and site operations</p>
         </div>
         <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/10 shadow-sm">
+              <span class="material-symbols-outlined text-outline text-sm">filter_alt</span>
+              <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">
+                  <option *ngFor="let member of team" [value]="member.name">{{ member.name }}</option>
+              </select>
+            </div>
             <button class="bg-surface-container-low px-4 py-2 rounded-lg font-bold text-sm border-outline-variant/10 hover:bg-surface-container-high transition-colors cursor-pointer">
                 Today
             </button>

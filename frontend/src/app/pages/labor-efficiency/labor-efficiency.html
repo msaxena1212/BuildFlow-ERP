@@ -7,6 +7,12 @@
     </p>
   </div>
   <div class="flex gap-3">
+    <div class="flex items-center gap-3 bg-slate-100 border border-slate-200/50 px-6 py-4 rounded-xl shadow-sm">
+      <span class="material-symbols-outlined text-slate-400 text-sm">filter_alt</span>
+      <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-slate-700 outline-none cursor-pointer appearance-none pr-4">
+          <option *ngFor="let member of team" [value]="member.name">{{ member.name }}</option>
+      </select>
+    </div>
     <div class="bg-slate-100 p-4 rounded-xl flex items-center gap-4 border border-slate-200/50">
       <div class="text-right">
         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Active Crews</p>
@@ -36,7 +42,6 @@
 
       <!-- Heatmap Grid -->
       <div class="grid grid-cols-7 gap-3 mb-12">
-        <!-- Day labels omitted if already present in header -->
         @for (row of heatmap; track $index) {
           @for (val of row; track $index) {
             <div [class]="'aspect-square rounded-xl transition-all duration-500 hover:scale-110 cursor-help ' + (val === 4 ? 'bg-blue-600 shadow-lg shadow-blue-500/20' : (val === 3 ? 'bg-blue-400' : (val === 2 ? 'bg-blue-200' : (val === 1 ? 'bg-blue-50' : 'bg-slate-50'))))"></div>
@@ -51,13 +56,12 @@
            <span class="text-emerald-600 font-black text-sm flex items-center gap-1">98.4 <span class="material-symbols-outlined text-sm">trending_up</span></span>
         </div>
         <div class="flex items-end gap-1.5 h-16 w-full">
-            <div class="flex-1 bg-emerald-500 h-[90%] rounded-t-md opacity-20"></div>
-            <div class="flex-1 bg-emerald-500 h-[85%] rounded-t-md opacity-30"></div>
-            <div class="flex-1 bg-emerald-500 h-[95%] rounded-t-md opacity-50"></div>
-            <div class="flex-1 bg-emerald-500 h-[100%] rounded-t-md"></div>
-            <div class="flex-1 bg-emerald-500 h-[92%] rounded-t-md"></div>
-            <div class="flex-1 bg-emerald-500 h-[98%] rounded-t-md"></div>
-            <div class="flex-1 bg-emerald-200 h-[40%] rounded-t-md animate-pulse"></div>
+            <div class="flex-1 bg-emerald-500 h-[90%] rounded-t-lg opacity-20"></div>
+            <div class="flex-1 bg-emerald-500 h-[85%] rounded-t-lg opacity-30"></div>
+            <div class="flex-1 bg-emerald-500 h-[95%] rounded-t-lg opacity-50"></div>
+            <div class="flex-1 bg-emerald-500 h-[100%] rounded-t-lg"></div>
+            <div class="flex-1 bg-emerald-500 h-[92%] rounded-t-lg shadow-lg"></div>
+            <div class="flex-1 bg-emerald-500 h-[98%] rounded-t-lg animate-pulse"></div>
         </div>
       </div>
     </div>
@@ -85,63 +89,6 @@
       <button class="w-full bg-white/10 hover:bg-white/20 transition-colors py-3 rounded-lg text-sm font-bold mt-2">View Detailed Schedule</button>
     </div>
   </div>
-
-  <!-- Top Performing Contractors -->
-  <div class="md:col-span-12 lg:col-span-7 bg-slate-50 rounded-xl p-6 border border-slate-200/50">
-    <div class="flex justify-between items-center mb-6">
-      <h3 class="font-bold text-lg text-slate-900">Top Performing Contractors</h3>
-      <button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline">Full Audit</button>
-    </div>
-    <div class="space-y-4">
-      @for (c of contractors; track c.name) {
-        <div class="bg-white p-4 rounded-xl flex items-center justify-between group hover:scale-[1.01] transition-transform duration-300 shadow-sm border border-slate-100">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center border border-slate-100 p-1">
-              <img [src]="c.logo" class="w-full h-full object-contain rounded" />
-            </div>
-            <div>
-              <p class="font-bold text-slate-900">{{ c.name }}</p>
-              <p class="text-xs text-slate-500 font-medium">{{ c.personnel }} Active Personnel</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-8">
-            <div class="text-right">
-              <p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Efficiency</p>
-              <p [class]="'text-lg font-black ' + (c.efficiency > 90 ? 'text-green-600' : (c.efficiency > 80 ? 'text-blue-600' : 'text-amber-600'))">{{ c.efficiency }}%</p>
-            </div>
-            <div class="text-right hidden sm:block">
-              <p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Tasks</p>
-              <p class="text-lg font-black text-slate-900">{{ c.tasks }}</p>
-            </div>
-            <span class="material-symbols-outlined text-slate-300">chevron_right</span>
-          </div>
-        </div>
-      }
-    </div>
-  </div>
-
-  <!-- Productivity Velocity -->
-  <div class="md:col-span-12 lg:col-span-5 bg-white rounded-xl p-6 shadow-sm border border-slate-200/50">
-    <h3 class="font-bold text-lg text-slate-900 mb-6">Productivity Velocity</h3>
-    <div class="relative h-64 w-full flex items-end gap-1 px-4">
-      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[40%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK1</p></div>
-      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[55%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK2</p></div>
-      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[48%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK3</p></div>
-      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary/20 h-[75%] group-hover:bg-primary/40 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK4</p></div>
-      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-primary h-[85%] group-hover:brightness-110 transition-colors rounded-t-lg"></div><p class="text-[8px] font-bold text-primary text-center mt-2">WK5</p></div>
-      <div class="flex-1 bg-slate-50 flex flex-col justify-end group cursor-pointer rounded-t-lg"><div class="bg-slate-200 h-[20%] border-t-2 border-dashed border-slate-400 rounded-t-lg"></div><p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK6</p></div>
-    </div>
-    <div class="mt-8 grid grid-cols-2 gap-4">
-      <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-        <p class="text-[10px] font-bold text-slate-500 uppercase">Weekly Delta</p>
-        <p class="text-xl font-black text-green-600">+12.4%</p>
-      </div>
-      <div class="p-3 bg-slate-50 rounded-lg border border-slate-100">
-        <p class="text-[10px] font-bold text-slate-500 uppercase">Avg Completion</p>
-        <p class="text-xl font-black text-slate-900">4.2 <span class="text-xs font-normal">days</span></p>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- Active Shift Activity -->
@@ -152,7 +99,7 @@
   </div>
   <div class="overflow-x-auto pb-4">
     <div class="min-w-[800px] flex flex-col gap-2">
-      @for (worker of shiftActivity; track worker.name) {
+      @for (worker of filteredShiftActivity; track worker.name) {
         <div class="grid grid-cols-12 items-center gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
           <div class="col-span-2 flex items-center gap-3">
             <img [src]="worker.avatar" class="w-8 h-8 rounded-full shadow-sm" />

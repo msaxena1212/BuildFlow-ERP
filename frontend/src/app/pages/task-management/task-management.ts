@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { TaskDetail } from '../../components/task-detail/task-detail';
+import { AddTaskModal } from '../../components/add-task/add-task';
+import { FormsModule } from '@angular/forms';
 
 interface TaskItem {
+  id?: string;
   priority: string;
   priorityClass: string;
   title: string;
@@ -18,6 +22,7 @@ interface TaskItem {
 }
 
 interface TaskColumn {
+  id: string;
   title: string;
   color: string;
   count: number;
@@ -27,17 +32,44 @@ interface TaskColumn {
 @Component({
   selector: 'app-task-management',
   standalone: true,
-  imports: [CommonModule, TaskDetail],
+  imports: [CommonModule, TaskDetail, DragDropModule, AddTaskModal, FormsModule],
   templateUrl: './task-management.html',
   styleUrls: ['./task-management.css']
 })
 export class TaskManagement implements OnInit {
+  @Input() selectedMember = 'All Members';
   selectedTask: any = null;
+  showAddTaskModal = false;
+  targetStep: string = 'To Do';
+
+  team = [
+    { name: 'All Members', avatar: '' },
+    { name: 'Marcus Thorne', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4CZeaYB7fJXEtjKFkVujKuYnqc32Vz4RirffP91HCE-igMSlf58IRegCTvDiO-n6vn8GSii3hmQCT9wn7MZCO7LYC87Mix-nc0uOD0_dHzMdyYmVbfUFLAGo6sFmnu6r5xb66CI_FUi6YCEqOcUKyBiL2helT79G1OiGR1inPdCcO87KgZ9ygFt4Q9GbiYVVfSvdkQ-o38syvfzzZJtPCCht9KpCLNPH4NAfNB_nmM9iLmnFOQ8z1D6W3w9caWMwVul6E7XtJszA-' },
+    { name: 'Sarah Chen', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1RmRziofMuKPCOGKlk1YnapBSbLaEfo01m3q_4lcO8xWYBy9DKhbId94OYnRLdh0YKtETgTw4OBQS76xCwa3GI8lqHXQEh4qQQyAWfHCmwY_elYYp6wMji5eXHwrqZcUD4iEoGkyYIRyKMxXR2lEAw34APWS_Omi6iwEz2PTn97envSoQbpymAyVXp1E00dhY0AgRi3UNTNPZdT8tKT6Oe6M4gpGCg1r2U1-D3cACjbZQSMZS2qrf08cBFkc50Xkbgk1epsoox4yv' },
+    { name: 'David Miller', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8baYgQ3t4oMOHGPKXfFarqNItNIVVIfHOd53B1k7u3hLEDI1NYxbXwlB4obDhV4NFcKoh8XmJmz--LGSGjwi-6_5tek1bR_4g0zR8sP-PKdjXkmPZWQPWYZ_WxA4kNCyBSgF7hIdr8RLZJs4XGSqYbw-_kXxfo-jZFLySHpFqmRgQ_aH6iI-s-i2NZhe1wBHjRb3yN5siRJVrfnA1aetRFHVhFPPyPAuU9CJDj0_GJxvMIbyHt4DkCEkTrU9YIyXXMafDVs-F6tao' }
+  ];
+
+  isTaskVisible(task: TaskItem): boolean {
+    if (this.selectedMember === 'All Members') return true;
+    const member = this.team.find(m => m.name === this.selectedMember);
+    if (!member) return true;
+    
+    if (task.assignee === member.avatar) return true;
+    if (task.assignees?.includes(member.avatar)) return true;
+    
+    return false;
+  }
+
+  getFilteredCount(column: TaskColumn): number {
+    return column.tasks.filter(t => this.isTaskVisible(t)).length;
+  }
+
   columns: TaskColumn[] = [
     {
+      id: 'todo',
       title: 'To Do',
       color: 'bg-slate-400',
-      count: 4,
+      count: 2,
       tasks: [
         {
           priority: 'High Priority',
@@ -58,9 +90,10 @@ export class TaskManagement implements OnInit {
       ]
     },
     {
+      id: 'inprogress',
       title: 'In Progress',
       color: 'bg-amber-500',
-      count: 2,
+      count: 1,
       tasks: [
         {
           priority: 'Low Priority',
@@ -73,6 +106,7 @@ export class TaskManagement implements OnInit {
       ]
     },
     {
+      id: 'review',
       title: 'Review',
       color: 'bg-blue-600',
       count: 1,
@@ -93,9 +127,10 @@ export class TaskManagement implements OnInit {
       ]
     },
     {
+      id: 'completed',
       title: 'Completed',
       color: 'bg-green-500',
-      count: 12,
+      count: 1,
       tasks: [
         {
           priority: 'Archived',
@@ -111,6 +146,40 @@ export class TaskManagement implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  openAddTaskModal(columnTitle: string = 'To Do') {
+    this.targetStep = columnTitle;
+    this.showAddTaskModal = true;
+  }
+
+  addNewTask(task: any) {
+    const column = this.columns.find(c => c.title === task.status);
+    if (column) {
+      column.tasks.unshift(task);
+      this.updateCounts();
+    }
+    this.showAddTaskModal = false;
+  }
+
+  drop(event: CdkDragDrop<TaskItem[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+    this.updateCounts();
+  }
+
+  updateCounts() {
+    this.columns.forEach(col => {
+      col.count = col.tasks.length;
+    });
+  }
 
   openTaskDetail(task: any) {
     this.selectedTask = task;

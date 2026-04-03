@@ -10,15 +10,23 @@ import { ProjectBudget } from '../project-budget/project-budget';
 import { ProjectFiles } from '../project-files/project-files';
 import { AddSiteNoteModal } from '../../components/add-site-note/add-site-note';
 import { SiteGallery } from '../../components/site-gallery/site-gallery';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, TaskManagement, ProjectTimeline, ProjectBudget, ProjectFiles, AddSiteNoteModal, SiteGallery],
+  imports: [CommonModule, RouterLink, TaskManagement, ProjectTimeline, ProjectBudget, ProjectFiles, AddSiteNoteModal, SiteGallery, FormsModule],
   templateUrl: './project-detail.html',
   styleUrls: ['./project-detail.css']
 })
 export class ProjectDetail implements OnInit {
+  teamMembers = [
+    { name: 'All Members' },
+    { name: 'Marcus Thorne' },
+    { name: 'Sarah Chen' },
+    { name: 'David Miller' }
+  ];
+  selectedMember = 'All Members';
   project: any = null;
   showAddUpdateModal = false;
   updates: any[] = [];
@@ -48,8 +56,17 @@ export class ProjectDetail implements OnInit {
     });
 
     this.projectService.getUpdates().subscribe(data => {
-      this.updates = data;
+      // Enrichment: add mock assignees to updates for filtering
+      this.updates = data.map((u, i) => ({
+        ...u,
+        assignee: i % 2 === 0 ? 'Marcus Thorne' : 'Sarah Chen'
+      }));
     });
+  }
+
+  get filteredUpdates() {
+    if (this.selectedMember === 'All Members') return this.updates;
+    return this.updates.filter(u => u.assignee === this.selectedMember);
   }
 
   fetchProjectDetails(id: string) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
+import { FormsModule } from '@angular/forms';
 
 interface Project {
   id: string;
@@ -22,7 +23,7 @@ interface Project {
 @Component({
   selector: 'app-projects-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './projects-list.html',
   styleUrls: ['./projects-list.css']
 })
@@ -30,6 +31,14 @@ export class ProjectsList implements OnInit {
   projects: Project[] = [];
   loading: boolean = true;
   error: string | null = null;
+  
+  team = [
+    { name: 'All Members' },
+    { name: 'Marcus Thorne' },
+    { name: 'Sarah Chen' },
+    { name: 'David Miller' }
+  ];
+  selectedMember = 'All Members';
 
   constructor(private projectService: ProjectService) {}
 
@@ -37,14 +46,19 @@ export class ProjectsList implements OnInit {
     this.fetchProjects();
   }
 
+  get filteredProjects(): Project[] {
+    if (this.selectedMember === 'All Members') return this.projects;
+    return this.projects.filter(p => p.team.some(m => m.name === this.selectedMember));
+  }
+
   fetchProjects(): void {
     this.loading = true;
     this.projectService.getProjects().subscribe({
-      next: (data) => {
+      next: (data: Project[]) => {
         this.projects = data;
         this.loading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         this.error = 'Failed to load projects. Please try again.';
         this.loading = false;
         console.error(err);

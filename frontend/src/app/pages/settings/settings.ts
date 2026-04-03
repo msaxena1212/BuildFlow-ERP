@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './settings.html',
   styleUrls: ['./settings.css']
 })
 export class Settings implements OnInit {
+  team = [
+    { name: 'All Members' },
+    { name: 'Marcus Thorne' },
+    { name: 'Sarah Chen' }
+  ];
+  selectedMember = 'All Members';
   activeTab: string = 'general';
 
   notificationSettings = [

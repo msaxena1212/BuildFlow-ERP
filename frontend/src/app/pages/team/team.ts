@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-team-management',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './team.html',
   styleUrls: ['./team.css']
 })
 export class TeamManagement implements OnInit {
+  selectedMember = 'All Members';
+  
   stats = [
     { label: 'Total Members', value: 42, icon: 'group', color: 'text-blue-600', bg: 'bg-blue-50' },
     { label: 'Pending Invites', value: 8, icon: 'pending_actions', color: 'text-amber-600', bg: 'bg-amber-50' },
@@ -58,4 +61,13 @@ export class TeamManagement implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  get filteredMembers() {
+    if (this.selectedMember === 'All Members') return this.members;
+    return this.members.filter(m => m.name === this.selectedMember);
+  }
+
+  get team() {
+    return [{ name: 'All Members' }, ...this.members.map(m => ({ name: m.name }))];
+  }
 }

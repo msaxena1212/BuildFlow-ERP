@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-contract-management',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './contracts.html',
   styleUrls: ['./contracts.css']
 })
 export class ContractManagement implements OnInit {
+  team = [
+    { name: 'All Members' },
+    { name: 'Marcus Thorne' },
+    { name: 'Sarah Chen' }
+  ];
+  selectedMember = 'All Members';
   contracts = [
     {
       id: 'c1',
@@ -19,9 +26,26 @@ export class ContractManagement implements OnInit {
       status: 'Active',
       effectiveDate: 'Jan 12, 2024',
       expiryDays: 34,
-      location: 'Seattle, WA'
+      location: 'Seattle, WA',
+      owner: 'Marcus Thorne'
+    },
+    {
+      id: 'c2',
+      vendor: 'VoltStream Electrical',
+      value: 850000,
+      utilized: 45,
+      status: 'Active',
+      effectiveDate: 'Feb 05, 2024',
+      expiryDays: 120,
+      location: 'Bellevue, WA',
+      owner: 'Sarah Chen'
     }
   ];
+
+  get filteredContracts() {
+    if (this.selectedMember === 'All Members') return this.contracts;
+    return this.contracts.filter(c => c.owner === this.selectedMember);
+  }
 
   documents = [
     { name: 'Titan_Structural_MSA_2024.pdf', type: 'Master Agreement', size: '2.4 MB', date: 'Sep 02', icon: 'picture_as_pdf', color: 'text-red-500', bg: 'bg-red-50' },
