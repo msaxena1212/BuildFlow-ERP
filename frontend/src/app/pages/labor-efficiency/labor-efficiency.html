@@ -67,26 +67,61 @@
     </div>
   </div>
 
-  <!-- Labor Requirement Forecast -->
-  <div class="md:col-span-4 bg-primary text-white rounded-xl p-6 flex flex-col justify-between overflow-hidden relative shadow-2xl shadow-primary/30">
-    <div class="absolute top-0 right-0 p-8 opacity-10">
-      <span class="material-symbols-outlined text-9xl">trending_up</span>
-    </div>
-    <div class="relative z-10">
-      <h3 class="text-sm font-bold tracking-widest uppercase opacity-70 mb-2">Requirement Forecast</h3>
-      <p class="text-3xl font-black leading-tight">1,240 <span class="text-lg font-medium opacity-80">Man-Hours</span></p>
-      <p class="text-sm mt-2 opacity-80">Projected demand for the upcoming week based on phase 4 scheduling.</p>
-    </div>
-    <div class="relative z-10 mt-8 space-y-4">
-      <div class="space-y-1">
-        <div class="flex justify-between text-xs font-bold uppercase"><span>Structural Steel</span><span>82%</span></div>
-        <div class="h-2 bg-white/20 rounded-full overflow-hidden"><div class="h-full bg-amber-400 w-[82%] rounded-full"></div></div>
+  <!-- Financial Metrics & Profitability Leaks -->
+  <div class="md:col-span-4 space-y-6">
+    <!-- Earned Value vs Cost -->
+    <div class="bg-white rounded-xl p-6 shadow-xl border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+      <h3 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-6">Financial Efficiency (EV vs AC)</h3>
+      <div class="space-y-4">
+        <div>
+          <div class="flex justify-between items-end mb-1">
+            <span class="text-sm font-bold text-slate-700">Earned Value</span>
+            <span class="text-lg font-black text-emerald-600">${{ financialMetrics.earnedValue | number }}</span>
+          </div>
+          <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+             <div class="h-full bg-emerald-500 rounded-full" style="width: 88%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between items-end mb-1">
+            <span class="text-sm font-bold text-slate-700">Actual Cost</span>
+            <span class="text-lg font-black text-rose-600">${{ financialMetrics.actualCost | number }}</span>
+          </div>
+          <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+             <div class="h-full bg-rose-500 rounded-full" style="width: 100%"></div>
+          </div>
+        </div>
+        <div class="p-3 bg-slate-50 border border-slate-100 rounded-xl mt-4 flex items-center justify-between">
+          <span class="text-[10px] font-black tracking-widest">COST PERF. INDEX (CPI)</span>
+          <span class="text-sm font-black text-rose-600 flex items-center gap-1">{{ financialMetrics.cpi }} <span class="material-symbols-outlined text-[10px] inline">warning</span></span>
+        </div>
       </div>
-      <div class="space-y-1">
-        <div class="flex justify-between text-xs font-bold uppercase"><span>Electrical Grid</span><span>45%</span></div>
-        <div class="h-2 bg-white/20 rounded-full overflow-hidden"><div class="h-full bg-white w-[45%] rounded-full"></div></div>
-      </div>
-      <button class="w-full bg-white/10 hover:bg-white/20 transition-colors py-3 rounded-lg text-sm font-bold mt-2">View Detailed Schedule</button>
+    </div>
+
+    <!-- Profitability Anomalies -->
+    <div class="bg-rose-50 rounded-xl p-6 shadow-xl border border-rose-100 relative">
+       <h3 class="text-xs font-black tracking-widest text-rose-800 mb-4 flex items-center gap-2">
+         <span class="material-symbols-outlined text-sm">crisis_alert</span>
+         PROFITABILITY LEAKS
+       </h3>
+       
+       <div class="space-y-3">
+         @for(leak of profitabilityLeaks; track leak.zone) {
+           <div class="bg-white p-4 rounded-xl border border-rose-100 shadow-sm transition-transform hover:-translate-y-1 cursor-pointer">
+             <div class="flex justify-between items-start mb-2">
+               <div>
+                  <p class="text-xs font-bold text-slate-900">{{ leak.zone }}</p>
+                  <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">{{ leak.contractor }}</p>
+               </div>
+               <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-1 rounded-lg">{{ leak.delta | number }}</span>
+             </div>
+             <div class="flex items-center gap-2 mt-3 p-2 bg-rose-50/50 rounded-lg">
+                <span class="material-symbols-outlined text-[12px] text-rose-500">lightbulb</span>
+                <p class="text-[10px] font-bold text-rose-700">{{ leak.resolution }}</p>
+             </div>
+           </div>
+         }
+       </div>
     </div>
   </div>
 </div>

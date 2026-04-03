@@ -30,6 +30,17 @@ export class LaborEfficiency implements OnInit {
 
   heatmap = Array(3).fill(0).map(() => Array(7).fill(0).map(() => Math.floor(Math.random() * 5)));
 
+  financialMetrics = {
+    earnedValue: 845000,
+    actualCost: 912000,
+    cpi: 0.93
+  };
+
+  profitabilityLeaks = [
+    { zone: 'North Wing - Level 4', contractor: 'Vanguard Electrical', delta: -4200, trend: 'increasing', resolution: 'Investigate overtime logs' },
+    { zone: 'East Plaza - Civil', contractor: 'Apex Concrete Solutions', delta: -1850, trend: 'stable', resolution: 'Material delay incurred holding costs' }
+  ];
+
   constructor() {}
 
   ngOnInit(): void {}

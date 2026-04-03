@@ -42,6 +42,22 @@ export class ProgressReport implements OnInit {
     { icon: 'thunderstorm', title: 'Weather Impact', desc: 'Exterior landscaping on East Plaza paused due to heavy rainfall forecasted for Tues-Wed.', mitigation: 'Impact: Low (Buffer active)' }
   ];
 
+  crossModuleData = {
+    totalTasksCompleted: 145,
+    totalTasks: 180,
+    materialsConsumed: 8200,
+    materialsTotal: 10500,
+    capitalBurned: 1250000,
+    budgetAllocated: 1500000
+  };
+
+  trendForecasting = {
+    scheduleVariance: '+4 Days Ahead',
+    costVariance: '$12,500 Under Budget',
+    projectedCompletion: 'Nov 18, 2024',
+    riskLevel: 'Low'
+  };
+
   constructor() {}
   ngOnInit(): void {}
 
