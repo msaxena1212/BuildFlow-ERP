@@ -233,7 +233,7 @@
                   {{ contract.expiryDate }} ({{ contract.expiryDays }} Days)
                 </p>
               </td>
-              <td class="px-8 py-6 text-right relative">
+              <td class="px-8 py-6 text-right relative" [class.z-[60]]="activeDropdownId === contract.id">
                 <button (click)="toggleDropdown(contract.id, $event)" 
                         class="w-10 h-10 rounded-xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-md text-slate-400 hover:text-primary transition-all flex items-center justify-center ml-auto">
                   <span class="material-symbols-outlined">more_vert</span>
@@ -256,7 +256,7 @@
                     </button>
                     <div class="h-px bg-slate-100 dark:bg-slate-800 my-1"></div>
                     <button class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 rounded-xl transition-all">
-                      <span class="material-symbols-outlined text-[18px]">terminate_contract</span> Terminate
+                      <span class="material-symbols-outlined text-[18px]">block</span> Terminate
                     </button>
                   </div>
                 </div>
