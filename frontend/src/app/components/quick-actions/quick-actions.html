@@ -2,7 +2,7 @@
   <!-- Action Menu -->
   <div [class.translate-y-0]="isOpen" [class.opacity-100]="isOpen" [class.translate-y-4]="!isOpen" [class.opacity-0]="!isOpen" [class.pointer-events-auto]="isOpen" class="flex flex-col gap-3 transition-all duration-300 ease-out">
     @for (action of actions; track action.label) {
-      <button (click)="openAction(action.id)" class="flex items-center gap-3 group animate-in pointer-events-auto cursor-pointer">
+      <button (click)="openAction(action.id)" class="flex items-center gap-3 group animate-in cursor-pointer">
         <span class="bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-xl">{{ action.label }}</span>
         <div [class]="action.color" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-xl hover:scale-110 active:scale-95 transition-all">
           <span class="material-symbols-outlined text-2xl" [style.font-variation-settings]="'\'FILL\' 1'">{{ action.icon }}</span>

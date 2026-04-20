@@ -254,47 +254,118 @@
 
 <!-- ALL OPERATIONAL MODALS -->
 
-<!-- New Invoice Submission Modal -->
+<!-- New Invoice Submission Modal (Advanced Builder) -->
 @if (showInvoiceModal) {
-    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showInvoiceModal = false">
-        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-2xl font-black tracking-tight">New Submission</h3>
-                    <p class="text-sm text-outline font-medium">Upload completion logs and service invoice.</p>
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 lg:p-8 animate-in fade-in duration-300" (click)="showInvoiceModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden border border-white/20 animate-in zoom-in-95 duration-300" (click)="$event.stopPropagation()">
+            <!-- Header -->
+            <div class="bg-gradient-to-br from-slate-800 to-slate-950 p-6 lg:p-10 text-white relative shrink-0">
+                <div class="absolute top-0 right-0 p-6 lg:p-10 opacity-10">
+                    <span class="material-symbols-outlined text-[80px] lg:text-[120px]">receipt_long</span>
                 </div>
-                <button (click)="showInvoiceModal = false" class="p-2 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
+                <div class="flex justify-between items-start relative z-10">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-white/70 border border-white/10">Invoicing Command</span>
+                        </div>
+                        <h3 class="text-2xl lg:text-4xl font-black tracking-tight mb-2">Generate Settlement Request</h3>
+                        <p class="text-slate-400 font-medium max-w-md text-xs lg:text-sm">Detailed line-item breakdown for specialized vendor services.</p>
+                    </div>
+                    <button (click)="showInvoiceModal = false" class="p-2 lg:p-3 hover:bg-white/10 rounded-2xl transition-all cursor-pointer">
+                        <span class="material-symbols-outlined text-2xl">close</span>
+                    </button>
+                </div>
             </div>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Invoice Number</label>
-                    <input [(ngModel)]="invoiceForm.number" readonly type="text" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 bg-slate-50 text-sm font-bold outline-none cursor-not-allowed uppercase">
-                </div>
-                <div>
-                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Billing Amount (Gross)</label>
-                    <input [(ngModel)]="invoiceForm.amount" type="text" placeholder="₹0.00" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-lg font-black outline-none focus:ring-2 focus:ring-primary/20">
-                </div>
-                <div>
-                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Service Category</label>
-                    <select class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none bg-white">
-                        <option>Material Delivery</option>
-                        <option>Labor Milestone</option>
-                        <option>Service Fee</option>
-                        <option>Maintenance</option>
-                    </select>
-                </div>
-                <div class="border-2 border-dashed border-outline-variant/20 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 hover:bg-slate-50 transition-colors cursor-pointer">
-                    <span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-outline">Upload Proof of Work (PDF)</p>
-                </div>
-            </div>
+            <div class="p-6 lg:p-10 grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 overflow-y-auto">
+                <!-- Main Form (Table) -->
+                <div class="col-span-8 space-y-8">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Line Item Breakdown</h4>
+                        <button (click)="addInvoiceItem()" class="text-primary text-[10px] font-black uppercase tracking-[0.15em] flex items-center gap-2 hover:bg-primary/5 px-4 py-2 rounded-xl transition-all">
+                            <span class="material-symbols-outlined text-sm">add_circle</span> Add Record
+                        </button>
+                    </div>
 
-            <div class="flex gap-3 mt-8">
-                <button (click)="showInvoiceModal = false" class="flex-1 py-3.5 rounded-2xl border border-outline-variant/20 text-sm font-black uppercase tracking-widest cursor-pointer hover:bg-slate-50">Cancel</button>
-                <button (click)="submitInvoice()" class="flex-1 py-3.5 rounded-2xl bg-primary text-white text-sm font-black uppercase tracking-widest cursor-pointer shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">Submit Invoice</button>
+                    <div class="bg-slate-50/50 dark:bg-slate-800/30 rounded-3xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-100/50 dark:bg-slate-800/50">
+                                <tr>
+                                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Service/Item Description</th>
+                                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center w-24">Qty</th>
+                                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right w-32">Unit Price</th>
+                                    <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right w-32">Total</th>
+                                    <th class="px-6 py-4 w-12 text-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                                <tr *ngFor="let item of invoiceForm.items; let i = index" class="group hover:bg-white dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <input type="text" [(ngModel)]="item.description" placeholder="e.g. Structural Steel Installation - Phase 1" 
+                                               class="w-full bg-transparent border-none text-sm font-bold text-slate-900 dark:text-slate-100 outline-none placeholder:text-slate-300">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <input type="number" [(ngModel)]="item.quantity" (ngModelChange)="calculateInvoiceTotals()"
+                                               class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg p-2 text-sm font-black text-center outline-none">
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <input type="number" [(ngModel)]="item.unitPrice" (ngModelChange)="calculateInvoiceTotals()"
+                                               class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg p-2 text-sm font-black text-right outline-none">
+                                    </td>
+                                    <td class="px-6 py-4 text-right align-middle">
+                                        <span class="text-sm font-black text-slate-900 dark:text-slate-100">₹{{ (item.quantity * item.unitPrice).toLocaleString() }}</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <button (click)="removeInvoiceItem(i)" class="text-slate-300 hover:text-red-500 transition-colors">
+                                            <span class="material-symbols-outlined text-lg">delete</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Summary Sidebar -->
+                <div class="col-span-4 space-y-6 bg-slate-50 dark:bg-slate-800 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Invoice Reference</label>
+                        <div class="bg-white dark:bg-slate-900 px-6 py-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                            <p class="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight">{{ invoiceForm.number }}</p>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase">{{ invoiceForm.date }}</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                        <div class="flex justify-between items-center text-sm font-bold text-slate-500">
+                            <span>Subtotal</span>
+                            <span>₹{{ invoiceForm.subtotal.toLocaleString() }}</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm font-bold text-slate-500">
+                            <div class="flex items-center gap-2">
+                                <span>Adjusted Tax</span>
+                                <input type="number" [(ngModel)]="invoiceForm.taxRate" (ngModelChange)="calculateInvoiceTotals()"
+                                       class="w-12 bg-white dark:bg-slate-900 border-none rounded px-2 py-1 text-[10px] font-black text-center outline-none">
+                                <span>%</span>
+                            </div>
+                            <span>₹{{ invoiceForm.taxAmount.toLocaleString() }}</span>
+                        </div>
+                        <div class="pt-4 border-t-2 border-slate-200 dark:border-slate-700">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-slate-100">Settlement Amount</span>
+                                <span class="text-2xl font-black text-primary">₹{{ invoiceForm.grandTotal.toLocaleString() }}</span>
+                            </div>
+                            <p class="text-[10px] font-bold text-slate-400 italic">Calculated and validated local ledger sync.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 space-y-3">
+                        <button (click)="submitInvoice()" class="w-full py-5 bg-primary text-white rounded-3xl font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+                            <span class="material-symbols-outlined">send_to_mobile</span> Finalize Settlement
+                        </button>
+                        <button (click)="showInvoiceModal = false" class="w-full py-4 text-xs font-bold text-slate-400 hover:text-slate-600 transition-colors">Discard Draft</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

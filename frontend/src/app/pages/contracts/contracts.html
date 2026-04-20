@@ -1,4 +1,4 @@
-<div class="max-w-[1400px] mx-auto p-8 animate-in">
+<div (click)="closeDropdown()" class="max-w-[1400px] mx-auto p-8 animate-in">
   <!-- Vendor Header -->
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
     <div class="space-y-3">
@@ -8,7 +8,9 @@
           <span class="material-symbols-outlined text-[16px]">location_on</span> Seattle, WA
         </span>
       </div>
-      <h2 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">Titan Structural Steel, LLC</h2>
+      <h2 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">
+        {{ selectedVendor === 'All Vendors' ? 'Titan Structural Steel, LLC' : selectedVendor }}
+      </h2>
       <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">Lead structural contractor for Project Meridian and Skyline Plaza. Primary scope: reinforced steel framing and fabrication.</p>
     </div>
     <div class="flex items-center gap-4">
@@ -21,7 +23,8 @@
       <button routerLink="/vendors/v1" class="px-6 py-3.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-bold rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm border border-slate-200 dark:border-slate-700 shadow-sm">
         View Vendor Profile
       </button>
-      <button class="px-8 py-3.5 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm flex items-center gap-2.5">
+      <button (click)="filteredContracts.length > 0 && openRenewalModal(filteredContracts[0])" 
+              class="px-8 py-3.5 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm flex items-center gap-2.5">
         <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">history_edu</span> Renew Contract
       </button>
     </div>
@@ -179,7 +182,7 @@
         <span class="material-symbols-outlined text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 p-2 rounded-xl">contract</span>
         <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">All Contracts Directory</h3>
       </div>
-      <button class="text-xs font-bold bg-primary text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center gap-2">
+      <button (click)="openNewContractModal()" class="text-xs font-bold bg-primary text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center gap-2">
         <span class="material-symbols-outlined text-[16px]">add</span> New Contract
       </button>
     </div>
@@ -230,17 +233,32 @@
                   {{ contract.expiryDate }} ({{ contract.expiryDays }} Days)
                 </p>
               </td>
-              <td class="px-8 py-6 text-right">
-                <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all">
-                  @if (contract.expiryDays <= 30) {
-                    <button class="px-3 py-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-md hover:scale-105 transition-transform flex items-center gap-1">
-                      <span class="material-symbols-outlined text-[14px]">autorenew</span> Renew
+              <td class="px-8 py-6 text-right relative">
+                <button (click)="toggleDropdown(contract.id, $event)" 
+                        class="w-10 h-10 rounded-xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-md text-slate-400 hover:text-primary transition-all flex items-center justify-center ml-auto">
+                  <span class="material-symbols-outlined">more_vert</span>
+                </button>
+                
+                <!-- Actions Dropdown -->
+                <div *ngIf="activeDropdownId === contract.id" 
+                     class="absolute right-8 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 z-[50] overflow-hidden animate-in zoom-in-95 duration-200">
+                  <div class="p-2 space-y-1">
+                    <button class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all">
+                      <span class="material-symbols-outlined text-[18px]">visibility</span> View Details
                     </button>
-                  } @else {
-                    <button class="px-3 py-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-1">
-                       View Details
+                    @if (contract.expiryDays <= 30) {
+                      <button (click)="openRenewalModal(contract)" class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-amber-600 hover:bg-amber-50 rounded-xl transition-all">
+                        <span class="material-symbols-outlined text-[18px]">autorenew</span> Renew Contract
+                      </button>
+                    }
+                    <button class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all">
+                      <span class="material-symbols-outlined text-[18px]">history</span> History
                     </button>
-                  }
+                    <div class="h-px bg-slate-100 dark:bg-slate-800 my-1"></div>
+                    <button class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 rounded-xl transition-all">
+                      <span class="material-symbols-outlined text-[18px]">terminate_contract</span> Terminate
+                    </button>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -262,4 +280,151 @@
       <span class="text-slate-300 dark:text-slate-700">© 2024 ZYNO Systems Intelligence</span>
     </div>
   </footer>
+</div>
+
+<!-- Renew Contract Modal -->
+<div *ngIf="showRenewalModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+  <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-primary to-primary-container p-8 text-white relative">
+      <div class="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+      <div class="relative z-10 flex justify-between items-start">
+        <div>
+          <h3 class="text-2xl font-black tracking-tight mb-1">Renew Contract</h3>
+          <p class="text-white/70 text-sm font-medium">{{ selectedContract?.vendor }}</p>
+        </div>
+        <button (click)="closeRenewalModal()" class="p-2 hover:bg-white/10 rounded-xl transition-all">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="p-10 space-y-8">
+      <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-3xl border border-slate-100 dark:border-slate-800">
+        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Current Terms</p>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-tight mb-1">Current Expiry</p>
+            <p class="text-lg font-black text-slate-900 dark:text-slate-50">{{ selectedContract?.expiryDate }}</p>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-tight mb-1">Contract Value</p>
+            <p class="text-lg font-black text-slate-900 dark:text-slate-50">${{ selectedContract?.value | number }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block ml-1">New Expiry Date</label>
+          <input type="text" [(ngModel)]="renewalForm.newExpiry" placeholder="e.g. Dec 31, 2025"
+                 class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+        </div>
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block ml-1">New Contract Value</label>
+          <input type="number" [(ngModel)]="renewalForm.newValue" 
+                 class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="p-10 pt-0 flex gap-4">
+      <button (click)="closeRenewalModal()" class="flex-1 py-4 rounded-2xl font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 transition-all group">
+        Discard Changes
+      </button>
+      <button (click)="submitRenewal()" class="flex-[2] py-4 rounded-2xl font-bold text-white bg-gradient-to-br from-primary to-primary-container shadow-xl shadow-primary/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        Confirm Renewal
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- New Contract Modal -->
+<div *ngIf="showNewContractModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+  <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-indigo-600 to-indigo-800 p-8 text-white relative">
+      <div class="absolute -top-6 -right-6 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl"></div>
+      <div class="relative z-10 flex justify-between items-start">
+        <div>
+          <h3 class="text-2xl font-black tracking-tight mb-1">Establish New Contract</h3>
+          <p class="text-indigo-100/70 text-sm font-medium uppercase tracking-widest">Legal Procurement Entry</p>
+        </div>
+        <button (click)="closeNewContractModal()" class="p-2 hover:bg-white/10 rounded-xl transition-all">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-10 grid grid-cols-2 gap-8 overflow-y-auto max-h-[60vh]">
+      <div class="col-span-2">
+        <div class="flex justify-between items-end mb-2 ml-1">
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Vendor / Partner Entity</label>
+          <button (click)="redirectToVendors()" class="text-[10px] font-bold text-indigo-600 hover:underline uppercase tracking-tighter">Add New Vendor +</button>
+        </div>
+        <select [(ngModel)]="newContractForm.vendor" 
+                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none appearance-none">
+          <option value="" disabled selected>Select a registered vendor...</option>
+          @for (vendor of allVendors; track vendor.id) {
+            <option [value]="vendor.name">{{ vendor.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contract Type</label>
+        <select [(ngModel)]="newContractForm.type" 
+                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none appearance-none">
+          <option value="Master Service Agreement">Master Service Agreement</option>
+          <option value="Subcontractor Agreement">Subcontractor Agreement</option>
+          <option value="Material Supply Contract">Material Supply Contract</option>
+          <option value="Lease Agreement">Lease Agreement</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Total Contract Value</label>
+        <input type="number" [(ngModel)]="newContractForm.value" placeholder="Amount in USD..."
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Effective Date</label>
+        <input type="text" [(ngModel)]="newContractForm.effectiveDate" placeholder="e.g. Jan 01, 2024"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Initial Expiry Date</label>
+        <input type="text" [(ngModel)]="newContractForm.expiryDate" placeholder="e.g. Dec 31, 2024"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Project Location</label>
+        <input type="text" [(ngModel)]="newContractForm.location" placeholder="e.g. Seattle, WA"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contract Owner</label>
+        <input type="text" [(ngModel)]="newContractForm.owner" 
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="p-10 pt-0 flex gap-4">
+      <button (click)="closeNewContractModal()" class="flex-1 py-4 rounded-2xl font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 transition-all">
+        Cancel Entry
+      </button>
+      <button (click)="submitNewContract()" class="flex-[2] py-4 rounded-2xl font-bold text-white bg-gradient-to-br from-indigo-600 to-indigo-800 shadow-xl shadow-indigo-500/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">description</span>
+        Establish Contract
+      </button>
+    </div>
+  </div>
 </div>

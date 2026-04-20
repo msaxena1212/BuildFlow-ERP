@@ -10,6 +10,8 @@ import { CalendarView } from './pages/calendar/calendar';
 import { MaterialsManagement } from './pages/materials/materials';
 import { MaterialDetailView } from './pages/material-detail/material-detail';
 import { VendorManagement } from './pages/vendors/vendors';
+import { Quotations } from './pages/quotations/quotations';
+import { NewQuoteWizard } from './pages/new-quote-wizard/new-quote-wizard';
 import { NotFoundPage } from './pages/not-found/not-found';
 
 import { ContractManagement } from './pages/contracts/contracts';
@@ -33,6 +35,8 @@ export const routes: Routes = [
   { path: 'materials/:id', component: MaterialDetailView },
   { path: 'vendors', component: VendorManagement },
   { path: 'vendors/:id', component: VendorManagement },
+  { path: 'quotations', component: Quotations },
+  { path: 'quotations/new', component: NewQuoteWizard },
   { path: 'contracts', component: ContractManagement },
   { path: 'billing', component: BillingDetail },
   { path: 'team', component: TeamManagement },

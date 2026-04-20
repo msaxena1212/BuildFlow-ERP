@@ -101,3 +101,23 @@ export interface Vendor {
   audits: { date: string; score: number; notes: string }[];
   invoices: { number: string; amount: string; status: string; date: string }[];
 }
+
+export interface QuoteItem {
+  materialSku: string;
+  materialName: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  vendorId: string | number;
+  vendorName: string;
+}
+
+export interface Quote {
+  id: string;
+  quoteNumber: string;
+  date: string;
+  salesPerson: string;
+  items: QuoteItem[];
+  totalAmount: number;
+  status: 'Draft' | 'Sent' | 'Approved' | 'Rejected';
+}

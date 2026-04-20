@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { projects, updates, materials, tasks, vendors } from './data/mock-data';
+import { projects, updates, materials, tasks, vendors, quotes } from './data/mock-data';
 
 const app = express();
 const port = 3000;
@@ -44,6 +44,16 @@ app.get('/api/tasks', (req: Request, res: Response) => {
 
 app.get('/api/vendors', (req: Request, res: Response) => {
   res.json(vendors);
+});
+
+app.get('/api/quotes', (req: Request, res: Response) => {
+  res.json(quotes);
+});
+
+app.post('/api/quotes', (req: Request, res: Response) => {
+  const newQuote = req.body;
+  quotes.push(newQuote);
+  res.status(201).json(newQuote);
 });
 
 app.get('/health', (req: Request, res: Response) => {

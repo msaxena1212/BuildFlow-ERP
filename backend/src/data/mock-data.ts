@@ -1,4 +1,4 @@
-import { Project, Task, SiteUpdate, Material, Vendor } from '../models/models';
+import { Project, Task, SiteUpdate, Material, Vendor, Quote } from '../models/models';
 
 export const projects: Project[] = [
   {
@@ -72,7 +72,10 @@ export const materials: Material[] = [
   { name: 'Copper Wiring 2.5mm', sku: 'ELEC-WR-25', category: 'Electrical', icon: 'bolt', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 1200, total: 2000, percent: 60 }, cost: '₹1.20', supplier: 'VoltStream Supplies', status: 'Adequate' },
   { name: 'Ceramic Floor Tiles', sku: 'FIN-CER-60', category: 'Finishing', icon: 'square', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 850, total: 1000, percent: 85 }, cost: '₹45.00', supplier: 'Modern Surfaces Int.', status: 'Optimal' },
   { name: 'Waterproof Sealant', sku: 'CHM-SEA-L', category: 'Chemicals', icon: 'water_drop', bg: 'bg-red-50', border: 'border-red-100', text: 'text-error', stock: { current: 12, total: 250, percent: 4.8 }, cost: '₹82.00', supplier: 'BuildSafe Chemicals', status: 'Critical' },
-  { name: 'Structural Lumber 2x4', sku: 'LUM-24-12', category: 'Lumber', icon: 'forest', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 150, total: 800, percent: 18.75 }, cost: '₹412.00', supplier: 'Westside Timber Co.', status: 'Critical' }
+  { name: 'Structural Lumber 2x4', sku: 'LUM-24-12', category: 'Lumber', icon: 'forest', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 150, total: 800, percent: 18.75 }, cost: '₹412.00', supplier: 'Westside Timber Co.', status: 'Critical' },
+  { name: 'White Carrera Marble', sku: 'FIN-MAR-W', category: 'Finishing', icon: 'view_quilt', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 40, total: 100, percent: 40 }, cost: '₹850.00', supplier: 'Modern Surfaces Int.', status: 'Adequate' },
+  { name: 'Teak Wood Planks', sku: 'LUM-TK-1', category: 'Lumber', icon: 'forest', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 85, total: 200, percent: 42.5 }, cost: '₹1250.00', supplier: 'Westside Timber Co.', status: 'Adequate' },
+  { name: 'H-Beam Structural Steel', sku: 'STL-HB-10', category: 'Steel', icon: 'grid_4x4', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 20, total: 50, percent: 40 }, cost: '₹4500.00', supplier: 'Foundry Steel Corp.', status: 'Adequate' }
 ];
 
 export const tasks: Task[] = [
@@ -110,3 +113,5 @@ export const vendors: Vendor[] = [
     invoices: [{ number: 'INV-SR-9012', amount: '₹12,500.00', status: 'Pending', date: 'May 12, 2024' }]
   }
 ];
+
+export const quotes: Quote[] = [];

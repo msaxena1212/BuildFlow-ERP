@@ -37,8 +37,12 @@ export class VendorManagement implements OnInit {
 
   invoiceForm: any = {
     number: '',
-    amount: '',
-    date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+    date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+    items: [{ description: '', quantity: 1, unitPrice: 0, total: 0 }],
+    taxRate: 18,
+    taxAmount: 0,
+    subtotal: 0,
+    grandTotal: 0
   };
 
   auditForm: any = {
@@ -108,7 +112,7 @@ export class VendorManagement implements OnInit {
   addVendor() {
     const freshVendor: Vendor = {
       ...this.newVendor,
-      id: Date.now(), // Real ID in a real app
+      id: Date.now(),
       balance: '₹0.00',
       statusColor: 'bg-amber-100 text-amber-700',
       services: this.newVendor.services.split(','),
@@ -130,27 +134,68 @@ export class VendorManagement implements OnInit {
     this.router.navigate(['/vendors']);
   }
 
-  // --- Operational Actions ---
+  // --- Advanced Invoicing Actions ---
 
   openSubmission() {
-    this.invoiceForm.number = 'INV-' + Math.floor(Math.random() * 9000 + 1000);
+    this.invoiceForm = {
+      number: 'INV-' + Math.floor(Math.random() * 9000 + 1000),
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+      items: [{ description: '', quantity: 1, unitPrice: 0, total: 0 }],
+      taxRate: 18,
+      taxAmount: 0,
+      subtotal: 0,
+      grandTotal: 0
+    };
     this.showInvoiceModal = true;
+  }
+
+  addInvoiceItem() {
+    this.invoiceForm.items.push({ description: '', quantity: 1, unitPrice: 0, total: 0 });
+  }
+
+  removeInvoiceItem(index: number) {
+    if (this.invoiceForm.items.length > 1) {
+      this.invoiceForm.items.splice(index, 1);
+      this.calculateInvoiceTotals();
+    }
+  }
+
+  calculateInvoiceTotals() {
+    let subtotal = 0;
+    this.invoiceForm.items.forEach((item: any) => {
+      item.total = item.quantity * item.unitPrice;
+      subtotal += item.total;
+    });
+    this.invoiceForm.subtotal = subtotal;
+    this.invoiceForm.taxAmount = (subtotal * this.invoiceForm.taxRate) / 100;
+    this.invoiceForm.grandTotal = subtotal + this.invoiceForm.taxAmount;
   }
 
   submitInvoice() {
     if (this.selectedVendor) {
       const newInv = {
         number: this.invoiceForm.number,
-        amount: this.invoiceForm.amount,
+        amount: this.invoiceForm.grandTotal,
+        status: 'Pending',
         date: this.invoiceForm.date,
-        status: 'Pending'
+        items: [...this.invoiceForm.items],
+        taxAmount: this.invoiceForm.taxAmount,
+        taxRate: this.invoiceForm.taxRate,
+        subtotal: this.invoiceForm.subtotal
       };
       this.selectedVendor.invoices = [newInv, ...(this.selectedVendor.invoices || [])];
+      
+      // Update balance mock
+      const currentBalance = parseFloat(this.selectedVendor.balance.replace('₹', '').replace(',', '')) || 0;
+      const newBalance = currentBalance + newInv.amount;
+      this.selectedVendor.balance = `₹${newBalance.toLocaleString()}`;
+
       this.showInvoiceModal = false;
-      alert(`Invoice ${newInv.number} submitted for review.`);
-      this.invoiceForm.amount = '';
+      alert(`Detailed Invoice ${newInv.number} submitted for review.`);
     }
   }
+
+  // --- Audit Actions ---
 
   openAudit() {
     this.showAuditModal = true;
@@ -165,9 +210,5 @@ export class VendorManagement implements OnInit {
 
   openBilling() {
     this.showBillingModal = true;
-  }
-
-  createInvoice() {
-    alert('Invoice creation workflow started for ' + this.selectedVendor?.name);
   }
 }

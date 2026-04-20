@@ -39,7 +39,16 @@ export interface Vendor {
   };
   tasks: { title: string; status: string; date: string }[];
   audits: { date: string; score: number; notes: string }[];
-  invoices: { number: string; amount: string; status: string; date: string }[];
+  invoices: { 
+    number: string; 
+    amount: number; 
+    status: string; 
+    date: string;
+    items: { description: string; quantity: number; unitPrice: number; total: number }[];
+    taxAmount: number;
+    taxRate: number;
+    subtotal: number;
+  }[];
 }
 
 @Injectable({
