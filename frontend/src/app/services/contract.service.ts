@@ -6,7 +6,7 @@ export interface Contract {
   vendor: string;
   value: number;
   utilized: number;
-  status: 'Active' | 'Expiring Soon' | 'Expired';
+  status: 'Active' | 'Expiring Soon' | 'Expired' | 'Terminated';
   effectiveDate: string;
   expiryDate: string;
   expiryDays: number;
@@ -83,6 +83,31 @@ export class ContractService {
 
   getContracts(): Contract[] {
     return this.contractsSubject.value;
+  }
+
+  terminateContract(id: string) {
+    const contracts = this.contractsSubject.value;
+    const index = contracts.findIndex(c => c.id === id);
+    if (index !== -1) {
+      const updatedContract = { 
+        ...contracts[index], 
+        status: 'Terminated' as const,
+        expiryDays: 0
+      };
+      contracts[index] = updatedContract;
+      this.contractsSubject.next([...contracts]);
+
+      // Add to history
+      const newEvent: ContractHistory = {
+        event: 'Contract Terminated',
+        description: `Agreement with ${contracts[index].vendor} has been legally terminated by ${contracts[index].owner}.`,
+        date: new Date().toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase(),
+        active: true
+      };
+      
+      const history = this.historySubject.value.map(h => ({ ...h, active: false }));
+      this.historySubject.next([newEvent, ...history]);
+    }
   }
 
   renewContract(id: string, newExpiry: string, newValue: number) {

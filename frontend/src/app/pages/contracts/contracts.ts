@@ -34,6 +34,9 @@ export class ContractManagement implements OnInit {
   // Modal State
   showRenewalModal = false;
   showNewContractModal = false;
+  showDetailsModal = false;
+  showHistoryModal = false;
+  showTerminateModal = false;
   selectedContract: Contract | null = null;
   renewalForm = {
     newExpiry: '',
@@ -86,6 +89,73 @@ export class ContractManagement implements OnInit {
     }
   }
 
+  // Details flow
+  openDetailsModal(contract: Contract) {
+    this.selectedContract = contract;
+    this.showDetailsModal = true;
+    this.activeDropdownId = null;
+  }
+
+  closeDetailsModal() {
+    this.showDetailsModal = false;
+    this.selectedContract = null;
+  }
+
+  // History flow
+  openHistoryModal(contract: Contract) {
+    this.selectedContract = contract;
+    this.showHistoryModal = true;
+    this.activeDropdownId = null;
+  }
+
+  closeHistoryModal() {
+    this.showHistoryModal = false;
+    this.selectedContract = null;
+  }
+
+  // Terminate flow
+  openTerminateModal(contract: Contract) {
+    this.selectedContract = contract;
+    this.showTerminateModal = true;
+    this.activeDropdownId = null;
+  }
+
+  closeTerminateModal() {
+    this.showTerminateModal = false;
+    this.selectedContract = null;
+  }
+
+  confirmTermination() {
+    if (this.selectedContract) {
+      this.contractService.terminateContract(this.selectedContract.id);
+      this.closeTerminateModal();
+    }
+  }
+
+  // Date Logic for New Contract
+  onDateChange() {
+    if (this.newContractForm.effectiveDate && this.newContractForm.expiryDate) {
+      const start = new Date(this.newContractForm.effectiveDate);
+      const end = new Date(this.newContractForm.expiryDate);
+      
+      if (end > start) {
+        const diffTime = Math.abs(end.getTime() - new Date().getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        // Update days remaining and status placeholder
+        this.newContractForm.expiryDays = end < new Date() ? 0 : diffDays;
+        
+        if (end < new Date()) {
+          this.newContractForm.status = 'Expired';
+        } else if (diffDays <= 30) {
+          this.newContractForm.status = 'Expiring Soon';
+        } else {
+          this.newContractForm.status = 'Active';
+        }
+      }
+    }
+  }
+
   openNewContractModal() {
     this.newContractForm = {
       vendor: '',
@@ -105,16 +175,19 @@ export class ContractManagement implements OnInit {
 
   submitNewContract() {
     if (this.newContractForm.vendor && this.newContractForm.value) {
+      // Re-run date validation/calc just in case
+      this.onDateChange();
+
       const newContract: Contract = {
         id: 'c' + (this.contracts.length + 1),
         vendor: this.newContractForm.vendor,
         type: this.newContractForm.type || 'Master Service Agreement',
         value: this.newContractForm.value,
         utilized: 0,
-        status: 'Active',
+        status: this.newContractForm.status as any || 'Active',
         effectiveDate: this.newContractForm.effectiveDate || '',
         expiryDate: this.newContractForm.expiryDate || '',
-        expiryDays: 365,
+        expiryDays: this.newContractForm.expiryDays || 365,
         location: this.newContractForm.location || 'N/A',
         owner: this.newContractForm.owner || 'James Wilson'
       };
