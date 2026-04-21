@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Contract {
   id: string;
@@ -13,9 +15,14 @@ export interface Contract {
   location: string;
   owner: string;
   type: string;
+  signatory: string;
+  contactEmail: string;
+  contactPhone: string;
 }
 
 export interface ContractHistory {
+  id: string;
+  contractId: string;
   event: string;
   description: string;
   date: string;
@@ -26,129 +33,95 @@ export interface ContractHistory {
   providedIn: 'root'
 })
 export class ContractService {
-  private initialContracts: Contract[] = [
-    {
-      id: 'c1',
-      vendor: 'Titan Structural Steel, LLC',
-      value: 1420000,
-      utilized: 68,
-      status: 'Active',
-      effectiveDate: 'Jan 12, 2024',
-      expiryDate: 'Dec 31, 2024',
-      expiryDays: 34,
-      location: 'Seattle, WA',
-      owner: 'Marcus Thorne',
-      type: 'Master Service Agreement'
-    },
-    {
-      id: 'c2',
-      vendor: 'VoltStream Electrical',
-      value: 850000,
-      utilized: 45,
-      status: 'Active',
-      effectiveDate: 'Feb 05, 2024',
-      expiryDate: 'Jul 15, 2025',
-      expiryDays: 120,
-      location: 'Bellevue, WA',
-      owner: 'Sarah Chen',
-      type: 'Subcontractor Agreement'
-    },
-    {
-      id: 'c3',
-      vendor: 'Apex Concrete Co.',
-      value: 2300000,
-      utilized: 90,
-      status: 'Expiring Soon',
-      effectiveDate: 'Mar 10, 2023',
-      expiryDate: 'Apr 10, 2024',
-      expiryDays: 15,
-      location: 'Seattle, WA',
-      owner: 'James Wilson',
-      type: 'Material Supply Contract'
-    }
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.apiUrl}/contracts`;
+  private historyUrl = `${environment.apiUrl}/contract-history`;
 
-  private initialHistory: ContractHistory[] = [
-    { event: 'MSA Renewal Signed', description: 'Legally binding signature collected via DocuSign.', date: 'JAN 12, 2024 • 14:32 PM', active: true },
-    { event: 'Project Scope Amendment #03', description: 'Revised structural load requirements for Sky-Deck A.', date: 'OCT 14, 2023', active: false },
-    { event: 'Project Scope Amendment #02', description: 'Foundation reinforcement phase completion approval.', date: 'AUG 05, 2023', active: false },
-    { event: 'Initial Partnership Onboarding', description: 'Vendor vetting and initial compliance certification.', date: 'MAY 21, 2023', active: false }
-  ];
-
-  private contractsSubject = new BehaviorSubject<Contract[]>(this.initialContracts);
+  private contractsSubject = new BehaviorSubject<Contract[]>([]);
   contracts$ = this.contractsSubject.asObservable();
 
-  private historySubject = new BehaviorSubject<ContractHistory[]>(this.initialHistory);
+  private historySubject = new BehaviorSubject<ContractHistory[]>([]);
   history$ = this.historySubject.asObservable();
 
-  getContracts(): Contract[] {
-    return this.contractsSubject.value;
+  constructor() {
+    this.loadContracts();
+    this.loadHistory();
+  }
+
+  loadContracts() {
+    this.http.get<Contract[]>(this.apiUrl).subscribe(data => {
+      this.contractsSubject.next(data);
+    });
+  }
+
+  loadHistory() {
+    this.http.get<ContractHistory[]>(this.historyUrl).subscribe(data => {
+      this.historySubject.next(data);
+    });
   }
 
   terminateContract(id: string) {
     const contracts = this.contractsSubject.value;
-    const index = contracts.findIndex(c => c.id === id);
-    if (index !== -1) {
-      const updatedContract = { 
-        ...contracts[index], 
-        status: 'Terminated' as const,
-        expiryDays: 0
-      };
-      contracts[index] = updatedContract;
-      this.contractsSubject.next([...contracts]);
-
-      // Add to history
-      const newEvent: ContractHistory = {
-        event: 'Contract Terminated',
-        description: `Agreement with ${contracts[index].vendor} has been legally terminated by ${contracts[index].owner}.`,
-        date: new Date().toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase(),
-        active: true
-      };
-      
-      const history = this.historySubject.value.map(h => ({ ...h, active: false }));
-      this.historySubject.next([newEvent, ...history]);
+    const contract = contracts.find(c => c.id === id);
+    if (contract) {
+      const updateData = { status: 'Terminated' as const, expiryDays: 0 };
+      this.http.patch<Contract>(`${this.apiUrl}/${id}`, updateData).subscribe(() => {
+        // Add to history
+        this.addHistoryEvent({
+          id: 'h' + Date.now(),
+          contractId: id,
+          event: 'Contract Terminated',
+          description: `Agreement with ${contract.vendor} has been legally terminated by ${contract.owner}.`,
+          date: new Date().toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase(),
+          active: true
+        });
+        this.loadContracts();
+      });
     }
   }
 
   renewContract(id: string, newExpiry: string, newValue: number) {
     const contracts = this.contractsSubject.value;
-    const index = contracts.findIndex(c => c.id === id);
-    if (index !== -1) {
-      const updatedContract = { 
-        ...contracts[index], 
+    const contract = contracts.find(c => c.id === id);
+    if (contract) {
+      const updateData = { 
         expiryDate: newExpiry, 
         value: newValue,
         status: 'Active' as const,
-        expiryDays: 365 // Simulation: Resetting days left
+        expiryDays: 365 
       };
-      contracts[index] = updatedContract;
-      this.contractsSubject.next([...contracts]);
-
-      // Add to history
-      const newEvent: ContractHistory = {
-        event: 'Contract Renewed',
-        description: `Contract terms extended to ${newExpiry}. Value updated to $${newValue.toLocaleString()}.`,
-        date: new Date().toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase(),
-        active: true
-      };
-      
-      const history = this.historySubject.value.map(h => ({ ...h, active: false }));
-      this.historySubject.next([newEvent, ...history]);
+      this.http.patch<Contract>(`${this.apiUrl}/${id}`, updateData).subscribe(() => {
+        // Add to history
+        this.addHistoryEvent({
+          id: 'h' + Date.now(),
+          contractId: id,
+          event: 'Contract Renewed',
+          description: `Contract terms extended to ${newExpiry}. Value updated to $${newValue.toLocaleString()}.`,
+          date: new Date().toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase(),
+          active: true
+        });
+        this.loadContracts();
+      });
     }
   }
 
   addContract(contract: Contract) {
-    const contracts = this.contractsSubject.value;
-    this.contractsSubject.next([...contracts, contract]);
-    
-    // Add history
-    const newEvent: ContractHistory = {
-      event: 'New Contract Registered',
-      description: `${contract.type} established with ${contract.vendor}. Initial value: $${contract.value.toLocaleString()}.`,
-      date: new Date().toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase(),
-      active: true
-    };
-    const history = this.historySubject.value.map(h => ({ ...h, active: false }));
-    this.historySubject.next([newEvent, ...history]);
+    this.http.post<Contract>(this.apiUrl, contract).subscribe(() => {
+      this.addHistoryEvent({
+        id: 'h' + Date.now(),
+        contractId: contract.id,
+        event: 'New Contract Registered',
+        description: `${contract.type} established with ${contract.vendor}. Initial value: $${contract.value.toLocaleString()}.`,
+        date: new Date().toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }).toUpperCase(),
+        active: true
+      });
+      this.loadContracts();
+    });
+  }
+
+  private addHistoryEvent(event: ContractHistory) {
+    this.http.post<ContractHistory>(this.historyUrl, event).subscribe(() => {
+      this.loadHistory();
+    });
   }
 }

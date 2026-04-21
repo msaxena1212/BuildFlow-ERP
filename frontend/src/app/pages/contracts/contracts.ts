@@ -30,6 +30,7 @@ export class ContractManagement implements OnInit {
     { name: 'Site_Safety_Plan_v2.zip', type: 'Operational', size: '12.8 MB', date: 'Jul 30', icon: 'folder_shared', color: 'text-slate-500', bg: 'bg-slate-50' }
   ];
   history: ContractHistory[] = [];
+  filteredHistory: ContractHistory[] = [];
 
   // Modal State
   showRenewalModal = false;
@@ -49,7 +50,10 @@ export class ContractManagement implements OnInit {
     effectiveDate: '',
     expiryDate: '',
     location: '',
-    owner: 'James Wilson'
+    owner: 'James Wilson',
+    signatory: '',
+    contactEmail: '',
+    contactPhone: ''
   };
 
   ngOnInit() {
@@ -104,6 +108,7 @@ export class ContractManagement implements OnInit {
   // History flow
   openHistoryModal(contract: Contract) {
     this.selectedContract = contract;
+    this.filteredHistory = this.history.filter(h => h.contractId === contract.id);
     this.showHistoryModal = true;
     this.activeDropdownId = null;
   }
@@ -164,7 +169,10 @@ export class ContractManagement implements OnInit {
       effectiveDate: '',
       expiryDate: '',
       location: '',
-      owner: 'James Wilson'
+      owner: 'James Wilson',
+      signatory: '',
+      contactEmail: '',
+      contactPhone: ''
     };
     this.showNewContractModal = true;
   }
@@ -179,7 +187,7 @@ export class ContractManagement implements OnInit {
       this.onDateChange();
 
       const newContract: Contract = {
-        id: 'c' + (this.contracts.length + 1),
+        id: 'c' + Date.now(),
         vendor: this.newContractForm.vendor,
         type: this.newContractForm.type || 'Master Service Agreement',
         value: this.newContractForm.value,
@@ -189,7 +197,10 @@ export class ContractManagement implements OnInit {
         expiryDate: this.newContractForm.expiryDate || '',
         expiryDays: this.newContractForm.expiryDays || 365,
         location: this.newContractForm.location || 'N/A',
-        owner: this.newContractForm.owner || 'James Wilson'
+        owner: this.newContractForm.owner || 'James Wilson',
+        signatory: this.newContractForm.signatory || 'N/A',
+        contactEmail: this.newContractForm.contactEmail || 'N/A',
+        contactPhone: this.newContractForm.contactPhone || 'N/A'
       };
       this.contractService.addContract(newContract);
       

@@ -119,5 +119,34 @@ export interface Quote {
   salesPerson: string;
   items: QuoteItem[];
   totalAmount: number;
-  status: 'Draft' | 'Sent' | 'Approved' | 'Rejected';
+  status: 'Draft' | 'Sent' | 'Negotiating' | 'Approved' | 'Rejected';
+  vendorFeedback?: string;
+  lastUpdated?: string;
 }
+
+export interface Contract {
+  id: string;
+  vendor: string;
+  value: number;
+  utilized: number;
+  status: 'Active' | 'Expiring Soon' | 'Expired' | 'Terminated';
+  effectiveDate: string;
+  expiryDate: string;
+  expiryDays: number;
+  location: string;
+  owner: string;
+  type: string;
+  signatory: string;
+  contactEmail: string;
+  contactPhone: string;
+}
+
+export interface ContractHistory {
+  id: string;
+  contractId: string;
+  event: string;
+  description: string;
+  date: string;
+  active: boolean;
+}
+

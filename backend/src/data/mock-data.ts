@@ -1,4 +1,4 @@
-import { Project, Task, SiteUpdate, Material, Vendor, Quote } from '../models/models';
+import { Project, Task, SiteUpdate, Material, Vendor, Quote, Contract, ContractHistory } from '../models/models';
 
 export const projects: Project[] = [
   {
@@ -115,3 +115,62 @@ export const vendors: Vendor[] = [
 ];
 
 export const quotes: Quote[] = [];
+
+export const contracts: Contract[] = [
+  {
+    id: 'c1',
+    vendor: 'Titan Structural Steel, LLC',
+    value: 1420000,
+    utilized: 68,
+    status: 'Active',
+    effectiveDate: 'Jan 12, 2024',
+    expiryDate: 'Dec 31, 2024',
+    expiryDays: 34,
+    location: 'Seattle, WA',
+    owner: 'Marcus Thorne',
+    type: 'Master Service Agreement',
+    signatory: 'Robert Titan',
+    contactEmail: 'r.titan@titansteel.com',
+    contactPhone: '(206) 555-0122'
+  },
+  {
+    id: 'c2',
+    vendor: 'VoltStream Electrical',
+    value: 850000,
+    utilized: 45,
+    status: 'Active',
+    effectiveDate: 'Feb 05, 2024',
+    expiryDate: 'Jul 15, 2025',
+    expiryDays: 120,
+    location: 'Bellevue, WA',
+    owner: 'Sarah Chen',
+    type: 'Subcontractor Agreement',
+    signatory: 'Leo Volt',
+    contactEmail: 'l.volt@voltstream.net',
+    contactPhone: '(425) 555-0198'
+  },
+  {
+    id: 'c3',
+    vendor: 'Apex Concrete Co.',
+    value: 2300000,
+    utilized: 90,
+    status: 'Expiring Soon',
+    effectiveDate: 'Mar 10, 2023',
+    expiryDate: 'Apr 10, 2024',
+    expiryDays: 15,
+    location: 'Seattle, WA',
+    owner: 'James Wilson',
+    type: 'Material Supply Contract',
+    signatory: 'Sarah Jenkins',
+    contactEmail: 's.jenkins@apexconcrete.com',
+    contactPhone: '(206) 555-0144'
+  }
+];
+
+export const contractHistory: ContractHistory[] = [
+  { id: 'h1', contractId: 'c1', event: 'MSA Renewal Signed', description: 'Legally binding signature collected via DocuSign.', date: 'JAN 12, 2024 • 14:32 PM', active: true },
+  { id: 'h2', contractId: 'c1', event: 'Project Scope Amendment #03', description: 'Revised structural load requirements for Sky-Deck A.', date: 'OCT 14, 2023', active: false },
+  { id: 'h3', contractId: 'c2', event: 'Initial Partnership Onboarding', description: 'Vendor vetting and initial compliance certification.', date: 'FEB 05, 2024', active: true },
+  { id: 'h4', contractId: 'c3', event: 'Price Adjustment Clause Triggered', description: 'Material cost index hit 5% threshold, adjusting unit rates.', date: 'MAR 20, 2024', active: true },
+  { id: 'h5', contractId: 'c3', event: 'Initial Partnership Onboarding', description: 'Onboarded for foundation reinforcement phase.', date: 'MAR 10, 2023', active: false }
+];

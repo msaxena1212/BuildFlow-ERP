@@ -9,9 +9,11 @@
         </span>
       </div>
       <h2 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">
-        {{ selectedVendor === 'All Vendors' ? 'Titan Structural Steel, LLC' : selectedVendor }}
+        {{ selectedVendor === 'All Vendors' ? 'Portfolio Overview' : selectedVendor }}
       </h2>
-      <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">Lead structural contractor for Project Meridian and Skyline Plaza. Primary scope: reinforced steel framing and fabrication.</p>
+      <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">
+        {{ selectedVendor === 'All Vendors' ? 'Operational scope and compliance status across all active vendor partnerships.' : 'Primary scope: ' + (filteredContracts[0]?.type || 'N/A') + ' and regional operations.' }}
+      </p>
     </div>
     <div class="flex items-center gap-4">
       <div class="flex items-center gap-3 bg-white dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
@@ -59,14 +61,23 @@
             <p class="text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ filteredContracts.length > 0 ? filteredContracts[0].effectiveDate : '--' }}</p>
             <p class="text-xs text-slate-500 font-medium italic mt-2">{{ filteredContracts.length > 0 ? ('Owner: ' + filteredContracts[0].owner) : 'No active contract' }}</p>
           </div>
-          <div class="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-2xl border border-amber-200/50 dark:border-amber-800/50 shadow-sm">
+          <div *ngIf="filteredContracts.length > 0 && filteredContracts[0].expiryDays <= 30" class="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-2xl border border-amber-200/50 dark:border-amber-800/50 shadow-sm animate-bounce">
             <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
               <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
               <p class="text-[10px] uppercase font-black tracking-[0.1em]">Expiration Alert</p>
             </div>
-            <p class="text-2xl font-black text-amber-700 dark:text-amber-400 tracking-tight">{{ filteredContracts.length > 0 ? filteredContracts[0].expiryDays : '0' }} Days Left</p>
+            <p class="text-2xl font-black text-amber-700 dark:text-amber-400 tracking-tight">{{ filteredContracts[0].expiryDays }} Days Left</p>
             <p class="text-[11px] text-amber-700/70 dark:text-amber-400/70 mt-2 leading-relaxed font-semibold uppercase tracking-tighter">Renewal negotiation required.</p>
           </div>
+          <div *ngIf="filteredContracts.length > 0 && filteredContracts[0].expiryDays > 30" class="bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border border-green-200/50 dark:border-green-800/50 shadow-sm">
+            <div class="flex items-center gap-2 text-green-600 dark:text-green-400 mb-2">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">shield_check</span>
+              <p class="text-[10px] uppercase font-black tracking-[0.1em]">Compliance Secured</p>
+            </div>
+            <p class="text-2xl font-black text-green-700 dark:text-green-400 tracking-tight">{{ filteredContracts[0].expiryDays }} Days Left</p>
+            <p class="text-[11px] text-green-700/70 dark:text-green-400/70 mt-2 leading-relaxed font-semibold uppercase tracking-tighter">Agreement is currently valid.</p>
+          </div>
+
         </div>
       </div>
     </div>
@@ -440,6 +451,24 @@
         <input type="text" [(ngModel)]="newContractForm.owner" 
                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
       </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Legal Signatory</label>
+        <input type="text" [(ngModel)]="newContractForm.signatory" placeholder="Full name of signatory..."
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contact Email</label>
+        <input type="email" [(ngModel)]="newContractForm.contactEmail" placeholder="vendor@example.com"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contact Phone</label>
+        <input type="text" [(ngModel)]="newContractForm.contactPhone" placeholder="(555) 000-0000"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
     </div>
 
     <!-- Actions -->
@@ -537,6 +566,29 @@
             </div>
           </div>
         </div>
+
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Direct Communication</label>
+          <div class="p-6 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-3xl border border-indigo-100 dark:border-indigo-800/40">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+                <span class="material-symbols-outlined text-sm">signature</span>
+              </div>
+              <div>
+                <p class="text-[9px] font-black uppercase text-indigo-400 tracking-widest leading-none mb-1">Authorized Signatory</p>
+                <p class="text-xs font-bold text-slate-900 dark:text-slate-50">{{ selectedContract?.signatory }}</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-3">
+              <a [href]="'mailto:' + selectedContract?.contactEmail" class="flex items-center gap-3 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+                <span class="material-symbols-outlined text-sm">mail</span> {{ selectedContract?.contactEmail }}
+              </a>
+              <a [href]="'tel:' + selectedContract?.contactPhone" class="flex items-center gap-3 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+                <span class="material-symbols-outlined text-sm">call</span> {{ selectedContract?.contactPhone }}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -567,7 +619,7 @@
 
     <div class="p-10 max-h-[60vh] overflow-y-auto">
       <div class="space-y-12 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100 dark:before:bg-slate-800">
-        @for (item of history; track item.event) {
+        @for (item of filteredHistory; track item.id) {
           <div class="relative pl-12 group transition-all">
             <div [class]="item.active ? 'bg-indigo-600 ring-4 ring-indigo-100 dark:ring-indigo-900/30' : 'bg-slate-200 dark:bg-slate-700 ring-4 ring-white dark:ring-slate-900'" 
                  class="absolute left-0 top-1.5 w-6 h-6 rounded-full shadow-md z-10"></div>

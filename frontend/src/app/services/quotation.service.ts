@@ -58,21 +58,19 @@ export class QuotationService {
   }
 
   updateQuoteStatus(id: string, status: Quote['status'], feedback?: string) {
-    const quotes = this.quotesSubject.value;
-    const index = quotes.findIndex(q => q.id === id);
-    if (index !== -1) {
-      quotes[index] = { 
-        ...quotes[index], 
-        status, 
-        vendorFeedback: feedback,
-        lastUpdated: new Date().toLocaleDateString()
-      };
-      this.quotesSubject.next([...quotes]);
-    }
+    const updateData = { 
+      status, 
+      vendorFeedback: feedback,
+      lastUpdated: new Date().toLocaleDateString()
+    };
+    this.http.patch<Quote>(`${this.apiUrl}/${id}`, updateData).subscribe(() => {
+      this.loadQuotes();
+    });
   }
 
   deleteQuote(id: string) {
-    const quotes = this.quotesSubject.value.filter(q => q.id !== id);
-    this.quotesSubject.next([...quotes]);
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe(() => {
+      this.loadQuotes();
+    });
   }
 }
