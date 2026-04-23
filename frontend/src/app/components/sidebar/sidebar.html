@@ -5,8 +5,8 @@
       <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">architecture</span>
     </div>
     <div>
-      <h1 class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">ZYNO</h1>
-      <p class="text-[10px] uppercase tracking-[0.1em] text-slate-500 font-bold">Construction Mgmt</p>
+      <h1 class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">BuildFlow</h1>
+      <p class="text-[10px] uppercase tracking-[0.1em] text-slate-500 font-bold">ERP Solutions</p>
     </div>
   </div>
 
@@ -14,38 +14,60 @@
   <nav class="flex-1 space-y-0.5 overflow-y-auto pr-2 custom-scrollbar">
     <p class="text-[9px] font-black tracking-[0.15em] text-slate-400 uppercase px-4 pt-2 pb-1">Main</p>
 
-    <a routerLink="/dashboard"
+    <a *appPermission="'Dashboard:READ'" routerLink="/dashboard"
        routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
       <span class="material-symbols-outlined text-[20px]">dashboard</span>
       <span class="text-sm font-semibold">Dashboard</span>
     </a>
 
-    <a routerLink="/projects"
+    <a *appPermission="'Projects:READ'" routerLink="/projects"
        routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
       <span class="material-symbols-outlined text-[20px]">architecture</span>
       <span class="text-sm font-semibold">Projects</span>
     </a>
 
-    <a routerLink="/team" routerLinkActive="text-slate-900 border-l-4 border-primary pl-1 transition-all" class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 transition-colors" href="#">
-        <span class="material-symbols-outlined">group</span> Team Management
-      </a>
-      <a routerLink="/contracts" routerLinkActive="text-slate-900 border-l-4 border-primary pl-1 transition-all" class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 transition-colors" href="#">
-        <span class="material-symbols-outlined">description</span> Contracts
-      </a>
-
-    <a routerLink="/tasks" routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm font-semibold" [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg cursor-pointer">
-      <span class="material-symbols-outlined">assignment</span>
-      <span class="text-sm">Tasks</span>
-    </a>
-    <a routerLink="/calendar" routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm font-semibold" [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg cursor-pointer">
-      <span class="material-symbols-outlined">calendar_today</span>
-      <span class="text-sm">Calendar</span>
-    </a>
-    <a routerLink="/timeline" routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm font-semibold" [routerLinkActiveOptions]="{exact: true}" class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg cursor-pointer">
-      <span class="material-symbols-outlined text-[20px]">event_note</span>
+    <a *appPermission="'Projects:READ'" routerLink="/timeline"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">timeline</span>
       <span class="text-sm font-semibold">Timeline</span>
+    </a>
+
+    <a *appPermission="'Projects:READ'" routerLink="/calendar"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+      <span class="text-sm font-semibold">Calendar</span>
+    </a>
+
+    <a *appPermission="'Team:READ'" routerLink="/team" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">group</span>
+      <span class="text-sm font-semibold">Team</span>
+    </a>
+
+    <a *appPermission="'Settings:READ'" routerLink="/rbac" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">security</span>
+      <span class="text-sm font-semibold">Access Control</span>
+    </a>
+
+    <a *appPermission="'Contracts:READ'" routerLink="/contracts" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">description</span>
+      <span class="text-sm font-semibold">Contracts</span>
+    </a>
+
+    <a *appPermission="'Tasks:READ'" routerLink="/tasks" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">assignment</span>
+      <span class="text-sm font-semibold">Tasks</span>
     </a>
 
     <p class="text-[9px] font-black tracking-[0.15em] text-slate-400 uppercase px-4 pt-4 pb-1">Analytics</p>
@@ -57,7 +79,7 @@
       <span class="text-sm font-semibold">Labor</span>
     </a>
 
-    <a routerLink="/reports"
+    <a *appPermission="'Reports:READ'" routerLink="/reports"
        routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
       <span class="material-symbols-outlined text-[20px]">analytics</span>
@@ -73,14 +95,14 @@
       <span class="text-sm font-semibold">Vendors</span>
     </a>
 
-    <a routerLink="/materials"
+    <a *appPermission="'Materials:READ'" routerLink="/materials"
        routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
       <span class="material-symbols-outlined text-[20px]">inventory_2</span>
       <span class="text-sm font-semibold">Materials</span>
     </a>
 
-    <a routerLink="/quotations"
+    <a *appPermission="'Quotes:READ'" routerLink="/quotations"
        routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
       <span class="material-symbols-outlined text-[20px]">request_quote</span>
@@ -88,16 +110,19 @@
     </a>
   </nav>
 
-  <!-- Bottom CTA -->
   <div class="mt-auto pt-4 px-1">
-    <a routerLink="/settings" routerLinkActive="text-slate-900 border-l-4 border-primary pl-1 transition-all" class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 transition-colors" href="#">
-        <span class="material-symbols-outlined">settings</span> Settings
+    <a *appPermission="'Settings:READ'" routerLink="/settings" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">settings</span>
+      <span class="text-sm font-semibold">Settings</span>
+    </a>
+    
+    <div *appPermission="'Projects:CREATE'" class="mt-4 px-2">
+      <a routerLink="/new-project" class="w-full bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-bold py-3 rounded-xl shadow-[0px_8px_16px_rgba(37,99,235,0.2)] hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <span class="material-symbols-outlined">add</span>
+          <span>New Project</span>
       </a>
-    <div class="mt-4 px-2">
-        <a routerLink="/new-project" class="w-full bg-gradient-to-br from-primary to-primary-container text-white font-bold py-3 rounded-xl shadow-[0px_8px_16px_rgba(0,74,198,0.2)] hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined">add</span>
-            <span>New Project</span>
-        </a>
     </div>
   </div>
 </aside>

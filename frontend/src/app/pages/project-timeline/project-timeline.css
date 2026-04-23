@@ -1,6 +1,6 @@
 .gantt-grid {
     background-image: linear-gradient(to right, #f1f5f9 1px, transparent 1px);
-    background-size: 100px 100%;
+    background-size: 2% 100%;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -12,17 +12,17 @@
 }
 
 .critical-highlight {
-  border: 2px solid #fbbf24 !important; /* amber-400 */
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  border: 2px solid #ef4444 !important; /* red-500 */
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
   animation: pulse-critical 2s infinite;
   z-index: 20;
   opacity: 1 !important;
 }
 
 @keyframes pulse-critical {
-  0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 
 .transition-all {

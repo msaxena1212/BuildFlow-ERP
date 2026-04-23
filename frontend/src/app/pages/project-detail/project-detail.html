@@ -9,7 +9,11 @@
     </nav>
     <div class="space-y-2">
       <div class="flex items-center gap-4">
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface">{{ project.name }}</h1>
+        @if (isEditingProject) {
+          <input type="text" [(ngModel)]="projectForm.name" class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface bg-transparent border-b-2 border-primary outline-none w-full">
+        } @else {
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface">{{ project.name }}</h1>
+        }
         <span [class]="project.status === 'On Track' ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container'" class="px-3 py-1 text-xs font-bold rounded-full tracking-wider flex items-center gap-1">
           <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">
             {{ project.status === 'On Track' ? 'check_circle' : 'warning' }}
@@ -17,7 +21,18 @@
           {{ project.status | uppercase }}
         </span>
       </div>
-      <p class="text-on-surface-variant text-lg max-w-xl font-light">{{ project.description }}</p>
+      @if (isEditingProject) {
+        <textarea [(ngModel)]="projectForm.description" class="text-on-surface-variant text-lg max-w-xl font-light bg-transparent border-b border-outline-variant outline-none w-full mt-2"></textarea>
+        <div class="flex gap-2 mt-4">
+          <button (click)="saveProject()" class="px-4 py-2 bg-primary text-on-primary rounded-lg text-xs font-bold shadow-md hover:shadow-lg transition-all">Save Changes</button>
+          <button (click)="toggleEditProject()" class="px-4 py-2 bg-surface-container text-on-surface rounded-lg text-xs font-bold">Cancel</button>
+        </div>
+      } @else {
+        <p class="text-on-surface-variant text-lg max-w-xl font-light">{{ project.description }}</p>
+        <button (click)="toggleEditProject()" class="text-[10px] font-black uppercase tracking-[0.2em] text-primary hover:text-primary-container transition-colors flex items-center gap-1 mt-2">
+          <span class="material-symbols-outlined text-sm">settings</span> Edit Project Details
+        </button>
+      }
     </div>
   </div>
 
@@ -76,16 +91,66 @@
         </div>
 
         <div class="mt-auto space-y-8">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            @for (ms of project.milestones; track ms.name) {
-                <div class="space-y-2">
-                    <div class="flex justify-between text-sm font-bold">
-                        <span>{{ ms.name }}</span>
-                        <span [class]="'text-' + ms.color">{{ ms.progress }}%</span>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            @for (ms of project.milestones; track ms.id) {
+                <div class="space-y-4 bg-white/40 dark:bg-slate-800/20 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 group/ms">
+                    <div class="flex justify-between items-start">
+                      <div class="flex items-center gap-3">
+                        <div [class]="'bg-' + ms.color" class="w-1.5 h-8 rounded-full"></div>
+                        <div>
+                          <h4 class="text-sm font-black text-slate-900 dark:text-slate-100">{{ ms.name }}</h4>
+                          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{{ ms.startDate }} — {{ ms.endDate }}</p>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-3">
+                        <button (click)="openLinkSubProjectModal(ms)" class="material-symbols-outlined text-sm text-slate-400 hover:text-primary transition-colors opacity-0 group-hover/ms:opacity-100 cursor-pointer">link</button>
+                        <span [class]="'text-' + ms.color" class="text-xs font-black">{{ ms.progress }}%</span>
+                      </div>
                     </div>
-                    <div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                        <div [style.width]="ms.progress + '%'" [class]="'bg-' + ms.color" class="h-full rounded-full transition-all duration-1000"></div>
+                    
+                    <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div [style.width]="ms.progress + '%'" [class]="'bg-' + ms.color" class="h-full rounded-full transition-all duration-1000 shadow-sm"></div>
                     </div>
+
+                    <!-- Sub-Projects -->
+                    @if (ms.subProjectIds?.length) {
+                      <div class="pl-4 border-l-2 border-slate-100 dark:border-slate-800 space-y-3 mt-4">
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Linked Sub-Projects</p>
+                        @for (spId of ms.subProjectIds; track spId) {
+                          @if (project.subProjects) {
+                            @for (sp of project.subProjects; track sp.id) {
+                              @if (sp.id === spId) {
+                                <div class="flex items-center justify-between group cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40 p-2 rounded-lg transition-all">
+                                  <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
+                                      <span class="material-symbols-outlined text-sm text-blue-500">subdirectory_arrow_right</span>
+                                    </div>
+                                    <div>
+                                      <p class="text-[11px] font-bold text-slate-700 dark:text-slate-300 group-hover:text-blue-600 transition-colors">{{ sp.name }}</p>
+                                      <p class="text-[9px] text-slate-400 font-medium uppercase tracking-tighter">{{ sp.status }} • {{ sp.startDate }}</p>
+                                    </div>
+                                  </div>
+                                  <div class="flex items-center gap-3">
+                                    <div class="flex flex-col items-end">
+                                      <div class="w-16 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                        <div [style.width]="sp.progress + '%'" class="h-full bg-blue-500 rounded-full"></div>
+                                      </div>
+                                      <span class="text-[9px] font-black text-slate-500 mt-1">{{ sp.progress }}%</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+                            }
+                          }
+                        }
+                      </div>
+                    } @else {
+                      <div class="mt-4 flex items-center justify-center py-4 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+                        <button (click)="openLinkSubProjectModal(ms)" class="text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors flex items-center gap-2">
+                          <span class="material-symbols-outlined text-xs">add_link</span> Link Sub-Project
+                        </button>
+                      </div>
+                    }
                 </div>
             }
           </div>
@@ -111,30 +176,46 @@
       </div>
     </div>
 
-    <!-- Quick Actions (Small Card) -->
-    <div class="col-span-12 md:col-span-4 lg:col-span-4 bg-primary text-on-primary rounded-xl p-8 flex flex-col justify-between shadow-xl">
-      <div>
-        <h3 class="text-xl font-bold mb-4 tracking-tight">Active Command</h3>
-        <div class="space-y-3">
-          <button (click)="openRFIComposer()" class="w-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors p-4 rounded-xl flex items-center gap-4 text-left cursor-pointer">
-            <span class="material-symbols-outlined">description</span>
-            <div>
-              <p class="font-bold text-sm leading-none">RFI Request</p>
-              <p class="text-white/60 text-xs mt-1">Request info from client</p>
+    <!-- Scheduling Health Analysis (Advanced) -->
+    <div class="col-span-12 md:col-span-4 lg:col-span-4 bg-slate-900 text-white rounded-xl p-8 flex flex-col justify-between shadow-xl border border-white/10 relative overflow-hidden">
+      <div class="absolute top-0 right-0 p-4 opacity-10">
+        <span class="material-symbols-outlined text-[80px]">hub</span>
+      </div>
+      <div class="relative z-10">
+        <div class="flex items-center gap-2 mb-6">
+          <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+          <h3 class="text-sm font-black uppercase tracking-[0.2em] text-blue-400">Scheduling Health</h3>
+        </div>
+        
+        <div class="space-y-6">
+          <div class="flex justify-between items-center">
+            <div class="space-y-1">
+              <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Critical Path</p>
+              <h4 class="text-2xl font-black text-white">{{ criticalTasksCount }} <span class="text-xs text-slate-500 font-bold ml-1 uppercase">Tasks</span></h4>
             </div>
-          </button>
-          <button (click)="openDrawingUpload()" class="w-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors p-4 rounded-xl flex items-center gap-4 text-left cursor-pointer">
-            <span class="material-symbols-outlined">upload_file</span>
-            <div>
-              <p class="font-bold text-sm leading-none">Submit Drawing</p>
-              <p class="text-white/60 text-xs mt-1">Upload CAD or PDF files</p>
+            <div [class]="scheduleRisk === 'Low' ? 'text-emerald-500 bg-emerald-500/10' : (scheduleRisk === 'Medium' ? 'text-amber-500 bg-amber-500/10' : 'text-red-500 bg-red-500/10')" class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border border-current">
+              {{ scheduleRisk }} Risk
             </div>
-          </button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+              <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Total Float</p>
+              <p class="text-lg font-black text-white">{{ totalFloat }}d</p>
+            </div>
+            <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+              <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Network SPI</p>
+              <p class="text-lg font-black text-white">0.98</p>
+            </div>
+          </div>
         </div>
       </div>
-      <p class="text-white/70 text-xs mt-6 leading-relaxed">
-        You have <span class="text-white font-bold">2 urgent tasks</span> requiring immediate attention.
-      </p>
+
+      <div class="mt-8 pt-6 border-t border-white/10">
+        <button (click)="setActiveTab('Timeline')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] uppercase tracking-[0.2em] py-3 rounded-lg transition-all shadow-lg shadow-blue-600/20 cursor-pointer">
+          Analyze Logic Network
+        </button>
+      </div>
     </div>
 
     <!-- Resource Utilization (Medium Card) -->
@@ -209,7 +290,7 @@
 } @else if (activeTab === 'Tasks') {
   <app-task-management [selectedMember]="selectedMember"></app-task-management>
 } @else if (activeTab === 'Timeline') {
-  <app-project-timeline [selectedMember]="selectedMember"></app-project-timeline>
+  <app-project-timeline [selectedMember]="selectedMember" [projectId]="project.id"></app-project-timeline>
 } @else if (activeTab === 'Budget') {
   <app-project-budget></app-project-budget>
 } @else if (activeTab === 'Gallery') {
@@ -288,6 +369,58 @@
             <p class="text-outline text-sm mt-1">The {{ activeTab }} module is being assembled.</p>
         </div>
     </div>
+}
+
+<!-- Link Sub-Project Modal -->
+@if (showLinkModal) {
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" (click)="showLinkModal = false"></div>
+    <div class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-300">
+      <div class="px-8 py-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900">
+        <div>
+          <h3 class="text-lg font-black text-slate-900 dark:text-slate-50 tracking-tight">Link Sub-Project</h3>
+          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Milestone: {{ selectedMilestone?.name }}</p>
+        </div>
+        <button (click)="showLinkModal = false" class="material-symbols-outlined text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">close</button>
+      </div>
+      
+      <div class="p-8 space-y-4 bg-white dark:bg-slate-900">
+        <p class="text-[11px] text-slate-500 font-medium leading-relaxed">Choose a sub-project to associate with this milestone. This will link their schedules and reporting.</p>
+        
+        <div class="space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+          @for (sp of allSubProjects; track sp.id) {
+            <div 
+              (click)="linkSubProject(sp.id)"
+              class="flex items-center justify-between p-4 rounded-xl border transition-all cursor-pointer group"
+              [ngClass]="{
+                'bg-blue-50 border-blue-200': isSubProjectLinked(sp.id),
+                'border-slate-100 dark:border-slate-800 hover:border-primary/30 hover:bg-slate-50': !isSubProjectLinked(sp.id)
+              }"
+            >
+              <div class="flex items-center gap-4">
+                <div [class]="isSubProjectLinked(sp.id) ? 'bg-primary text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'" class="w-10 h-10 rounded-lg flex items-center justify-center transition-colors">
+                  <span class="material-symbols-outlined text-xl">account_tree</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-xs font-black text-slate-800 dark:text-slate-100">{{ sp.name }}</span>
+                  <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{{ sp.status }} • {{ sp.progress }}%</span>
+                </div>
+              </div>
+              @if (isSubProjectLinked(sp.id)) {
+                <span class="material-symbols-outlined text-primary font-black">check_circle</span>
+              } @else {
+                <span class="material-symbols-outlined text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity">add_circle</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+      
+      <div class="px-8 py-6 bg-slate-50 dark:bg-slate-950 flex justify-end">
+        <button (click)="showLinkModal = false" class="px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">Cancel</button>
+      </div>
+    </div>
+  </div>
 }
 
 @if (showAddUpdateModal) {

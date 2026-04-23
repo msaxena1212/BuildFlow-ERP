@@ -17,11 +17,11 @@
                 <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">filter_list</span>
                 Filters
             </button>
-            <button (click)="exportReport()" class="px-5 py-2.5 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-bold shadow-lg shadow-primary/20 flex items-center gap-2 hover:scale-[1.02] transition-transform cursor-pointer">
+            <button *appPermission="'Reports:READ'" (click)="exportReport()" class="px-5 py-2.5 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-bold shadow-lg shadow-primary/20 flex items-center gap-2 hover:scale-[1.02] transition-transform cursor-pointer">
                 <span class="material-symbols-outlined text-lg">download</span>
                 Export Report
             </button>
-            <button (click)="openAddModal()" class="hidden md:flex items-center gap-2 px-6 py-2.5 bg-surface-container-lowest text-on-surface font-bold rounded-xl shadow-sm border border-outline-variant/20 hover:border-primary/30 transition-all cursor-pointer">
+            <button *appPermission="'Materials:CREATE'" (click)="openAddModal()" class="hidden md:flex items-center gap-2 px-6 py-2.5 bg-surface-container-lowest text-on-surface font-bold rounded-xl shadow-sm border border-outline-variant/20 hover:border-primary/30 transition-all cursor-pointer">
                 <span class="material-symbols-outlined" style="font-size: 20px;">add_box</span>
                 New Material
             </button>
@@ -128,16 +128,16 @@
                             } @else {
                                 <span class="px-3 py-1 bg-surface-container-high text-outline text-[10px] font-black uppercase tracking-tighter rounded-md">Adequate</span>
                             }
-
-                            <!-- Hover Actions -->
+                             <!-- Hover Actions -->
                             <div class="absolute right-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 scale-90 group-hover:scale-100">
-                                <button (click)="openEditModal($event, item)" class="p-2 bg-surface-container-highest text-primary hover:bg-primary hover:text-white rounded-lg transition-all shadow-sm cursor-pointer">
+                                <button *appPermission="'Materials:UPDATE'" (click)="openEditModal($event, item)" class="p-2 bg-surface-container-highest text-primary hover:bg-primary hover:text-white rounded-lg transition-all shadow-sm cursor-pointer">
                                     <span class="material-symbols-outlined text-sm">edit</span>
                                 </button>
-                                <button (click)="openDeleteModal($event, item)" class="p-2 bg-error-container/20 text-error hover:bg-error hover:text-white rounded-lg transition-all shadow-sm cursor-pointer">
+                                <button *appPermission="'Materials:DELETE'" (click)="openDeleteModal($event, item)" class="p-2 bg-error-container/20 text-error hover:bg-error hover:text-white rounded-lg transition-all shadow-sm cursor-pointer">
                                     <span class="material-symbols-outlined text-sm">delete</span>
                                 </button>
                             </div>
+
                         </td>
                     </tr>
                 }

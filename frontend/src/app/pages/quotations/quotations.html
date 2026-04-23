@@ -5,7 +5,7 @@
       <h1 class="text-3xl font-bold tracking-tight text-slate-900 mb-1">Sales Quotations</h1>
       <p class="text-slate-500">Manage and track material quotes from various vendors</p>
     </div>
-    <a routerLink="/quotations/new" 
+    <a *appPermission="'Quotes:CREATE'" routerLink="/quotations/new" 
        class="flex items-center gap-2 px-6 py-3 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-2xl shadow-lg shadow-primary/20 hover:shadow-xl hover:-translate-y-0.5 transition-all">
       <span class="material-symbols-outlined">add</span>
       <span>New Quotation</span>
@@ -136,14 +136,14 @@
                 <button (click)="openViewModal(quote)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 rounded-xl transition-all">
                   <span class="material-symbols-outlined text-[18px]">visibility</span> View Details
                 </button>
-                <button (click)="openNegotiateModal(quote)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-amber-600 hover:bg-amber-50 rounded-xl transition-all">
+                <button *appPermission="'Quotes:UPDATE'" (click)="openNegotiateModal(quote)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-amber-600 hover:bg-amber-50 rounded-xl transition-all">
                   <span class="material-symbols-outlined text-[18px]">handshake</span> Negotiate
                 </button>
                 <button (click)="downloadPdf(quote)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 rounded-xl transition-all">
                   <span class="material-symbols-outlined text-[18px]">download</span> Download PDF
                 </button>
                 <div class="h-px bg-slate-100 my-1"></div>
-                <button (click)="handleDelete(quote)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all">
+                <button *appPermission="'Quotes:DELETE'" (click)="handleDelete(quote)" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all">
                   <span class="material-symbols-outlined text-[18px]">delete</span> Delete Quote
                 </button>
               </div>

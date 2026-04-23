@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { projects, updates, materials, tasks, vendors, quotes, contracts, contractHistory } from './data/mock-data';
+import { projects, updates, materials, tasks, vendors, quotes, contracts, contractHistory, roles, teamMembers } from './data/mock-data';
+import { Role, TeamMember } from './models/models';
 
 const app = express();
 const port = 3000;
@@ -105,11 +106,77 @@ app.post('/api/contract-history', (req: Request, res: Response) => {
   res.status(201).json(newEvent);
 });
 
+// Roles
+app.get('/api/roles', (req: Request, res: Response) => {
+  res.json(roles);
+});
+
+app.post('/api/roles', (req: Request, res: Response) => {
+  const newRole: Role = { ...req.body, id: 'r' + Date.now() };
+  roles.push(newRole);
+  res.status(201).json(newRole);
+});
+
+app.patch('/api/roles/:id', (req: Request, res: Response) => {
+  const idx = roles.findIndex(r => r.id === req.params.id);
+  if (idx !== -1) {
+    roles[idx] = { ...roles[idx], ...req.body };
+    res.json(roles[idx]);
+  } else {
+    res.status(404).send('Role not found');
+  }
+});
+
+app.delete('/api/roles/:id', (req: Request, res: Response) => {
+  const idx = roles.findIndex(r => r.id === req.params.id);
+  if (idx !== -1) {
+    if (roles[idx].isSystem) {
+      return res.status(403).send('Cannot delete system roles');
+    }
+    roles.splice(idx, 1);
+    res.sendStatus(204);
+  } else {
+    res.status(404).send('Role not found');
+  }
+});
+
+// Team Members
+app.get('/api/team', (req: Request, res: Response) => {
+  res.json(teamMembers);
+});
+
+app.post('/api/team', (req: Request, res: Response) => {
+  const newMember: TeamMember = { ...req.body, id: 'm' + Date.now() };
+  teamMembers.push(newMember);
+  res.status(201).json(newMember);
+});
+
+app.patch('/api/team/:id', (req: Request, res: Response) => {
+  const idx = teamMembers.findIndex(m => m.id === req.params.id);
+  if (idx !== -1) {
+    teamMembers[idx] = { ...teamMembers[idx], ...req.body };
+    res.json(teamMembers[idx]);
+  } else {
+    res.status(404).send('Member not found');
+  }
+});
+
+app.delete('/api/team/:id', (req: Request, res: Response) => {
+  const idx = teamMembers.findIndex(m => m.id === req.params.id);
+  if (idx !== -1) {
+    teamMembers.splice(idx, 1);
+    res.sendStatus(204);
+  } else {
+    res.status(404).send('Member not found');
+  }
+});
+
+
 app.get('/health', (req: Request, res: Response) => {
-  res.send('ZYNO API is running');
+  res.send('BuildFlow API is running');
 });
 
 
 app.listen(port, () => {
-  console.log(`ZYNO Backend listening at http://localhost:${port}`);
+  console.log(`BuildFlow Backend listening at http://localhost:${port}`);
 });

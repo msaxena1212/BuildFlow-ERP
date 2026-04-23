@@ -5,16 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { MaterialService, Material } from '../../services/material.service';
 import { VendorService, Vendor } from '../../services/vendor.service';
 
+import { PermissionDirective } from '../../directives/permission.directive';
+import { RbacService } from '../../services/rbac.service';
+
 @Component({
   selector: 'app-materials-management',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, PermissionDirective],
   templateUrl: './materials.html'
 })
 export class MaterialsManagement implements OnInit {
   private materialService = inject(MaterialService);
   private vendorService = inject(VendorService);
   private router = inject(Router);
+  public rbac = inject(RbacService);
   
   team = [
     { name: 'All Members' },

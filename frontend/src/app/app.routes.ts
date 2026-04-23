@@ -17,6 +17,7 @@ import { NotFoundPage } from './pages/not-found/not-found';
 import { ContractManagement } from './pages/contracts/contracts';
 import { BillingDetail } from './pages/billing/billing';
 import { TeamManagement } from './pages/team/team';
+import { RbacManagement } from './pages/rbac/rbac';
 import { Settings } from './pages/settings/settings';
 import { ProjectsList } from './pages/projects-list/projects-list';
 
@@ -40,6 +41,7 @@ export const routes: Routes = [
   { path: 'contracts', component: ContractManagement },
   { path: 'billing', component: BillingDetail },
   { path: 'team', component: TeamManagement },
+  { path: 'rbac', component: RbacManagement },
   { path: 'settings', component: Settings },
   { path: 'not-found', component: NotFoundPage },
   { path: '**', component: NotFoundPage }

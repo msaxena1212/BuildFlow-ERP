@@ -4,15 +4,20 @@ import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ContractService, Contract, ContractHistory } from '../../services/contract.service';
 import { VendorService, Vendor } from '../../services/vendor.service';
+import { RbacService } from '../../services/rbac.service';
+
+import { PermissionDirective } from '../../directives/permission.directive';
 
 @Component({
   selector: 'app-contract-management',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, PermissionDirective],
   templateUrl: './contracts.html',
   styleUrls: ['./contracts.css']
 })
 export class ContractManagement implements OnInit {
+  Math = Math;
+  public rbac = inject(RbacService);
   private contractService = inject(ContractService);
   private vendorService = inject(VendorService);
   private router = inject(Router);

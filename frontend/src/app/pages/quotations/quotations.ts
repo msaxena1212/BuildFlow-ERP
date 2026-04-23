@@ -4,10 +4,12 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { QuotationService, Quote } from '../../services/quotation.service';
 
+import { PermissionDirective } from '../../directives/permission.directive';
+
 @Component({
   selector: 'app-quotations',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, PermissionDirective],
   templateUrl: './quotations.html'
 })
 export class Quotations implements OnInit {

@@ -41,7 +41,7 @@
           <h3 class="text-sm font-black uppercase tracking-widest text-slate-500">{{ column.title }}</h3>
           <span class="px-2 py-0.5 rounded-full bg-slate-100 text-[10px] font-black text-slate-500">{{ getFilteredCount(column) }}</span>
         </div>
-        <button (click)="openAddTaskModal(column.title)" class="text-slate-400 hover:text-blue-600 transition-colors cursor-pointer">
+        <button *appPermission="'Tasks:CREATE'" (click)="openAddTaskModal(column.title)" class="text-slate-400 hover:text-blue-600 transition-colors cursor-pointer">
           <span class="material-symbols-outlined">add</span>
         </button>
       </div>
@@ -50,6 +50,7 @@
       <div 
         cdkDropList 
         [cdkDropListData]="column.tasks" 
+        [cdkDropListDisabled]="!canUpdateTasks()"
         (cdkDropListDropped)="drop($event)"
         class="flex-1 flex flex-col gap-4 min-h-[200px]"
       >
@@ -127,7 +128,7 @@
 </div>
 
 <!-- Contextual FAB -->
-<button (click)="openAddTaskModal()" class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary-container text-white shadow-2xl shadow-primary/40 flex items-center justify-center active:scale-90 transition-all z-50 group cursor-pointer">
+<button *appPermission="'Tasks:CREATE'" (click)="openAddTaskModal()" class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary-container text-white shadow-2xl shadow-primary/40 flex items-center justify-center active:scale-90 transition-all z-50 group cursor-pointer">
   <span class="material-symbols-outlined text-3xl transition-transform group-hover:rotate-90">add</span>
   <div class="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
     Create New Task

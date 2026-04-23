@@ -1,3 +1,26 @@
+export interface Milestone {
+  id: string;
+  name: string;
+  progress: number;
+  color: string;
+  startDate?: string;
+  endDate?: string;
+  subProjectIds?: string[]; // Linking to sub-projects
+  tasks?: Task[];
+}
+
+export interface SubProject {
+  id: string;
+  projectId: string;
+  name: string;
+  description: string;
+  status: 'Pending' | 'In Progress' | 'Completed' | 'Delayed';
+  startDate: string;
+  endDate: string;
+  progress: number;
+  budget?: number;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -15,14 +38,19 @@ export interface Project {
     role: string;
     avatar: string;
   }[];
-  milestones: {
-    name: string;
-    progress: number;
-    color: string;
-  }[];
+  milestones: Milestone[];
+  subProjects?: SubProject[];
   lastUpdate: string;
   estimatedCompletion: string;
   thumbnail: string;
+}
+
+export type DependencyType = 'FS' | 'SS' | 'FF' | 'SF';
+
+export interface TaskDependency {
+  predecessorId: string;
+  type: DependencyType;
+  lag: number; // in days
 }
 
 export interface Task {
@@ -32,7 +60,19 @@ export interface Task {
   description: string;
   status: 'Pending' | 'In Progress' | 'Completed' | 'Delayed';
   priority: 'Low' | 'Medium' | 'High' | 'Critical';
-  deadline: string;
+  deadline: string; 
+  startDate?: string;
+  endDate?: string;
+  duration?: number;
+  dependencies?: TaskDependency[];
+  // Advanced Scheduling Fields
+  earlyStart?: string;
+  earlyFinish?: string;
+  lateStart?: string;
+  lateFinish?: string;
+  totalFloat?: number; // in days
+  freeFloat?: number;  // in days
+  isCritical?: boolean;
 }
 
 export interface SiteUpdate {
@@ -150,3 +190,63 @@ export interface ContractHistory {
   active: boolean;
 }
 
+export type PermissionAction = 'CREATE' | 'READ' | 'UPDATE' | 'DELETE' | 'FULL';
+
+export type AppModule = 'Dashboard' | 'Projects' | 'Team' | 'Contracts' | 'Tasks' | 'Materials' | 'Quotes' | 'Reports' | 'Settings';
+
+export interface Role {
+  id: string;
+  name: string;
+  description: string;
+  permissions: string[]; // Format: "Module:Action" e.g., "Projects:CREATE"
+  isSystem?: boolean;
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  roleId: string;
+  status: 'Active' | 'Pending' | 'Deactivated';
+  avatar?: string;
+  department?: string;
+  lastLogin?: string;
+  assignedProjects?: string[];
+  performance?: number; // 0-100
+}
+
+export interface ContractorMetric {
+  id: string;
+  name: string;
+  efficiency: number;
+  safetyScore: number;
+  retentionRate: number;
+  adherenceToSchedule: number;
+  personnel: number;
+  tasks: string; 
+  logo?: string;
+  trend: 'up' | 'down' | 'stable';
+}
+
+export interface LaborStats {
+  activeCrews: number;
+  totalPersonnel: number;
+  skillCompliance: number;
+  overtimeAlerts: number;
+  skillsDistribution: { name: string; count: number; color: string }[];
+  financials: {
+    earnedValue: number;
+    actualCost: number;
+    cpi: number;
+  };
+}
+
+export interface ReportVaultItem {
+  id: string;
+  title: string;
+  type: 'Technical' | 'Financial' | 'Safety' | 'Quality' | 'Milestone';
+  date: string;
+  author: string;
+  status: 'Published' | 'Draft' | 'Archived';
+  fileSize: string;
+}

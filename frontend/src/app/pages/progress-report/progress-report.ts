@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AnalyticsService, ReportVaultItem } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-progress-report',
@@ -10,6 +11,11 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./progress-report.css']
 })
 export class ProgressReport implements OnInit {
+  private analyticsService = inject(AnalyticsService);
+  Math = Math;
+
+  reportVault: ReportVaultItem[] = [];
+  
   team = [
     { name: 'All Members' },
     { name: 'Sarah Jenkins' },
@@ -18,8 +24,8 @@ export class ProgressReport implements OnInit {
   selectedMember = 'All Members';
 
   milestones = [
-    { date: 'May 12, 2024', title: 'Foundation Pour', status: 'Completed', statusClass: 'bg-primary', icon: 'check', ringClass: 'ring-primary/10' },
-    { date: 'July 28, 2024', title: 'Topping Out', status: 'In Progress (92%)', statusClass: 'bg-secondary', icon: 'play_arrow', ringClass: 'ring-secondary/10', current: true },
+    { date: 'May 12, 2024', title: 'Foundation Pour', status: 'Completed', statusClass: 'bg-indigo-600', icon: 'check', ringClass: 'ring-indigo-100' },
+    { date: 'July 28, 2024', title: 'Topping Out', status: 'In Progress (92%)', statusClass: 'bg-amber-500', icon: 'play_arrow', ringClass: 'ring-amber-50', current: true },
     { date: 'Sept 15, 2024', title: 'Façade Sealed', status: 'Scheduled', statusClass: 'bg-slate-200 text-slate-500', icon: 'upcoming', upcoming: true },
     { date: 'Nov 30, 2024', title: 'Handover', status: 'Scheduled', statusClass: 'bg-slate-200 text-slate-500', icon: 'key', upcoming: true }
   ];
@@ -58,8 +64,9 @@ export class ProgressReport implements OnInit {
     riskLevel: 'Low'
   };
 
-  constructor() {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.analyticsService.reportVault$.subscribe(v => this.reportVault = v);
+  }
 
   get filteredPhases() {
     if (this.selectedMember === 'All Members') return this.phases;
@@ -69,5 +76,31 @@ export class ProgressReport implements OnInit {
   get filteredAchievements() {
     if (this.selectedMember === 'All Members') return this.achievements;
     return this.achievements.filter(a => a.owner === this.selectedMember);
+  }
+
+  getReportIcon(type: string): string {
+    const icons: any = {
+      'Safety': 'security',
+      'Financial': 'payments',
+      'Technical': 'architecture',
+      'Milestone': 'event_available',
+      'Quality': 'verified'
+    };
+    return icons[type] || 'description';
+  }
+
+  getReportColor(type: string): string {
+    const colors: any = {
+      'Safety': 'text-amber-600 bg-amber-50',
+      'Financial': 'text-emerald-600 bg-emerald-50',
+      'Technical': 'text-indigo-600 bg-indigo-50',
+      'Milestone': 'text-purple-600 bg-purple-50',
+      'Quality': 'text-blue-600 bg-blue-50'
+    };
+    return colors[type] || 'text-slate-600 bg-slate-50';
+  }
+
+  generateNewReport() {
+    this.analyticsService.generateReport('New Weekly Progress Report', 'Technical').subscribe();
   }
 }

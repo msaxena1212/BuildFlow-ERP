@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
@@ -11,6 +11,7 @@ import { ProjectFiles } from '../project-files/project-files';
 import { AddSiteNoteModal } from '../../components/add-site-note/add-site-note';
 import { SiteGallery } from '../../components/site-gallery/site-gallery';
 import { FormsModule } from '@angular/forms';
+import { CpmService } from '../../services/cpm.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -20,6 +21,18 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./project-detail.css']
 })
 export class ProjectDetail implements OnInit {
+  private cpmService = inject(CpmService);
+  private projectService = inject(ProjectService);
+  private route = inject(ActivatedRoute);
+
+  isEditingProject = false;
+  projectForm: any = {};
+  
+  tasks: any[] = [];
+  criticalTasksCount = 0;
+  totalFloat = 0;
+  scheduleRisk = 'Low';
+  
   teamMembers = [
     { name: 'All Members' },
     { name: 'Marcus Thorne' },
@@ -67,11 +80,6 @@ export class ProjectDetail implements OnInit {
     return this.auditTrail.filter(a => a.type === this.auditFilter);
   }
 
-  constructor(
-    private route: ActivatedRoute,
-    private projectService: ProjectService
-  ) {}
-
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -81,7 +89,6 @@ export class ProjectDetail implements OnInit {
     });
 
     this.projectService.getUpdates().subscribe(data => {
-      // Enrichment: add mock assignees to updates for filtering
       this.updates = data.map((u, i) => ({
         ...u,
         assignee: i % 2 === 0 ? 'Marcus Thorne' : 'Sarah Chen'
@@ -89,47 +96,38 @@ export class ProjectDetail implements OnInit {
     });
   }
 
-  get filteredUpdates() {
-    if (this.selectedMember === 'All Members') return this.updates;
-    return this.updates.filter(u => u.assignee === this.selectedMember);
-  }
-
-  showRFIComposer = false;
-  showDrawingUpload = false;
-  rfiForm = { to: '', cc: '', bcc: '', subject: '', content: '' };
-  uploadedDrawings: any[] = [];
-
-  openRFIComposer() {
-    this.showRFIComposer = true;
-  }
-
-  sendRFI() {
-    if (this.rfiForm.to && this.rfiForm.subject) {
-      console.log('Sending RFI...', this.rfiForm);
-      this.rfiForm = { to: '', cc: '', bcc: '', subject: '', content: '' };
-      this.showRFIComposer = false;
-    }
-  }
-
-  openDrawingUpload() {
-    this.showDrawingUpload = true;
-  }
-
-  submitDrawing() {
-    const fileName = `drawing_submission_${this.uploadedDrawings.length + 1}.pdf`;
-    this.uploadedDrawings.push({
-      name: fileName,
-      date: new Date().toLocaleDateString()
-    });
-    this.showDrawingUpload = false;
-  }
-
   fetchProjectDetails(id: string) {
     this.projectService.getProjectById(id).pipe(
       catchError(() => of(this.getMockProject(id)))
     ).subscribe(data => {
       this.project = data;
+      this.projectForm = { ...data };
+      this.fetchTasks();
     });
+  }
+
+  fetchTasks() {
+    this.projectService.getTasks().subscribe(tasks => {
+      const projectTasks = tasks.filter(t => t.projectId === this.project.id);
+      this.tasks = this.cpmService.calculateSchedule(projectTasks);
+      this.updateProjectHealth();
+    });
+  }
+
+  updateProjectHealth() {
+    this.criticalTasksCount = this.tasks.filter(t => t.isCritical).length;
+    this.totalFloat = this.tasks.reduce((acc, t) => acc + (t.totalFloat || 0), 0);
+    this.scheduleRisk = this.criticalTasksCount > 5 ? 'High' : (this.criticalTasksCount > 2 ? 'Medium' : 'Low');
+  }
+
+  toggleEditProject() {
+    this.isEditingProject = !this.isEditingProject;
+  }
+
+  saveProject() {
+    this.project = { ...this.projectForm };
+    this.isEditingProject = false;
+    // In a real app, call projectService.updateProject(this.project)
   }
 
   getMockProject(id: string) {
@@ -159,5 +157,49 @@ export class ProjectDetail implements OnInit {
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
+  }
+
+  showLinkModal = false;
+  selectedMilestone: any;
+  allSubProjects: any[] = [];
+
+  openLinkSubProjectModal(ms: any) {
+    this.selectedMilestone = ms;
+    this.allSubProjects = this.project.subProjects || [];
+    this.showLinkModal = true;
+  }
+
+  linkSubProject(subProjectId: string) {
+    if (!this.selectedMilestone.subProjectIds) {
+      this.selectedMilestone.subProjectIds = [];
+    }
+    if (!this.selectedMilestone.subProjectIds.includes(subProjectId)) {
+      this.selectedMilestone.subProjectIds.push(subProjectId);
+      // In a real app, persistent save here
+    }
+    this.showLinkModal = false;
+  }
+
+  isSubProjectLinked(subProjectId: string): boolean {
+    return (this.selectedMilestone?.subProjectIds || []).includes(subProjectId);
+  }
+
+  // RFI Mock logic
+  showRFIComposer = false;
+  rfiForm = { to: '', cc: '', bcc: '', subject: '', content: '' };
+  sendRFI() {
+    this.showRFIComposer = false;
+    alert('RFI Sent Successfully');
+  }
+
+  // Drawing Upload Mock
+  showDrawingUpload = false;
+  uploadedDrawings: any[] = [];
+  openDrawingUpload() {
+    this.showDrawingUpload = true;
+  }
+  submitDrawing() {
+    this.showDrawingUpload = false;
+    this.uploadedDrawings.push({ name: 'New Drawing.pdf', date: new Date().toLocaleDateString() });
   }
 }

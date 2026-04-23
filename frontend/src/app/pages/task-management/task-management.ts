@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { TaskDetail } from '../../components/task-detail/task-detail';
@@ -12,6 +12,10 @@ interface TaskItem {
   title: string;
   description?: string;
   date?: string;
+  startDate?: string;
+  endDate?: string;
+  duration?: number;
+  dependencies?: any[];
   assignee?: string;
   assignees?: string[];
   progress?: number;
@@ -29,14 +33,18 @@ interface TaskColumn {
   tasks: TaskItem[];
 }
 
+import { PermissionDirective } from '../../directives/permission.directive';
+import { RbacService } from '../../services/rbac.service';
+
 @Component({
   selector: 'app-task-management',
   standalone: true,
-  imports: [CommonModule, TaskDetail, DragDropModule, AddTaskModal, FormsModule],
+  imports: [CommonModule, TaskDetail, DragDropModule, AddTaskModal, FormsModule, PermissionDirective],
   templateUrl: './task-management.html',
   styleUrls: ['./task-management.css']
 })
 export class TaskManagement implements OnInit {
+  private rbac = inject(RbacService);
   @Input() selectedMember = 'All Members';
   selectedTask: any = null;
   showAddTaskModal = false;
@@ -164,7 +172,16 @@ export class TaskManagement implements OnInit {
     this.showAddTaskModal = false;
   }
 
+  canUpdateTasks() {
+    return this.rbac.can('Tasks', 'UPDATE');
+  }
+
   drop(event: CdkDragDrop<TaskItem[]>) {
+    if (!this.canUpdateTasks()) {
+      alert('You do not have permission to update tasks.');
+      return;
+    }
+    
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

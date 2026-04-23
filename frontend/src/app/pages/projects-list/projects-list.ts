@@ -20,10 +20,12 @@ interface Project {
   thumbnail: string;
 }
 
+import { PermissionDirective } from '../../directives/permission.directive';
+
 @Component({
   selector: 'app-projects-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, PermissionDirective],
   templateUrl: './projects-list.html',
   styleUrls: ['./projects-list.css']
 })

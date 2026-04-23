@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProjectService } from '../../services/project.service';
+
 
 @Component({
   selector: 'app-task-detail',
@@ -10,12 +12,19 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./task-detail.css']
 })
 export class TaskDetail implements OnInit {
+  private projectService = inject(ProjectService);
   @Input() task: any;
   @Output() close = new EventEmitter<void>();
 
   isEditing = false;
   newComment = '';
   
+  dependencyTypes = ['FS', 'SS', 'FF', 'SF'];
+  allTasks: any[] = [];
+  selectedPredecessorId = '';
+  selectedDepType = 'FS';
+  depLag = 0;
+
   teamMembers = [
     { name: 'Elena Rodriguez', role: 'Lead Structural Eng.', avatar: 'https://images.unsplash.com/photo-1537724326059-2ea20251b9c8?q=80&w=256&auto=format&fit=crop' },
     { name: 'Marcus Thorne', role: 'Senior Manager', avatar: 'https://initials.io/avatar/MT/256' },
@@ -48,6 +57,40 @@ export class TaskDetail implements OnInit {
     if (this.task && !this.task.assigneeName) {
       this.task.assigneeName = 'Elena Rodriguez';
     }
+    if (this.task && !this.task.dependencies) {
+      this.task.dependencies = [];
+    }
+    
+    this.projectService.getTasks().subscribe(tasks => {
+      this.allTasks = tasks.filter(t => t.id !== this.task.id);
+    });
+  }
+
+  addDependency() {
+    if (!this.selectedPredecessorId) return;
+    
+    const pred = this.allTasks.find(t => t.id === this.selectedPredecessorId);
+    if (!pred) return;
+
+    this.task.dependencies.push({
+      predecessorId: this.selectedPredecessorId,
+      type: this.selectedDepType,
+      lag: this.depLag,
+      predecessorTitle: pred.title // Helper for display
+    });
+
+    this.logActivity(`added predecessor: ${pred.title} (${this.selectedDepType})`);
+    this.selectedPredecessorId = '';
+    this.depLag = 0;
+  }
+
+  removeDependency(dep: any) {
+    this.task.dependencies = this.task.dependencies.filter((d: any) => d !== dep);
+    this.logActivity(`removed predecessor dependency`);
+  }
+
+  getTaskTitle(id: string) {
+    return this.allTasks.find(t => t.id === id)?.title || id;
   }
 
   toggleEditMode() {
