@@ -2,15 +2,13 @@
     <!-- Header -->
     <div class="flex justify-between items-end mb-8">
         <div>
-            <h1 class="text-3xl font-extrabold tracking-tight text-on-surface">Schedule & Calendar</h1>
+            <h1 class="text-2xl md:text-3xl font-black tracking-tighter text-on-surface uppercase leading-none">Schedule & Calendar</h1>
             <p class="text-on-surface-variant font-medium mt-1">Manage project timelines and site operations</p>
         </div>
         <div class="flex items-center gap-4">
-            <div class="flex items-center gap-3 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
-              <span class="material-symbols-outlined text-slate-400 text-sm">folder_open</span>
-              <select [(ngModel)]="selectedProject" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-on-surface outline-none cursor-pointer appearance-none pr-4">
-                @for (p of projects; track p) { <option [value]="p">{{ p }}</option> }
-              </select>
+            <div class="flex items-center gap-3 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-xl border border-blue-100 dark:border-blue-800 shadow-inner">
+              <span class="material-symbols-outlined text-blue-600 dark:text-blue-400 text-sm">analytics</span>
+              <span class="text-[11px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400">{{ selectedProject }}</span>
             </div>
             <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-lg border border-outline-variant/10 shadow-sm">
               <span class="material-symbols-outlined text-outline text-sm">filter_alt</span>

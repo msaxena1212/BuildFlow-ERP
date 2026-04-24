@@ -8,6 +8,37 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes progress {
+    0% { background-position: 0 0; }
+    100% { background-position: 32px 0; }
+}
+
+.animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.custom-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.2);
+    border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 116, 139, 0.4);
+}
+
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
@@ -39,6 +70,15 @@
     border-color: rgba(37, 99, 235, 0.2);
 }
 
+/* Shadow Utility */
+.shadow-3xl {
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+}
+
+.dark .shadow-3xl {
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.7);
+}
+
 /* Feed List Custom Delay */
 .feed-item {
     opacity: 0;
@@ -62,3 +102,4 @@
 .col-span-12 {
     width: 100%;
 }
+

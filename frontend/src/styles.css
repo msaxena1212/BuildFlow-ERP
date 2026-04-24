@@ -30,9 +30,20 @@
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  @apply bg-white/70 backdrop-blur-xl border border-white/40;
+}
+
+.glass-surface-dark {
+  @apply bg-slate-900/90 backdrop-blur-2xl border border-white/10;
+}
+
+.premium-shadow {
+  box-shadow: 0 10px 30px -10px rgba(0, 74, 198, 0.08),
+              0 4px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.premium-shadow-hover {
+  @apply transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_20px_40px_-15px_rgba(0,74,198,0.12)];
 }
 
 .blueprint-grid {
@@ -43,3 +54,17 @@
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
+
+/* Density Utilities */
+.tight-spacing {
+  @apply gap-4 p-4;
+}
+
+.card-rounded {
+  @apply rounded-xl;
+}
+
+.header-proportioned {
+  @apply text-3xl font-black tracking-tight text-slate-900;
+}
+

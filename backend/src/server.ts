@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { projects, updates, materials, tasks, vendors, quotes, contracts, contractHistory, roles, teamMembers } from './data/mock-data';
+import { projects, updates, materials, tasks, vendors, quotes, contracts, contractHistory, roles, teamMembers, contractorMetrics, laborStats, reportVault } from './data/mock-data';
 import { Role, TeamMember } from './models/models';
 
 const app = express();
@@ -170,6 +170,22 @@ app.delete('/api/team/:id', (req: Request, res: Response) => {
     res.status(404).send('Member not found');
   }
 });
+
+// Contractor Metrics
+app.get('/api/contractor-metrics', (req: Request, res: Response) => {
+  res.json(contractorMetrics);
+});
+
+// Labor Stats
+app.get('/api/labor-stats', (req: Request, res: Response) => {
+  res.json(laborStats);
+});
+
+// Reports
+app.get('/api/reports', (req: Request, res: Response) => {
+  res.json(reportVault);
+});
+
 
 
 app.get('/health', (req: Request, res: Response) => {

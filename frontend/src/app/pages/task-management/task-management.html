@@ -1,49 +1,48 @@
-<div class="mb-10 mt-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-  <div>
-    <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary mb-2 block">Project</span>
-    <div class="flex items-center gap-3">
-      <h2 class="text-4xl font-black tracking-tight text-slate-900 leading-none">Task Management</h2>
-      <div class="flex items-center gap-2 bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-sm">
-        <span class="material-symbols-outlined text-slate-400 text-sm">folder_open</span>
-        <select [(ngModel)]="selectedProject" class="bg-transparent border-none text-xs font-black uppercase tracking-widest text-slate-700 outline-none cursor-pointer appearance-none pr-4">
-          @for (p of projects; track p) { <option [value]="p">{{ p }}</option> }
+<!-- Task Header Section -->
+<div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 px-1">
+  <div class="space-y-1">
+    <h2 class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50 uppercase leading-none">Intelligence Queue</h2>
+    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Operational Task Synchronization Matrix</p>
+  </div>
+  <div class="flex items-center gap-4">
+    <!-- Active Units -->
+    <div class="flex -space-x-2">
+      @for (m of team; track m.name) {
+        @if (m.avatar) {
+          <div class="w-8 h-8 rounded-lg ring-2 ring-white dark:ring-slate-900 overflow-hidden shadow-sm" [title]="m.name">
+            <img [src]="m.avatar" class="w-full h-full object-cover">
+          </div>
+        }
+      }
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl shadow-sm">
+        <span class="material-symbols-outlined text-slate-400 text-xs">filter_alt</span>
+        <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 outline-none cursor-pointer appearance-none pr-4">
+            <option *ngFor="let m of team" [value]="m.name">{{ m.name }}</option>
         </select>
       </div>
+      
+      <button class="flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg hover:shadow-slate-900/10 transition-all">
+        <span class="material-symbols-outlined text-sm">tune</span>
+        Config
+      </button>
     </div>
-  </div>
-  <div class="flex items-center gap-3">
-    <div class="flex -space-x-3">
-      <img class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4CZeaYB7fJXEtjKFkVujKuYnqc32Vz4RirffP91HCE-igMSlf58IRegCTvDiO-n6vn8GSii3hmQCT9wn7MZCO7LYC87Mix-nc0uOD0_dHzMdyYmVbfUFLAGo6sFmnu6r5xb66CI_FUi6YCEqOcUKyBiL2helT79G1OiGR1inPdCcO87KgZ9ygFt4Q9GbiYVVfSvdkQ-o38syvfzzZJtPCCht9KpCLNPH4NAfNB_nmM9iLmnFOQ8z1D6W3w9caWMwVul6E7XtJszA-" />
-      <img class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1RmRziofMuKPCOGKlk1YnapBSbLaEfo01m3q_4lcO8xWYBy9DKhbId94OYnRLdh0YKtETgTw4OBQS76xCwa3GI8lqHXQEh4qQQyAWfHCmwY_elYYp6wMji5eXHwrqZcUD4iEoGkyYIRyKMxXR2lEAw34APWS_Omi6iwEz2PTn97envSoQbpymAyVXp1E00dhY0AgRi3UNTNPZdT8tKT6Oe6M4gpGCg1r2U1-D3cACjbZQSMZS2qrf08cBFkc50Xkbgk1epsoox4yv" />
-      <img class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8baYgQ3t4oMOHGPKXfFarqNItNIVVIfHOd53B1k7u3hLEDI1NYxbXwlB4obDhV4NFcKoh8XmJmz--LGSGjwi-6_5tek1bR_4g0zR8sP-PKdjXkmPZWQPWYZ_WxA4kNCyBSgF7hIdr8RLZJs4XGSqYbw-_kXxfo-jZFLySHpFqmRgQ_aH6iI-s-i2NZhe1wBHjRb3yN5siRJVrfnA1aetRFHVhFPPyPAuU9CJDj0_GJxvMIbyHt4DkCEkTrU9YIyXXMafDVs-F6tao" />
-      <div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px] font-bold">+5</div>
-    </div>
-    <div class="flex items-center gap-3 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
-      <span class="material-symbols-outlined text-slate-400 text-sm">filter_alt</span>
-      <select [(ngModel)]="selectedMember" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-slate-700 outline-none cursor-pointer appearance-none pr-4">
-          <option *ngFor="let member of team" [value]="member.name">{{ member.name }}</option>
-      </select>
-    </div>
-    <button class="flex items-center gap-2 px-5 py-2.5 bg-white text-slate-900 text-sm font-bold rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-200">
-      <span class="material-symbols-outlined text-lg">filter_list</span>
-      Filters
-    </button>
   </div>
 </div>
 
 <!-- Kanban Board Layout -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 min-h-[716px]" cdkDropListGroup>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 min-h-[700px] px-1" cdkDropListGroup>
   @for (column of columns; track column.id) {
-    <div class="flex flex-col gap-4">
-      <div class="flex items-center justify-between px-2 mb-2">
-        <div class="flex items-center gap-3">
-          <div [class]="'w-2.5 h-2.5 rounded-full ' + column.color"></div>
-          <h3 class="text-sm font-black uppercase tracking-widest text-slate-500">{{ column.title }}</h3>
-          <span class="px-2 py-0.5 rounded-full bg-slate-100 text-[10px] font-black text-slate-500">{{ getFilteredCount(column) }}</span>
+    <div class="flex flex-col gap-3 bg-slate-50/50 dark:bg-slate-800/20 p-2 rounded-2xl border border-slate-100 dark:border-slate-800/50">
+      <div class="flex items-center justify-between px-2 py-1">
+        <div class="flex items-center gap-2">
+          <div [class]="'w-1.5 h-4 rounded-full ' + column.color"></div>
+          <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{{ column.title }}</h3>
+          <span class="px-1.5 py-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-[8px] font-black text-slate-400">{{ getFilteredCount(column) }}</span>
         </div>
-        <button *appPermission="'Tasks:CREATE'" (click)="openAddTaskModal(column.title)" class="text-slate-400 hover:text-blue-600 transition-colors cursor-pointer">
-          <span class="material-symbols-outlined">add</span>
-        </button>
+        <button *appPermission="'Tasks:CREATE'" (click)="openAddTaskModal(column.title)" class="material-symbols-outlined text-sm text-slate-400 hover:text-blue-600 transition-colors cursor-pointer">add</button>
       </div>
 
       <!-- Drop List Container -->
@@ -52,86 +51,94 @@
         [cdkDropListData]="column.tasks" 
         [cdkDropListDisabled]="!canUpdateTasks()"
         (cdkDropListDropped)="drop($event)"
-        class="flex-1 flex flex-col gap-4 min-h-[200px]"
+        class="flex-1 flex flex-col gap-3 min-h-[200px] custom-scroll"
       >
         @for (task of column.tasks; track task.title) {
           @if (isTaskVisible(task)) {
             <div 
               cdkDrag 
               (click)="openTaskDetail(task)" 
-              [class]="'glass-card p-5 rounded-2xl shadow-sm border border-white/40 group hover:shadow-xl hover:-translate-y-1 transition-all cursor-grab active:cursor-grabbing relative overflow-hidden ' + (task.completed ? 'opacity-75 grayscale-[0.5]' : '')"
+              [class]="'bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 group hover:border-blue-500/50 hover:shadow-xl hover:-translate-y-0.5 transition-all cursor-grab active:cursor-grabbing relative overflow-hidden ' + (task.completed ? 'opacity-75 grayscale-[0.5]' : '')"
             >
             <!-- Drag Placeholder -->
             <div class="cdk-drag-placeholder" *cdkDragPlaceholder></div>
 
-            @if (task.progress) {
-              <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+            @if (task.progress && !task.completed) {
+              <div class="absolute top-0 left-0 w-1 h-full bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.4)]"></div>
             }
-            <div class="flex justify-between items-start mb-4">
-              <span [class]="'px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter ' + task.priorityClass">{{ task.priority }}</span>
+
+            <div class="flex justify-between items-start mb-3">
+              <span [class]="'px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider ' + task.priorityClass">{{ task.priority }}</span>
               <button class="opacity-0 group-hover:opacity-100 transition-opacity">
-                <span class="material-symbols-outlined text-slate-400 text-lg">more_horiz</span>
+                <span class="material-symbols-outlined text-slate-400 text-base">more_vert</span>
               </button>
             </div>
             
-            <h4 [class]="'font-bold text-slate-900 mb-2 leading-snug ' + (task.completed ? 'line-through text-slate-400' : '')">{{ task.title }}</h4>
+            <h4 [class]="'text-[11px] font-black text-slate-900 dark:text-slate-50 mb-1.5 leading-tight uppercase tracking-tight ' + (task.completed ? 'line-through text-slate-400' : '')">{{ task.title }}</h4>
             
             @if (task.description) {
-              <p class="text-xs text-slate-500 mb-6 line-clamp-2">{{ task.description }}</p>
+              <p class="text-[10px] text-slate-500 font-medium mb-4 line-clamp-2 leading-relaxed">{{ task.description }}</p>
             }
 
-            @if (task.progress) {
-              <div class="w-full bg-slate-100 h-1.5 rounded-full mb-4">
-                <div class="bg-amber-500 h-1.5 rounded-full" [style.width.%]="task.progress"></div>
-              </div>
-              <p class="text-[10px] font-bold text-slate-400 mb-6">{{ task.progress }}% Completed</p>
-            }
-
-            @if (task.file) {
-              <div class="bg-blue-50/50 rounded-xl p-3 mb-4 flex items-center gap-3">
-                <span class="material-symbols-outlined text-blue-600">description</span>
-                <div class="text-[10px]">
-                  <p class="font-bold text-slate-700">{{ task.file }}</p>
-                  <p class="text-slate-400">{{ task.fileSize }}</p>
+            @if (task.progress && !task.completed) {
+              <div class="space-y-1.5 mb-4">
+                <div class="w-full bg-slate-100 dark:bg-slate-800 h-1 rounded-full">
+                  <div class="bg-blue-600 h-1 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.4)]" [style.width.%]="task.progress"></div>
+                </div>
+                <div class="flex justify-between items-center text-[8px] font-black uppercase tracking-widest text-slate-400">
+                  <span>Progress</span>
+                  <span class="text-blue-600">{{ task.progress }}%</span>
                 </div>
               </div>
             }
 
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2 text-[10px] font-bold" [class.text-amber-500]="task.status === 'In Progress'" [class.text-blue-600]="task.status === 'Awaiting Approval'" [class.text-green-600]="task.status === 'Verified Complete'" [class.text-slate-400]="!task.status">
+            @if (task.file) {
+              <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-2 mb-4 flex items-center gap-2 border border-slate-100 dark:border-slate-800">
+                <span class="material-symbols-outlined text-blue-500 text-sm">attachment</span>
+                <div class="flex-1 overflow-hidden">
+                  <p class="text-[9px] font-black text-slate-700 dark:text-slate-300 truncate uppercase tracking-tight">{{ task.file }}</p>
+                  <p class="text-[8px] text-slate-400 font-bold uppercase">{{ task.fileSize }}</p>
+                </div>
+              </div>
+            }
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-50 dark:border-slate-800/50">
+              <div class="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-[0.15em]" [class.text-amber-500]="task.status === 'In Progress'" [class.text-blue-600]="task.status === 'Awaiting Approval'" [class.text-emerald-600]="task.status === 'Verified Complete'" [class.text-slate-400]="!task.status">
                 @if (task.date) {
-                  <span class="material-symbols-outlined text-sm">calendar_today</span>
+                  <span class="material-symbols-outlined text-[12px]">calendar_today</span>
                   {{ task.date }}
                 } @else if (task.status) {
-                  <span class="material-symbols-outlined text-sm">{{ task.status === 'In Progress' ? 'update' : (task.status === 'Awaiting Approval' ? 'visibility' : 'check_circle') }}</span>
+                  <span class="material-symbols-outlined text-[12px]">{{ task.status === 'In Progress' ? 'update' : (task.status === 'Awaiting Approval' ? 'visibility' : 'check_circle') }}</span>
                   {{ task.status }}
                 }
               </div>
 
-              @if (task.assignee) {
-                <img class="w-6 h-6 rounded-lg" [src]="task.assignee" />
-              }
-              @if (task.assignees) {
-                <div class="flex -space-x-2">
-                  @for (img of task.assignees; track img) {
-                    <img class="w-6 h-6 rounded-lg ring-2 ring-white" [src]="img" />
-                  }
-                </div>
-              }
+              <div class="flex items-center">
+                @if (task.assignee) {
+                  <img class="w-5 h-5 rounded-md ring-2 ring-white dark:ring-slate-900 shadow-sm" [src]="task.assignee" />
+                }
+                @if (task.assignees) {
+                  <div class="flex -space-x-1.5">
+                    @for (img of task.assignees; track img) {
+                      <img class="w-5 h-5 rounded-md ring-2 ring-white dark:ring-slate-900 shadow-sm object-cover" [src]="img" />
+                    }
+                  </div>
+                }
+              </div>
             </div>
           </div>
+          }
         }
-      }
       </div>
     </div>
   }
 </div>
 
 <!-- Contextual FAB -->
-<button *appPermission="'Tasks:CREATE'" (click)="openAddTaskModal()" class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary-container text-white shadow-2xl shadow-primary/40 flex items-center justify-center active:scale-90 transition-all z-50 group cursor-pointer">
-  <span class="material-symbols-outlined text-3xl transition-transform group-hover:rotate-90">add</span>
-  <div class="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
-    Create New Task
+<button *appPermission="'Tasks:CREATE'" (click)="openAddTaskModal()" class="fixed bottom-8 right-8 w-12 h-12 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-2xl flex items-center justify-center active:scale-90 transition-all z-50 group cursor-pointer border border-white/10">
+  <span class="material-symbols-outlined text-2xl transition-transform group-hover:rotate-90">add</span>
+  <div class="absolute right-full mr-4 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest py-2 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
+    New Directive
   </div>
 </button>
 
@@ -142,3 +149,4 @@
 @if (showAddTaskModal) {
   <app-add-task [initialStatus]="targetStep" (close)="showAddTaskModal = false" (save)="addNewTask($event)"></app-add-task>
 }
+

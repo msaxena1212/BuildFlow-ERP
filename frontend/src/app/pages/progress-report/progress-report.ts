@@ -11,9 +11,12 @@ import { AnalyticsService, ReportVaultItem } from '../../services/analytics.serv
   styleUrls: ['./progress-report.css']
 })
 export class ProgressReport implements OnInit {
+  @Input() projectId = 'p1';
   private analyticsService = inject(AnalyticsService);
+  private projectService = inject(ProjectService);
   Math = Math;
 
+  project: any;
   reportVault: ReportVaultItem[] = [];
   
   team = [
@@ -66,6 +69,7 @@ export class ProgressReport implements OnInit {
 
   ngOnInit(): void {
     this.analyticsService.reportVault$.subscribe(v => this.reportVault = v);
+    this.projectService.getProjectById(this.projectId).subscribe(p => this.project = p);
   }
 
   get filteredPhases() {

@@ -26,4 +26,20 @@ export class ProjectService {
   getTasks(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/tasks`);
   }
+
+  getContractorMetrics(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/contractor-metrics`);
+  }
+
+  getLaborStats(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/labor-stats`);
+  }
+
+  getReports(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/reports`);
+  }
+
+  getContracts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/contracts`);
+  }
 }

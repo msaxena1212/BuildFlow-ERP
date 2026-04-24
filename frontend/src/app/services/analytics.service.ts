@@ -59,13 +59,13 @@ export class AnalyticsService {
   refreshAll() {
     // In a real app, these would be separate endpoints
     // For now, we manually populate or fetch from the mock server if available
-    this.http.get<ContractorMetric[]>('http://localhost:3000/api/labor/contractors').subscribe({
+    this.http.get<ContractorMetric[]>('http://localhost:3000/api/contractor-metrics').subscribe({
       next: (c) => this.contractorsSubject.next(c),
       error: () => this.populateMocks() // Fallback to mocks if server not updated
     });
     
-    this.http.get<LaborStats>('http://localhost:3000/api/labor/stats').subscribe(s => this.laborStatsSubject.next(s));
-    this.http.get<ReportVaultItem[]>('http://localhost:3000/api/reports/vault').subscribe(v => this.reportVaultSubject.next(v));
+    this.http.get<LaborStats>('http://localhost:3000/api/labor-stats').subscribe(s => this.laborStatsSubject.next(s));
+    this.http.get<ReportVaultItem[]>('http://localhost:3000/api/reports').subscribe(v => this.reportVaultSubject.next(v));
   }
 
   private populateMocks() {
