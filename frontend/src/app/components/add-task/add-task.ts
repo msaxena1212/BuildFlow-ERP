@@ -44,7 +44,12 @@ export class AddTaskModal implements OnInit {
     { label: 'Low Priority', class: 'bg-amber-100 text-amber-700' }
   ];
 
-  dependencyTypes = ['FS', 'SS', 'FF', 'SF'];
+  dependencyTypes = [
+    { id: 'FS', name: 'Finish-to-Start (FS)', desc: 'Predecessor must finish before Successor can start' },
+    { id: 'SS', name: 'Start-to-Start (SS)', desc: 'Predecessor must start before Successor can start' },
+    { id: 'FF', name: 'Finish-to-Finish (FF)', desc: 'Predecessor must finish before Successor can finish' },
+    { id: 'SF', name: 'Start-to-Finish (SF)', desc: 'Predecessor must start before Successor can finish' }
+  ];
 
   teamMembers = [
     { name: 'Elena Rodriguez', avatar: 'https://images.unsplash.com/photo-1537724326059-2ea20251b9c8?q=80&w=256&auto=format&fit=crop' },
@@ -81,14 +86,20 @@ export class AddTaskModal implements OnInit {
   addDependency() {
     if (this.selectedPredecessorId) {
       const pred = this.allTasks.find(t => t.id === this.selectedPredecessorId);
+      const typeObj = this.dependencyTypes.find(t => t.id === this.selectedDepType);
       this.task.dependencies.push({
         predecessorId: this.selectedPredecessorId,
         predecessorTitle: pred?.title,
         type: this.selectedDepType,
+        typeName: typeObj?.name,
         lag: this.depLag
       });
       this.selectedPredecessorId = '';
     }
+  }
+
+  getSelectedDepDesc() {
+    return this.dependencyTypes.find(t => t.id === this.selectedDepType)?.desc || '';
   }
 
   removeDependency(index: number) {

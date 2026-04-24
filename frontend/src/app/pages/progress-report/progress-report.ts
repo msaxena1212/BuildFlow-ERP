@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AnalyticsService, ReportVaultItem } from '../../services/analytics.service';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-progress-report',
@@ -69,7 +70,7 @@ export class ProgressReport implements OnInit {
 
   ngOnInit(): void {
     this.analyticsService.reportVault$.subscribe(v => this.reportVault = v);
-    this.projectService.getProjectById(this.projectId).subscribe(p => this.project = p);
+    this.projectService.getProjectById(this.projectId).subscribe((p: any) => this.project = p);
   }
 
   get filteredPhases() {

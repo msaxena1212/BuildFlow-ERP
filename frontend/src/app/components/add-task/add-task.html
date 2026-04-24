@@ -135,8 +135,8 @@
               </select>
               <div class="flex gap-2">
                 <select [(ngModel)]="selectedDepType" class="flex-1 bg-surface border-none rounded-lg p-2.5 text-xs font-bold ring-1 ring-outline-variant/10 outline-none">
-                  @for (type of dependencyTypes; track type) {
-                    <option [value]="type">{{ type }}</option>
+                  @for (type of dependencyTypes; track type.id) {
+                    <option [value]="type.id">{{ type.name }}</option>
                   }
                 </select>
                 <input type="number" [(ngModel)]="depLag" placeholder="Lag" class="w-20 bg-surface border-none rounded-lg p-2.5 text-xs font-bold ring-1 ring-outline-variant/10 outline-none" />
@@ -144,6 +144,9 @@
                   <span class="material-symbols-outlined text-sm">link</span>
                 </button>
               </div>
+              <p class="text-[9px] text-primary/60 font-medium px-1">
+                {{ getSelectedDepDesc() }}
+              </p>
             </div>
           </div>
         </section>

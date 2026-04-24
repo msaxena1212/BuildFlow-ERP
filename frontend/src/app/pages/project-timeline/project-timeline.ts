@@ -57,6 +57,50 @@ export class ProjectTimeline implements OnInit {
   allSubProjects: any[] = [];
   showLinkModal = false;
   selectedMilestone: any;
+  
+  showMilestoneModal = false;
+  milestoneForm: any = { id: '', name: '', progress: 0, color: 'blue-500', startDate: '', endDate: '' };
+  isEditingMilestone = false;
+
+  showSubProjectModal = false;
+  subProjectForm: any = { id: '', name: '', progress: 0, status: 'In Progress', startDate: '', endDate: '', description: '' };
+  isEditingSubProject = false;
+  selectedMilestoneForSubProject: any = null;
+
+  openAddMilestoneModal() {
+    this.isEditingMilestone = false;
+    this.milestoneForm = { id: 'm' + Date.now(), name: '', progress: 0, color: 'blue-500', startDate: '', endDate: '' };
+    this.showMilestoneModal = true;
+  }
+
+  saveMilestone() {
+    if (!this.project.milestones) this.project.milestones = [];
+    this.project.milestones.push({ ...this.milestoneForm });
+    this.loadTimeline();
+    this.showMilestoneModal = false;
+  }
+
+  openAddSubProjectModal(ms: any) {
+    this.selectedMilestoneForSubProject = ms;
+    this.isEditingSubProject = false;
+    this.subProjectForm = { id: 'sp' + Date.now(), name: '', progress: 0, status: 'In Progress', startDate: '', endDate: '', description: '' };
+    this.showSubProjectModal = true;
+  }
+
+  saveSubProject() {
+    if (!this.project.subProjects) this.project.subProjects = [];
+    const newSubProject = { ...this.subProjectForm, projectId: this.project.id };
+    this.project.subProjects.push(newSubProject);
+    
+    if (this.selectedMilestoneForSubProject) {
+      if (!this.selectedMilestoneForSubProject.subProjectIds) {
+        this.selectedMilestoneForSubProject.subProjectIds = [];
+      }
+      this.selectedMilestoneForSubProject.subProjectIds.push(newSubProject.id);
+    }
+    this.loadTimeline();
+    this.showSubProjectModal = false;
+  }
 
   team = [
     { name: 'All Members', avatar: '' },

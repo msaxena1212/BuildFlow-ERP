@@ -163,6 +163,110 @@ export class ProjectDetail implements OnInit {
   selectedMilestone: any;
   allSubProjects: any[] = [];
 
+  showSubMilestoneModal = false;
+  selectedParentMilestoneId: string | null = null;
+  subMilestoneForm: any = { id: '', name: '', progress: 0, status: 'Pending', startDate: '', endDate: '' };
+  isEditingSubMilestone = false;
+
+  openAddSubMilestoneModal(milestoneId: string) {
+    this.selectedParentMilestoneId = milestoneId;
+    this.isEditingSubMilestone = false;
+    this.subMilestoneForm = { id: 'sm' + Date.now(), name: '', progress: 0, status: 'Pending', startDate: '', endDate: '' };
+    this.showSubMilestoneModal = true;
+  }
+
+  openEditSubMilestoneModal(milestoneId: string, sm: any) {
+    this.selectedParentMilestoneId = milestoneId;
+    this.isEditingSubMilestone = true;
+    this.subMilestoneForm = { ...sm };
+    this.showSubMilestoneModal = true;
+  }
+
+  saveSubMilestone() {
+    if (!this.selectedParentMilestoneId) return;
+    const ms = this.project.milestones.find((m: any) => m.id === this.selectedParentMilestoneId);
+    if (ms) {
+      if (!ms.subMilestones) ms.subMilestones = [];
+      
+      if (this.isEditingSubMilestone) {
+        const idx = ms.subMilestones.findIndex((s: any) => s.id === this.subMilestoneForm.id);
+        if (idx !== -1) ms.subMilestones[idx] = { ...this.subMilestoneForm };
+      } else {
+        ms.subMilestones.push({ ...this.subMilestoneForm });
+      }
+    }
+    this.showSubMilestoneModal = false;
+  }
+
+  showMilestoneModal = false;
+  milestoneForm: any = { id: '', name: '', progress: 0, color: 'blue-500', startDate: '', endDate: '' };
+  isEditingMilestone = false;
+
+  showSubProjectModal = false;
+  subProjectForm: any = { id: '', name: '', progress: 0, status: 'In Progress', startDate: '', endDate: '', description: '' };
+  isEditingSubProject = false;
+  selectedMilestoneForSubProject: any = null;
+
+  openAddMilestoneModal() {
+    this.isEditingMilestone = false;
+    this.milestoneForm = { id: 'm' + Date.now(), name: '', progress: 0, color: 'blue-500', startDate: '', endDate: '' };
+    this.showMilestoneModal = true;
+  }
+
+  openEditMilestoneModal(ms: any) {
+    this.isEditingMilestone = true;
+    this.milestoneForm = { ...ms };
+    this.showMilestoneModal = true;
+  }
+
+  saveMilestone() {
+    if (this.isEditingMilestone) {
+      const idx = this.project.milestones.findIndex((m: any) => m.id === this.milestoneForm.id);
+      if (idx !== -1) {
+        this.project.milestones[idx] = { ...this.milestoneForm };
+      }
+    } else {
+      if (!this.project.milestones) this.project.milestones = [];
+      this.project.milestones.push({ ...this.milestoneForm });
+    }
+    this.showMilestoneModal = false;
+  }
+
+  openAddSubProjectModal(ms: any) {
+    this.selectedMilestoneForSubProject = ms;
+    this.isEditingSubProject = false;
+    this.subProjectForm = { id: 'sp' + Date.now(), name: '', progress: 0, status: 'In Progress', startDate: '', endDate: '', description: '' };
+    this.showSubProjectModal = true;
+  }
+
+  openEditSubProjectModal(sp: any) {
+    this.isEditingSubProject = true;
+    this.subProjectForm = { ...sp };
+    this.showSubProjectModal = true;
+  }
+
+  saveSubProject() {
+    if (this.isEditingSubProject) {
+      const idx = this.project.subProjects.findIndex((sp: any) => sp.id === this.subProjectForm.id);
+      if (idx !== -1) {
+        this.project.subProjects[idx] = { ...this.subProjectForm };
+      }
+    } else {
+      if (!this.project.subProjects) this.project.subProjects = [];
+      const newSubProject = { ...this.subProjectForm, projectId: this.project.id };
+      this.project.subProjects.push(newSubProject);
+      
+      // Link it to the milestone
+      if (this.selectedMilestoneForSubProject) {
+        if (!this.selectedMilestoneForSubProject.subProjectIds) {
+          this.selectedMilestoneForSubProject.subProjectIds = [];
+        }
+        this.selectedMilestoneForSubProject.subProjectIds.push(newSubProject.id);
+      }
+    }
+    this.showSubProjectModal = false;
+  }
+
   openLinkSubProjectModal(ms: any) {
     this.selectedMilestone = ms;
     this.allSubProjects = this.project.subProjects || [];

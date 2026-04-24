@@ -1,0 +1,55 @@
+﻿[33m>[39m Building...
+[32mΓêÜ[39m Building...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m        [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mmain-EWZMIODS.js[39m   [2m | [22m[2mmain[22m         [2m | [22m[36m985.80 kB[39m[2m | [22m              [36m199.42 kB[39m
+[32mstyles-RXULC4HE.css[39m[2m | [22m[2mstyles[22m       [2m | [22m[36m101.62 kB[39m[2m | [22m               [36m11.57 kB[39m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m[2m | [22m  [1m[91m1.09 MB[39m[22m[2m | [22m              [1m210.98 kB[22m
+
+Application bundle generation failed. [18.834 seconds]
+
+node.exe : [1m[33m[33mΓû▓ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain 
+operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' 
+operator.[0m [1m[35m[plugin angular-compiler][0m
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\mindz\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1m[33m[33mΓ...r-compiler][0m:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+    src/app/pages/contracts/contracts.html:15:172:
+[37m      15 Γöé ...e: ' + (filteredContracts[0]?.[32mtype[37m || 'N/A') + ' and regional o...
+         Γò╡                                  [32m~~~~[0m
+
+  Error occurs in the template of component ContractManagement.
+
+    src/app/pages/contracts/contracts.ts:15:15:
+[37m      15 Γöé   templateUrl: [32m'./contracts.html'[37m,
+         Γò╡                [32m~~~~~~~~~~~~~~~~~~[0m
+
+
+[33mΓû▓ [43;33m[[43;30mWARNING[43;33m][0m [1mTS-998113: PermissionDirective is not used within the template of 
+RbacManagement[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/rbac/rbac.ts:10:39:
+[37m      10 Γöé   imports: [CommonModule, FormsModule, [32mPermissionDirective[37m],
+         Γò╡                                        [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33mΓû▓ [43;33m[[43;30mWARNING[43;33m][0m [1mTS-998113: PermissionDirective is not used within the template of 
+TeamManagement[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/team/team.ts:10:39:
+[37m      10 Γöé   imports: [CommonModule, FormsModule, [32mPermissionDirective[37m],
+         Γò╡                                        [32m~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33mΓû▓ [43;33m[[43;30mWARNING[43;33m][0m [1mbundle initial exceeded maximum budget. Budget 500.00 kB was not 
+met by 587.42 kB with a total of 1.09 MB.[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mbundle initial exceeded maximum budget. Budget 1.00 MB was not 
+met by 87.42 kB with a total of 1.09 MB.[0m
+
+[39m[22m

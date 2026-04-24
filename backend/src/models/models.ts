@@ -1,3 +1,12 @@
+export interface SubMilestone {
+  id: string;
+  name: string;
+  progress: number;
+  status: 'Pending' | 'In Progress' | 'Completed' | 'Delayed';
+  startDate?: string;
+  endDate?: string;
+}
+
 export interface Milestone {
   id: string;
   name: string;
@@ -6,6 +15,7 @@ export interface Milestone {
   startDate?: string;
   endDate?: string;
   subProjectIds?: string[]; // Linking to sub-projects
+  subMilestones?: SubMilestone[];
   tasks?: Task[];
 }
 

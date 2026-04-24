@@ -19,7 +19,12 @@ export class TaskDetail implements OnInit {
   isEditing = false;
   newComment = '';
   
-  dependencyTypes = ['FS', 'SS', 'FF', 'SF'];
+  dependencyTypes = [
+    { id: 'FS', name: 'Finish-to-Start (FS)', desc: 'Predecessor must finish before Successor can start' },
+    { id: 'SS', name: 'Start-to-Start (SS)', desc: 'Predecessor must start before Successor can start' },
+    { id: 'FF', name: 'Finish-to-Finish (FF)', desc: 'Predecessor must finish before Successor can finish' },
+    { id: 'SF', name: 'Start-to-Finish (SF)', desc: 'Predecessor must start before Successor can finish' }
+  ];
   allTasks: any[] = [];
   selectedPredecessorId = '';
   selectedDepType = 'FS';
@@ -76,12 +81,16 @@ export class TaskDetail implements OnInit {
       predecessorId: this.selectedPredecessorId,
       type: this.selectedDepType,
       lag: this.depLag,
-      predecessorTitle: pred.title // Helper for display
+      predecessorTitle: pred.title
     });
 
     this.logActivity(`added predecessor: ${pred.title} (${this.selectedDepType})`);
     this.selectedPredecessorId = '';
     this.depLag = 0;
+  }
+
+  getSelectedDepDesc() {
+    return this.dependencyTypes.find(t => t.id === this.selectedDepType)?.desc || '';
   }
 
   removeDependency(dep: any) {

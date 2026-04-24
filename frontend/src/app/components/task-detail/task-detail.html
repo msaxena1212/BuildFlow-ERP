@@ -121,10 +121,11 @@
                   </div>
                   <div class="col-span-3">
                     <select [(ngModel)]="selectedDepType" class="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold outline-none">
-                      @for (type of dependencyTypes; track type) {
-                        <option [value]="type">{{ type }}</option>
+                      @for (type of dependencyTypes; track type.id) {
+                        <option [value]="type.id">{{ type.name }}</option>
                       }
                     </select>
+                    <p class="text-[9px] text-blue-600 font-medium mt-1">{{ getSelectedDepDesc() }}</p>
                   </div>
                   <div class="col-span-2">
                     <input type="number" [(ngModel)]="depLag" placeholder="Lag" class="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold outline-none">
