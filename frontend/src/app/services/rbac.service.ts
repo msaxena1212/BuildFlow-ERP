@@ -37,8 +37,8 @@ export class RbacService {
   // Mock current user for demo - James Wilson (Admin)
   private currentUserSubject = new BehaviorSubject<TeamMember | null>({
     id: 'm1',
-    name: 'James Wilson',
-    email: 'j.wilson@buildflow.co',
+    name: 'Arjun Mehra',
+    email: 'a.mehra@buildflow.in',
     roleId: 'r1',
     status: 'Active',
     department: 'Executive Management',

@@ -102,6 +102,20 @@
       <span class="text-sm font-semibold">Materials</span>
     </a>
 
+    <a routerLink="/equipment"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">precision_manufacturing</span>
+      <span class="text-sm font-semibold">Equipment</span>
+    </a>
+
+    <a routerLink="/safety"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">security</span>
+      <span class="text-sm font-semibold">Safety & HSE</span>
+    </a>
+
     <a *appPermission="'Quotes:READ'" routerLink="/quotations"
        routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">

@@ -104,13 +104,13 @@ export class ProjectTimeline implements OnInit {
 
   team = [
     { name: 'All Members', avatar: '' },
-    { name: 'James Wilson', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtGFAFvuDTZowiKMN-_86PVlfoW0s1Y1t2wIesJt_aUWgPzfdeDsBI62JTUgxDWTq1m-Ym9UTDzUgPdykM1NQMrfIACLf6ELlG-TFDXx0bY0i_pEacXyHWhO2hkaeoTxzFixMpxv19qT44QctQNTUZJIcUIdbYcNqhsodpWPPJ7sk33kwcSVJEXH4-Vw1iFudWnbRysUDa4wlBKgguYjpVnU4sisOx6--P1vua992aHyR4-yzZcdvfY2oGUCGKt7PKua6O7aWnX-He' },
-    { name: 'Sarah Chen', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCNzfoyCh9T5jGXyS1Z_oulE0qwVUs24lt_XGAkXFQSRqaWNCKxded51i1BCZ7dfp-pGHnok3QVO3dgouAGxmqT3qEbjdB3JWGLULu5QhLo2_g1Ypr5J3YmNDL67WiHAt0xRnjKXt0-Wvr61mKsmkea12mawD58a6haqRp3roTP4ozbi8Nts8AGacuP2xj84hy-YMnppdLzUQWRMoC5W26Nao_ycj91iOCEE5K6VFvm0nsNGnn5Uf459l4Dnx69QzvNITq3QrutFSpc' }
+    { name: 'Arjun Mehra', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop' },
+    { name: 'Ananya Iyer', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop' }
   ];
 
   resources = [
-    { name: 'James Wilson', role: 'Lead Engineer', utilization: 85, avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtGFAFvuDTZowiKMN-_86PVlfoW0s1Y1t2wIesJt_aUWgPzfdeDsBI62JTUgxDWTq1m-Ym9UTDzUgPdykM1NQMrfIACLf6ELlG-TFDXx0bY0i_pEacXyHWhO2hkaeoTxzFixMpxv19qT44QctQNTUZJIcUIdbYcNqhsodpWPPJ7sk33kwcSVJEXH4-Vw1iFudWnbRysUDa4wlBKgguYjpVnU4sisOx6--P1vua992aHyR4-yzZcdvfY2oGUCGKt7PKua6O7aWnX-He' },
-    { name: 'Sarah Chen', role: 'Logistics', utilization: 110, avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCNzfoyCh9T5jGXyS1Z_oulE0qwVUs24lt_XGAkXFQSRqaWNCKxded51i1BCZ7dfp-pGHnok3QVO3dgouAGxmqT3qEbjdB3JWGLULu5QhLo2_g1Ypr5J3YmNDL67WiHAt0xRnjKXt0-Wvr61mKsmkea12mawD58a6haqRp3roTP4ozbi8Nts8AGacuP2xj84hy-YMnppdLzUQWRMoC5W26Nao_ycj91iOCEE5K6VFvm0nsNGnn5Uf459l4Dnx69QzvNITq3QrutFSpc', overAllocated: true }
+    { name: 'Arjun Mehra', role: 'Lead Engineer', utilization: 85, avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop' },
+    { name: 'Ananya Iyer', role: 'Logistics', utilization: 110, avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop', overAllocated: true }
   ];
 
   ngOnInit(): void {

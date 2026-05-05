@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TemplateService } from '../../services/template.service';
+import { ProjectTemplate } from '../../../../../backend/src/models/models';
 
 @Component({
   selector: 'app-new-project-wizard',
@@ -11,34 +13,72 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./new-project-wizard.css']
 })
 export class NewProjectWizard {
+  private templateService = inject(TemplateService);
+  
   currentStep: number = 1;
+  creationMode: 'Manual' | 'Template' = 'Manual';
+  selectedTemplateId: string | null = null;
+  startDate: string = new Date().toISOString().split('T')[0];
+  excludedIds = new Set<string>();
+  uploadedFiles: any[] = [];
 
   availableMembers = [
-    { name: 'Elena Rodriguez', role: 'Lead Structural Eng.', avatar: 'https://images.unsplash.com/photo-1537724326059-2ea20251b9c8?q=80&w=256&auto=format&fit=crop' },
-    { name: 'David Miller', role: 'Safety Inspector', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8baYgQ3t4oMOHGPKXfFarqNItNIVVIfHOd53B1k7u3hLEDI1NYxbXwlB4obDhV4NFcKoh8XmJmz--LGSGjwi-6_5tek1bR_4g0zR8sP-PKdjXkmPZWQPWYZ_WxA4kNCyBSgF7hIdr8RLZJs4XGSqYbw-_kXxfo-jZFLySHpFqmRgQ_aH6iI-s-i2NZhe1wBHjRb3yN5siRJVrfnA1aetRFHVhFPPyPAuU9CJDj0_GJxvMIbyHt4DkCEkTrU9YIyXXMafDVs-F6tao' }
+    { name: 'Ananya Iyer', role: 'Lead Structural Eng.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Karan Malhotra', role: 'Safety Inspector', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=256&auto=format&fit=crop' }
   ];
 
   showAssignDropdown = false;
   newMilestoneName = '';
 
+  templates: ProjectTemplate[] = [
+    {
+      id: 't1',
+      name: 'Standard Residential House',
+      type: 'Residential',
+      version: '1.0',
+      milestones: [
+        { 
+          id: 'm1', name: 'Planning & Design', order: 1, durationDays: 30, color: 'blue', progress: 0,
+          subMilestones: [
+            { id: 'sm1', name: 'Design Approval', order: 1, durationDays: 15, progress: 0, status: 'Pending', tasks: [
+              { id: 'tk1', title: 'Architectural Design', order: 1, durationDays: 10, projectId: '', status: 'Pending', priority: 'High', deadline: '', role: 'Lead Architect', subtasks: [
+                { id: 'st1', name: 'Floor Plan', order: 1, isCompleted: false, isChecklist: true },
+                { id: 'st2', name: 'Elevation', order: 2, isCompleted: false, isChecklist: true }
+              ]}
+            ]}
+          ]
+        }
+      ]
+    }
+  ];
+
+  roleMapping: { [role: string]: string } = {};
+  templateRoles: string[] = [];
+
   projectForm = {
-    name: 'ZYNO HQ Modernization',
-    type: 'Commercial Renovation',
+    name: 'Prestige Tech Park Phase 2',
+    type: 'Infrastructure',
+    budget: 0,
+    contingency: 5,
     completionDate: '',
-    address: '',
+    address: 'Varthur Hobli, Bangalore, KA',
     team: [
-      { name: 'Sarah Jenkins', role: 'Project Lead', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADifZFnzI5-5J6bjvzpwRRz4H7HkafoCfutiB40cPuViYxDi2aOSS2CI19EYSQ5MZZc8va9hfDXtDHP2jx-SvfArNsaZ-G2kSE1gR5Elv6Lh4J8H1XNPStDmpIX9rgeNF6mY6pKq5JY6wVMBuY2kLYn_PumPlqTt9nh9aVeVVL8ftiQUOfOwK79GIRk3SSdfH_nkEzRitswvj8havlIqaiCyQ7_ZN4qfYtoZlQLeh3c9lYdtk4U-rVub4P0s4lgVKhG7q27VTGEMBi' },
-      { name: 'Marcus Chen', role: 'Site Supervisor', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCTFxkRfStB-dKClUhLwe29S3vdKVYbtIT2NbLt3Mdh9Uk4MZORXBdHRNFsXLpVaiu4rJoD9mD-akO3Ix6DbZuLub2TXm0tfzXEefAInKXfncAd_mq99BSWJZE9nAj-bVCnv0lsueKGwasIF-zHtsHHm2uulR3oyqegZ8gqYvV9ENmTsOC2IP34E_sTlUYIOHWe1USn8AbdCrGrWuvTsQX3xLm9bDwtumBj-VfHx8xbxgArPhJkHqAZPAAhtXVxGYpoF4_w6CqvtiGv' }
+      { name: 'Priya Sharma', role: 'Project Lead', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=256&auto=format&fit=crop' },
+      { name: 'Sanjay Gupta', role: 'Site Supervisor', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&auto=format&fit=crop' }
     ],
     milestones: [
       { name: 'Site Preparation & Foundations', phase: 'Phase 1', color: 'primary' },
       { name: 'Structural Framing', phase: 'Phase 2', color: 'outline' }
     ],
-    documents: [] as any[]
+    documents: [] as any[],
+    boq: [
+      { item: 'Cement Grade-A', quantity: 500, unit: 'Bags' },
+      { item: 'Reinforcement Steel', quantity: 15, unit: 'MT' }
+    ]
   };
 
   nextStep() {
-    if (this.currentStep < 4) {
+    if (this.currentStep < 5) {
       this.currentStep++;
     }
   }
@@ -76,5 +116,60 @@ export class NewProjectWizard {
       name: `document_v${this.projectForm.documents.length + 1}.pdf`,
       size: '2.4 MB'
     });
+  }
+
+  onTemplateSelect(templateId: string) {
+    this.selectedTemplateId = templateId;
+    const template = this.templates.find(t => t.id === templateId);
+    if (template) {
+      this.projectForm.type = template.type as any;
+      this.extractRoles(template);
+    }
+  }
+
+  extractRoles(template: ProjectTemplate) {
+    const roles = new Set<string>();
+    template.milestones.forEach(m => {
+      m.subMilestones?.forEach(sm => {
+        sm.tasks?.forEach(t => {
+          if (t.role) roles.add(t.role);
+        });
+      });
+    });
+    this.templateRoles = Array.from(roles);
+  }
+
+  initializeFromTemplate() {
+    const template = this.templates.find(t => t.id === this.selectedTemplateId);
+    if (template) {
+      const project = this.templateService.generateProjectFromTemplate(
+        template, 
+        this.startDate, 
+        this.projectForm.name, 
+        this.roleMapping,
+        Array.from(this.excludedIds)
+      );
+      console.log('Project Initialized:', project);
+      alert(`Project "${project.name}" initialized with ${project.milestones.length} milestones.`);
+    }
+  }
+
+  toggleExclusion(id: string) {
+    if (this.excludedIds.has(id)) {
+      this.excludedIds.delete(id);
+    } else {
+      this.excludedIds.add(id);
+    }
+  }
+
+  onFileSelected(event: any) {
+    const files = event.target.files;
+    for (let file of files) {
+      this.uploadedFiles.push({
+        name: file.name,
+        size: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
+        date: new Date().toLocaleDateString()
+      });
+    }
   }
 }

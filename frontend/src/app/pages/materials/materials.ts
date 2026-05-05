@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MaterialService, Material } from '../../services/material.service';
+import { MaterialService, Material, PurchaseRequisition, StockTransfer } from '../../services/material.service';
 import { VendorService, Vendor } from '../../services/vendor.service';
-
-import { PermissionDirective } from '../../directives/permission.directive';
 import { RbacService } from '../../services/rbac.service';
+import { PermissionDirective } from '../../directives/permission.directive';
+import { ProjectService, Project } from '../../services/project.service';
 
 @Component({
   selector: 'app-materials-management',
@@ -17,13 +17,14 @@ import { RbacService } from '../../services/rbac.service';
 export class MaterialsManagement implements OnInit {
   private materialService = inject(MaterialService);
   private vendorService = inject(VendorService);
+  private projectService = inject(ProjectService);
   private router = inject(Router);
   public rbac = inject(RbacService);
   
   team = [
     { name: 'All Members' },
-    { name: 'Marcus Thorne' },
-    { name: 'Sarah Chen' }
+    { name: 'Rajesh Khanna' },
+    { name: 'Priya Sharma' }
   ];
   selectedMember = 'All Members';
   selectedTab = 'All Materials';
@@ -34,18 +35,60 @@ export class MaterialsManagement implements OnInit {
   showEditModal = false;
   showDeleteModal = false;
   showFilters = false;
+  showPRModal = false;
+  showTransferModal = false;
 
   materialToEdit: Material | null = null;
   materialToDelete: Material | null = null;
 
   newMaterial: Material = this.getDefaultMaterial();
+  
+  newPR: Partial<PurchaseRequisition> = {
+    priority: 'Medium',
+    quantity: 0,
+    status: 'Pending'
+  };
+
+  newTransfer: Partial<StockTransfer> = {
+    quantity: 0,
+    status: 'Draft'
+  };
 
   materials: Material[] = [];
   vendors: Vendor[] = [];
+  projects: Project[] = [];
+  purchaseRequisitions: PurchaseRequisition[] = [];
+  stockTransfers: StockTransfer[] = [];
+  inventoryAnalysis: any[] = [];
+  isAnalyzing = false;
 
   ngOnInit() {
-    this.materialService.materials$.subscribe(m => this.materials = m);
+    this.materialService.materials$.subscribe(m => {
+      this.materials = m;
+      this.runAnalysis(); // Run analysis whenever materials update
+    });
     this.vendorService.vendors$.subscribe(v => this.vendors = v);
+    this.projectService.projects$.subscribe(p => this.projects = p);
+    this.materialService.purchaseRequisitions$.subscribe(pr => this.purchaseRequisitions = pr);
+    this.materialService.stockTransfers$.subscribe(st => this.stockTransfers = st);
+  }
+
+  runAnalysis() {
+    this.isAnalyzing = true;
+    this.materialService.getInventoryAnalysis().subscribe(analysis => {
+      this.inventoryAnalysis = analysis;
+      this.isAnalyzing = false;
+    });
+  }
+
+  triggerAIReorder() {
+    this.materialService.triggerAutoReorder().subscribe(newPRs => {
+      if (newPRs && newPRs.length > 0) {
+        alert(`AI Agent triggered ${newPRs.length} auto-requisitions based on burn rate forecasts.`);
+      } else {
+        alert('Inventory levels within safety thresholds. No auto-reorders required.');
+      }
+    });
   }
 
   onSupplierChange() {
@@ -64,11 +107,6 @@ export class MaterialsManagement implements OnInit {
       filtered = filtered.filter(m => m.category.toLowerCase() === this.selectedTab.toLowerCase());
     }
 
-    if (this.selectedMember !== 'All Members') {
-      // In a real app, materials would have an owner or assignee. 
-      // For this demo, we'll just simulate by filtering none or all.
-    }
-
     return filtered;
   }
 
@@ -80,6 +118,8 @@ export class MaterialsManagement implements OnInit {
       icon: 'inventory_2',
       bg: 'bg-slate-100',
       text: 'text-slate-400',
+      unit: 'Units',
+      siteInventory: [],
       stock: { current: 0, total: 100, percent: 0 },
       cost: '₹0.00',
       supplier: '',
@@ -95,7 +135,7 @@ export class MaterialsManagement implements OnInit {
   addMaterial() {
     this.newMaterial.stock.percent = Math.round((this.newMaterial.stock.current / this.newMaterial.stock.total) * 100);
     this.newMaterial.status = this.calculateStatus(this.newMaterial.stock.percent);
-    this.materialService.addMaterial({ ...this.newMaterial });
+    this.materialService.addMaterial({ ...this.newMaterial } as Material);
     this.showAddModal = false;
   }
 
@@ -127,6 +167,70 @@ export class MaterialsManagement implements OnInit {
     }
   }
 
+  // PR & Transfer Methods
+  openPRModal(material: Material) {
+    this.newPR = {
+      materialSku: material.sku,
+      materialName: material.name,
+      unit: material.unit,
+      quantity: 0,
+      priority: 'Medium',
+      status: 'Pending',
+      date: new Date().toISOString().split('T')[0],
+      requestor: this.rbac.getCurrentUser()?.name || 'System'
+    };
+    this.showPRModal = true;
+  }
+
+  submitPR() {
+    const project = this.projects.find(p => p.id === this.newPR.projectId);
+    if (project) {
+      this.newPR.projectName = project.name;
+    }
+
+    // Hierarchical Approval Logic for Demo
+    const qty = this.newPR.quantity || 0;
+    if (qty <= 100) {
+      this.newPR.status = 'Approved'; // Site Manager authority
+    } else if (qty <= 500) {
+      this.newPR.status = 'Pending'; // Warehouse Manager approval required
+    } else {
+      this.newPR.status = 'Pending'; // Management approval required (1000+)
+    }
+
+    this.materialService.createPurchaseRequisition(this.newPR).subscribe(() => {
+      const msg = qty <= 100 ? 'PR Auto-Approved (Site Manager Authority)' : 
+                  qty <= 500 ? 'PR Submitted for Warehouse Manager Approval' : 
+                  'PR Submitted for Executive Management Approval';
+      alert(msg);
+      this.showPRModal = false;
+    });
+  }
+
+  openTransferModal(material: Material) {
+    this.newTransfer = {
+      materialSku: material.sku,
+      materialName: material.name,
+      unit: material.unit,
+      quantity: 0,
+      date: new Date().toISOString().split('T')[0],
+      status: 'Draft',
+      requestedBy: this.rbac.getCurrentUser()?.name || 'System'
+    };
+    this.showTransferModal = true;
+  }
+
+  submitTransfer() {
+    const fromP = this.projects.find(p => p.id === this.newTransfer.fromProjectId);
+    const toP = this.projects.find(p => p.id === this.newTransfer.toProjectId);
+    if (fromP) this.newTransfer.fromProjectName = fromP.name;
+    if (toP) this.newTransfer.toProjectName = toP.name;
+
+    this.materialService.createStockTransfer(this.newTransfer).subscribe(() => {
+      this.showTransferModal = false;
+    });
+  }
+
   calculateStatus(percent: number): 'Optimal' | 'Adequate' | 'Critical' {
     if (percent < 20) return 'Critical';
     if (percent < 60) return 'Adequate';
@@ -139,8 +243,8 @@ export class MaterialsManagement implements OnInit {
   }
 
   deliveries = [
-    { time: '09:00', period: 'AM', item: 'Lumber Pine Planks (400 Units)', location: 'Site A - Skyline Towers', status: 'In Transit', statusColor: 'bg-blue-50 text-blue-600', assignee: 'Marcus Thorne' },
-    { time: '14:30', period: 'PM', item: 'HVAC Ducting Components', location: 'Site C - Riverside Mall', status: 'Confirmed', statusColor: 'bg-surface-container text-outline', assignee: 'Sarah Chen' }
+    { time: '09:00', period: 'AM', item: 'Lumber Pine Planks (400 Units)', location: 'Prestige Tech Park, Bangalore', status: 'In Transit', statusColor: 'bg-blue-50 text-blue-600', assignee: 'Rajesh Khanna' },
+    { time: '14:30', period: 'PM', item: 'HVAC Ducting Components', location: 'Coastal Road Project, Mumbai', status: 'Confirmed', statusColor: 'bg-surface-container text-outline', assignee: 'Priya Sharma' }
   ];
 
   get filteredDeliveries() {

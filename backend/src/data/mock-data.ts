@@ -1,18 +1,43 @@
-import { Project, Task, SiteUpdate, Material, Vendor, Quote, Contract, ContractHistory, Role, TeamMember, ContractorMetric, LaborStats, ReportVaultItem } from '../models/models';
+import { Project, Task, SiteUpdate, Material, Vendor, Quote, Contract, ContractHistory, Role, TeamMember, ContractorMetric, LaborStats, ReportVaultItem, PurchaseRequisition, StockTransfer, Equipment, SafetyIncident } from '../models/models';
 
 export const projects: Project[] = [
   {
     id: 'p1',
-    name: 'Skyline Plaza',
-    location: 'Central Business District',
+    name: 'Prestige Tech Park, Bangalore',
+    location: 'Outer Ring Road, Kadubeesanahalli',
     description: 'A 45-story commercial tower with sustainable architecture.',
     status: 'On Track',
     progress: 45,
     type: 'Commercial',
-    budget: { total: 12000000, used: 4500000 },
+    budget: { total: 120000000, used: 45000000 },
+    pocDetails: {
+      contractValue: 150000000,
+      estimatedTotalCost: 120000000,
+      actualCost: 24785450,
+      costBreakdown: {
+        labor: 5510070,
+        materials: 15769040,
+        subcontractors: 1250000,
+        other: 2256340
+      },
+      completionPercentage: { calculated: 20.65, isManual: false },
+      revenueRecognized: 30975000,
+      invoicedAmount: 50000000,
+      unbilledRevenue: 0,
+      deferredRevenue: 19025000,
+      recognizedProfit: 6189550,
+      periodClosing: { lastCalculatedPeriod: '2024-05', approvalStatus: 'Approved' },
+      historicalMetrics: [
+        { period: 'Jan', budget: 5000000, actual: 4800000, revenue: 6000000 },
+        { period: 'Feb', budget: 12000000, actual: 11500000, revenue: 15000000 },
+        { period: 'Mar', budget: 18000000, actual: 19000000, revenue: 22000000 },
+        { period: 'Apr', budget: 24000000, actual: 24785450, revenue: 30975000 },
+        { period: 'May', budget: 30000000, actual: 24785450, revenue: 30975000 }
+      ]
+    },
     team: [
-      { name: 'James Wilson', role: 'Project Director', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAJ6NqbeyzXdDdcKy8rA12bnb-D1XcFS2rr8zDl-BPEQQPcKodHtE3lG-MeVtaXdaulKwMjvYGMWDgMz7L1bQywZjuRsjgcfxQn9iVDDjn-S9c-U0mM0KIKQF0_U3aXqMPM9QZTt7m8khqSuD08ogwyCw24ghRW9YUe2bwt0s3THMMrL1xo9qBGM2z9kv1ZFUv238GeBHrkyEjR7jq4de8FvFuAzlnEaAF35yr9AkBXXUF3tIkIsYaqfofbVxV6-BNl4CPa95StjdLi' },
-      { name: 'Marcus Thorne', role: 'Construction Lead', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4CZeaYB7fJXEtjKFkVujKuYnqc32Vz4RirffP91HCE-igMSlf58IRegCTvDiO-n6vn8GSii3hmQCT9wn7MZCO7LYC87Mix-nc0uOD0_dHzMdyYmVbfUFLAGo6sFmnu6r5xb66CI_FUi6YCEqOcUKyBiL2helT79G1OiGR1inPdCcO87KgZ9ygFt4Q9GbiYVVfSvdkQ-o38syvfzzZJtPCCht9KpCLNPH4NAfNB_nmM9iLmnFOQ8z1D6W3w9caWMwVul6E7XtJszA-' }
+      { name: 'Arjun Mehra', role: 'Project Director', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop' },
+      { name: 'Priya Sharma', role: 'Construction Lead', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' }
     ],
     milestones: [
       { 
@@ -40,23 +65,46 @@ export const projects: Project[] = [
   },
   {
     id: 'p2',
-    name: 'Harbor Bridge Renovation',
-    location: 'East Quay Development',
-    description: 'Industrial harbor bridge renovation site with scaffolding and maritime equipment.',
+    name: 'Coastal Road Project, Mumbai',
+    location: 'Worli-Marine Drive Stretch',
+    description: 'Major infrastructure development connecting Worli to Marine Drive.',
     status: 'At Risk',
     progress: 32,
     type: 'Industrial',
-    budget: { total: 8000000, used: 5500000 },
+    budget: { total: 80000000, used: 55000000 },
+    pocDetails: {
+      contractValue: 100000000,
+      estimatedTotalCost: 80000000,
+      actualCost: 55000000,
+      costBreakdown: {
+        labor: 30000000,
+        materials: 15000000,
+        subcontractors: 8000000,
+        other: 2000000
+      },
+      completionPercentage: { calculated: 68.75, isManual: false },
+      revenueRecognized: 68750000,
+      invoicedAmount: 70000000,
+      unbilledRevenue: 0,
+      deferredRevenue: 1250000,
+      recognizedProfit: 13750000,
+      periodClosing: { lastCalculatedPeriod: '2026-03', approvalStatus: 'Approved' },
+      historicalMetrics: [
+        { period: 'Jan', budget: 10000000, actual: 12000000, revenue: 12500000 },
+        { period: 'Feb', budget: 30000000, actual: 35000000, revenue: 37500000 },
+        { period: 'Mar', budget: 50000000, actual: 55000000, revenue: 62500000 }
+      ]
+    },
     team: [
-      { name: 'Robert Chen', role: 'Senior Manager', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCIjvYCMkYFFPLlfVHaqQHuvLMVHF7_kpGw97Z1CaSzxA5XxGZG8DnGiPShjWeY9cmE1_mX6kxNCOPG7Ob30onvGP1XkBT6lcsbSwrFLoOOyXUKQEN8znwmLsVkobRFY_MCmQTrxoo9-10ydY-6Q4o881pCplPU17HnzQTaZfXkHyAv_mXeALUCj3EYdGrQf1rb99oD6PVMv1lzRsseK4POrhxRMIHqp2h7LbJSNqkt5FaPbx8BiQ_Tsdd8QVWpwBQWNEnH7nU0nTxC' }
+      { name: 'Rahul Deshmukh', role: 'Senior Manager', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop' }
     ],
     milestones: [
-      { id: 'm3', name: 'Scaffolding & Access', progress: 100, color: 'primary', startDate: '2026-02-01', endDate: '2026-03-15' },
-      { id: 'm4', name: 'Surface Preparation', progress: 15, color: 'secondary', startDate: '2026-03-16', endDate: '2026-05-30' }
+      { id: 'm3', name: 'Land Reclamation', progress: 100, color: 'primary', startDate: '2026-02-01', endDate: '2026-03-15' },
+      { id: 'm4', name: 'Bridge Piling', progress: 15, color: 'secondary', startDate: '2026-03-16', endDate: '2026-05-30' }
     ],
     lastUpdate: '5 hours ago',
     estimatedCompletion: 'Apr 25, 2026',
-    thumbnail: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5Vo6lZWbWcszXdp8USG9sl7XtfA0pJICbKwVH9Ml74TZI2YyCFvoMTE1kU5Y0P9Q2MTIgTFaOq9ZGKJJ2GO7T0CEIdy9Dsj3dXR2uZQnyxYe2BjdzcbksvvVPtW8PC9-tXo7nG371xTIR9gwrFDwECwKfF8knLa-6PnCcin_1FfL8fNfpSl8pEaF9H4A135QIP7R4EXUlWwy5Qh7IHFURQ9sG62SW9vh8m5OauF0kdmkGx0t8BXCEWNW08EfWgIiEDMP5YANC5bNk'
+    thumbnail: 'https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=1000&auto=format&fit=crop'
   }
 ];
 
@@ -68,8 +116,11 @@ export const updates: SiteUpdate[] = [
     title: 'Safety Check Passed',
     description: 'Skyline Tower Phase II - All protocols cleared by inspector Dave.',
     author: 'Dave',
-    type: 'Safety'
+    type: 'Safety',
+    photoUrl: 'https://images.unsplash.com/photo-1589939705384-5185138a027d?q=80&w=500',
+    geotag: { lat: 12.9235, lng: 77.6712, timestamp: '2026-05-05T09:12:00Z' }
   },
+
   {
     id: 'u2',
     projectId: 'p2',
@@ -77,20 +128,94 @@ export const updates: SiteUpdate[] = [
     title: 'Material Delivery Delay',
     description: 'Concrete batch delayed by 4 hours for Harbor Bridge site.',
     author: 'Logistics',
-    type: 'Material'
+    type: 'Material',
+    photoUrl: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?q=80&w=500',
+    geotag: { lat: 18.9220, lng: 72.8347, timestamp: '2026-05-05T06:45:00Z' }
   }
+
 ];
 
 export const materials: Material[] = [
-  { name: 'Concrete Mix Grade-A', sku: 'CON-442-B', category: 'Concrete', icon: 'texture', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 420, total: 500, percent: 84 }, cost: '₹14.50', supplier: 'Titan Aggregates Ltd.', status: 'Optimal' },
-  { name: 'Rebar Steel 12mm', sku: 'STL-12-REB', category: 'Steel', icon: 'grid_4x4', bg: 'bg-amber-50', text: 'text-secondary-container', border: 'border-amber-100', stock: { current: 45, total: 300, percent: 15 }, cost: '₹228.00', supplier: 'Foundry Steel Corp.', status: 'Critical' },
-  { name: 'Copper Wiring 2.5mm', sku: 'ELEC-WR-25', category: 'Electrical', icon: 'bolt', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 1200, total: 2000, percent: 60 }, cost: '₹1.20', supplier: 'VoltStream Supplies', status: 'Adequate' },
-  { name: 'Ceramic Floor Tiles', sku: 'FIN-CER-60', category: 'Finishing', icon: 'square', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 850, total: 1000, percent: 85 }, cost: '₹45.00', supplier: 'Modern Surfaces Int.', status: 'Optimal' },
-  { name: 'Waterproof Sealant', sku: 'CHM-SEA-L', category: 'Chemicals', icon: 'water_drop', bg: 'bg-red-50', border: 'border-red-100', text: 'text-error', stock: { current: 12, total: 250, percent: 4.8 }, cost: '₹82.00', supplier: 'BuildSafe Chemicals', status: 'Critical' },
-  { name: 'Structural Lumber 2x4', sku: 'LUM-24-12', category: 'Lumber', icon: 'forest', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 150, total: 800, percent: 18.75 }, cost: '₹412.00', supplier: 'Westside Timber Co.', status: 'Critical' },
-  { name: 'White Carrera Marble', sku: 'FIN-MAR-W', category: 'Finishing', icon: 'view_quilt', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 40, total: 100, percent: 40 }, cost: '₹850.00', supplier: 'Modern Surfaces Int.', status: 'Adequate' },
-  { name: 'Teak Wood Planks', sku: 'LUM-TK-1', category: 'Lumber', icon: 'forest', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 85, total: 200, percent: 42.5 }, cost: '₹1250.00', supplier: 'Westside Timber Co.', status: 'Adequate' },
-  { name: 'H-Beam Structural Steel', sku: 'STL-HB-10', category: 'Steel', icon: 'grid_4x4', bg: 'bg-slate-100', text: 'text-slate-400', stock: { current: 20, total: 50, percent: 40 }, cost: '₹4500.00', supplier: 'Foundry Steel Corp.', status: 'Adequate' }
+  { 
+    name: 'Concrete Mix Grade-A', sku: 'CON-442-B', category: 'Concrete', icon: 'texture', bg: 'bg-slate-100', text: 'text-slate-400', unit: 'Cum',
+    siteInventory: [
+      { projectId: 'p1', projectName: 'Prestige Tech Park, Bangalore', stock: 250 },
+      { projectId: 'p2', projectName: 'Coastal Road Project, Mumbai', stock: 170 }
+    ],
+    stock: { current: 420, total: 500, percent: 84 }, cost: '₹14,500', supplier: 'UltraTech Cement Ltd.', status: 'Optimal' 
+  },
+  { 
+    name: 'Rebar Steel 12mm', sku: 'STL-12-REB', category: 'Steel', icon: 'grid_4x4', bg: 'bg-amber-50', text: 'text-secondary-container', border: 'border-amber-100', unit: 'MT',
+    siteInventory: [
+      { projectId: 'p1', projectName: 'Prestige Tech Park, Bangalore', stock: 15 },
+      { projectId: 'p2', projectName: 'Coastal Road Project, Mumbai', stock: 30 }
+    ],
+    stock: { current: 45, total: 300, percent: 15 }, cost: '₹65,000', supplier: 'JSW Steel', status: 'Critical' 
+  },
+  { 
+    name: 'Copper Wiring 2.5mm', sku: 'ELEC-WR-25', category: 'Electrical', icon: 'bolt', bg: 'bg-slate-100', text: 'text-slate-400', unit: 'Meters',
+    siteInventory: [
+      { projectId: 'p1', projectName: 'Prestige Tech Park, Bangalore', stock: 800 },
+      { projectId: 'p2', projectName: 'Coastal Road Project, Mumbai', stock: 400 }
+    ],
+    stock: { current: 1200, total: 2000, percent: 60 }, cost: '₹120', supplier: 'Tata Power Solutions', status: 'Adequate' 
+  },
+  { 
+    name: 'Structural Lumber 2x4', sku: 'LUM-24-12', category: 'Lumber', icon: 'forest', bg: 'bg-slate-100', text: 'text-slate-400', unit: 'Units',
+    siteInventory: [
+      { projectId: 'p1', projectName: 'Prestige Tech Park, Bangalore', stock: 50 },
+      { projectId: 'p2', projectName: 'Coastal Road Project, Mumbai', stock: 100 }
+    ],
+    stock: { current: 150, total: 800, percent: 18.75 }, cost: '₹412', supplier: 'Timber India', status: 'Critical' 
+  }
+];
+
+export const purchaseRequisitions: PurchaseRequisition[] = [
+  {
+    id: 'PR-001',
+    materialSku: 'STL-12-REB',
+    materialName: 'Rebar Steel 12mm',
+    quantity: 50,
+    unit: 'MT',
+    projectId: 'p1',
+    projectName: 'Prestige Tech Park, Bangalore',
+    requestor: 'Priya Sharma',
+    date: '2026-05-04',
+    priority: 'High',
+    status: 'Pending',
+    notes: 'Urgent requirement for L6-L10 Framing phase.'
+  },
+  {
+    id: 'PR-002',
+    materialSku: 'LUM-24-12',
+    materialName: 'Structural Lumber 2x4',
+    quantity: 200,
+    unit: 'Units',
+    projectId: 'p2',
+    projectName: 'Coastal Road Project, Mumbai',
+    requestor: 'Rajesh Khanna',
+    date: '2026-05-03',
+    priority: 'Medium',
+    status: 'Approved',
+    notes: 'Periodic restock for site scaffolding.'
+  }
+];
+
+export const stockTransfers: StockTransfer[] = [
+  {
+    id: 'TR-101',
+    materialSku: 'CON-442-B',
+    materialName: 'Concrete Mix Grade-A',
+    fromProjectId: 'p1',
+    fromProjectName: 'Prestige Tech Park, Bangalore',
+    toProjectId: 'p2',
+    toProjectName: 'Coastal Road Project, Mumbai',
+    quantity: 30,
+    unit: 'Cum',
+    date: '2026-05-04',
+    status: 'Sent',
+    requestedBy: 'Arjun Mehra'
+  }
 ];
 
 export const tasks: Task[] = [
@@ -153,31 +278,67 @@ export const tasks: Task[] = [
 
 export const vendors: Vendor[] = [
   { 
-    id: 1, name: 'VoltStream Electrical', type: 'Subcontractor', email: 'contact@voltstream.com', phone: '+1 (555) 012-3456',
-    spoc: { name: 'Kevin Drake', role: 'Ops Lead', phone: '+1 555-1029', email: 'k.drake@voltstream.com' },
-    kyc: { gst: '22AAAAA0000A1Z5', pan: 'ABCDE1234F' },
-    address: { street: '12-A Newton St', city: 'Metropolis', pincode: '560001' },
-    projects: ['Skyline Plaza', 'Harbor Heights'], balance: '₹0.00', budget: '₹5,000,000', status: 'Paid', 
-    statusColor: 'bg-green-100 text-green-700', icon: 'electric_bolt', assignee: 'Marcus Thorne',
+    id: 1, name: 'Tata Power Solutions', type: 'Subcontractor', email: 'contact@tatapower.com', phone: '+91 22 6665 8282',
+    spoc: { name: 'Vikram Singh', role: 'Ops Lead', phone: '+91 98200 12345', email: 'vikram.s@tatapower.com' },
+    kyc: { gst: '27AAAAA0000A1Z5', pan: 'ABCDE1234F' },
+    address: { street: 'Carnac Bunder', city: 'Mumbai', pincode: '400001' },
+    projects: ['Prestige Tech Park, Bangalore', 'Coastal Road Project, Mumbai'], balance: '₹5,052,500.00', budget: '₹50,000,000', status: 'Due', 
+    statusColor: 'bg-red-100 text-red-700', icon: 'electric_bolt', assignee: 'Priya Sharma',
     services: ['Electrical Wiring', 'Substation Setup', 'HVAC Controls'],
     tasks: [
       { title: 'Wiring Phase 1 - 4th Floor', status: 'Completed', date: 'Apr 05, 2026' },
       { title: 'External Transformer Installation', status: 'In Progress', date: 'Apr 12, 2026' }
     ],
     audits: [{ date: 'Apr 02, 2026', score: 98, notes: 'Excellent compliance' }],
-    invoices: [{ number: 'INV-1029', amount: '₹125,000.00', status: 'Paid', date: 'Apr 08, 2026' }]
+    logo: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=100&auto=format&fit=crop',
+    location: 'Mumbai, MH',
+    invoices: [
+      { number: 'SET-BATCH-001', amount: '₹5,052,500.00', status: 'Pending', date: 'Apr 14, 2026' },
+      { number: 'INV-1029', amount: '₹1,250,000.00', status: 'Paid', date: 'Apr 08, 2026' }
+    ],
+    settlementRequests: [
+      {
+        id: 'sr1',
+        vendorId: 1,
+        projectId: 'p1',
+        requestDate: '2026-04-14',
+        basis: 'POC',
+        amount: 5052500,
+        workPercentage: 20.65,
+        justification: 'Based on current Project POC of 20.65%. Total Earned: ₹17,552,500. Already Invoiced: ₹12,500,000.',
+        status: 'Pending'
+      }
+    ]
   },
   { 
-    id: 2, name: 'SolidRock Concrete', type: 'Supplier', email: 'billing@solidrock.io', phone: '+1 (555) 987-6543',
-    spoc: { name: 'Sarah Miller', role: 'Sales Head', phone: '+1 555-9087', email: 's.miller@solidrock.io' },
-    kyc: { gst: '29BBBBB1111B2Z6', pan: 'FGHIJ5678K' },
-    address: { street: 'Industrial Area Phase 2', city: 'Metropolis', pincode: '560048' },
-    projects: ['Metro Hub'], balance: '₹24,500.00', budget: '₹2,500,000', status: 'Pending', 
-    statusColor: 'bg-secondary-container/20 text-secondary', icon: 'foundation', assignee: 'Sarah Chen',
+    id: 2, name: 'UltraTech Cement Ltd.', type: 'Supplier', email: 'billing@ultratech.com', phone: '+91 22 6691 7000',
+    spoc: { name: 'Sanjay Dutt', role: 'Sales Head', phone: '+91 99300 54321', email: 'sanjay.d@ultratech.com' },
+    kyc: { gst: '27BBBBB1111B2Z6', pan: 'FGHIJ5678K' },
+    address: { street: 'Ahura Centre', city: 'Mumbai', pincode: '400093' },
+    projects: ['Prestige Tech Park, Bangalore'], balance: '₹2,450,000.00', budget: '₹25,000,000', status: 'Pending', 
+    statusColor: 'bg-secondary-container/20 text-secondary', icon: 'foundation', assignee: 'Arjun Mehra',
     services: ['Ready-mix Concrete', 'Aggregate Supply'],
     tasks: [{ title: 'Foundation Pour - Block A', status: 'Scheduled', date: 'Apr 15, 2026' }],
     audits: [{ date: 'Apr 05, 2026', score: 92, notes: 'Good turnaround time' }],
-    invoices: [{ number: 'INV-SR-9012', amount: '₹12,500.00', status: 'Pending', date: 'Apr 10, 2026' }]
+    logo: 'https://images.unsplash.com/photo-1581094288338-2314dddb7903?q=80&w=100&auto=format&fit=crop',
+    location: 'Mumbai, MH',
+    invoices: [
+      { number: 'SET-BATCH-002', amount: '₹2,450,000.00', status: 'Pending', date: 'Apr 14, 2026' },
+      { number: 'INV-SR-9012', amount: '₹1,250,000.00', status: 'Pending', date: 'Apr 10, 2026' }
+    ],
+    settlementRequests: [
+      {
+        id: 'sr2',
+        vendorId: 2,
+        projectId: 'p1',
+        requestDate: '2026-04-14',
+        basis: 'LumpSum',
+        amount: 2450000,
+        workPercentage: 0,
+        justification: 'Standard 10% Lump Sum payment request for this project phase.',
+        status: 'Pending'
+      }
+    ]
   }
 ];
 
@@ -313,30 +474,30 @@ export const roles: Role[] = [
 
 export const teamMembers: TeamMember[] = [
   { 
-    id: 'm1', name: 'James Wilson', email: 'j.wilson@buildflow.co', roleId: 'r1', status: 'Active', 
-    department: 'Executive Management', lastLogin: '10 mins ago', assignedProjects: ['Skyline Plaza', 'Harbor Bridge'], performance: 98,
-    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAJ6NqbeyzXdDdcKy8rA12bnb-D1XcFS2rr8zDl-BPEQQPcKodHtE3lG-MeVtaXdaulKwMjvYGMWDgMz7L1bQywZjuRsjgcfxQn9iVDDjn-S9c-U0mM0KIKQF0_U3aXqMPM9QZTt7m8khqSuD08ogwyCw24ghRW9YUe2bwt0s3THMMrL1xo9qBGM2z9kv1ZFUv238GeBHrkyEjR7jq4de8FvFuAzlnEaAF35yr9AkBXXUF3tIkIsYaqfofbVxV6-BNl4CPa95StjdLi' 
+    id: 'm1', name: 'Arjun Mehra', email: 'arjun.mehra@buildflow.in', roleId: 'r1', status: 'Active', 
+    department: 'Executive Management', lastLogin: '10 mins ago', assignedProjects: ['Prestige Tech Park, Bangalore', 'Coastal Road Project, Mumbai'], performance: 98,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop' 
   },
   { 
-    id: 'm2', name: 'Sarah Miller', email: 's.miller@buildflow.co', roleId: 'r2', status: 'Active', 
-    department: 'Architecture & Design', lastLogin: '2 hours ago', assignedProjects: ['Skyline Plaza'], performance: 94,
-    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAHUV8rEr4oiC6_1MYI1kgW0ggZSnSrnAzZ-k9VQi1UGsqN13HuH0LyClUWlj-5NEiuTZuG5iwAPh3UiqAYERUA01RZgAF5tzSCnfJzgxYe6rsXk3nKj33OWlSq03mwGCkbNsdEJLjjWEgtiAzDmPSc9zGNnptJ96YiaNWCJuGE2_sDehkpznp3KkI62BRNheEw0PEgmnfRYFiBE4KuBSffkJwD4s3iXK2Mgt7IIOM7NbvCU0WNWw3260PRfTykQyJNjZOFCXL9NoMP' 
+    id: 'm2', name: 'Priya Sharma', email: 'priya.s@buildflow.in', roleId: 'r2', status: 'Active', 
+    department: 'Architecture & Design', lastLogin: '2 hours ago', assignedProjects: ['Prestige Tech Park, Bangalore'], performance: 94,
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' 
   },
   { 
-    id: 'm3', name: 'David Miller', email: 'david.m@buildflow.co', roleId: 'r1', status: 'Active', 
-    department: 'Operations', lastLogin: 'Yesterday', assignedProjects: ['Site B', 'Logistics Hub'], performance: 92,
-    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAPAONKTFXfNFAFRRCG77D7RtfG2-5qauZoyBKNC1x0SRt2H8iJPvCXp7AM1P89q3l7Qq_WyVlxe-FCeO2w_TrrsWe3ipppdbXy4eAZ7Hkh2lrwVptC5XQPxN9HBETRqIpg4-uNcEjsntXscqTil-e0AN3GQuq9mZVq9ZMIAM6L4OvALlJ4xFyyfFpm60RTggfLM-l5B3BFZHl1L_LR2HS8xHl6Qmm8Xp6A7xkIfXh7bvDiIFsG7NNYD4lN-9MWVG_ASp6Rtje5zuGq' 
+    id: 'm3', name: 'Rajesh Khanna', email: 'rajesh.k@buildflow.in', roleId: 'r1', status: 'Active', 
+    department: 'Operations', lastLogin: 'Yesterday', assignedProjects: ['Coastal Road Project, Mumbai'], performance: 92,
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop' 
   },
-  { id: 'm4', name: 'Marcus Thorne', email: 'm.thorne@partner-arch.com', roleId: 'r5', status: 'Pending', department: 'External Consultants', lastLogin: 'N/A', assignedProjects: [], performance: 0 },
-  { id: 'm5', name: 'Alex Rivera', email: 'alex.r@buildflow.co', roleId: 'r3', status: 'Active', department: 'Civil Engineering', lastLogin: '3 hours ago', assignedProjects: ['Skyline Plaza'], performance: 88 },
-  { id: 'm6', name: 'Michael Park', email: 'm.park@buildflow.co', roleId: 'r4', status: 'Active', department: 'Finance', lastLogin: 'Active Now', assignedProjects: ['Global Budgeting'], performance: 96 }
+  { id: 'm4', name: 'Vikram Singh', email: 'vikram.s@tatapower.com', roleId: 'r5', status: 'Pending', department: 'External Consultants', lastLogin: 'N/A', assignedProjects: [], performance: 0 },
+  { id: 'm5', name: 'Sanjay Gupta', email: 'sanjay.g@buildflow.in', roleId: 'r3', status: 'Active', department: 'Civil Engineering', lastLogin: '3 hours ago', assignedProjects: ['Prestige Tech Park, Bangalore'], performance: 88 },
+  { id: 'm6', name: 'Amit Verma', email: 'amit.v@buildflow.in', roleId: 'r4', status: 'Active', department: 'Finance', lastLogin: 'Active Now', assignedProjects: ['Corporate Audit'], performance: 96 }
 ];
 
 export const contractorMetrics: ContractorMetric[] = [
-  { id: 'c1', name: 'Apex Concrete Solutions', efficiency: 94.8, safetyScore: 98.2, retentionRate: 92, adherenceToSchedule: 96, personnel: 12, tasks: '28/30', logo: 'https://ui-avatars.com/api/?name=Apex+Concrete', trend: 'up' },
-  { id: 'c2', name: 'Vanguard Electrical', efficiency: 88.2, safetyScore: 95.0, retentionRate: 85, adherenceToSchedule: 82, personnel: 8, tasks: '15/17', logo: 'https://ui-avatars.com/api/?name=Vanguard+Electrical', trend: 'stable' },
-  { id: 'c3', name: 'Horizon Steelworks', efficiency: 76.5, safetyScore: 82.4, retentionRate: 70, adherenceToSchedule: 65, personnel: 24, tasks: '42/55', logo: 'https://ui-avatars.com/api/?name=Horizon+Steel', trend: 'down' },
-  { id: 'c4', name: 'Pure Water Plumbing', efficiency: 91.0, safetyScore: 99.0, retentionRate: 95, adherenceToSchedule: 92, personnel: 6, tasks: '12/12', logo: 'https://ui-avatars.com/api/?name=Pure+Water', trend: 'up' }
+  { id: 'c1', name: 'UltraTech Cement Ltd.', efficiency: 94.8, safetyScore: 98.2, retentionRate: 92, adherenceToSchedule: 96, personnel: 112, tasks: '28/30', logo: 'https://images.unsplash.com/photo-1581094288338-2314dddb7903?q=80&w=100&auto=format&fit=crop', trend: 'up' },
+  { id: 'c2', name: 'Tata Power Solutions', efficiency: 88.2, safetyScore: 95.0, retentionRate: 85, adherenceToSchedule: 82, personnel: 45, tasks: '15/17', logo: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=100&auto=format&fit=crop', trend: 'stable' },
+  { id: 'c3', name: 'JSW Steel', efficiency: 76.5, safetyScore: 82.4, retentionRate: 70, adherenceToSchedule: 65, personnel: 240, tasks: '42/55', logo: 'https://ui-avatars.com/api/?name=JSW+Steel&background=0D47A1&color=fff', trend: 'down' },
+  { id: 'c4', name: 'Hindware Bathware', efficiency: 91.0, safetyScore: 99.0, retentionRate: 95, adherenceToSchedule: 92, personnel: 32, tasks: '12/12', logo: 'https://ui-avatars.com/api/?name=Hindware&background=E65100&color=fff', trend: 'up' }
 ];
 
 export const laborStats: LaborStats = {
@@ -360,9 +521,20 @@ export const laborStats: LaborStats = {
 };
 
 export const reportVault: ReportVaultItem[] = [
-  { id: 'r1', title: 'Site Safety Audit - Week 31', type: 'Safety', date: 'Apr 05, 2026', author: 'Dave Safety', status: 'Published', fileSize: '2.4 MB' },
-  { id: 'r2', title: 'Q1 Financial Performance', type: 'Financial', date: 'Apr 02, 2026', author: 'Michael Park', status: 'Published', fileSize: '4.1 MB' },
-  { id: 'r3', title: 'North Wing Structural Review', type: 'Technical', date: 'Mar 28, 2026', author: 'Sarah Miller', status: 'Archived', fileSize: '12.8 MB' },
-  { id: 'r4', title: 'Monthly Progress Summary - March', type: 'Milestone', date: 'Mar 31, 2026', author: 'James Wilson', status: 'Published', fileSize: '1.2 MB' },
+  { id: 'r1', title: 'Site Safety Audit - Week 31', type: 'Safety', date: 'Apr 05, 2026', author: 'Sanjay Gupta', status: 'Published', fileSize: '2.4 MB' },
+  { id: 'r2', title: 'Q1 Financial Performance', type: 'Financial', date: 'Apr 02, 2026', author: 'Amit Verma', status: 'Published', fileSize: '4.1 MB' },
+  { id: 'r3', title: 'North Wing Structural Review', type: 'Technical', date: 'Mar 28, 2026', author: 'Priya Sharma', status: 'Archived', fileSize: '12.8 MB' },
+  { id: 'r4', title: 'Monthly Progress Summary - March', type: 'Milestone', date: 'Mar 31, 2026', author: 'Arjun Mehra', status: 'Published', fileSize: '1.2 MB' },
   { id: 'r5', title: 'Weekly Material Audit - W32', type: 'Technical', date: 'Apr 12, 2026', author: 'Logistics Team', status: 'Draft', fileSize: '850 KB' }
+];
+
+export const equipment: Equipment[] = [
+  { id: 'e1', name: 'Tower Crane - TC01', type: 'Crane', status: 'Active', health: 92, lastService: '2024-03-15', nextService: '2024-06-15', assignedProject: 'Prestige Tech Park', fuelLevel: 85, runtimeHours: 1240 },
+  { id: 'e2', name: 'Excavator - EX04', type: 'Earthmover', status: 'Under Maintenance', health: 45, lastService: '2024-01-10', nextService: '2024-05-10', assignedProject: 'Harbor Bridge', runtimeHours: 3500 },
+  { id: 'e3', name: 'Concrete Mixer - MX12', type: 'Mixer', status: 'Idle', health: 78, lastService: '2024-04-01', nextService: '2024-07-01', runtimeHours: 850 }
+];
+
+export const incidents: SafetyIncident[] = [
+  { id: 'i1', title: 'Near Miss: Crane Swing', date: '2024-04-12', severity: 'Medium', status: 'Closed', reporter: 'Dave Safety', category: 'Near Miss', description: 'Crane TC01 swing radius overlapped with active loading zone.', correctiveAction: 'Revised swing radius protocols.' },
+  { id: 'i2', title: 'Minor Injury: Hand Laceration', date: '2024-04-20', severity: 'Low', status: 'Resolved', reporter: 'Sanjay Gupta', category: 'Injury', description: 'Worker sustained minor cut during rebar handling.', correctiveAction: 'Mandatory glove inspection and training.' }
 ];

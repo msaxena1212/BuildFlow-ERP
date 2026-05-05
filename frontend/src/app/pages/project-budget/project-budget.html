@@ -4,101 +4,314 @@
   <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-[0_12_32px_rgba(15,23,42,0.06)] border border-outline-variant/10">
     <div class="flex items-center justify-between mb-8">
       <h3 class="text-lg font-bold">Financial Health Snapshot</h3>
-      <div class="flex items-center gap-2 bg-secondary/10 px-3 py-1.5 rounded-full text-secondary font-bold text-xs uppercase tracking-wider">
-        <span class="material-symbols-outlined text-[16px]">warning</span>
-        Variance Warning: Foundation
-      </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="p-6 bg-surface-container-low rounded-xl border border-outline-variant/10">
-        <p class="text-outline text-xs font-bold tracking-widest uppercase mb-1">TOTAL BUDGET</p>
-        <p class="text-3xl font-extrabold text-on-surface">₹2,450,000</p>
-        <div class="mt-4 flex items-center gap-2 text-blue-600 text-xs font-bold">
-          <span class="material-symbols-outlined text-[16px]">trending_up</span>
-          +4.2% from Initial Estimate
-        </div>
-      </div>
-      <div class="p-6 bg-surface-container-low rounded-xl border border-outline-variant/10">
-        <p class="text-outline text-xs font-bold tracking-widest uppercase mb-1">TOTAL SPENT</p>
-        <p class="text-3xl font-extrabold text-on-surface">₹1,124,500</p>
-        <div class="mt-4 flex items-center gap-2 text-on-surface-variant text-xs font-bold">
-          <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-            <div class="bg-primary h-full w-[46%] rounded-full"></div>
-          </div>
-          <span>46%</span>
-        </div>
-      </div>
-      <div class="p-6 bg-surface-container-low rounded-xl border border-outline-variant/10">
-        <p class="text-outline text-xs font-bold tracking-widest uppercase mb-1">REMAINING</p>
-        <p class="text-3xl font-extrabold text-on-surface">₹1,325,500</p>
-        <div class="mt-4 flex items-center gap-2 text-secondary text-xs font-bold">
-          <span class="material-symbols-outlined text-[16px]">schedule</span>
-          84 Days to Completion
+      <div class="flex items-center gap-3">
+        <span *ngIf="consolidationMessage" class="text-[10px] font-black uppercase tracking-widest text-primary animate-pulse">{{ consolidationMessage }}</span>
+        <button (click)="runConsolidation()" [disabled]="isConsolidating" class="flex items-center gap-2 border-2 border-primary/20 hover:bg-primary/5 text-primary px-4 py-1.5 rounded-md font-bold text-[10px] uppercase tracking-widest transition-all disabled:opacity-50">
+          <span class="material-symbols-outlined text-[16px]" [class.animate-spin]="isConsolidating">sync</span>
+          {{ isConsolidating ? 'Consolidating...' : 'Consolidate Costs' }}
+        </button>
+        <div class="flex items-center gap-2 border-2 border-secondary/20 bg-secondary/5 px-3 py-1.5 rounded-md text-secondary font-bold text-[10px] uppercase tracking-widest">
+          <span class="material-symbols-outlined text-[16px]">warning</span>
+          Variance Warning: Foundation
         </div>
       </div>
     </div>
-    <div class="mt-10">
-      <div class="flex items-center justify-between mb-4">
-        <span class="text-sm font-bold text-on-surface">Cumulative Spend vs. Budget</span>
-        <div class="flex gap-4">
-          <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
-            <div class="w-2.5 h-2.5 rounded-full bg-primary"></div> Budget
-          </div>
-          <div class="flex items-center gap-1.5 text-xs text-on-surface-variant">
-            <div class="w-2.5 h-2.5 rounded-full bg-secondary"></div> Actual
-          </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- CONTRACT VALUE (POC.1) -->
+      <div class="p-6 bg-surface-container-low/50 rounded-xl border border-outline-variant/10">
+        <p class="text-outline text-[10px] font-black tracking-widest uppercase mb-1">CONTRACT VALUE</p>
+        <p class="text-3xl font-black text-on-surface">₹{{ project.pocDetails.contractValue | number:'1.0-0' }}</p>
+        <div class="mt-4 text-outline text-[10px] font-bold uppercase tracking-widest">
+          Est. Cost: <span class="text-on-surface-variant font-black">₹{{ project.pocDetails.estimatedTotalCost | number:'1.0-0' }}</span>
         </div>
       </div>
-      <!-- Chart Placeholder -->
-      <div class="h-48 w-full bg-surface-container-low rounded-xl relative overflow-hidden group">
-        <img alt="Analytics chart" class="w-full h-full object-cover opacity-20 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq45JcxatoyVepvtk4YL7qArQUIejesCp_YEnGr-BiIyHBJGI7xauPT3vUncmM9e91c8i_z6VoZuXzMb1Mg-2OrguP8rqbNLTUS1TcFOtD594zqZT8RAK9EJcXT65XFkJVVbsCUqg8qrMYP-3BY8OHlbAHWQgunkrZUJ9BNCIdgQD5O0FcThV_v_2QJM6pyadx9CCcfv_pYhmFycN9U_BTodaA3z-rrCicxtp5uKzkItFA0h0u9QMu-ocPMG9W3gUp9mibB65V-Dp6"/>
-        <div class="absolute inset-0 flex items-center justify-center">
-          <p class="text-outline font-medium text-sm flex items-center gap-2">
-            <span class="material-symbols-outlined">monitoring</span>
-            Real-time chart rendering active
+      
+      <!-- COMPLETION % (POC.4) -->
+      <div class="p-6 bg-surface-container-low/50 rounded-xl border border-outline-variant/10 relative group">
+        <div class="flex items-center justify-between mb-1">
+          <p class="text-outline text-[10px] font-black tracking-widest uppercase">COMPLETION (POC)</p>
+          <button (click)="openOverrideModal()" class="text-[8px] bg-primary text-white px-2 py-0.5 rounded font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Override</button>
+        </div>
+        <div class="flex items-end gap-2">
+          <p class="text-3xl font-black text-on-surface">
+            {{ project.pocDetails.completionPercentage.isManual ? project.pocDetails.completionPercentage.manualOverride : project.pocDetails.completionPercentage.calculated }}%
           </p>
+          <span *ngIf="project.pocDetails.completionPercentage.isManual" class="text-[8px] font-bold text-amber-600 bg-amber-100/50 border border-amber-200/50 px-1.5 py-0.5 rounded uppercase tracking-widest mb-1.5 flex items-center gap-0.5">
+            <span class="material-symbols-outlined text-[10px]">edit_note</span> {{ project.pocDetails.periodClosing.approvalStatus }}
+          </span>
+        </div>
+        <div class="mt-4 flex flex-col gap-1.5">
+          <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+            <span class="text-outline">Actual Cost:</span>
+            <span class="text-on-surface-variant font-black">₹{{ project.pocDetails.actualCost | number:'1.0-0' }}</span>
+          </div>
+          <div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+            <div class="bg-primary h-full rounded-full transition-all duration-1000" [style.width.%]="project.pocDetails.completionPercentage.isManual ? project.pocDetails.completionPercentage.manualOverride : project.pocDetails.completionPercentage.calculated"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- REVENUE RECOGNIZED (POC.6) -->
+      <div class="p-6 bg-surface-container-low/50 rounded-xl border border-outline-variant/10">
+        <p class="text-outline text-[10px] font-black tracking-widest uppercase mb-1">REVENUE RECOGNIZED</p>
+        <p class="text-3xl font-black text-green-600">₹{{ project.pocDetails.revenueRecognized | number:'1.0-0' }}</p>
+        <div class="mt-4 flex items-center justify-between">
+          <div class="flex items-center gap-1.5 bg-green-100 text-green-700 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest">
+            <span class="material-symbols-outlined text-[12px]">calendar_today</span>
+            Period: {{ project.pocDetails.periodClosing.lastCalculatedPeriod }}
+          </div>
+          <div class="text-[9px] font-black uppercase tracking-widest text-outline">
+            Profit: <span class="text-green-700">₹{{ project.pocDetails.recognizedProfit | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- BILLING COMPARISON (POC.7, POC.8, POC.9) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div class="p-6 bg-surface-container-low/50 rounded-xl border border-outline-variant/10 flex items-center justify-between group hover:border-primary/30 transition-all">
+        <div>
+          <p class="text-outline text-[10px] font-black tracking-widest uppercase">INVOICED TO CLIENT</p>
+          <p class="text-2xl font-black text-on-surface mt-1">₹{{ project.pocDetails.invoicedAmount | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary transition-transform group-hover:scale-110">
+          <span class="material-symbols-outlined text-[24px]">payments</span>
+        </div>
+      </div>
+      
+      <div class="p-6 bg-blue-50/50 rounded-xl border border-blue-200/50 flex items-center justify-between group hover:border-blue-400/50 transition-all" *ngIf="project.pocDetails.deferredRevenue > 0">
+        <div>
+          <p class="text-blue-700/70 text-[10px] font-black tracking-widest uppercase flex items-center gap-1">
+            DEFERRED REVENUE
+            <span class="material-symbols-outlined text-[14px]" title="Contract Liability">help</span>
+          </p>
+          <p class="text-2xl font-black text-blue-900 mt-1">₹{{ project.pocDetails.deferredRevenue | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 transition-transform group-hover:scale-110">
+          <span class="material-symbols-outlined text-[24px]">account_balance</span>
+        </div>
+      </div>
+
+      <div class="p-6 bg-amber-50/50 rounded-xl border border-amber-200/50 flex items-center justify-between group hover:border-amber-400/50 transition-all" *ngIf="project.pocDetails.unbilledRevenue > 0">
+        <div>
+          <p class="text-amber-700/70 text-[10px] font-black tracking-widest uppercase flex items-center gap-1">
+            UNBILLED REVENUE
+            <span class="material-symbols-outlined text-[14px]" title="Contract Asset">help</span>
+          </p>
+          <p class="text-2xl font-black text-amber-900 mt-1">₹{{ project.pocDetails.unbilledRevenue | number:'1.0-0' }}</p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 transition-transform group-hover:scale-110">
+          <span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- COST CONSOLIDATION BREAKDOWN (POC.3) -->
+    <div class="mt-12">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h4 class="text-sm font-black text-on-surface uppercase tracking-tight">CONSOLIDATED COST BREAKDOWN</h4>
+          <p class="text-[9px] text-outline font-bold uppercase tracking-widest mt-1">LAST AGGREGATED: {{ project.pocDetails.periodClosing.lastCalculatedPeriod }}</p>
+        </div>
+        <div class="flex items-center gap-2 text-[9px] font-black text-primary bg-primary/10 px-3 py-1 rounded-md uppercase tracking-widest">
+          <span class="material-symbols-outlined text-[14px]">account_tree</span>
+          LIVE FEED ACTIVE
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" *ngIf="project.pocDetails.costBreakdown">
+        <div class="p-5 bg-surface-container-low/30 rounded-xl border border-outline-variant/10 group hover:border-primary/40 transition-all">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined text-[18px]">engineering</span>
+            </div>
+            <p class="text-[9px] font-black text-outline uppercase tracking-widest">LABOR PAYROLL</p>
+          </div>
+          <p class="text-lg font-black text-on-surface">₹{{ project.pocDetails.costBreakdown.labor | number:'1.0-0' }}</p>
+          <div class="mt-2 flex items-center gap-1.5 text-[8px] text-green-600 font-black uppercase tracking-widest">
+            <span class="material-symbols-outlined text-[12px]">check</span> FROM LABORSTATS
+          </div>
+        </div>
+
+        <div class="p-5 bg-surface-container-low/30 rounded-xl border border-outline-variant/10 group hover:border-secondary/40 transition-all">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+              <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+            </div>
+            <p class="text-[9px] font-black text-outline uppercase tracking-widest">MATERIAL USAGE</p>
+          </div>
+          <p class="text-lg font-black text-on-surface">₹{{ project.pocDetails.costBreakdown.materials | number:'1.0-0' }}</p>
+          <div class="mt-2 flex items-center gap-1.5 text-[8px] text-green-600 font-black uppercase tracking-widest">
+            <span class="material-symbols-outlined text-[12px]">check</span> FROM INVENTORY
+          </div>
+        </div>
+
+        <div class="p-5 bg-surface-container-low/30 rounded-xl border border-outline-variant/10 group hover:border-amber-500/40 transition-all">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600">
+              <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+            </div>
+            <p class="text-[9px] font-black text-outline uppercase tracking-widest">SUBCONTRACTORS</p>
+          </div>
+          <p class="text-lg font-black text-on-surface">₹{{ project.pocDetails.costBreakdown.subcontractors | number:'1.0-0' }}</p>
+          <div class="mt-2 flex items-center gap-1.5 text-[8px] text-green-600 font-black uppercase tracking-widest">
+            <span class="material-symbols-outlined text-[12px]">check</span> FROM INVOICES
+          </div>
+        </div>
+
+        <div class="p-5 bg-surface-container-low/30 rounded-xl border border-outline-variant/10 group hover:border-outline/40 transition-all">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-outline/10 flex items-center justify-center text-outline">
+              <span class="material-symbols-outlined text-[18px]">payments</span>
+            </div>
+            <p class="text-[9px] font-black text-outline uppercase tracking-widest">OTHER DIRECT</p>
+          </div>
+          <p class="text-lg font-black text-on-surface">₹{{ project.pocDetails.costBreakdown.other | number:'1.0-0' }}</p>
+          <div class="mt-2 flex items-center gap-1.5 text-[8px] text-green-600 font-black uppercase tracking-widest">
+            <span class="material-symbols-outlined text-[12px]">check</span> OVERHEAD
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFITABILITY ANALYSIS (POC.11) -->
+    <div class="mt-8 p-6 bg-[#E8F5E9] rounded-2xl border border-green-200">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-green-600 flex items-center justify-center text-white">
+          <span class="material-symbols-outlined text-[20px]">analytics</span>
+        </div>
+        <div>
+          <h4 class="text-xs font-black text-green-900 uppercase tracking-widest">RECOGNIZED PROFIT ANALYSIS</h4>
+          <p class="text-[8px] text-green-700 font-bold uppercase tracking-widest">BASED ON CURRENT REVENUE RECOGNITION</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center justify-between">
+        <div class="flex-1">
+          <p class="text-[9px] font-black text-green-700/60 uppercase tracking-widest mb-1">RECOGNIZED REVENUE</p>
+          <p class="text-2xl font-black text-green-700">₹{{ project.pocDetails.revenueRecognized | number:'1.0-0' }}</p>
+        </div>
+        
+        <div class="px-4">
+          <div class="w-8 h-8 rounded-full bg-green-200/50 flex items-center justify-center text-green-700">
+            <span class="material-symbols-outlined text-[20px] font-black">remove</span>
+          </div>
+        </div>
+
+        <div class="flex-1">
+          <p class="text-[9px] font-black text-green-700/60 uppercase tracking-widest mb-1">ACTUAL AGGREGATED COST</p>
+          <p class="text-2xl font-black text-on-surface">₹{{ project.pocDetails.actualCost | number:'1.0-0' }}</p>
+        </div>
+
+        <div class="px-4">
+          <div class="w-8 h-8 rounded-full bg-green-200/50 flex items-center justify-center text-green-700">
+            <span class="material-symbols-outlined text-[20px] font-black">drag_handle</span>
+          </div>
+        </div>
+        
+        <div class="bg-green-600 px-8 py-4 rounded-xl shadow-lg shadow-green-200/50">
+          <p class="text-[9px] font-black text-green-50 uppercase tracking-widest mb-1">RECOGNIZED PROFIT (YTD)</p>
+          <p class="text-2xl font-black text-white">₹{{ project.pocDetails.recognizedProfit | number:'1.0-0' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12">
+      <div class="flex items-center justify-between mb-6">
+        <span class="text-xs font-black text-on-surface uppercase tracking-widest">Cumulative Spend vs. Budget Recognition</span>
+        <div class="flex gap-6">
+          <div class="flex items-center gap-2 text-[9px] font-black text-outline uppercase tracking-[0.2em]">
+            <div class="w-2.5 h-2.5 rounded-full bg-primary/20 border-2 border-primary"></div> Budget Line
+          </div>
+          <div class="flex items-center gap-2 text-[9px] font-black text-outline uppercase tracking-[0.2em]">
+            <div class="w-2.5 h-2.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(var(--secondary-rgb),0.5)]"></div> Actual Spend
+          </div>
+        </div>
+      </div>
+      
+      <!-- REAL SVG CHART (POC.10) -->
+      <div class="h-56 w-full bg-surface-container-low/30 rounded-2xl relative p-6 border border-outline-variant/10 group">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="w-full h-full overflow-visible">
+          <!-- Grid Lines -->
+          <line x1="0" y1="20" x2="100" y2="20" stroke="currentColor" stroke-width="0.1" class="text-outline/20" />
+          <line x1="0" y1="40" x2="100" y2="40" stroke="currentColor" stroke-width="0.1" class="text-outline/20" />
+          <line x1="0" y1="60" x2="100" y2="60" stroke="currentColor" stroke-width="0.1" class="text-outline/20" />
+          <line x1="0" y1="80" x2="100" y2="80" stroke="currentColor" stroke-width="0.1" class="text-outline/20" />
+          
+          <!-- Budget Area & Line -->
+          <path [attr.d]="getBudgetAreaPath()" fill="url(#budgetGradient)" class="opacity-20" />
+          <path [attr.d]="getBudgetPath()" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1,1" class="text-primary/50" />
+          
+          <!-- Actual Area & Line -->
+          <path [attr.d]="getActualAreaPath()" fill="url(#actualGradient)" class="opacity-30" />
+          <path [attr.d]="getActualPath()" fill="none" stroke="currentColor" stroke-width="0.8" class="text-secondary" />
+          
+          <!-- Definitions for Gradients -->
+          <defs>
+            <linearGradient id="budgetGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgb(var(--primary-rgb))" />
+              <stop offset="100%" stop-color="transparent" />
+            </linearGradient>
+            <linearGradient id="actualGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgb(var(--secondary-rgb))" />
+              <stop offset="100%" stop-color="transparent" />
+            </linearGradient>
+          </defs>
+
+          <!-- Interaction Points (Circles) -->
+          <circle *ngFor="let m of project.pocDetails.historicalMetrics; let i = index" 
+                  [attr.cx]="(i / (project.pocDetails.historicalMetrics.length - 1)) * 100"
+                  [attr.cy]="100 - (m.actual / chartMaxVal) * 90"
+                  r="1"
+                  class="fill-secondary stroke-white stroke-[0.3] shadow-sm hover:r-1.5 transition-all cursor-pointer" />
+        </svg>
+
+        <!-- X-Axis Labels -->
+        <div class="absolute bottom-2 left-6 right-6 flex justify-between">
+          <span *ngFor="let m of project.pocDetails.historicalMetrics" class="text-[8px] font-black text-outline uppercase tracking-widest">{{ m.period }}</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Material vs Labor Split (Small) -->
+  <!-- Resource Distribution (Right Panel) -->
   <div class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl p-8 shadow-[0_12_32px_rgba(15,23,42,0.06)] border border-outline-variant/10 flex flex-col">
-    <h3 class="text-lg font-bold mb-8">Resource Distribution</h3>
+    <h3 class="text-lg font-black tracking-tight mb-8 uppercase">RESOURCE DISTRIBUTION</h3>
     <div class="flex-grow flex flex-col justify-center items-center py-6">
       <!-- Donut Chart Placeholder -->
-      <div class="relative w-48 h-48 mb-8">
-        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+      <div class="relative w-56 h-56 mb-12">
+        <svg class="w-full h-full transform -rotate-90 filter drop-shadow-lg" viewBox="0 0 36 36">
           <circle class="stroke-surface-container-high" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
           <circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="60, 100" stroke-linecap="round" stroke-width="4"></circle>
           <circle class="stroke-secondary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="35, 100" stroke-dashoffset="-60" stroke-linecap="round" stroke-width="4"></circle>
+          <circle class="stroke-outline/20" cx="18" cy="18" fill="none" r="16" stroke-dasharray="5, 100" stroke-dashoffset="-95" stroke-linecap="round" stroke-width="4"></circle>
         </svg>
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-          <span class="text-2xl font-black text-on-surface">₹1.1M</span>
-          <span class="text-[10px] text-outline font-bold tracking-widest uppercase">EXPENDITURE</span>
+        <div class="absolute inset-0 flex flex-col items-center justify-center bg-white/50 rounded-full scale-[0.75] backdrop-blur-sm border border-outline-variant/10 shadow-inner">
+          <span class="text-3xl font-black text-on-surface">₹1.1M</span>
+          <span class="text-[9px] text-outline font-black tracking-[0.2em] uppercase">EXPENDITURE</span>
         </div>
       </div>
-      <div class="w-full space-y-4">
-        <div class="flex items-center justify-between p-3 bg-surface-container-low rounded-lg">
+      <div class="w-full space-y-3">
+        <div class="flex items-center justify-between p-4 bg-surface-container-low/50 rounded-xl border border-outline-variant/5 group hover:bg-primary/5 transition-all cursor-default">
           <div class="flex items-center gap-3">
-            <div class="w-3 h-3 rounded-full bg-primary"></div>
-            <span class="text-sm font-bold">Labor Costs</span>
+            <div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_12px_rgba(var(--primary-rgb),0.6)]"></div>
+            <span class="text-[11px] font-black text-outline uppercase tracking-widest group-hover:text-primary transition-colors">Labor Costs</span>
           </div>
-          <span class="text-sm font-bold">60%</span>
+          <span class="text-sm font-black text-on-surface">60%</span>
         </div>
-        <div class="flex items-center justify-between p-3 bg-surface-container-low rounded-lg">
+        <div class="flex items-center justify-between p-4 bg-surface-container-low/50 rounded-xl border border-outline-variant/5 group hover:bg-secondary/5 transition-all cursor-default">
           <div class="flex items-center gap-3">
-            <div class="w-3 h-3 rounded-full bg-secondary"></div>
-            <span class="text-sm font-bold">Materials</span>
+            <div class="w-3 h-3 rounded-full bg-secondary shadow-[0_0_12px_rgba(var(--secondary-rgb),0.6)]"></div>
+            <span class="text-[11px] font-black text-outline uppercase tracking-widest group-hover:text-secondary transition-colors">Materials</span>
           </div>
-          <span class="text-sm font-bold">35%</span>
+          <span class="text-sm font-black text-on-surface">35%</span>
         </div>
-        <div class="flex items-center justify-between p-3 bg-surface-container-low rounded-lg">
+        <div class="flex items-center justify-between p-4 bg-surface-container-low/50 rounded-xl border border-outline-variant/5 group hover:bg-outline/10 transition-all cursor-default">
           <div class="flex items-center gap-3">
-            <div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
-            <span class="text-sm font-bold">Overhead</span>
+            <div class="w-3 h-3 rounded-full bg-outline/30 shadow-[0_0_12px_rgba(var(--outline-rgb),0.2)]"></div>
+            <span class="text-[11px] font-black text-outline uppercase tracking-widest group-hover:text-on-surface transition-colors">Overhead</span>
           </div>
-          <span class="text-sm font-bold">5%</span>
+          <span class="text-sm font-black text-on-surface">5%</span>
         </div>
       </div>
     </div>
@@ -106,79 +319,79 @@
 
   <!-- Itemized Costs Section (Full Width) -->
   <div class="col-span-12">
-    <div class="flex items-center justify-between mb-6 mt-8">
-      <h3 class="text-2xl font-extrabold tracking-tight">Itemized Cost Variance</h3>
+    <div class="flex items-center justify-between mb-6 mt-12">
+      <h3 class="text-2xl font-black tracking-tight uppercase">ITEMIZED COST VARIANCE</h3>
       <div class="flex gap-4">
-        <div class="flex rounded-lg bg-surface-container-low p-1">
-          <button class="px-4 py-1.5 bg-white shadow-sm rounded-md text-sm font-bold text-primary">By Category</button>
-          <button class="px-4 py-1.5 text-sm font-medium text-on-surface-variant hover:text-on-surface">By Vendor</button>
+        <div class="flex rounded-lg bg-surface-container-low p-1 border border-outline-variant/10">
+          <button class="px-5 py-1.5 bg-white shadow-sm rounded-md text-[10px] font-black uppercase tracking-widest text-primary">By Category</button>
+          <button class="px-5 py-1.5 text-[10px] font-black uppercase tracking-widest text-outline hover:text-on-surface transition-colors">By Vendor</button>
         </div>
-        <button class="p-2 bg-surface-container-low rounded-lg hover:bg-surface-container-high transition-colors">
-          <span class="material-symbols-outlined">filter_list</span>
+        <button class="w-10 h-10 flex items-center justify-center bg-surface-container-low rounded-lg hover:bg-surface-container-high transition-colors border border-outline-variant/10">
+          <span class="material-symbols-outlined text-[20px]">filter_list</span>
         </button>
       </div>
     </div>
     <div class="space-y-4">
       <!-- Category Header -->
-      <div class="grid grid-cols-12 px-6 py-4 text-xs font-bold tracking-widest text-outline uppercase">
-        <div class="col-span-4">Work Category</div>
-        <div class="col-span-2 text-right">Estimated</div>
-        <div class="col-span-2 text-right">Actual</div>
-        <div class="col-span-2 text-right">Variance</div>
-        <div class="col-span-2 text-right">Status</div>
+      <div class="grid grid-cols-12 px-6 py-4 text-[10px] font-black tracking-[0.15em] text-outline uppercase">
+        <div class="col-span-4">WORK CATEGORY</div>
+        <div class="col-span-2 text-right">ESTIMATED</div>
+        <div class="col-span-2 text-right">ACTUAL</div>
+        <div class="col-span-2 text-right">VARIANCE</div>
+        <div class="col-span-2 text-right">STATUS</div>
       </div>
       <!-- Category Row 1 -->
-      <div class="grid grid-cols-12 items-center bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10 border-l-4 border-l-secondary transition-all hover:translate-x-1">
-        <div class="col-span-4 flex items-center gap-4">
-          <div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
-            <span class="material-symbols-outlined">foundation</span>
+      <div class="grid grid-cols-12 items-center bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 border-l-4 border-l-secondary group transition-all hover:shadow-md hover:translate-x-1">
+        <div class="col-span-4 flex items-center gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-[28px]">foundation</span>
           </div>
           <div>
-            <p class="font-bold text-on-surface">02-100 Foundation &amp; Concrete</p>
-            <p class="text-xs text-on-surface-variant">Includes rebar, pumping, and finishing</p>
+            <p class="font-black text-on-surface uppercase tracking-tight">02-100 Foundation & Concrete</p>
+            <p class="text-[10px] text-outline font-bold uppercase tracking-widest mt-0.5">Includes rebar, pumping, and finishing</p>
           </div>
         </div>
-        <div class="col-span-2 text-right font-medium">₹420,000</div>
-        <div class="col-span-2 text-right font-medium">₹465,000</div>
-        <div class="col-span-2 text-right font-bold text-error">+₹45,000</div>
+        <div class="col-span-2 text-right font-black text-on-surface">₹420,000</div>
+        <div class="col-span-2 text-right font-black text-on-surface">₹465,000</div>
+        <div class="col-span-2 text-right font-black text-red-600">+₹45,000</div>
         <div class="col-span-2 flex justify-end">
-          <span class="px-3 py-1 bg-error-container text-on-error-container rounded-full text-[10px] font-bold uppercase cursor-default">Over Budget</span>
+          <span class="px-3 py-1 bg-red-50 text-red-600 border border-red-100 rounded-md text-[9px] font-black uppercase tracking-widest">Over Budget</span>
         </div>
       </div>
       <!-- Category Row 2 -->
-      <div class="grid grid-cols-12 items-center bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10 border-l-4 border-l-primary transition-all hover:translate-x-1">
-        <div class="col-span-4 flex items-center gap-4">
-          <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-            <span class="material-symbols-outlined">home_work</span>
+      <div class="grid grid-cols-12 items-center bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 border-l-4 border-l-primary group transition-all hover:shadow-md hover:translate-x-1">
+        <div class="col-span-4 flex items-center gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-[28px]">architecture</span>
           </div>
           <div>
-            <p class="font-bold text-on-surface">03-400 Structural Steel</p>
-            <p class="text-xs text-on-surface-variant">Framework and support installation</p>
+            <p class="font-black text-on-surface uppercase tracking-tight">03-400 Structural Steel</p>
+            <p class="text-[10px] text-outline font-bold uppercase tracking-widest mt-0.5">Framework and support installation</p>
           </div>
         </div>
-        <div class="col-span-2 text-right font-medium">₹750,000</div>
-        <div class="col-span-2 text-right font-medium">₹710,000</div>
-        <div class="col-span-2 text-right font-bold text-green-600">-₹40,000</div>
+        <div class="col-span-2 text-right font-black text-on-surface">₹750,000</div>
+        <div class="col-span-2 text-right font-black text-on-surface">₹710,000</div>
+        <div class="col-span-2 text-right font-black text-green-600">-₹40,000</div>
         <div class="col-span-2 flex justify-end">
-          <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold uppercase cursor-default">Under Budget</span>
+          <span class="px-3 py-1 bg-green-50 text-green-600 border border-green-100 rounded-md text-[9px] font-black uppercase tracking-widest">Under Budget</span>
         </div>
       </div>
       <!-- Category Row 3 -->
-      <div class="grid grid-cols-12 items-center bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10 border-l-4 border-l-slate-300 transition-all hover:translate-x-1">
-        <div class="col-span-4 flex items-center gap-4">
-          <div class="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500">
-            <span class="material-symbols-outlined">electrical_services</span>
+      <div class="grid grid-cols-12 items-center bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 border-l-4 border-l-outline/20 group transition-all hover:shadow-md hover:translate-x-1">
+        <div class="col-span-4 flex items-center gap-5">
+          <div class="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center text-outline">
+            <span class="material-symbols-outlined text-[28px]">electrical_services</span>
           </div>
           <div>
-            <p class="font-bold text-on-surface">15-000 Electrical Systems</p>
-            <p class="text-xs text-on-surface-variant">Rough-in phase for Site 104</p>
+            <p class="font-black text-on-surface uppercase tracking-tight">15-000 Electrical Systems</p>
+            <p class="text-[10px] text-outline font-bold uppercase tracking-widest mt-0.5">Rough-in phase for Site 104</p>
           </div>
         </div>
-        <div class="col-span-2 text-right font-medium">₹185,000</div>
-        <div class="col-span-2 text-right font-medium">₹184,200</div>
-        <div class="col-span-2 text-right font-bold text-on-surface-variant">-₹800</div>
+        <div class="col-span-2 text-right font-black text-on-surface">₹185,000</div>
+        <div class="col-span-2 text-right font-black text-on-surface">₹184,200</div>
+        <div class="col-span-2 text-right font-black text-outline">-₹800</div>
         <div class="col-span-2 flex justify-end">
-          <span class="px-3 py-1 bg-surface-container-high text-outline rounded-full text-[10px] font-bold uppercase cursor-default">On Track</span>
+          <span class="px-3 py-1 bg-surface-container-low text-outline border border-outline-variant/10 rounded-md text-[9px] font-black uppercase tracking-widest">On Track</span>
         </div>
       </div>
     </div>
@@ -239,29 +452,203 @@
     </div>
   </div>
 
-  <!-- Upload Area (Featured Card) -->
-  <div class="col-span-12 lg:col-span-6 bg-primary rounded-xl p-8 shadow-sm relative overflow-hidden text-white flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg transition-shadow">
-    <!-- Abstract Blueprint Background -->
-    <div class="absolute inset-0 opacity-10 pointer-events-none">
-      <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern height="40" id="grid" patternUnits="userSpaceOnUse" width="40">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.5"></path>
-          </pattern>
-        </defs>
-        <rect fill="url(#grid)" height="100%" width="100%"></rect>
-      </svg>
-    </div>
-    <div class="relative z-10 w-full max-w-sm">
-      <div class="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-6">
-        <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+  <!-- Vendor Settlement Reconciliation (New Feature) -->
+  <div class="col-span-12 mt-12 pb-24">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h3 class="text-2xl font-black tracking-tight uppercase">VENDOR SETTLEMENT RECONCILIATION</h3>
+        <p class="text-xs text-outline font-bold uppercase tracking-widest mt-1">RECONCILE WORK PERFORMED (POC) VS. TOTAL INVOICED</p>
       </div>
-      <h3 class="text-2xl font-bold mb-3">Instant Invoice Processing</h3>
-      <p class="text-blue-100 mb-8 text-sm leading-relaxed">Drop your invoices here. ZYNO AI will automatically categorize line items and flag potential variances before they occur.</p>
-      <button class="w-full py-4 bg-white text-primary rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-lg cursor-pointer">
-        Select Files to Upload
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div *ngFor="let vendor of vendors" class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm hover:shadow-md transition-all group">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center text-outline group-hover:bg-primary/10 group-hover:text-primary transition-colors overflow-hidden border border-outline-variant/5">
+              <img *ngIf="vendor.logo" [src]="vendor.logo" class="w-full h-full object-cover">
+              <span *ngIf="!vendor.logo" class="material-symbols-outlined text-[28px]">{{ vendor.icon || 'store' }}</span>
+            </div>
+            <div>
+              <p class="font-black text-on-surface uppercase tracking-tight">{{ vendor.name }}</p>
+              <div class="flex items-center gap-1.5 mt-0.5">
+                <p class="text-[8px] font-black text-outline uppercase tracking-widest">{{ vendor.type }}</p>
+                <span class="w-1 h-1 rounded-full bg-outline/20"></span>
+                <p class="text-[8px] font-bold text-outline uppercase tracking-widest flex items-center gap-0.5">
+                  <span class="material-symbols-outlined text-[12px]">location_on</span>
+                  {{ vendor.location || 'India' }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-[9px] text-outline font-bold uppercase tracking-widest">CONTRACT VALUE</p>
+            <p class="font-black text-on-surface">₹{{ vendor.budget }}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="p-3 bg-surface-container-low/50 rounded-xl border border-outline-variant/5">
+            <p class="text-[8px] text-outline font-black uppercase tracking-widest mb-1">BALANCE DUE</p>
+            <p class="text-sm font-black text-on-surface">{{ vendor.balance }}</p>
+          </div>
+          <div class="p-3 bg-surface-container-low/50 rounded-xl border border-outline-variant/5">
+            <p class="text-[8px] text-outline font-black uppercase tracking-widest mb-1">POC STATUS</p>
+            <div class="flex items-center gap-2">
+              <div class="flex-grow bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+                <div class="bg-primary h-full rounded-full" [style.width.%]="project.pocDetails.completionPercentage.calculated"></div>
+              </div>
+              <span class="text-[10px] font-black">{{ project.pocDetails.completionPercentage.calculated }}%</span>
+            </div>
+          </div>
+        </div>
+
+        <button (click)="openSettlementModal(vendor)" class="w-full py-3 border-2 border-primary/20 text-primary rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+          Request Settlement
+        </button>
+      </div>
+    </div>
+
+    <!-- Pending Settlement Pipeline -->
+    <div class="mt-8 bg-surface-container-low/30 rounded-2xl p-6 border border-outline-variant/5">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-[10px] font-black text-outline uppercase tracking-widest">Pending Settlement Pipeline</h4>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span class="text-[8px] font-bold text-amber-600 uppercase tracking-widest">Action Required</span>
+        </div>
+      </div>
+      
+      <div class="space-y-3">
+        <div *ngFor="let request of getPendingSettlements()" class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/10 group animate-in slide-in-from-bottom-2 duration-300">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary overflow-hidden border border-primary/5">
+              <img *ngIf="getVendorLogo(request.vendorId)" [src]="getVendorLogo(request.vendorId)" class="w-full h-full object-cover">
+              <span *ngIf="!getVendorLogo(request.vendorId)" class="material-symbols-outlined text-[20px]">history_edu</span>
+            </div>
+            <div>
+              <p class="font-black text-on-surface text-xs uppercase tracking-tight">{{ request.vendorName }}</p>
+              <p class="text-[8px] text-outline font-bold uppercase tracking-widest mt-0.5">
+                {{ request.basis }} BASIS • {{ request.requestDate | date:'mediumDate' }} • POC {{ request.workPercentage }}%
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-right">
+              <p class="font-black text-on-surface text-sm tracking-tight">₹{{ request.amount | number:'1.0-0' }}</p>
+              <p class="text-[8px] text-amber-600 font-bold uppercase tracking-widest mt-0.5">PENDING APPROVAL</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button (click)="approveSettlement(request)" class="p-2 rounded-lg bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all flex items-center gap-1">
+                <span class="text-[8px] font-black uppercase">Approve</span>
+                <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              </button>
+              <button (click)="rejectSettlement(request)" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all flex items-center gap-1">
+                <span class="text-[8px] font-black uppercase">Reject</span>
+                <span class="material-symbols-outlined text-[16px]">cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getPendingSettlements().length === 0" class="py-12 text-center">
+          <span class="material-symbols-outlined text-outline/30 text-4xl mb-2">payments</span>
+          <p class="text-[10px] text-outline/50 font-bold uppercase tracking-widest">No active settlement requests for this period</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Settlement Request Modal -->
+<div *ngIf="showSettlementModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" (click)="showSettlementModal = false"></div>
+  <div class="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-300 border border-outline-variant/10">
+    <div class="p-6 border-b border-outline-variant/10 bg-surface-container-low/30">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-black text-on-surface uppercase tracking-tight">Settlement Request</h3>
+        <button (click)="showSettlementModal = false" class="material-symbols-outlined text-outline hover:text-on-surface transition-colors cursor-pointer">close</button>
+      </div>
+      <p class="text-[9px] text-outline font-bold uppercase tracking-widest">VENDOR: {{ activeSettlement?.vendorName }}</p>
+    </div>
+    
+    <div class="p-6 space-y-6">
+      <div>
+        <label class="text-[10px] font-black text-outline uppercase tracking-widest block mb-3 ml-1">Reconciliation Basis</label>
+        <div class="grid grid-cols-3 gap-3">
+          <button (click)="updateSettlementBasis('POC')" [class.bg-primary]="selectedBasis === 'POC'" [class.text-white]="selectedBasis === 'POC'" class="px-3 py-2 border border-outline-variant/10 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">Work POC</button>
+          <button (click)="updateSettlementBasis('Milestone')" [class.bg-primary]="selectedBasis === 'Milestone'" [class.text-white]="selectedBasis === 'Milestone'" class="px-3 py-2 border border-outline-variant/10 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">Milestone</button>
+          <button (click)="updateSettlementBasis('LumpSum')" [class.bg-primary]="selectedBasis === 'LumpSum'" [class.text-white]="selectedBasis === 'LumpSum'" class="px-3 py-2 border border-outline-variant/10 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">Lump Sum</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 bg-green-50 rounded-xl border border-green-100">
+          <p class="text-[8px] font-black text-green-700/60 uppercase tracking-widest mb-1">SUGGESTED SETTLEMENT</p>
+          <div *ngIf="selectedBasis !== 'LumpSum'" class="text-xl font-black text-green-700">₹{{ activeSettlement?.amount | number:'1.0-0' }}</div>
+          <div *ngIf="selectedBasis === 'LumpSum'" class="flex items-center gap-1">
+            <span class="text-xl font-black text-green-700">₹</span>
+            <input type="number" [(ngModel)]="activeSettlement.amount" class="bg-transparent border-b border-green-700/30 w-full text-xl font-black text-green-700 focus:outline-none focus:border-green-700">
+          </div>
+        </div>
+        <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
+          <p class="text-[8px] font-black text-outline uppercase tracking-widest mb-1">WORK VERIFIED</p>
+          <p class="text-xl font-black text-on-surface">{{ activeSettlement?.workPercentage }}%</p>
+        </div>
+      </div>
+
+      <div class="p-4 bg-surface-container-low/50 rounded-xl border border-outline-variant/10 text-[10px] text-on-surface-variant italic leading-relaxed">
+        "{{ activeSettlement?.justification }}"
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button (click)="showSettlementModal = false" class="flex-1 py-3 bg-surface-container-high rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-surface-container-highest transition-all">
+          Cancel
+        </button>
+        <button (click)="submitSettlement()" class="flex-1 py-3 bg-primary text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+          Confirm Request
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- POC Override Modal (POC.5 & POC.12) -->
+<div *ngIf="showOverrideModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" (click)="showOverrideModal = false"></div>
+  <div class="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-300 border border-outline-variant/10">
+    <div class="px-6 py-4 border-b border-outline-variant/10 flex justify-between items-center">
+      <div>
+        <h3 class="text-base font-black text-on-surface tracking-tight uppercase">Manual POC Override</h3>
+        <p class="text-[9px] text-outline font-bold uppercase tracking-widest mt-0.5">Approval required for manual entry</p>
+      </div>
+      <button (click)="showOverrideModal = false" class="material-symbols-outlined text-outline hover:text-on-surface transition-colors cursor-pointer">close</button>
+    </div>
+    
+    <div class="p-6 space-y-4">
+      <div class="flex items-center justify-between p-3 bg-surface-container-low rounded-xl border border-outline-variant/10">
+        <span class="text-[10px] font-black uppercase tracking-widest text-outline">System Calculated</span>
+        <span class="text-sm font-black text-on-surface">{{ project.pocDetails.completionPercentage.calculated }}%</span>
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-2 block ml-1">Override Percentage (%)</label>
+        <input type="number" [(ngModel)]="overrideForm.percentage" class="w-full bg-surface-container-low border-none rounded-xl p-3 text-sm text-on-surface font-bold focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+      </div>
+      
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-2 block ml-1">Justification</label>
+        <textarea [(ngModel)]="overrideForm.justification" placeholder="Provide reason for manual override..." class="w-full h-24 bg-surface-container-low border-none rounded-xl p-3 text-xs text-on-surface resize-none font-medium focus:ring-2 focus:ring-primary/20 transition-all outline-none"></textarea>
+      </div>
+    </div>
+    
+    <div class="px-6 py-4 bg-surface-container-low flex justify-end gap-3">
+      <button (click)="showOverrideModal = false" class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest text-outline hover:text-on-surface transition-colors cursor-pointer">Cancel</button>
+      <button (click)="submitOverride()" class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest bg-primary text-on-primary hover:bg-primary/90 transition-colors cursor-pointer shadow-md flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-[12px]">send</span> Submit for Approval
       </button>
-      <p class="mt-4 text-[11px] text-blue-200 font-medium uppercase tracking-widest">Supports PDF, JPG, and XLSX (Max 50MB)</p>
     </div>
   </div>
 </div>

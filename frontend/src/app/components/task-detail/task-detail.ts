@@ -31,7 +31,7 @@ export class TaskDetail implements OnInit {
   depLag = 0;
 
   teamMembers = [
-    { name: 'Elena Rodriguez', role: 'Lead Structural Eng.', avatar: 'https://images.unsplash.com/photo-1537724326059-2ea20251b9c8?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Elena Rodriguez', role: 'Lead Structural Eng.', avatar: 'https://images.unsplash.com/photo-1537724326059-2ea20251b9c8?q=80&w=256&h=256&auto=format&fit=crop' },
     { name: 'Marcus Thorne', role: 'Senior Manager', avatar: 'https://initials.io/avatar/MT/256' },
     { name: 'Sarah Chen', role: 'Editor', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCy6kguFDpbdu22RXyzkZYEhqX6zZEB61_rkYQakGSdDaKyicjFqwYwX-xV5AeD4JAF9upktLl2kbkNOl3sxreIDp_iEcEWUdbCVjEz9nEXXpojx3wKwjlZF92kfgLYHm5oSnZe9N6e1e2YfXckf7J2h87fMzxNpkEyhzpr3Xf1vGcvdgdN7DSMD0iPxAN7SB3qZK_Q68q__M_ytxq4yEtFU89urVWQwwb00q9zAV-1Fegc3uv9XKviFvE0GKZzh7pIyTXBVUF2Pjd0' }
   ];
@@ -39,13 +39,7 @@ export class TaskDetail implements OnInit {
   loggedInUser = { name: 'James Wilson' };
   showUploadModal = false;
   newSubTaskTitle = '';
-
-  checklist = [
-    { title: 'Verify rebar spacing against blueprint v4.2', completed: true },
-    { title: 'Check corrosion protection coating integrity', completed: true },
-    { title: 'Document weld points in the Northeast corner', completed: false },
-    { title: 'Final structural engineer sign-off', completed: false }
-  ];
+  checklist: any[] = [];
 
   activities: any[] = [
     { author: 'Marcus Thorne', action: 'updated status to In Review', time: '2 hours ago', isSystem: false },
@@ -64,6 +58,22 @@ export class TaskDetail implements OnInit {
     }
     if (this.task && !this.task.dependencies) {
       this.task.dependencies = [];
+    }
+    
+    if (this.task && this.task.subtasks) {
+      this.checklist = this.task.subtasks.map((st: any) => ({
+        title: st.name,
+        completed: st.isCompleted,
+        isChecklist: st.isChecklist
+      }));
+    } else {
+      // Fallback mock data
+      this.checklist = [
+        { title: 'Verify rebar spacing against blueprint v4.2', completed: true },
+        { title: 'Check corrosion protection coating integrity', completed: true },
+        { title: 'Document weld points in the Northeast corner', completed: false },
+        { title: 'Final structural engineer sign-off', completed: false }
+      ];
     }
     
     this.projectService.getTasks().subscribe(tasks => {
@@ -129,6 +139,8 @@ export class TaskDetail implements OnInit {
     item.completed = !item.completed;
     if (this.task) {
        this.task.progress = this.checklistProgress;
+       this.task.status = this.task.progress === 100 ? 'Completed' : (this.task.progress > 0 ? 'In Progress' : 'Pending');
+       this.logActivity(`${item.completed ? 'completed' : 'unselected'} sub-task: ${item.title}`);
     }
   }
 

@@ -13,6 +13,11 @@ import { VendorManagement } from './pages/vendors/vendors';
 import { Quotations } from './pages/quotations/quotations';
 import { NewQuoteWizard } from './pages/new-quote-wizard/new-quote-wizard';
 import { NotFoundPage } from './pages/not-found/not-found';
+import { EquipmentManagement } from './pages/equipment/equipment';
+import { SafetyManagement } from './pages/safety/safety';
+import { DrawingManagement } from './pages/drawings/drawings';
+import { RfiManagement } from './pages/rfi/rfi';
+import { ProjectTemplates } from './pages/templates/templates';
 
 import { ContractManagement } from './pages/contracts/contracts';
 import { BillingDetail } from './pages/billing/billing';
@@ -43,6 +48,11 @@ export const routes: Routes = [
   { path: 'team', component: TeamManagement },
   { path: 'rbac', component: RbacManagement },
   { path: 'settings', component: Settings },
+  { path: 'equipment', component: EquipmentManagement },
+  { path: 'safety', component: SafetyManagement },
+  { path: 'drawings', component: DrawingManagement },
+  { path: 'rfi', component: RfiManagement },
+  { path: 'templates', component: ProjectTemplates },
   { path: 'not-found', component: NotFoundPage },
   { path: '**', component: NotFoundPage }
 ];

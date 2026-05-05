@@ -29,32 +29,67 @@
     </div>
 
     <!-- Bento Stats -->
+    <!-- Inventory Intelligence Hub (Dynamic Analysis) -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32">
-            <span class="text-xs font-bold uppercase tracking-widest text-outline">Total SKU</span>
-            <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-black">1,248</span>
-                <span class="text-xs font-bold text-green-600">+12%</span>
+        <!-- Critical Burn Alert -->
+        <div class="md:col-span-2 bg-slate-900 text-white p-8 rounded-[2rem] border border-slate-800 shadow-2xl relative overflow-hidden group">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-colors"></div>
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-1">Intelligence Forecast</p>
+                        <h3 class="text-2xl font-black tracking-tight">Predictive Burn Analysis</h3>
+                    </div>
+                    <button (click)="triggerAIReorder()" [disabled]="isAnalyzing" class="px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-primary/20 disabled:opacity-50">
+                        Trigger AI Reorder
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    @for (analysis of inventoryAnalysis.slice(0, 4); track analysis.sku) {
+                        <div class="p-4 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-md">
+                            <p class="text-[9px] font-black uppercase text-slate-400 mb-1 truncate">{{ analysis.name }}</p>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-xl font-black" [ngClass]="analysis.daysToStockout <= analysis.leadTime ? 'text-secondary' : 'text-white'">{{ analysis.daysToStockout }}</span>
+                                <span class="text-[9px] font-bold text-slate-500 uppercase">Days Left</span>
+                            </div>
+                            <div class="mt-3 flex items-center gap-1.5">
+                                <div class="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary" [style.width.%]="analysis.stock.percent"></div>
+                                </div>
+                                <span class="text-[8px] font-black text-slate-500">{{ analysis.burnRate }}/d</span>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32 border-l-4 border-l-secondary-container">
-            <span class="text-xs font-bold uppercase tracking-widest text-outline">Low Stock Alerts</span>
-            <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-black text-secondary">24</span>
-                <span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">warning</span>
+
+        <!-- Secondary Metrics -->
+        <div class="bg-surface-container-lowest p-8 rounded-[2rem] border border-outline-variant/10 shadow-sm flex flex-col justify-between group hover:border-secondary/30 transition-all">
+            <div class="flex justify-between items-start">
+                <span class="text-xs font-bold uppercase tracking-widest text-outline">Lead Time Risk</span>
+                <span class="material-symbols-outlined text-secondary opacity-20 group-hover:opacity-100 transition-opacity">timelapse</span>
+            </div>
+            <div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-4xl font-black text-secondary">3.2</span>
+                    <span class="text-xs font-black text-outline uppercase">Day Avg Lag</span>
+                </div>
+                <p class="text-[10px] text-outline font-medium mt-1">Impact: Moderate (Logistics Congestion)</p>
             </div>
         </div>
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32">
-            <span class="text-xs font-bold uppercase tracking-widest text-outline">Inventory Value</span>
-            <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-black text-primary">₹412.5k</span>
+
+        <div class="bg-surface-container-lowest p-8 rounded-[2rem] border border-outline-variant/10 shadow-sm flex flex-col justify-between group hover:border-primary/30 transition-all">
+            <div class="flex justify-between items-start">
+                <span class="text-xs font-bold uppercase tracking-widest text-outline">Inventory Capital</span>
+                <span class="material-symbols-outlined text-primary opacity-20 group-hover:opacity-100 transition-opacity">payments</span>
             </div>
-        </div>
-        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-between h-32">
-            <span class="text-xs font-bold uppercase tracking-widest text-outline">Awaiting Delivery</span>
-            <div class="flex items-baseline gap-2">
-                <span class="text-3xl font-black">8</span>
-                <span class="material-symbols-outlined text-outline">local_shipping</span>
+            <div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-4xl font-black text-primary">₹842k</span>
+                </div>
+                <p class="text-[10px] text-outline font-medium mt-1">Optimization: -12% Overstock reduction</p>
             </div>
         </div>
     </div>
@@ -82,14 +117,14 @@
                     <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Material Name</th>
                     <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Category</th>
                     <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline w-64">Stock Level</th>
-                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Unit Cost</th>
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Site Breakdown</th>
                     <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline">Supplier</th>
-                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline text-right">Status</th>
+                    <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-outline text-right">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-surface-container">
                 @for (item of filteredMaterials; track item.sku) {
-                    <tr [routerLink]="['/materials', item.sku]" class="transition-colors group cursor-pointer" [ngClass]="item.status === 'Critical' ? 'hover:bg-error-container/5' : (item.status === 'Optimal' || item.status === 'Adequate' ? 'hover:bg-surface-container-low/30' : '')">
+                    <tr class="transition-colors group" [ngClass]="item.status === 'Critical' ? 'hover:bg-error-container/5' : 'hover:bg-surface-container-low/30'">
                         <td class="px-6 py-5">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center border" [ngClass]="item.bg + ' ' + (item.border || 'border-transparent')">
@@ -107,7 +142,7 @@
                         <td class="px-6 py-5">
                             <div class="flex flex-col gap-1.5">
                                 <div class="flex justify-between text-xs font-bold" [ngClass]="item.status === 'Critical' ? 'text-error' : (item.stock.percent < 20 ? 'text-secondary' : '')">
-                                    <span [ngClass]="item.status === 'Critical' ? '' : 'text-on-surface'">{{ item.stock.current }}/{{ item.stock.total }} Units</span>
+                                    <span [ngClass]="item.status === 'Critical' ? '' : 'text-on-surface'">{{ item.stock.current }}/{{ item.stock.total }} {{ item.unit }}</span>
                                     <span [ngClass]="item.status === 'Critical' ? '' : 'text-outline'">{{ item.stock.percent }}%</span>
                                 </div>
                                 <div class="w-full h-2 rounded-full overflow-hidden" [ngClass]="item.status === 'Critical' ? 'bg-error-container/30' : 'bg-surface-container'">
@@ -115,84 +150,116 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-5 font-medium text-on-surface">{{ item.cost }}</td>
-                        <td class="px-6 py-5 text-sm text-on-surface-variant font-medium">{{ item.supplier }}</td>
-                        <td class="px-6 py-5 text-right flex items-center justify-end gap-4 h-full relative">
-                            @if (item.status === 'Critical') {
-                                <div class="flex items-center justify-end gap-1.5 text-error font-black text-[10px] uppercase tracking-tighter animate-pulse">
-                                    <span class="material-symbols-outlined text-sm">emergency</span>
-                                    Critical
-                                </div>
-                            } @else if (item.status === 'Optimal') {
-                                <span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-black uppercase tracking-tighter rounded-md">Optimal</span>
-                            } @else {
-                                <span class="px-3 py-1 bg-surface-container-high text-outline text-[10px] font-black uppercase tracking-tighter rounded-md">Adequate</span>
-                            }
-                             <!-- Hover Actions -->
-                            <div class="absolute right-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 scale-90 group-hover:scale-100">
-                                <button *appPermission="'Materials:UPDATE'" (click)="openEditModal($event, item)" class="p-2 bg-surface-container-highest text-primary hover:bg-primary hover:text-white rounded-lg transition-all shadow-sm cursor-pointer">
-                                    <span class="material-symbols-outlined text-sm">edit</span>
-                                </button>
-                                <button *appPermission="'Materials:DELETE'" (click)="openDeleteModal($event, item)" class="p-2 bg-error-container/20 text-error hover:bg-error hover:text-white rounded-lg transition-all shadow-sm cursor-pointer">
-                                    <span class="material-symbols-outlined text-sm">delete</span>
-                                </button>
+                        <td class="px-6 py-5 font-medium text-on-surface">
+                            <div class="flex flex-col gap-1">
+                                @for (site of item.siteInventory; track site.projectId) {
+                                    <div class="flex justify-between text-[10px] border-b border-outline-variant/10 pb-1 last:border-0">
+                                        <span class="text-outline truncate w-24">{{ site.projectName }}</span>
+                                        <span class="font-black">{{ site.stock }} {{ item.unit }}</span>
+                                    </div>
+                                }
                             </div>
-
+                        </td>
+                        <td class="px-6 py-5 text-sm text-on-surface-variant font-medium">{{ item.supplier }}</td>
+                        <td class="px-6 py-5 text-right flex items-center justify-end gap-2 h-full">
+                            <button (click)="openTransferModal(item)" class="p-2 bg-surface-container-highest text-primary hover:bg-primary hover:text-white rounded-lg transition-all shadow-sm cursor-pointer" title="Stock Transfer">
+                                <span class="material-symbols-outlined text-sm">swap_horiz</span>
+                            </button>
+                            <button (click)="openPRModal(item)" class="p-2 bg-secondary-container/20 text-secondary hover:bg-secondary hover:text-white rounded-lg transition-all shadow-sm cursor-pointer" title="Purchase Requisition">
+                                <span class="material-symbols-outlined text-sm">shopping_cart_checkout</span>
+                            </button>
+                            <div class="w-px h-6 bg-outline-variant/20 mx-1"></div>
+                            <button *appPermission="'Materials:UPDATE'" (click)="openEditModal($event, item)" class="p-2 bg-surface-container-highest text-outline hover:bg-primary hover:text-white rounded-lg transition-all shadow-sm cursor-pointer">
+                                <span class="material-symbols-outlined text-sm">edit</span>
+                            </button>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        
-        <div class="bg-surface-container-low/30 px-6 py-4 flex items-center justify-between border-t border-surface-container">
-            <p class="text-xs font-bold text-outline uppercase tracking-wider">Showing 1 to 5 of 1,248 materials</p>
-            <div class="flex gap-2">
-                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors cursor-pointer">
-                    <span class="material-symbols-outlined text-sm">chevron_left</span>
-                </button>
-                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-primary text-white font-bold text-xs cursor-pointer">1</button>
-                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors font-bold text-xs text-outline cursor-pointer">2</button>
-                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors font-bold text-xs text-outline cursor-pointer">3</button>
-                <button class="w-8 h-8 rounded-lg flex items-center justify-center bg-white border border-outline-variant/20 hover:bg-slate-50 transition-colors cursor-pointer">
-                    <span class="material-symbols-outlined text-sm">chevron_right</span>
-                </button>
-            </div>
-        </div>
     </div>
 
     <!-- Asymmetric Bottom Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Upcoming Deliveries -->
-        <div class="lg:col-span-2 bg-white rounded-xl p-8 border border-outline-variant/10 shadow-sm overflow-hidden relative">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-12 -mt-12"></div>
-            <div class="flex justify-between items-start mb-8">
-                <div>
-                    <h3 class="text-xl font-black text-on-surface">Scheduled Deliveries</h3>
-                    <p class="text-sm text-outline font-medium">Next 48 hours activity log</p>
-                </div>
-                <button (click)="exportReport()" class="text-primary font-bold text-sm hover:underline cursor-pointer">View Logistics Map</button>
-            </div>
-            
-            <div class="space-y-6">
-                @for (delivery of filteredDeliveries; track delivery.item) {
-                    <div class="flex items-center gap-6 group">
-                        <div class="flex flex-col items-center min-w-[40px]">
-                            <span class="text-lg font-black" [ngClass]="delivery.status === 'In Transit' ? 'text-primary' : 'text-on-surface'">{{ delivery.time }}</span>
-                            <span class="text-[10px] font-bold text-outline uppercase">{{ delivery.period }}</span>
-                        </div>
-                        <div class="w-px h-12 bg-slate-200"></div>
-                        <div class="flex-1">
-                            <p class="text-sm font-black text-on-surface">{{ delivery.item }}</p>
-                            <p class="text-xs text-outline">{{ delivery.location }}</p>
-                        </div>
-                        <span class="px-3 py-1 text-[10px] font-black uppercase rounded" [ngClass]="delivery.statusColor">{{ delivery.status }}</span>
+        <!-- Logistics & Requisitions -->
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white rounded-xl p-8 border border-outline-variant/10 shadow-sm overflow-hidden relative">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <h3 class="text-xl font-black text-on-surface">Logistics Activities</h3>
+                        <p class="text-sm text-outline font-medium">Transfers and Incoming Deliveries</p>
                     </div>
-                }
+                </div>
+                
+                <div class="space-y-6">
+                    @for (transfer of stockTransfers; track transfer.id) {
+                        <div class="flex items-center gap-6 group p-3 hover:bg-surface-container-lowest rounded-xl transition-colors border border-transparent hover:border-outline-variant/10">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <span class="material-symbols-outlined">swap_horiz</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm font-black text-on-surface">{{ transfer.materialName }}</p>
+                                    <span class="text-[10px] px-2 py-0.5 bg-blue-100 text-blue-700 rounded font-black uppercase">Transfer</span>
+                                </div>
+                                <p class="text-xs text-outline">{{ transfer.fromProjectName }} → {{ transfer.toProjectName }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-black text-on-surface">{{ transfer.quantity }} {{ transfer.unit }}</p>
+                                <p class="text-[10px] font-bold text-outline uppercase">{{ transfer.status }}</p>
+                            </div>
+                        </div>
+                    }
+                    @for (delivery of filteredDeliveries; track delivery.item) {
+                        <div class="flex items-center gap-6 group p-3 hover:bg-surface-container-lowest rounded-xl transition-colors border border-transparent hover:border-outline-variant/10">
+                            <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center">
+                                <span class="material-symbols-outlined">local_shipping</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-black text-on-surface">{{ delivery.item }}</p>
+                                <p class="text-xs text-outline">{{ delivery.location }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-black text-on-surface">{{ delivery.time }} {{ delivery.period }}</p>
+                                <span class="px-2 py-0.5 text-[10px] font-black uppercase rounded" [ngClass]="delivery.statusColor">{{ delivery.status }}</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 border border-outline-variant/10 shadow-sm">
+                <h3 class="text-xl font-black text-on-surface mb-6">Recent Requisitions</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @for (pr of purchaseRequisitions; track pr.id) {
+                        <div class="p-4 rounded-xl border border-outline-variant/10 bg-surface-container-lowest hover:border-primary/30 transition-all group">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-black text-on-surface group-hover:text-primary transition-colors">{{ pr.materialName }}</h4>
+                                    <p class="text-[10px] font-bold text-outline uppercase tracking-widest">{{ pr.projectName }}</p>
+                                </div>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase" 
+                                      [ngClass]="{'bg-amber-100 text-amber-700': pr.status === 'Pending', 'bg-green-100 text-green-700': pr.status === 'Approved', 'bg-blue-100 text-blue-700': pr.status === 'Ordered'}">
+                                    {{ pr.status }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-end mt-4">
+                                <div class="text-[10px] font-bold text-outline">
+                                    Requested by: <span class="text-on-surface">{{ pr.requestor }}</span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-lg font-black text-on-surface">{{ pr.quantity }} {{ pr.unit }}</p>
+                                    <p class="text-[10px] font-bold text-outline uppercase">{{ pr.priority }} Priority</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
 
         <!-- Vendor Performance Heatmap -->
-        <div class="bg-primary p-8 rounded-xl text-white shadow-xl shadow-primary/30 flex flex-col justify-between">
+        <div class="bg-primary p-8 rounded-xl text-white shadow-xl shadow-primary/30 flex flex-col justify-between h-fit">
             <div>
                 <h3 class="text-xl font-black mb-1">Vendor Health</h3>
                 <p class="text-primary-fixed-dim text-xs font-bold uppercase tracking-widest">Global Supply Efficiency</p>
@@ -221,6 +288,105 @@
 </section>
 
 <!-- Modals -->
+<!-- Stock Transfer Modal -->
+@if (showTransferModal) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showTransferModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black tracking-tight">Stock Transfer</h3>
+                <button (click)="showTransferModal = false" class="p-2 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="bg-blue-50 p-4 rounded-xl mb-6 flex gap-3">
+                <span class="material-symbols-outlined text-blue-600">info</span>
+                <p class="text-xs text-blue-700 font-medium leading-relaxed">
+                    Transferring <span class="font-bold">{{ newTransfer.materialName }}</span> between project sites. Ensure logistics are confirmed before sending.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">From Project</label>
+                    <select [(ngModel)]="newTransfer.fromProjectId" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none bg-white">
+                        <option value="" disabled selected>Select Source</option>
+                        @for (p of projects; track p.id) {
+                            <option [value]="p.id">{{ p.name }}</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">To Project</label>
+                    <select [(ngModel)]="newTransfer.toProjectId" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none bg-white">
+                        <option value="" disabled selected>Select Destination</option>
+                        @for (p of projects; track p.id) {
+                            <option [value]="p.id">{{ p.name }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Quantity ({{ newTransfer.unit }})</label>
+                    <input [(ngModel)]="newTransfer.quantity" type="number" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/30">
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button (click)="showTransferModal = false" class="flex-1 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="submitTransfer()" class="flex-1 py-3 rounded-xl bg-primary text-white text-sm font-bold cursor-pointer shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">Initiate Transfer</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Purchase Requisition Modal -->
+@if (showPRModal) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showPRModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black tracking-tight">Purchase Requisition</h3>
+                <button (click)="showPRModal = false" class="p-2 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Project Site</label>
+                    <select [(ngModel)]="newPR.projectId" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none bg-white">
+                        <option value="" disabled selected>Select Project</option>
+                        @for (p of projects; track p.id) {
+                            <option [value]="p.id">{{ p.name }}</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Quantity ({{ newPR.unit }})</label>
+                    <input [(ngModel)]="newPR.quantity" type="number" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/30">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Priority</label>
+                    <select [(ngModel)]="newPR.priority" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none bg-white">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Emergency">Emergency</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Justification / Notes</label>
+                    <textarea [(ngModel)]="newPR.notes" rows="3" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/30" placeholder="Why is this material needed?"></textarea>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button (click)="showPRModal = false" class="flex-1 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="submitPR()" class="flex-1 py-3 rounded-xl bg-secondary text-white text-sm font-bold cursor-pointer shadow-lg shadow-secondary/20 hover:scale-[1.02] transition-transform">Submit Requisition</button>
+            </div>
+        </div>
+    </div>
+}
+
 <!-- Add Material Modal -->
 @if (showAddModal) {
     <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showAddModal = false">

@@ -1,0 +1,111 @@
+Percentage of Completion Method – Explanation for Project Management Module 
+The Percentage of Completion method, commonly called the POC method, is used to 
+recognize project revenue based on the actual progress of the project. 
+This method is mainly used for long-duration projects where work is completed over a 
+period of time, such as: 
+Project Type Example 
+Construction Projects Building, villa, warehouse, ﬁt-out 
+Contracting Projects MEP , civil works, maintenance contracts 
+Software Projects ERP implementation, customization projects 
+Facility Management Long-term maintenance contracts 
+Installation Projects Supply, installation and commissioning projects 
+Meaning of Percentage of Completion Method 
+Under this method, revenue is not recognized only at the end of the project. 
+Instead, revenue is recognized gradually based on how much work has been completed. 
+For example: 
+Project Value Project Completion Revenue Recognized 
+QAR 1,000,000 30% QAR 300,000 
+QAR 1,000,000 60% QAR 600,000 
+QAR 1,000,000 100% QAR 1,000,000 
+So, if a project is 30% completed, the company can recognize 30% of the project revenue, 
+subject to accounting policy and contract terms. 
+ 
+Simple Example 
+Assume the following project: 
+Particular Details 
+Project Name OƯice Fit-Out Project 
+Contract Value QAR 1,000,000 
+Estimated Total Cost QAR 700,000 
+Project Duration 6 months 
+At the end of Month 2: 
+Particular Amount 
+Material Cost QAR 180,000 
+Labour Cost QAR 70,000 
+Subcontractor Cost QAR 30,000 
+Total Actual Cost QAR 280,000 
+Completion percentage: 
+280,000 ÷ 700,000 × 100 = 40% 
+Revenue to be recognized: 
+1,000,000 × 40% = QAR 400,000 
+Proﬁt: 
+400,000 – 280,000 = QAR 120,000 
+ 
+Billing vs Revenue Recognition 
+Billing and revenue recognition are not always the same. 
+Area Meaning 
+Billing Invoice raised to the client as per contract terms. 
+Area Meaning 
+Revenue Recognition Revenue recorded in accounts based on actual project progress. 
+Example: 
+Particular Amount 
+Revenue Recognized as per POC QAR 400,000 
+Invoice Raised to Client QAR 300,000 
+In this case: 
+Revenue recognized is higher than billing by QAR 100,000. 
+This may be treated as contract asset / unbilled revenue, depending on accounting 
+treatment. 
+Another example: 
+Particular Amount 
+Revenue Recognized as per POC QAR 400,000 
+Invoice Raised to Client QAR 500,000 
+In this case: 
+Billing is higher than revenue recognized by QAR 100,000. 
+This may be treated as contract liability / deferred revenue, depending on accounting 
+treatment. 
+ 
+ERP Requirement for Percentage of Completion 
+In the Project Management Module, the ERP should support the following: 
+BR No Business Requirement Description 
+POC.1 Contract Value Capture System should capture approved project contract value. 
+BR No Business Requirement Description 
+POC.2 Estimated Cost Capture System should capture approved estimated total project 
+cost. 
+POC.3 Actual Cost Tracking System should capture actual cost from procurement, 
+inventory, payroll, subcontractor and expenses. 
+POC.4 Completion Percentage 
+Calculation 
+System should calculate completion percentage based 
+on actual cost against estimated cost. 
+POC.5 Manual Progress 
+Override 
+Authorized users may update manual completion 
+percentage with approval. 
+POC.6 Revenue Recognition System should calculate revenue to be recognized 
+based on completion percentage. 
+POC.7 Billing Comparison System should compare recognized revenue with 
+invoiced amount. 
+POC.8 Unbilled Revenue If recognized revenue is higher than billing, system 
+should show unbilled revenue. 
+POC.9 Deferred Revenue If billing is higher than recognized revenue, system 
+should show deferred revenue. 
+POC.10 Proﬁtability Report System should show project revenue, actual cost and 
+recognized proﬁt. 
+POC.11 Period Closing Revenue recognition should be calculated month-wise 
+or period-wise. 
+POC.12 Approval Workﬂow Revenue recognition entries should be reviewed and 
+approved before posting to ﬁnance. 
+ 
+Suggested ERP Workﬂow 
+Percentage of Completion Workﬂow 
+1. Create project master  
+2. Enter contract value  
+3. Enter estimated project cost  
+4. Approve project budget  
+5. Capture actual cost from procurement, inventory, payroll and expenses  
+6. System calculates completion percentage  
+7. System calculates revenue to be recognized  
+8. Compare revenue recognized with invoice raised  
+9. Generate accounting entry  
+10. Review proﬁtability report  
+11. Approve and post to ﬁnance 
+ 

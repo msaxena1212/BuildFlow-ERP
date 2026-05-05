@@ -3,6 +3,12 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+export interface SiteInventory {
+  projectId: string;
+  projectName: string;
+  stock: number;
+}
+
 export interface Material {
   name: string;
   sku: string;
@@ -11,6 +17,8 @@ export interface Material {
   bg: string;
   text: string;
   border?: string;
+  unit: string;
+  siteInventory: SiteInventory[];
   stock: {
     current: number;
     total: number;
@@ -19,6 +27,42 @@ export interface Material {
   cost: string;
   supplier: string;
   status: 'Optimal' | 'Adequate' | 'Critical';
+  // Intelligence Fields
+  burnRate?: number; 
+  safetyStock?: number;
+  leadTime?: number;
+  daysToStockout?: number;
+  autoReorderEnabled?: boolean;
+}
+
+export interface PurchaseRequisition {
+  id: string;
+  materialSku: string;
+  materialName: string;
+  quantity: number;
+  unit: string;
+  projectId: string;
+  projectName: string;
+  requestor: string;
+  date: string;
+  priority: 'Low' | 'Medium' | 'High' | 'Emergency';
+  status: 'Pending' | 'Approved' | 'Ordered' | 'Received' | 'Rejected';
+  notes?: string;
+}
+
+export interface StockTransfer {
+  id: string;
+  materialSku: string;
+  materialName: string;
+  fromProjectId: string;
+  fromProjectName: string;
+  toProjectId: string;
+  toProjectName: string;
+  quantity: number;
+  unit: string;
+  date: string;
+  status: 'Draft' | 'Sent' | 'Received' | 'Cancelled';
+  requestedBy: string;
 }
 
 @Injectable({
@@ -26,11 +70,21 @@ export interface Material {
 })
 export class MaterialService {
   private apiUrl = `${environment.apiUrl}/materials`;
+  private prUrl = `${environment.apiUrl}/purchase-requisitions`;
+  private transferUrl = `${environment.apiUrl}/stock-transfers`;
+
   private materialsSubject = new BehaviorSubject<Material[]>([]);
+  private prSubject = new BehaviorSubject<PurchaseRequisition[]>([]);
+  private transferSubject = new BehaviorSubject<StockTransfer[]>([]);
+
   materials$ = this.materialsSubject.asObservable();
+  purchaseRequisitions$ = this.prSubject.asObservable();
+  stockTransfers$ = this.transferSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.loadMaterials();
+    this.loadPurchaseRequisitions();
+    this.loadStockTransfers();
   }
 
   loadMaterials() {
@@ -39,33 +93,57 @@ export class MaterialService {
     });
   }
 
+  loadPurchaseRequisitions() {
+    this.http.get<PurchaseRequisition[]>(this.prUrl).subscribe(data => {
+      this.prSubject.next(data);
+    });
+  }
+
+  loadStockTransfers() {
+    this.http.get<StockTransfer[]>(this.transferUrl).subscribe(data => {
+      this.transferSubject.next(data);
+    });
+  }
+
   getMaterials() {
     return this.materialsSubject.value;
   }
 
   addMaterial(material: Material) {
-    // In a real app, this would be a POST call
-    const current = this.materialsSubject.value;
-    this.materialsSubject.next([...current, material]);
+    this.http.post<Material>(this.apiUrl, material).subscribe(() => this.loadMaterials());
   }
 
   updateMaterial(sku: string, updated: Partial<Material>) {
-    // In a real app, this would be a PUT/PATCH call
-    const current = this.materialsSubject.value;
-    const index = current.findIndex((m: Material) => m.sku === sku);
-    if (index !== -1) {
-      current[index] = { ...current[index], ...updated } as Material;
-      this.materialsSubject.next([...current]);
-    }
+    this.http.patch<Material>(`${this.apiUrl}/${sku}`, updated).subscribe(() => this.loadMaterials());
   }
 
   deleteMaterial(sku: string) {
-    // In a real app, this would be a DELETE call
-    const current = this.materialsSubject.value;
-    this.materialsSubject.next(current.filter((m: Material) => m.sku !== sku));
+    this.http.delete(`${this.apiUrl}/${sku}`).subscribe(() => this.loadMaterials());
+  }
+
+  createPurchaseRequisition(pr: Partial<PurchaseRequisition>) {
+    return this.http.post<PurchaseRequisition>(this.prUrl, pr).pipe(
+      tap(() => this.loadPurchaseRequisitions())
+    );
+  }
+
+  createStockTransfer(transfer: Partial<StockTransfer>) {
+    return this.http.post<StockTransfer>(this.transferUrl, transfer).pipe(
+      tap(() => this.loadStockTransfers())
+    );
   }
 
   getMaterialBySku(sku: string) {
     return this.materialsSubject.value.find((m: Material) => m.sku === sku);
+  }
+
+  // --- Material Intelligence ---
+
+  getInventoryAnalysis(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/analysis`);
+  }
+
+  triggerAutoReorder(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auto-reorder`, {});
   }
 }

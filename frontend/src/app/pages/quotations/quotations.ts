@@ -25,6 +25,10 @@ export class Quotations implements OnInit {
   selectedQuote: Quote | null = null;
   negotiationFeedback = '';
 
+  // Comparison Matrix States
+  comparisonMode = false;
+  selectedQuoteIds: Set<string> = new Set();
+
   get draftQuotesCount() {
     return this.quotes.filter(q => q.status === 'Draft').length;
   }
@@ -116,5 +120,21 @@ export class Quotations implements OnInit {
     setTimeout(() => {
       alert(`Format completed. ${quote.quoteNumber}.pdf has been prepared for download.`);
     }, 1500);
+  }
+
+  toggleComparison(quoteId: string) {
+    if (this.selectedQuoteIds.has(quoteId)) {
+      this.selectedQuoteIds.delete(quoteId);
+    } else {
+      if (this.selectedQuoteIds.size < 3) {
+        this.selectedQuoteIds.add(quoteId);
+      } else {
+        alert('Max 3 quotes can be compared at once.');
+      }
+    }
+  }
+
+  get comparedQuotes() {
+    return this.quotes.filter(q => this.selectedQuoteIds.has(q.id));
   }
 }

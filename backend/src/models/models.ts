@@ -1,3 +1,50 @@
+export interface ProjectDocument {
+  id: string;
+  name: string;
+  type: 'Blueprint' | 'Permit' | 'Photo' | 'Invoice' | 'Safety' | 'General';
+  url: string;
+  uploadDate: string;
+  uploadedBy: string;
+  size?: string;
+}
+
+export interface SubTask {
+  id: string;
+  name: string;
+  order: number;
+  isCompleted: boolean;
+  isChecklist: boolean;
+  attachments?: ProjectDocument[];
+}
+
+export interface Task {
+  id: string;
+  projectId: string;
+  title: string;
+  description: string;
+  status: 'Pending' | 'In Progress' | 'Completed' | 'Delayed';
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  deadline: string; 
+  startDate?: string;
+  endDate?: string;
+  duration?: number;
+  durationDays?: number; // For templates
+  order: number;
+  role?: string; // Assigned Role (e.g., 'Site Engineer')
+  assignee?: string; // Actual User (mapped at instance level)
+  subtasks?: SubTask[];
+  dependencies?: TaskDependency[];
+  attachments?: ProjectDocument[];
+  // Advanced Scheduling Fields
+  earlyStart?: string;
+  earlyFinish?: string;
+  lateStart?: string;
+  lateFinish?: string;
+  totalFloat?: number; // in days
+  freeFloat?: number;  // in days
+  isCritical?: boolean;
+}
+
 export interface SubMilestone {
   id: string;
   name: string;
@@ -5,6 +52,10 @@ export interface SubMilestone {
   status: 'Pending' | 'In Progress' | 'Completed' | 'Delayed';
   startDate?: string;
   endDate?: string;
+  durationDays?: number;
+  order: number;
+  tasks?: Task[];
+  attachments?: ProjectDocument[];
 }
 
 export interface Milestone {
@@ -14,9 +65,19 @@ export interface Milestone {
   color: string;
   startDate?: string;
   endDate?: string;
-  subProjectIds?: string[]; // Linking to sub-projects
+  durationDays?: number;
+  order: number;
+  subProjectIds?: string[];
   subMilestones?: SubMilestone[];
-  tasks?: Task[];
+  attachments?: ProjectDocument[];
+}
+
+export interface ProjectTemplate {
+  id: string;
+  name: string;
+  type: 'Residential' | 'Commercial' | 'Industrial' | 'Infrastructure' | 'Institutional' | 'Renovation';
+  version: string;
+  milestones: Milestone[];
 }
 
 export interface SubProject {
@@ -31,6 +92,43 @@ export interface SubProject {
   budget?: number;
 }
 
+export interface CostBreakdown {
+  labor: number;
+  materials: number;
+  subcontractors: number;
+  other: number;
+}
+
+export interface POCMetric {
+  period: string;
+  budget: number;
+  actual: number;
+  revenue: number;
+}
+
+export interface POCFinancials {
+  contractValue: number;
+  estimatedTotalCost: number;
+  actualCost: number;
+  costBreakdown: CostBreakdown;
+  completionPercentage: {
+    calculated: number;
+    manualOverride?: number;
+    isManual: boolean;
+  };
+  revenueRecognized: number;
+  invoicedAmount: number;
+  unbilledRevenue: number;
+  deferredRevenue: number;
+  recognizedProfit: number;
+  periodClosing: {
+    lastCalculatedPeriod: string;
+    approvalStatus: 'Pending' | 'Approved' | 'Rejected';
+    approvedBy?: string;
+  };
+  historicalMetrics: POCMetric[];
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -38,11 +136,12 @@ export interface Project {
   description: string;
   status: 'On Track' | 'At Risk' | 'Delayed' | 'Completed';
   progress: number;
-  type: 'Commercial' | 'Residential' | 'Industrial';
+  type: 'Commercial' | 'Residential' | 'Industrial' | 'Infrastructure';
   budget: {
     total: number;
     used: number;
   };
+  pocDetails?: POCFinancials;
   team: {
     name: string;
     role: string;
@@ -63,28 +162,6 @@ export interface TaskDependency {
   lag: number; // in days
 }
 
-export interface Task {
-  id: string;
-  projectId: string;
-  title: string;
-  description: string;
-  status: 'Pending' | 'In Progress' | 'Completed' | 'Delayed';
-  priority: 'Low' | 'Medium' | 'High' | 'Critical';
-  deadline: string; 
-  startDate?: string;
-  endDate?: string;
-  duration?: number;
-  dependencies?: TaskDependency[];
-  // Advanced Scheduling Fields
-  earlyStart?: string;
-  earlyFinish?: string;
-  lateStart?: string;
-  lateFinish?: string;
-  totalFloat?: number; // in days
-  freeFloat?: number;  // in days
-  isCritical?: boolean;
-}
-
 export interface SiteUpdate {
   id: string;
   projectId: string;
@@ -93,6 +170,14 @@ export interface SiteUpdate {
   description: string;
   author: string;
   type: 'Safety' | 'Material' | 'Progress' | 'Archive';
+  photoUrl?: string;
+  geotag?: { lat: number; lng: number; timestamp: string };
+}
+
+export interface SiteInventory {
+  projectId: string;
+  projectName: string;
+  stock: number;
 }
 
 export interface Material {
@@ -103,6 +188,8 @@ export interface Material {
   bg: string;
   text: string;
   border?: string;
+  unit: string;
+  siteInventory: SiteInventory[];
   stock: {
     current: number;
     total: number;
@@ -111,6 +198,55 @@ export interface Material {
   cost: string;
   supplier: string;
   status: 'Optimal' | 'Adequate' | 'Critical';
+  // Intelligence Fields
+  burnRate?: number; // Average units consumed per day
+  safetyStock?: number; // Threshold to trigger reorder alert
+  leadTime?: number; // Days from order to delivery
+  daysToStockout?: number; // Calculated: current / burnRate
+  autoReorderEnabled?: boolean;
+}
+
+export interface PurchaseRequisition {
+  id: string;
+  materialSku: string;
+  materialName: string;
+  quantity: number;
+  unit: string;
+  projectId: string;
+  projectName: string;
+  requestor: string;
+  date: string;
+  priority: 'Low' | 'Medium' | 'High' | 'Emergency';
+  status: 'Pending' | 'Approved' | 'Ordered' | 'Received' | 'Rejected';
+  notes?: string;
+}
+
+export interface StockTransfer {
+  id: string;
+  materialSku: string;
+  materialName: string;
+  fromProjectId: string;
+  fromProjectName: string;
+  toProjectId: string;
+  toProjectName: string;
+  quantity: number;
+  unit: string;
+  date: string;
+  status: 'Draft' | 'Sent' | 'Received' | 'Cancelled';
+  requestedBy: string;
+}
+
+export interface SettlementRequest {
+  id: string;
+  vendorId: number | string;
+  projectId: string;
+  requestDate: string;
+  basis: 'POC' | 'Milestone' | 'LumpSum' | 'Retention';
+  amount: number;
+  workPercentage: number;
+  milestoneId?: string;
+  justification: string;
+  status: 'Draft' | 'Pending' | 'Approved' | 'Paid';
 }
 
 export interface Vendor {
@@ -119,6 +255,8 @@ export interface Vendor {
   type: string;
   email: string;
   phone: string;
+  whatsapp?: string;
+
   spoc: {
     name: string;
     role: string;
@@ -149,7 +287,10 @@ export interface Vendor {
   };
   tasks: { title: string; status: string; date: string }[];
   audits: { date: string; score: number; notes: string }[];
+  logo?: string;
+  location?: string;
   invoices: { number: string; amount: string; status: string; date: string }[];
+  settlementRequests?: SettlementRequest[];
 }
 
 export interface QuoteItem {
@@ -259,4 +400,29 @@ export interface ReportVaultItem {
   author: string;
   status: 'Published' | 'Draft' | 'Archived';
   fileSize: string;
+}
+
+export interface Equipment {
+  id: string;
+  name: string;
+  type: string;
+  status: 'Active' | 'Under Maintenance' | 'Idle' | 'Damaged';
+  health: number;
+  lastService: string;
+  nextService: string;
+  assignedProject?: string;
+  fuelLevel?: number;
+  runtimeHours: number;
+}
+
+export interface SafetyIncident {
+  id: string;
+  title: string;
+  date: string;
+  severity: 'Low' | 'Medium' | 'High' | 'Critical';
+  status: 'Reported' | 'Investigating' | 'Resolved' | 'Closed';
+  reporter: string;
+  description: string;
+  category: 'Near Miss' | 'Injury' | 'Property Damage' | 'Environmental';
+  correctiveAction?: string;
 }

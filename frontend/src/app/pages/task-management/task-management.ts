@@ -35,6 +35,7 @@ interface TaskColumn {
 
 import { PermissionDirective } from '../../directives/permission.directive';
 import { RbacService } from '../../services/rbac.service';
+import { AnalyticsService, SiteUpdate } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-task-management',
@@ -45,16 +46,18 @@ import { RbacService } from '../../services/rbac.service';
 })
 export class TaskManagement implements OnInit {
   private rbac = inject(RbacService);
+  private analyticsService = inject(AnalyticsService);
   @Input() selectedMember = 'All Members';
   selectedTask: any = null;
   showAddTaskModal = false;
   targetStep: string = 'To Do';
+  siteUpdates: SiteUpdate[] = [];
 
   team = [
     { name: 'All Members', avatar: '' },
-    { name: 'Marcus Thorne', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4CZeaYB7fJXEtjKFkVujKuYnqc32Vz4RirffP91HCE-igMSlf58IRegCTvDiO-n6vn8GSii3hmQCT9wn7MZCO7LYC87Mix-nc0uOD0_dHzMdyYmVbfUFLAGo6sFmnu6r5xb66CI_FUi6YCEqOcUKyBiL2helT79G1OiGR1inPdCcO87KgZ9ygFt4Q9GbiYVVfSvdkQ-o38syvfzzZJtPCCht9KpCLNPH4NAfNB_nmM9iLmnFOQ8z1D6W3w9caWMwVul6E7XtJszA-' },
-    { name: 'Sarah Chen', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1RmRziofMuKPCOGKlk1YnapBSbLaEfo01m3q_4lcO8xWYBy9DKhbId94OYnRLdh0YKtETgTw4OBQS76xCwa3GI8lqHXQEh4qQQyAWfHCmwY_elYYp6wMji5eXHwrqZcUD4iEoGkyYIRyKMxXR2lEAw34APWS_Omi6iwEz2PTn97envSoQbpymAyVXp1E00dhY0AgRi3UNTNPZdT8tKT6Oe6M4gpGCg1r2U1-D3cACjbZQSMZS2qrf08cBFkc50Xkbgk1epsoox4yv' },
-    { name: 'David Miller', avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8baYgQ3t4oMOHGPKXfFarqNItNIVVIfHOd53B1k7u3hLEDI1NYxbXwlB4obDhV4NFcKoh8XmJmz--LGSGjwi-6_5tek1bR_4g0zR8sP-PKdjXkmPZWQPWYZ_WxA4kNCyBSgF7hIdr8RLZJs4XGSqYbw-_kXxfo-jZFLySHpFqmRgQ_aH6iI-s-i2NZhe1wBHjRb3yN5siRJVrfnA1aetRFHVhFPPyPAuU9CJDj0_GJxvMIbyHt4DkCEkTrU9YIyXXMafDVs-F6tao' }
+    { name: 'Vikram Singh', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Ananya Iyer', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Rajesh Khanna', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=256&auto=format&fit=crop' }
   ];
 
   isTaskVisible(task: TaskItem): boolean {
@@ -153,7 +156,9 @@ export class TaskManagement implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.analyticsService.siteUpdates$.subscribe(u => this.siteUpdates = u);
+  }
 
   openAddTaskModal(columnTitle: string = 'To Do') {
     this.targetStep = columnTitle;

@@ -23,15 +23,15 @@ export class ContractManagement implements OnInit {
   private router = inject(Router);
 
   selectedVendor = 'All Vendors';
-  vendors = ['All Vendors', 'Titan Structural Steel, LLC', 'VoltStream Electrical', 'Apex Concrete Co.'];
+  vendors = ['All Vendors', 'JSW Steel Ltd.', 'Tata Power Solutions', 'UltraTech Cement'];
   allVendors: Vendor[] = [];
 
   contracts: Contract[] = [];
   activeDropdownId: string | null = null;
   documents = [
-    { name: 'Titan_Structural_MSA_2024.pdf', type: 'Master Agreement', size: '2.4 MB', date: 'Sep 02', icon: 'picture_as_pdf', color: 'text-red-500', bg: 'bg-red-50' },
-    { name: 'Change_Order_004_Skyline.docx', type: 'Amendment', size: '45 KB', date: 'Aug 28', icon: 'description', color: 'text-blue-500', bg: 'bg-blue-50' },
-    { name: 'OSHA_Compliance_Certificate_2024.pdf', type: 'Compliance', size: '1.1 MB', date: 'Aug 15', icon: 'policy', color: 'text-amber-600', bg: 'bg-amber-50' },
+    { name: 'JSW_Steel_MSA_2026.pdf', type: 'Master Agreement', size: '2.4 MB', date: 'Sep 02', icon: 'picture_as_pdf', color: 'text-red-500', bg: 'bg-red-50' },
+    { name: 'Change_Order_004_Prestige.docx', type: 'Amendment', size: '45 KB', date: 'Aug 28', icon: 'description', color: 'text-blue-500', bg: 'bg-blue-50' },
+    { name: 'BIS_Compliance_Certificate_2026.pdf', type: 'Compliance', size: '1.1 MB', date: 'Aug 15', icon: 'policy', color: 'text-amber-600', bg: 'bg-amber-50' },
     { name: 'Site_Safety_Plan_v2.zip', type: 'Operational', size: '12.8 MB', date: 'Jul 30', icon: 'folder_shared', color: 'text-slate-500', bg: 'bg-slate-50' }
   ];
   history: ContractHistory[] = [];
@@ -55,7 +55,7 @@ export class ContractManagement implements OnInit {
     effectiveDate: '',
     expiryDate: '',
     location: '',
-    owner: 'James Wilson',
+    owner: 'Arjun Mehra',
     signatory: '',
     contactEmail: '',
     contactPhone: ''
@@ -174,7 +174,7 @@ export class ContractManagement implements OnInit {
       effectiveDate: '',
       expiryDate: '',
       location: '',
-      owner: 'James Wilson',
+      owner: 'Arjun Mehra',
       signatory: '',
       contactEmail: '',
       contactPhone: ''
@@ -202,7 +202,7 @@ export class ContractManagement implements OnInit {
         expiryDate: this.newContractForm.expiryDate || '',
         expiryDays: this.newContractForm.expiryDays || 365,
         location: this.newContractForm.location || 'N/A',
-        owner: this.newContractForm.owner || 'James Wilson',
+        owner: this.newContractForm.owner || 'Arjun Mehra',
         signatory: this.newContractForm.signatory || 'N/A',
         contactEmail: this.newContractForm.contactEmail || 'N/A',
         contactPhone: this.newContractForm.contactPhone || 'N/A'

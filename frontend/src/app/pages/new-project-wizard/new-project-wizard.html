@@ -62,7 +62,18 @@
                         <div>
                             <p class="text-sm font-medium text-on-surface">Documentation</p>
                             <p class="text-[10px] uppercase tracking-wider font-bold"
-                               [ngClass]="currentStep === 4 ? 'text-primary' : 'text-outline'">{{ currentStep === 4 ? 'In Progress' : 'Upcoming' }}</p>
+                               [ngClass]="currentStep === 4 ? 'text-primary' : 'text-outline'">{{ currentStep === 4 ? 'In Progress' : (currentStep > 4 ? 'Completed' : 'Upcoming') }}</p>
+                        </div>
+                    </div>
+                    <!-- Step 5 -->
+                    <div (click)="setStep(5)" class="flex items-center gap-4 py-3 px-4 rounded-xl transition-all cursor-pointer"
+                         [ngClass]="currentStep === 5 ? 'bg-surface-container-lowest border-l-4 border-primary' : (currentStep < 5 ? 'grayscale opacity-50' : 'bg-surface-container-lowest opacity-80')">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold"
+                              [ngClass]="currentStep === 5 ? 'bg-primary text-white' : 'bg-surface-container-high text-on-surface'">05</span>
+                        <div>
+                            <p class="text-sm font-medium text-on-surface">Logistics Baseline</p>
+                            <p class="text-[10px] uppercase tracking-wider font-bold"
+                               [ngClass]="currentStep === 5 ? 'text-primary' : 'text-outline'">{{ currentStep === 5 ? 'In Progress' : 'Upcoming' }}</p>
                         </div>
                     </div>
                 </nav>
@@ -78,36 +89,62 @@
         <!-- Right Column: Form Canvas -->
         <section class="flex-1 space-y-8">
             <div class="bg-surface-container-lowest rounded-xl p-10 shadow-[0px_12px_32px_rgba(15,23,42,0.04)] border border-outline-variant/10">
-                <!-- Step 1: General Info -->
+                <!-- Step 1: Mode Selection & General Info -->
                 <div *ngIf="currentStep === 1">
                     <div class="mb-10">
-                        <h3 class="text-xl font-bold text-on-surface mb-1">General Project Information</h3>
-                        <p class="text-sm text-on-surface-variant">Establish the identity and physical location of the project site.</p>
+                        <h3 class="text-xl font-bold text-on-surface mb-1">Initialization Strategy</h3>
+                        <p class="text-sm text-on-surface-variant">Choose between a reusable blueprint or a custom configuration.</p>
                     </div>
+
+                    <!-- Mode Toggle -->
+                    <div class="grid grid-cols-2 gap-4 mb-10">
+                        <div (click)="creationMode = 'Manual'" 
+                             [class.ring-2]="creationMode === 'Manual'" [class.ring-primary]="creationMode === 'Manual'"
+                             class="p-6 bg-surface border border-outline-variant/20 rounded-2xl cursor-pointer hover:bg-slate-50 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="material-symbols-outlined text-primary">edit_note</span>
+                                <span class="text-sm font-bold uppercase tracking-widest">Manual Setup</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant">Build from scratch with custom parameters.</p>
+                        </div>
+                        <div (click)="creationMode = 'Template'" 
+                             [class.ring-2]="creationMode === 'Template'" [class.ring-primary]="creationMode === 'Template'"
+                             class="p-6 bg-surface border border-outline-variant/20 rounded-2xl cursor-pointer hover:bg-slate-50 transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="material-symbols-outlined text-indigo-600">auto_awesome</span>
+                                <span class="text-sm font-bold uppercase tracking-widest">Template Engine</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant">Generate from a pre-defined construction blueprint.</p>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="col-span-full" *ngIf="creationMode === 'Template'">
+                            <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Select Construction Blueprint</label>
+                            <select class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none appearance-none cursor-pointer" 
+                                    (change)="onTemplateSelect($any($event.target).value)">
+                                <option value="" disabled selected>Choose a template...</option>
+                                <option *ngFor="let t of templates" [value]="t.id">{{ t.name }} (v{{ t.version }})</option>
+                            </select>
+                        </div>
+
                         <div class="col-span-full">
                             <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Project Name</label>
                             <input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" [(ngModel)]="projectForm.name" placeholder="e.g., Sky-Rise Residences Phase II" type="text"/>
                         </div>
+                        
                         <div class="space-y-2">
                             <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Project Type</label>
-                            <select class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none appearance-none cursor-pointer" [(ngModel)]="projectForm.type">
-                                <option>Commercial Renovation</option>
-                                <option>Residential New Build</option>
+                            <select class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none appearance-none cursor-pointer" [(ngModel)]="projectForm.type" [disabled]="creationMode === 'Template'">
+                                <option>Commercial</option>
+                                <option>Residential</option>
                                 <option>Industrial Facility</option>
                                 <option>Infrastructure</option>
                             </select>
                         </div>
                         <div class="space-y-2">
-                            <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Estimated Completion</label>
-                            <input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" type="date" [(ngModel)]="projectForm.completionDate"/>
-                        </div>
-                        <div class="col-span-full">
-                            <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Project Site Address</label>
-                            <div class="relative">
-                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-lg">location_on</span>
-                                <input class="w-full bg-surface-container-low border-none rounded-lg p-4 pl-12 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" placeholder="Search address or enter coordinates" type="text" [(ngModel)]="projectForm.address"/>
-                            </div>
+                            <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Start Date (T=0)</label>
+                            <input class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none transition-all" type="date" [(ngModel)]="startDate"/>
                         </div>
                     </div>
                 </div>
@@ -116,9 +153,55 @@
                 <div *ngIf="currentStep === 2">
                     <div class="mb-10">
                         <h3 class="text-xl font-bold text-on-surface mb-1">Architecture & Site Team</h3>
-                        <p class="text-sm text-on-surface-variant">Assign lead architects, site managers, and safety officers.</p>
+                        <p class="text-sm text-on-surface-variant">{{ creationMode === 'Template' ? 'Map template roles to active site personnel.' : 'Assign lead architects, site managers, and safety officers.' }}</p>
                     </div>
-                    <div class="space-y-8">
+                    <!-- Role Mapping (Template Mode) -->
+                    <div *ngIf="creationMode === 'Template'" class="space-y-6">
+                        <!-- Step 2b: Template Customization -->
+                        <div class="p-6 bg-blue-50/30 border border-blue-100 rounded-2xl mb-8">
+                            <h4 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">tune</span>
+                                Template Customization
+                            </h4>
+                            <p class="text-[10px] text-blue-700 font-bold uppercase mt-1">Preview structure and exclude non-applicable tasks</p>
+                            
+                            <div class="mt-6 space-y-4 max-h-60 overflow-y-auto pr-2 custom-scroll">
+                                <div *ngFor="let m of templates[0].milestones" class="space-y-2">
+                                    <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-slate-100 shadow-sm">
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-xs font-black text-slate-900">{{ m.name }}</span>
+                                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{{ m.durationDays }} Days</span>
+                                        </div>
+                                        <button (click)="toggleExclusion(m.id)" [class]="excludedIds.has(m.id) ? 'text-rose-500' : 'text-slate-300'" class="hover:text-rose-600 transition-colors">
+                                            <span class="material-symbols-outlined text-sm">{{ excludedIds.has(m.id) ? 'remove_circle' : 'check_circle' }}</span>
+                                        </button>
+                                    </div>
+                                    <div *ngFor="let sm of m.subMilestones" class="ml-6 flex items-center justify-between p-2 bg-slate-50/50 rounded-lg border border-slate-100/50">
+                                        <span class="text-[11px] font-bold text-slate-600">{{ sm.name }}</span>
+                                        <button (click)="toggleExclusion(sm.id)" [class]="excludedIds.has(sm.id) ? 'text-rose-500' : 'text-slate-300'" class="hover:text-rose-600 transition-colors">
+                                            <span class="material-symbols-outlined text-sm" style="font-size: 16px;">{{ excludedIds.has(sm.id) ? 'do_not_disturb_on' : 'radio_button_checked' }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngFor="let role of templateRoles" class="p-6 bg-surface border border-outline-variant/20 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <p class="text-[10px] font-black uppercase text-blue-600 tracking-widest mb-1">Template Role</p>
+                                <p class="text-sm font-bold text-on-surface">{{ role }}</p>
+                            </div>
+                            <div class="flex-1 max-w-xs">
+                                <select [(ngModel)]="roleMapping[role]" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl p-3 text-xs font-bold ring-1 ring-slate-200 dark:ring-slate-700 outline-none">
+                                    <option value="" disabled selected>Select User...</option>
+                                    <option *ngFor="let user of availableMembers" [value]="user.name">{{ user.name }} ({{ user.role }})</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manual Assignment (Manual Mode) -->
+                    <div *ngIf="creationMode === 'Manual'" class="space-y-8">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div *ngFor="let member of projectForm.team" class="flex items-center gap-4 p-4 bg-surface border border-outline-variant/20 rounded-2xl">
                                 <img [src]="member.avatar" class="w-12 h-12 rounded-full object-cover shadow-sm"/>
@@ -207,29 +290,34 @@
                         <p class="text-sm text-on-surface-variant">Review all settings and initialize the project workspace.</p>
                     </div>
                     <div class="space-y-6">
-                        <div (click)="simulateUpload()" class="p-8 bg-surface border-2 border-dashed border-outline-variant/30 rounded-3xl flex flex-col items-center text-center group hover:border-primary/50 transition-all cursor-pointer">
+                        <div class="relative p-8 bg-surface border-2 border-dashed border-outline-variant/30 rounded-3xl flex flex-col items-center text-center group hover:border-primary/50 transition-all cursor-pointer">
+                            <input type="file" (change)="onFileSelected($event)" multiple class="absolute inset-0 opacity-0 cursor-pointer">
                             <div class="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center text-outline group-hover:bg-primary-fixed group-hover:text-primary transition-all mb-4">
-                                <span class="material-symbols-outlined text-3xl">cloud_upload</span>
+                                <span class="material-symbols-outlined text-3xl">upload_file</span>
                             </div>
-                            <h4 class="font-bold text-on-surface mb-1">Upload Project Blueprints</h4>
+                            <h4 class="font-bold text-on-surface mb-1">Upload Blueprints & Permits</h4>
                             <p class="text-xs text-on-surface-variant mb-6">Drag and drop architecture plans, floor layouts, or site maps (PDF, DWG).</p>
                             <button class="px-6 py-2 bg-surface-container-high rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-surface-container-highest transition-all pointer-events-none">Browse Files</button>
                         </div>
-                        
-                        @if (projectForm.documents.length > 0) {
-                          <div class="space-y-3">
-                            <h4 class="text-xs font-bold uppercase tracking-widest text-outline">Uploaded Documents</h4>
-                            @for (doc of projectForm.documents; track doc.name) {
-                              <div class="flex items-center justify-between p-3 bg-surface-container-low rounded-xl border border-outline-variant/20">
-                                <div class="flex items-center gap-3">
-                                  <span class="material-symbols-outlined text-primary">description</span>
-                                  <span class="text-sm font-bold text-on-surface">{{ doc.name }}</span>
+
+                        <div class="space-y-3">
+                            <div *ngFor="let file of uploadedFiles" class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:bg-white dark:hover:bg-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                                        <span class="material-symbols-outlined text-rose-500 text-sm">picture_as_pdf</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ file.name }}</p>
+                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{{ file.size }} • {{ file.date }}</p>
+                                    </div>
                                 </div>
-                                <span class="text-[10px] text-outline font-bold uppercase">{{ doc.size }}</span>
-                              </div>
-                            }
-                          </div>
-                        }
+                                <button class="p-2 text-slate-300 hover:text-rose-500 transition-colors">
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div class="p-4 bg-secondary-container/10 border border-secondary/10 rounded-2xl flex items-center gap-4">
@@ -254,6 +342,52 @@
                     </div>
                 </div>
 
+                <!-- Step 5: Logistics Baseline -->
+                <div *ngIf="currentStep === 5">
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold text-on-surface mb-1">Logistics & Material Baseline</h3>
+                        <p class="text-sm text-on-surface-variant">Initialize the Bill of Quantities (BOQ) and primary vendor requirements.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="overflow-hidden border border-outline-variant/20 rounded-2xl">
+                          <table class="w-full text-left text-sm">
+                            <thead class="bg-surface-container-low text-outline text-[10px] uppercase tracking-widest font-black">
+                              <tr>
+                                <th class="px-6 py-4">Material Item</th>
+                                <th class="px-6 py-4">Quantity</th>
+                                <th class="px-6 py-4">Unit</th>
+                                <th class="px-6 py-4">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant/10">
+                              @for (item of projectForm.boq; track item.item) {
+                                <tr>
+                                  <td class="px-6 py-4 font-bold text-on-surface">{{ item.item }}</td>
+                                  <td class="px-6 py-4 font-medium text-on-surface-variant">{{ item.quantity }}</td>
+                                  <td class="px-6 py-4 font-medium text-on-surface-variant">{{ item.unit }}</td>
+                                  <td class="px-6 py-4">
+                                    <button class="text-error hover:scale-110 transition-transform"><span class="material-symbols-outlined text-sm">delete</span></button>
+                                  </td>
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                        <button class="w-full flex items-center justify-center gap-3 p-4 bg-surface-container-low border border-dashed border-outline-variant rounded-2xl hover:bg-surface-container-high transition-all text-on-surface-variant cursor-pointer group">
+                            <span class="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform">add</span>
+                            <span class="text-xs font-bold uppercase tracking-wider">Add BOQ Item</span>
+                        </button>
+
+                        <div class="p-6 bg-secondary-container/10 border border-secondary/10 rounded-2xl">
+                            <h4 class="text-sm font-bold text-secondary mb-2 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">inventory</span>
+                                Automated Inventory Sync
+                            </h4>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">The system will automatically flag these materials in the Warehouse module and alert the Procurement team upon initialization.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Actions Footer -->
                 <div class="flex justify-between items-center gap-4 mt-12 pt-8 border-t border-outline-variant/20">
                     <button (click)="prevStep()" *ngIf="currentStep > 1" class="px-6 py-3 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-2">
@@ -262,8 +396,8 @@
                     </button>
                     <div class="flex-1"></div>
                     <button *ngIf="currentStep === 1" class="px-6 py-3 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">Save as Draft</button>
-                    <button (click)="nextStep()" class="flex items-center gap-2 px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-[0px_8px_16px_rgba(0,74,198,0.2)] hover:shadow-lg transition-all cursor-pointer">
-                        {{ currentStep === 4 ? 'Initialize Project' : (currentStep === 1 ? 'Next: Team & Roles' : (currentStep === 2 ? 'Next: Budget & Schedule' : 'Next: Documentation')) }}
+                    <button (click)="creationMode === 'Template' ? initializeFromTemplate() : nextStep()" class="flex items-center gap-2 px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-[0px_8px_16px_rgba(0,74,198,0.2)] hover:shadow-lg transition-all cursor-pointer">
+                        {{ currentStep === 5 || (currentStep === 2 && creationMode === 'Template') ? 'Initialize Project' : (currentStep === 1 ? 'Next: Team & Roles' : (currentStep === 2 ? 'Next: Budget & Schedule' : (currentStep === 3 ? 'Next: Documentation' : 'Next: Logistics'))) }}
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </button>
                 </div>

@@ -27,7 +27,9 @@ BuildFlow manages the structural and financial DNA of every construction asset, 
     *   **Milestone Breakdown:** View completion percentages for every major phase (e.g., Foundation, MEP, Interior Finishing).
     *   **Linked Entities:** A central hub showing all Vendors, Materials, and Contracts specifically tied to that project.
 *   **The 5-Step Project Initiation Wizard:** 
-    1.  **Core Definition:** Scope, site coordinates, and construction type (Residential, Commercial, Industrial).
+    *   **Core Definition:** Scope, site coordinates, and construction type (Residential, Commercial, Industrial, Infrastructure).
+    *   **Geospatial Intelligence:** Native Google Maps API integration for automatic location fetching and weather-aware site planning.
+
     2.  **Financial Hardening:** Setting total budget, contingency buffers, and currency/taxation rules.
     3.  **Governance Setup:** Assigning Project Managers, Site Engineers, and defining the organizational hierarchy for approvals.
     4.  **Strategic Milestones:** Defining the 'North Star' dates for the CPM engine.
@@ -63,7 +65,10 @@ Optimizes the allocation of the organization's most expensive and valuable resou
     *   **Departmental Efficiency:** Monitors the productivity of entire functional units (Engineering vs. Operations).
 
 ### 6. Access Control & Governance (RBAC)
-A military-grade security layer that enforces the organization's standard operating procedures (SOPs).
+A military-grade security layer that enforces the organization's standard operating procedures (SOPs) and multi-level approval workflows.
+*   **Hierarchical Approvals:** 
+    *   **Requisition Governance:** Automated workflows with tiered authority (e.g., Site Manager up to 100kg, Warehouse Manager up to 500kg, Management for 1000kg+).
+    *   **Communication Integration:** Native WhatsApp and Email triggers for instant approval notifications and stakeholder alerts.
 *   **Granular Permission Matrices:** 
     *   **CRUD-Level Control:** Define exactly who can 'Create' an invoice, who can 'Update' its status, and who can 'Delete' it (restricted to SuperAdmins).
     *   **Module-Level Isolation:** Ensure that Site Engineers only see project-specific data, while the Finance team sees only cost-related data.
@@ -84,7 +89,9 @@ The field-level interface where site progress is recorded and synchronized with 
 *   **Drag-and-Drop Workflow:** 
     *   **To Do ➔ In Progress ➔ Review ➔ Completed:** A standardized flow that includes a mandatory 'Review' stage for quality control.
 *   **Context-Rich Tasks:** 
-    *   **Attachment Management:** Upload site photos, stress-test results, and architectural drawings directly to the task.
+    *   **Attachment Management:** Upload site photos with mandatory geotagging and timestamps, stress-test results, and architectural drawings directly to the task.
+    *   **Document Vault:** Centralized management for blueprints, floor plans, and legal documentation.
+
     *   **Progress Increments:** Tasks can track partial completion (e.g., "75% of Floor 12 Tiling Complete").
 *   **Schedule Synchronization:** Task completions automatically trigger updates in the **CPM Timeline** and **Progress Reports**.
 
@@ -101,7 +108,9 @@ The "AI-ready" data core of BuildFlow that identifies hidden inefficiencies.
 Ensures transparency for stakeholders and maintains a bulletproof historical record.
 *   **The Report Vault:** 
     *   **Immutable Records:** Securely stores every weekly progress report, safety audit, and financial summary.
+    *   **Multi-Format Export:** Reports are auto-generated in high-fidelity PDF and Excel formats for external stakeholders.
     *   **Categorized Storage:** Easily filter by 'Technical', 'Financial', 'Safety', or 'Milestone' reports.
+
 *   **Trend Forecasting:** 
     *   **Projected Handover Date:** A dynamic calculation based on current Task velocity and CPM Critical Path.
     *   **Risk Level Assessment:** Assigns a project-wide risk score (Low, Med, High) based on budget health and schedule variance.
@@ -169,3 +178,9 @@ Ensures that every procurement decision is data-driven and cost-optimized.
 *   **Backend & Data:**
     *   **Node.js Express:** High-throughput API architecture.
     *   **Enterprise Data Modeling:** Relational structures optimized for construction-specific cross-module queries.
+---
+
+## 📖 Additional Resources
+
+*   **[Demo Overview](./DEMO_OVERVIEW.md):** A high-level summary of the system for presentation purposes.
+*   **[POC Methodology](./poc_text.txt):** Detailed explanation of the Percentage of Completion method used in the Finance module.

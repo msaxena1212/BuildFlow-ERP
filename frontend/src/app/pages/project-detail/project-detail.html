@@ -328,7 +328,7 @@
 } @else if (activeTab === 'Timeline') {
   <app-project-timeline [selectedMember]="selectedMember" [projectId]="project.id"></app-project-timeline>
 } @else if (activeTab === 'Budget') {
-  <app-project-budget></app-project-budget>
+  <app-project-budget [project]="project" (projectUpdated)="project = $event"></app-project-budget>
 } @else if (activeTab === 'Gallery') {
   <app-site-gallery (uploadMedia)="openDrawingUpload()" [projectId]="project.id" [newlyUploaded]="uploadedDrawings"></app-site-gallery>
 } @else if (activeTab === 'Files') {

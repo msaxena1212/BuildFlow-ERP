@@ -38,6 +38,18 @@ export interface ReportVaultItem {
   fileSize: string;
 }
 
+export interface SiteUpdate {
+  id: string;
+  projectId: string;
+  time: string;
+  title: string;
+  description: string;
+  author: string;
+  type: 'Safety' | 'Material' | 'Progress' | 'Archive';
+  photoUrl?: string;
+  geotag?: { lat: number; lng: number; timestamp: string };
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +63,8 @@ export class AnalyticsService {
   contractors$ = this.contractorsSubject.asObservable();
   laborStats$ = this.laborStatsSubject.asObservable();
   reportVault$ = this.reportVaultSubject.asObservable();
+  private siteUpdatesSubject = new BehaviorSubject<SiteUpdate[]>([]);
+  siteUpdates$ = this.siteUpdatesSubject.asObservable();
 
   constructor() {
     this.refreshAll();
@@ -66,6 +80,7 @@ export class AnalyticsService {
     
     this.http.get<LaborStats>('http://localhost:3000/api/labor-stats').subscribe(s => this.laborStatsSubject.next(s));
     this.http.get<ReportVaultItem[]>('http://localhost:3000/api/reports').subscribe(v => this.reportVaultSubject.next(v));
+    this.http.get<SiteUpdate[]>('http://localhost:3000/api/updates').subscribe(u => this.siteUpdatesSubject.next(u));
   }
 
   private populateMocks() {

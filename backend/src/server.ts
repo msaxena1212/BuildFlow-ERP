@@ -1,7 +1,12 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { projects, updates, materials, tasks, vendors, quotes, contracts, contractHistory, roles, teamMembers, contractorMetrics, laborStats, reportVault } from './data/mock-data';
+import { SettlementService } from './services/settlement.service';
+import { projects, updates, materials, tasks, vendors, quotes, contracts, contractHistory, roles, teamMembers, contractorMetrics, laborStats, reportVault, purchaseRequisitions, stockTransfers } from './data/mock-data';
 import { Role, TeamMember } from './models/models';
+import { PocService } from './services/poc.service';
+import { ComplianceService } from './services/compliance.service';
+import { MaterialIntelligenceService } from './services/material.service';
+import { TemplateService } from './services/template.service';
 
 const app = express();
 const port = 3000;
@@ -20,6 +25,15 @@ app.get('/api/projects/:id', (req: Request, res: Response) => {
     res.json(project);
   } else {
     res.status(404).send('Project not found');
+  }
+});
+
+app.post('/api/projects/:id/poc/consolidate', (req: Request, res: Response) => {
+  const updatedProject = PocService.runConsolidation(req.params.id as string);
+  if (updatedProject) {
+    res.json(updatedProject);
+  } else {
+    res.status(404).send('Project or POC details not found');
   }
 });
 
@@ -186,12 +200,71 @@ app.get('/api/reports', (req: Request, res: Response) => {
   res.json(reportVault);
 });
 
-
-
-app.get('/health', (req: Request, res: Response) => {
-  res.send('BuildFlow API is running');
+// Purchase Requisitions
+app.get('/api/purchase-requisitions', (req: Request, res: Response) => {
+  res.json(purchaseRequisitions);
 });
 
+app.post('/api/purchase-requisitions', (req: Request, res: Response) => {
+  const newPR = { ...req.body, id: 'PR-' + Date.now() };
+  purchaseRequisitions.unshift(newPR);
+  res.status(201).json(newPR);
+});
+
+// Stock Transfers
+app.get('/api/stock-transfers', (req: Request, res: Response) => {
+  res.json(stockTransfers);
+});
+
+app.post('/api/stock-transfers', (req: Request, res: Response) => {
+  const newTransfer = { ...req.body, id: 'TR-' + Date.now() };
+  stockTransfers.unshift(newTransfer);
+  res.status(201).json(newTransfer);
+});
+
+// Settlement Endpoints
+app.post('/api/vendors/:vendorId/settlements/generate', (req: Request, res: Response) => {
+  try {
+    const { vendorId } = req.params;
+    const { projectId, basis } = req.body;
+    const request = SettlementService.generateSuggestedSettlement(vendorId as string, projectId, basis);
+    res.json(request);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.post('/api/vendors/:vendorId/settlements', (req: Request, res: Response) => {
+  try {
+    const request = SettlementService.saveSettlementRequest(req.body);
+    res.status(201).json(request);
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Compliance Endpoints
+app.get('/api/projects/:id/compliance/health', (req: Request, res: Response) => {
+  const health = ComplianceService.getComplianceHealth(req.params.id);
+  res.json(health);
+});
+
+app.post('/api/projects/:id/compliance/submit', (req: Request, res: Response) => {
+  const { type } = req.body;
+  const submission = ComplianceService.submitToRegulatory(req.params.id, type);
+  res.json(submission);
+});
+
+// Material Intelligence Endpoints
+app.get('/api/materials/analysis', (req: Request, res: Response) => {
+  const analysis = MaterialIntelligenceService.analyzeInventory();
+  res.json(analysis);
+});
+
+app.post('/api/materials/auto-reorder', (req: Request, res: Response) => {
+  const newPRs = MaterialIntelligenceService.triggerAutoReorder();
+  res.json(newPRs);
+});
 
 app.listen(port, () => {
   console.log(`BuildFlow Backend listening at http://localhost:${port}`);
