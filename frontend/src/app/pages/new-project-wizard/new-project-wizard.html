@@ -38,7 +38,7 @@
                         <span class="flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold"
                               [ngClass]="currentStep === 2 ? 'bg-primary text-white' : 'bg-surface-container-high text-on-surface'">02</span>
                         <div>
-                            <p class="text-sm font-medium text-on-surface">Team & Roles</p>
+                            <p class="text-sm font-medium text-on-surface">Budget & Schedule</p>
                             <p class="text-[10px] uppercase tracking-wider font-bold"
                                [ngClass]="currentStep === 2 ? 'text-primary' : 'text-outline'">{{ currentStep === 2 ? 'In Progress' : (currentStep > 2 ? 'Completed' : 'Upcoming') }}</p>
                         </div>
@@ -49,7 +49,7 @@
                         <span class="flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold"
                               [ngClass]="currentStep === 3 ? 'bg-primary text-white' : 'bg-surface-container-high text-on-surface'">03</span>
                         <div>
-                            <p class="text-sm font-medium text-on-surface">Budget & Schedule</p>
+                            <p class="text-sm font-medium text-on-surface">Team & Roles</p>
                             <p class="text-[10px] uppercase tracking-wider font-bold"
                                [ngClass]="currentStep === 3 ? 'text-primary' : 'text-outline'">{{ currentStep === 3 ? 'In Progress' : (currentStep > 3 ? 'Completed' : 'Upcoming') }}</p>
                         </div>
@@ -138,8 +138,10 @@
                             <select class="w-full bg-surface-container-low border-none rounded-lg p-4 text-sm ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary/30 outline-none appearance-none cursor-pointer" [(ngModel)]="projectForm.type" [disabled]="creationMode === 'Template'">
                                 <option>Commercial</option>
                                 <option>Residential</option>
-                                <option>Industrial Facility</option>
+                                <option>Industrial</option>
                                 <option>Infrastructure</option>
+                                <option>Institutional</option>
+                                <option>Renovation</option>
                             </select>
                         </div>
                         <div class="space-y-2">
@@ -149,106 +151,41 @@
                     </div>
                 </div>
 
-                <!-- Step 2: Team & Roles -->
+                <!-- Step 2: Budget & Schedule -->
                 <div *ngIf="currentStep === 2">
-                    <div class="mb-10">
-                        <h3 class="text-xl font-bold text-on-surface mb-1">Architecture & Site Team</h3>
-                        <p class="text-sm text-on-surface-variant">{{ creationMode === 'Template' ? 'Map template roles to active site personnel.' : 'Assign lead architects, site managers, and safety officers.' }}</p>
-                    </div>
-                    <!-- Role Mapping (Template Mode) -->
-                    <div *ngIf="creationMode === 'Template'" class="space-y-6">
-                        <!-- Step 2b: Template Customization -->
-                        <div class="p-6 bg-blue-50/30 border border-blue-100 rounded-2xl mb-8">
-                            <h4 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
-                                <span class="material-symbols-outlined text-lg">tune</span>
-                                Template Customization
-                            </h4>
-                            <p class="text-[10px] text-blue-700 font-bold uppercase mt-1">Preview structure and exclude non-applicable tasks</p>
-                            
-                            <div class="mt-6 space-y-4 max-h-60 overflow-y-auto pr-2 custom-scroll">
-                                <div *ngFor="let m of templates[0].milestones" class="space-y-2">
-                                    <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-slate-100 shadow-sm">
-                                        <div class="flex items-center gap-3">
-                                            <span class="text-xs font-black text-slate-900">{{ m.name }}</span>
-                                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{{ m.durationDays }} Days</span>
-                                        </div>
-                                        <button (click)="toggleExclusion(m.id)" [class]="excludedIds.has(m.id) ? 'text-rose-500' : 'text-slate-300'" class="hover:text-rose-600 transition-colors">
-                                            <span class="material-symbols-outlined text-sm">{{ excludedIds.has(m.id) ? 'remove_circle' : 'check_circle' }}</span>
-                                        </button>
-                                    </div>
-                                    <div *ngFor="let sm of m.subMilestones" class="ml-6 flex items-center justify-between p-2 bg-slate-50/50 rounded-lg border border-slate-100/50">
-                                        <span class="text-[11px] font-bold text-slate-600">{{ sm.name }}</span>
-                                        <button (click)="toggleExclusion(sm.id)" [class]="excludedIds.has(sm.id) ? 'text-rose-500' : 'text-slate-300'" class="hover:text-rose-600 transition-colors">
-                                            <span class="material-symbols-outlined text-sm" style="font-size: 16px;">{{ excludedIds.has(sm.id) ? 'do_not_disturb_on' : 'radio_button_checked' }}</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div *ngFor="let role of templateRoles" class="p-6 bg-surface border border-outline-variant/20 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div>
-                                <p class="text-[10px] font-black uppercase text-blue-600 tracking-widest mb-1">Template Role</p>
-                                <p class="text-sm font-bold text-on-surface">{{ role }}</p>
-                            </div>
-                            <div class="flex-1 max-w-xs">
-                                <select [(ngModel)]="roleMapping[role]" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl p-3 text-xs font-bold ring-1 ring-slate-200 dark:ring-slate-700 outline-none">
-                                    <option value="" disabled selected>Select User...</option>
-                                    <option *ngFor="let user of availableMembers" [value]="user.name">{{ user.name }} ({{ user.role }})</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Manual Assignment (Manual Mode) -->
-                    <div *ngIf="creationMode === 'Manual'" class="space-y-8">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div *ngFor="let member of projectForm.team" class="flex items-center gap-4 p-4 bg-surface border border-outline-variant/20 rounded-2xl">
-                                <img [src]="member.avatar" class="w-12 h-12 rounded-full object-cover shadow-sm"/>
-                                <div class="flex-1">
-                                    <p class="text-sm font-bold text-on-surface">{{ member.name }}</p>
-                                    <p class="text-[11px] text-on-surface-variant font-medium">{{ member.role }}</p>
-                                </div>
-                                <span class="material-symbols-outlined text-primary">check_circle</span>
-                            </div>
-                            <div class="relative">
-                                <button (click)="showAssignDropdown = !showAssignDropdown" class="w-full flex items-center justify-center gap-3 p-4 bg-surface-container-low border border-dashed border-outline-variant rounded-2xl hover:bg-surface-container-high transition-all text-on-surface-variant cursor-pointer group">
-                                    <span class="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform">add</span>
-                                    <span class="text-xs font-bold uppercase tracking-wider">Assign More</span>
-                                </button>
-                                @if (showAssignDropdown) {
-                                  <div class="absolute top-full left-0 mt-2 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl z-50 overflow-hidden">
-                                    @for (member of availableMembers; track member.name) {
-                                      <div (click)="addMember(member)" class="flex items-center gap-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors">
-                                        <img [src]="member.avatar" class="w-8 h-8 rounded-full">
-                                        <div class="flex-1">
-                                          <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ member.name }}</p>
-                                          <p class="text-[10px] text-slate-500 uppercase tracking-widest">{{ member.role }}</p>
-                                        </div>
-                                      </div>
-                                    }
-                                  </div>
-                                }
-                            </div>
-                        </div>
-
-                        <div class="p-6 bg-primary/5 rounded-2xl border border-primary/10">
-                            <h4 class="text-sm font-bold text-primary mb-2 flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[18px]">verified_user</span>
-                                Role Permissions Review
-                            </h4>
-                            <p class="text-xs text-on-surface-variant leading-relaxed">Assigned members will have default 'Editor' access. You can fine-tune these permissions in the Team Settings after initialization.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3: Budget & Schedule -->
-                <div *ngIf="currentStep === 3">
                     <div class="mb-10">
                         <h3 class="text-xl font-bold text-on-surface mb-1">Fiscal Parameters & Timeline</h3>
                         <p class="text-sm text-on-surface-variant">Defining the commercial constraints and chronological milestones.</p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div *ngIf="creationMode === 'Template' && selectedTemplate" class="p-6 bg-blue-50/30 border border-blue-100 rounded-2xl mb-8">
+                        <h4 class="text-sm font-black text-blue-900 uppercase tracking-tight flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">tune</span>
+                            Template Customization
+                        </h4>
+                        <p class="text-[10px] text-blue-700 font-bold uppercase mt-1">Preview structure and exclude non-applicable tasks</p>
+                        
+                        <div class="mt-6 space-y-4 max-h-60 overflow-y-auto pr-2 custom-scroll">
+                            <div *ngFor="let m of selectedTemplate.milestones" class="space-y-2">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-slate-100 shadow-sm">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xs font-black text-slate-900">{{ m.name }}</span>
+                                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{{ m.durationDays }} Days</span>
+                                    </div>
+                                    <button (click)="toggleExclusion(m.id)" [class]="excludedIds.has(m.id) ? 'text-rose-500' : 'text-slate-300'" class="hover:text-rose-600 transition-colors">
+                                        <span class="material-symbols-outlined text-sm">{{ excludedIds.has(m.id) ? 'remove_circle' : 'check_circle' }}</span>
+                                    </button>
+                                </div>
+                                <div *ngFor="let sm of m.subMilestones" class="ml-6 flex items-center justify-between p-2 bg-slate-50/50 rounded-lg border border-slate-100/50">
+                                    <span class="text-[11px] font-bold text-slate-600">{{ sm.name }}</span>
+                                    <button (click)="toggleExclusion(sm.id)" [class]="excludedIds.has(sm.id) ? 'text-rose-500' : 'text-slate-300'" class="hover:text-rose-600 transition-colors">
+                                        <span class="material-symbols-outlined text-sm" style="font-size: 16px;">{{ excludedIds.has(sm.id) ? 'do_not_disturb_on' : 'radio_button_checked' }}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" *ngIf="creationMode === 'Manual'">
                         <div class="space-y-2">
                             <label class="block text-[11px] uppercase tracking-widest font-bold text-outline mb-2">Total Project Budget</label>
                             <div class="relative">
@@ -279,6 +216,70 @@
                                 <span class="material-symbols-outlined text-sm">add</span>
                               </button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Team & Roles -->
+                <div *ngIf="currentStep === 3">
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold text-on-surface mb-1">Architecture & Site Team</h3>
+                        <p class="text-sm text-on-surface-variant">{{ creationMode === 'Template' ? 'Map template roles to active site personnel.' : 'Assign lead architects, site managers, and safety officers.' }}</p>
+                    </div>
+                    <!-- Role Mapping (Template Mode) -->
+                    <div *ngIf="creationMode === 'Template'" class="space-y-6">
+                        <div *ngFor="let role of templateRoles" class="p-6 bg-surface border border-outline-variant/20 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <p class="text-[10px] font-black uppercase text-blue-600 tracking-widest mb-1">Template Role</p>
+                                <p class="text-sm font-bold text-on-surface">{{ role }}</p>
+                            </div>
+                            <div class="flex-1 max-w-xs">
+                                <select [(ngModel)]="roleMapping[role]" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl p-3 text-xs font-bold ring-1 ring-slate-200 dark:ring-slate-700 outline-none">
+                                    <option value="" disabled selected>Select User...</option>
+                                    <option *ngFor="let user of filteredMembers" [value]="user.name">{{ user.name }} ({{ user.role }})</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manual Assignment (Manual Mode) -->
+                    <div *ngIf="creationMode === 'Manual'" class="space-y-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div *ngFor="let member of projectForm.team" class="flex items-center gap-4 p-4 bg-surface border border-outline-variant/20 rounded-2xl">
+                                <img [src]="member.avatar" class="w-12 h-12 rounded-full object-cover shadow-sm"/>
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-on-surface">{{ member.name }}</p>
+                                    <p class="text-[11px] text-on-surface-variant font-medium">{{ member.role }}</p>
+                                </div>
+                                <span class="material-symbols-outlined text-primary">check_circle</span>
+                            </div>
+                            <div class="relative">
+                                <button (click)="showAssignDropdown = !showAssignDropdown" class="w-full flex items-center justify-center gap-3 p-4 bg-surface-container-low border border-dashed border-outline-variant rounded-2xl hover:bg-surface-container-high transition-all text-on-surface-variant cursor-pointer group">
+                                    <span class="material-symbols-outlined text-sm group-hover:rotate-90 transition-transform">add</span>
+                                    <span class="text-xs font-bold uppercase tracking-wider">Assign More</span>
+                                </button>
+                                @if (showAssignDropdown) {
+                                  <div class="absolute top-full left-0 mt-2 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl z-50 overflow-hidden">
+                                    @for (member of filteredMembers; track member.name) {
+                                      <div (click)="addMember(member)" class="flex items-center gap-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+                                        <img [src]="member.avatar" class="w-8 h-8 rounded-full">
+                                        <div class="flex-1">
+                                          <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ member.name }}</p>
+                                          <p class="text-[10px] text-slate-500 uppercase tracking-widest">{{ member.role }}</p>
+                                        </div>
+                                      </div>
+                                    }
+                                  </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="p-6 bg-primary/5 rounded-2xl border border-primary/10">
+                            <h4 class="text-sm font-bold text-primary mb-2 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">verified_user</span>
+                                Role Permissions Review
+                            </h4>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">Assigned members will have default 'Editor' access. You can fine-tune these permissions in the Team Settings after initialization.</p>
                         </div>
                     </div>
                 </div>
@@ -317,26 +318,24 @@
                             </div>
                         </div>
                     </div>
-                    </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="p-4 bg-secondary-container/10 border border-secondary/10 rounded-2xl flex items-center gap-4">
-                                <div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
-                                    <span class="material-symbols-outlined">analytics</span>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] font-bold text-outline uppercase">AI Forecast</p>
-                                    <p class="text-xs font-bold text-on-surface">Resource plan generated</p>
-                                </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-secondary-container/10 border border-secondary/10 rounded-2xl flex items-center gap-4">
+                            <div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+                                <span class="material-symbols-outlined">analytics</span>
                             </div>
-                            <div class="p-4 bg-primary-container/10 border border-primary/10 rounded-2xl flex items-center gap-4">
-                                <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                                    <span class="material-symbols-outlined">notifications_active</span>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] font-bold text-outline uppercase">Notifications</p>
-                                    <p class="text-xs font-bold text-on-surface">Lead staff notified</p>
-                                </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-outline uppercase">AI Forecast</p>
+                                <p class="text-xs font-bold text-on-surface">Resource plan generated</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-primary-container/10 border border-primary/10 rounded-2xl flex items-center gap-4">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined">notifications_active</span>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-outline uppercase">Notifications</p>
+                                <p class="text-xs font-bold text-on-surface">Lead staff notified</p>
                             </div>
                         </div>
                     </div>
@@ -396,8 +395,8 @@
                     </button>
                     <div class="flex-1"></div>
                     <button *ngIf="currentStep === 1" class="px-6 py-3 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">Save as Draft</button>
-                    <button (click)="creationMode === 'Template' ? initializeFromTemplate() : nextStep()" class="flex items-center gap-2 px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-[0px_8px_16px_rgba(0,74,198,0.2)] hover:shadow-lg transition-all cursor-pointer">
-                        {{ currentStep === 5 || (currentStep === 2 && creationMode === 'Template') ? 'Initialize Project' : (currentStep === 1 ? 'Next: Team & Roles' : (currentStep === 2 ? 'Next: Budget & Schedule' : (currentStep === 3 ? 'Next: Documentation' : 'Next: Logistics'))) }}
+                    <button (click)="creationMode === 'Template' && currentStep === 3 ? initializeFromTemplate() : nextStep()" class="flex items-center gap-2 px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-[0px_8px_16px_rgba(0,74,198,0.2)] hover:shadow-lg transition-all cursor-pointer">
+                        {{ currentStep === 5 || (currentStep === 3 && creationMode === 'Template') ? 'Initialize Project' : (currentStep === 1 ? 'Next: Budget & Schedule' : (currentStep === 2 ? 'Next: Team & Roles' : (currentStep === 3 ? 'Next: Documentation' : 'Next: Logistics'))) }}
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </button>
                 </div>

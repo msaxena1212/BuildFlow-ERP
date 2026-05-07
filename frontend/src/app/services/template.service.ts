@@ -1,4 +1,6 @@
 import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Project, Milestone, SubMilestone, Task, ProjectTemplate } from '../../../../backend/src/models/models';
 import { CpmService } from './cpm.service';
 
@@ -7,12 +9,19 @@ import { CpmService } from './cpm.service';
 })
 export class TemplateService {
   private cpmService = inject(CpmService);
-  
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api';
+
+  getTemplates(): Observable<ProjectTemplate[]> {
+    return this.http.get<ProjectTemplate[]>(`${this.apiUrl}/templates`);
+  }
   generateProjectFromTemplate(template: ProjectTemplate, startDate: string, projectName: string, userMapping: { [role: string]: string }, excludedIds: string[] = []): Project {
     const start = new Date(startDate);
     
     const project: Project = {
       id: `p-${Math.random().toString(36).substr(2, 9)}`,
+      projectCode: `BF-P-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
+      branchId: 'BR-BLR',
       name: projectName,
       location: 'TBD',
       description: `Generated from ${template.name} template`,

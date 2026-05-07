@@ -65,6 +65,21 @@ export interface StockTransfer {
   requestedBy: string;
 }
 
+export interface MaterialReturn {
+  id: string;
+  materialSku: string;
+  materialName: string;
+  projectId: string;
+  projectName: string;
+  quantity: number;
+  unit: string;
+  reason: 'Surplus' | 'Defective' | 'Wrong Item' | 'Project Cancelled';
+  status: 'Pending' | 'Approved' | 'In Transit' | 'Restocked' | 'Rejected';
+  requestDate: string;
+  processedDate?: string;
+  requestedBy: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -72,19 +87,23 @@ export class MaterialService {
   private apiUrl = `${environment.apiUrl}/materials`;
   private prUrl = `${environment.apiUrl}/purchase-requisitions`;
   private transferUrl = `${environment.apiUrl}/stock-transfers`;
+  private returnUrl = `${environment.apiUrl}/material-returns`;
 
   private materialsSubject = new BehaviorSubject<Material[]>([]);
   private prSubject = new BehaviorSubject<PurchaseRequisition[]>([]);
   private transferSubject = new BehaviorSubject<StockTransfer[]>([]);
+  private returnSubject = new BehaviorSubject<MaterialReturn[]>([]);
 
   materials$ = this.materialsSubject.asObservable();
   purchaseRequisitions$ = this.prSubject.asObservable();
   stockTransfers$ = this.transferSubject.asObservable();
+  materialReturns$ = this.returnSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.loadMaterials();
     this.loadPurchaseRequisitions();
     this.loadStockTransfers();
+    this.loadMaterialReturns();
   }
 
   loadMaterials() {
@@ -102,6 +121,12 @@ export class MaterialService {
   loadStockTransfers() {
     this.http.get<StockTransfer[]>(this.transferUrl).subscribe(data => {
       this.transferSubject.next(data);
+    });
+  }
+
+  loadMaterialReturns() {
+    this.http.get<MaterialReturn[]>(this.returnUrl).subscribe(data => {
+      this.returnSubject.next(data);
     });
   }
 
@@ -130,6 +155,12 @@ export class MaterialService {
   createStockTransfer(transfer: Partial<StockTransfer>) {
     return this.http.post<StockTransfer>(this.transferUrl, transfer).pipe(
       tap(() => this.loadStockTransfers())
+    );
+  }
+
+  createMaterialReturn(ret: Partial<MaterialReturn>) {
+    return this.http.post<MaterialReturn>(this.returnUrl, ret).pipe(
+      tap(() => this.loadMaterialReturns())
     );
   }
 

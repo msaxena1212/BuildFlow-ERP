@@ -75,6 +75,10 @@ export class ContractManagement implements OnInit {
     return this.contracts.filter(c => c.vendor === this.selectedVendor);
   }
 
+  get firstContractType() {
+    return this.filteredContracts.length > 0 ? this.filteredContracts[0].type : 'N/A';
+  }
+
   openRenewalModal(contract: Contract) {
     this.selectedContract = contract;
     this.renewalForm.newExpiry = contract.expiryDate;

@@ -30,10 +30,14 @@ export class ProjectBudget implements OnInit {
 
   showOverrideModal = false;
   showSettlementModal = false;
+  showDecisionModal = false;
   isBatchProcessing = false;
   
   vendors: any[] = [];
   activeSettlement: any = null;
+  activeDecisionRequest: any = null;
+  decisionType: 'Approve' | 'Reject' = 'Approve';
+  decisionJustification: string = '';
   selectedBasis: string = 'POC';
 
   overrideForm = {
@@ -76,7 +80,11 @@ export class ProjectBudget implements OnInit {
       console.error('Project ID missing');
       return;
     }
-    console.log('Generating settlement for:', vendor.name, 'Project:', this.project.id);
+    console.log('[ProjectBudget] Requesting Settlement Generation:', {
+      vendorId: vendor.id,
+      projectId: this.project.id,
+      basis: this.selectedBasis
+    });
     this.projectService.generateSettlement(vendor.id, this.project.id, this.selectedBasis).subscribe({
       next: (request) => {
         console.log('Generated request successfully:', request);
@@ -90,16 +98,40 @@ export class ProjectBudget implements OnInit {
     });
   }
 
+  openDecisionModal(request: any, type: 'Approve' | 'Reject') {
+    this.activeDecisionRequest = request;
+    this.decisionType = type;
+    this.decisionJustification = type === 'Approve' ? 'Work verified against site POC. Values consolidated.' : '';
+    this.showDecisionModal = true;
+  }
+
+  submitDecision() {
+    if (!this.activeDecisionRequest) return;
+    
+    const updatedStatus = this.decisionType === 'Approve' ? 'Approved' : 'Rejected';
+    const payload = { 
+      ...this.activeDecisionRequest, 
+      status: updatedStatus,
+      approverJustification: this.decisionJustification 
+    };
+
+    this.projectService.saveSettlement(this.activeDecisionRequest.vendorId, payload).subscribe({
+      next: (res) => {
+        console.log(`Settlement ${this.decisionType}ed:`, res);
+        this.showDecisionModal = false;
+        this.activeDecisionRequest = null;
+        this.loadVendors();
+      },
+      error: (err) => alert(`Error ${this.decisionType}ing settlement: ` + err.message)
+    });
+  }
+
   approveSettlement(request: any) {
-    if (confirm(`Approve settlement of ₹${request.amount.toLocaleString()} for ${request.vendorName}?`)) {
-      this.projectService.saveSettlement(request.vendorId, { ...request, status: 'Approved' }).subscribe({
-        next: (res) => {
-          console.log('Settlement approved:', res);
-          this.loadVendors();
-        },
-        error: (err) => alert('Error approving settlement: ' + err.message)
-      });
-    }
+    this.openDecisionModal(request, 'Approve');
+  }
+
+  rejectSettlement(request: any) {
+    this.openDecisionModal(request, 'Reject');
   }
 
   getVendorLogo(vendorId: any): string | null {
@@ -136,18 +168,8 @@ export class ProjectBudget implements OnInit {
     }
   }
 
-  rejectSettlement(request: any) {
-    if (confirm(`Reject settlement request for ${request.vendorName}?`)) {
-      // In a real app, this would call a DELETE or UPDATE endpoint
-      // For this POC, we'll just set status to Rejected
-      this.projectService.saveSettlement(request.vendorId, { ...request, status: 'Rejected' }).subscribe({
-        next: () => {
-          this.loadVendors();
-        },
-        error: (err) => alert('Error: ' + err.message)
-      });
-    }
-  }
+  // rejectSettlement now calls openDecisionModal directly from template
+  // or via the helper above.
 
   submitSettlement() {
     console.log('Submitting settlement:', this.activeSettlement);

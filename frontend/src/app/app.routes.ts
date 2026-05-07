@@ -26,8 +26,11 @@ import { RbacManagement } from './pages/rbac/rbac';
 import { Settings } from './pages/settings/settings';
 import { ProjectsList } from './pages/projects-list/projects-list';
 
+import { EnterpriseDashboard } from './pages/enterprise/enterprise';
+
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'enterprise', component: EnterpriseDashboard },
   { path: 'dashboard', component: Dashboard },
   { path: 'projects', component: ProjectsList },
   { path: 'project/:id', component: ProjectDetail },

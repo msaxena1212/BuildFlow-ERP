@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
+import { InventoryService } from '../../services/inventory.service';
+import { InventoryRequest, InventoryReturn, InventoryItem } from '../../models/models';
 
 
 @Component({
@@ -13,6 +15,7 @@ import { ProjectService } from '../../services/project.service';
 })
 export class TaskDetail implements OnInit {
   private projectService = inject(ProjectService);
+  private inventoryService = inject(InventoryService);
   @Input() task: any;
   @Output() close = new EventEmitter<void>();
 
@@ -52,6 +55,9 @@ export class TaskDetail implements OnInit {
     { name: 'site_survey_photo.jpg', size: '1.8 MB', date: 'Oct 13', icon: 'image', color: 'blue' }
   ];
 
+  inventoryRequests: InventoryRequest[] = [];
+  inventoryReturns: InventoryReturn[] = [];
+
   ngOnInit() {
     if (this.task && !this.task.assigneeName) {
       this.task.assigneeName = 'Elena Rodriguez';
@@ -78,6 +84,13 @@ export class TaskDetail implements OnInit {
     
     this.projectService.getTasks().subscribe(tasks => {
       this.allTasks = tasks.filter(t => t.id !== this.task.id);
+    });
+
+    this.inventoryService.requests$.subscribe(requests => {
+      this.inventoryRequests = requests.filter(r => r.taskId === this.task.id);
+    });
+    this.inventoryService.returns$.subscribe(returns => {
+      this.inventoryReturns = returns.filter(r => r.taskId === this.task.id);
     });
   }
 
@@ -198,5 +211,79 @@ export class TaskDetail implements OnInit {
       this.task.assigneeName = selected.name;
       this.task.assignee = selected.avatar; // Assuming task.assignee stores avatar URL
     }
+  }
+
+  // Inventory Handlers
+  openRequestInventoryModal() {
+    const request: Partial<InventoryRequest> = {
+      projectId: this.task.projectId,
+      taskId: this.task.id,
+      subTaskId: 'st1',
+      requestedBy: this.loggedInUser.name,
+      requestedRole: 'Site Engineer',
+      items: [{ itemId: 'mat-001', itemName: 'Cement (OPC)', quantityRequested: 50, unit: 'Bags' }]
+    };
+    this.inventoryService.createRequest(request).subscribe();
+    this.logActivity(`requested 50 Bags of Cement (OPC)`);
+  }
+
+  openReturnInventoryModal() {
+    const returnReq: Partial<InventoryReturn> = {
+      projectId: this.task.projectId,
+      taskId: this.task.id,
+      subTaskId: 'st1',
+      returnType: 'Excess',
+      items: [{ itemId: 'mat-001', quantityIssued: 50, quantityUsed: 40, quantityReturned: 10, quantityDamaged: 0, remarks: 'Unused surplus' }],
+      requestedBy: this.loggedInUser.name,
+      referenceRequestId: 'IR-SIMULATED'
+    };
+    this.inventoryService.createReturn(returnReq).subscribe();
+    this.logActivity(`initiated return for 10 Bags of Cement`);
+  }
+
+  getRequestStatusColor(status: string) {
+    switch(status) {
+      case 'Issued': return 'bg-emerald-100 text-emerald-600';
+      case 'Approved': return 'bg-blue-100 text-blue-600';
+      case 'Submitted': return 'bg-amber-100 text-amber-600';
+      case 'Partially Approved': return 'bg-indigo-100 text-indigo-600';
+      default: return 'bg-slate-100 text-slate-600';
+    }
+  }
+
+  getRequestStatusIcon(status: string) {
+    switch(status) {
+      case 'Issued': return 'local_shipping';
+      case 'Approved': return 'check_circle';
+      case 'Submitted': return 'pending';
+      default: return 'inventory';
+    }
+  }
+
+  getRequestStatusClass(status: string) {
+    const color = this.getRequestStatusColor(status);
+    return color.replace('bg-', 'bg-').replace('text-', 'text-'); // Utility call to ensure correct classes
+  }
+
+  getReturnStatusColor(status: string) {
+    return 'bg-amber-100 text-amber-600';
+  }
+
+  getReturnStatusClass(status: string) {
+    return this.getReturnStatusColor(status);
+  }
+
+  issueInventory(req: InventoryRequest) {
+    const items = req.items.map((i: InventoryItem) => ({ itemId: i.itemId, quantityIssued: i.quantityRequested }));
+    this.inventoryService.issueMaterials(req.id, items).subscribe();
+    this.logActivity(`issued materials for request ${req.id}`);
+  }
+
+  viewInventoryRequestDetail(req: InventoryRequest) {
+    console.log('Viewing request detail:', req);
+  }
+
+  viewInventoryReturnDetail(ret: InventoryReturn) {
+    console.log('Viewing return detail:', ret);
   }
 }

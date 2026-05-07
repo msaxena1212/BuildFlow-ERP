@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MaterialService, Material, PurchaseRequisition, StockTransfer } from '../../services/material.service';
+import { MaterialService, Material, PurchaseRequisition, StockTransfer, MaterialReturn } from '../../services/material.service';
 import { VendorService, Vendor } from '../../services/vendor.service';
 import { RbacService } from '../../services/rbac.service';
 import { PermissionDirective } from '../../directives/permission.directive';
@@ -37,6 +37,7 @@ export class MaterialsManagement implements OnInit {
   showFilters = false;
   showPRModal = false;
   showTransferModal = false;
+  showReturnModal = false;
 
   materialToEdit: Material | null = null;
   materialToDelete: Material | null = null;
@@ -54,11 +55,18 @@ export class MaterialsManagement implements OnInit {
     status: 'Draft'
   };
 
+  newReturn: Partial<MaterialReturn> = {
+    quantity: 0,
+    reason: 'Surplus',
+    status: 'Pending'
+  };
+
   materials: Material[] = [];
   vendors: Vendor[] = [];
   projects: Project[] = [];
   purchaseRequisitions: PurchaseRequisition[] = [];
   stockTransfers: StockTransfer[] = [];
+  materialReturns: MaterialReturn[] = [];
   inventoryAnalysis: any[] = [];
   isAnalyzing = false;
 
@@ -71,6 +79,7 @@ export class MaterialsManagement implements OnInit {
     this.projectService.projects$.subscribe(p => this.projects = p);
     this.materialService.purchaseRequisitions$.subscribe(pr => this.purchaseRequisitions = pr);
     this.materialService.stockTransfers$.subscribe(st => this.stockTransfers = st);
+    this.materialService.materialReturns$.subscribe(mr => this.materialReturns = mr);
   }
 
   runAnalysis() {
@@ -228,6 +237,32 @@ export class MaterialsManagement implements OnInit {
 
     this.materialService.createStockTransfer(this.newTransfer).subscribe(() => {
       this.showTransferModal = false;
+    });
+  }
+
+  openReturnModal(material: Material) {
+    this.newReturn = {
+      materialSku: material.sku,
+      materialName: material.name,
+      unit: material.unit,
+      quantity: 0,
+      reason: 'Surplus',
+      requestDate: new Date().toISOString().split('T')[0],
+      status: 'Pending',
+      requestedBy: this.rbac.getCurrentUser()?.name || 'System'
+    };
+    this.showReturnModal = true;
+  }
+
+  submitReturn() {
+    const project = this.projects.find(p => p.id === this.newReturn.projectId);
+    if (project) {
+      this.newReturn.projectName = project.name;
+    }
+    
+    this.materialService.createMaterialReturn(this.newReturn).subscribe(() => {
+      alert('Reverse Logistics: Material return request submitted to warehouse.');
+      this.showReturnModal = false;
     });
   }
 

@@ -114,4 +114,8 @@ export class RbacService {
       this.currentUserSubject.next(member);
     }
   }
+
+  getCurrentUser(): TeamMember | null {
+    return this.currentUserSubject.value;
+  }
 }

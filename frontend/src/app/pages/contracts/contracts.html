@@ -12,7 +12,7 @@
         {{ selectedVendor === 'All Vendors' ? 'Portfolio Overview' : selectedVendor }}
       </h2>
       <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">
-        {{ selectedVendor === 'All Vendors' ? 'Operational scope and compliance status across all active vendor partnerships.' : 'Primary scope: ' + (filteredContracts[0]?.type || 'N/A') + ' and regional operations.' }}
+        {{ selectedVendor === 'All Vendors' ? 'Operational scope and compliance status across all active vendor partnerships.' : 'Primary scope: ' + firstContractType + ' and regional operations.' }}
       </p>
     </div>
     <div class="flex items-center gap-4">

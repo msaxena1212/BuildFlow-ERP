@@ -3,13 +3,15 @@ import { projects, vendors, contracts } from '../data/mock-data';
 
 export class SettlementService {
   static generateSuggestedSettlement(vendorId: string | number, projectId: string, basis: 'POC' | 'Milestone' | 'LumpSum'): SettlementRequest {
-    console.log(`[SettlementService] Generating request for Vendor: ${vendorId}, Project: ${projectId}, Basis: ${basis}`);
-    const project = projects.find(p => p.id === projectId);
-    const vendor = vendors.find(v => v.id == vendorId);
+    console.log(`[SettlementService] Generating request for Vendor: ${vendorId} (Type: ${typeof vendorId}), Project: ${projectId}`);
+    const project = projects.find(p => p.id === projectId || p.projectCode === projectId);
+    const vendor = vendors.find(v => v.id.toString() === vendorId.toString());
     
     if (!project || !vendor) {
-      console.error(`[SettlementService] Project (${!!project}) or Vendor (${!!vendor}) not found`);
-      throw new Error('Project or Vendor not found');
+      console.error(`[SettlementService] Search Failed. Project: ${!!project}, Vendor: ${!!vendor}`);
+      console.log('[SettlementService] Input ProjectID:', projectId);
+      console.log('[SettlementService] Input VendorID:', vendorId);
+      throw new Error(`Project (${projectId}) or Vendor (${vendorId}) not found in database.`);
     }
 
     // Find the contract for this vendor and project
@@ -71,7 +73,7 @@ export class SettlementService {
   }
 
   static saveSettlementRequest(request: SettlementRequest) {
-    const vendor = vendors.find(v => v.id == request.vendorId);
+    const vendor = vendors.find(v => v.id.toString() === request.vendorId.toString());
     if (vendor) {
       if (!vendor.settlementRequests) vendor.settlementRequests = [];
       vendor.settlementRequests.push(request);
@@ -93,6 +95,26 @@ export class SettlementService {
 
       return request;
     }
+  }
+
+  static updateSettlementRequest(vendorId: string | number, updatedRequest: any) {
+    const vendor = vendors.find(v => v.id.toString() === vendorId.toString());
+    if (vendor && vendor.settlementRequests) {
+      const index = vendor.settlementRequests.findIndex((r: any) => r.id === updatedRequest.id);
+      if (index !== -1) {
+        vendor.settlementRequests[index] = { ...vendor.settlementRequests[index], ...updatedRequest };
+        
+        // Update corresponding invoice status
+        if (vendor.invoices) {
+          const invIndex = vendor.invoices.findIndex((inv: any) => inv.number === `SET-${updatedRequest.id.toUpperCase()}`);
+          if (invIndex !== -1) {
+            vendor.invoices[invIndex].status = updatedRequest.status === 'Approved' ? 'Paid' : (updatedRequest.status === 'Rejected' ? 'Rejected' : 'Pending');
+          }
+        }
+        return vendor.settlementRequests[index];
+      }
+    }
+    return null;
   }
 
   // --- Retention Release Intelligence ---

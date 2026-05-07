@@ -22,35 +22,31 @@ export class NewProjectWizard {
   excludedIds = new Set<string>();
   uploadedFiles: any[] = [];
 
+  get selectedTemplate(): ProjectTemplate | undefined {
+    return this.templates.find(t => t.id === this.selectedTemplateId);
+  }
+
   availableMembers = [
-    { name: 'Ananya Iyer', role: 'Lead Structural Eng.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop' },
-    { name: 'Karan Malhotra', role: 'Safety Inspector', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=256&auto=format&fit=crop' }
+    { name: 'Ananya Iyer', role: 'Lead Structural Eng.', trade: 'Civil', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Karan Malhotra', role: 'Safety Inspector', trade: 'Safety', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Dr. Sameer Rao', role: 'Process Engineer', trade: 'Industrial', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Vikram Sethi', role: 'Mechanical Lead', trade: 'Mechanical', avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Elena Gilbert', role: 'Electrical Specialist', trade: 'Electrical', avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Rohan Deshmukh', role: 'Senior Surveyor', trade: 'Civil', avatar: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Meera Nair', role: 'Infrastructure Lead', trade: 'Civil', avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Abhishek Vats', role: 'Contract Specialist', trade: 'Management', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Sarah Chen', role: 'Compliance Officer', trade: 'Compliance', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Priya Verma', role: 'Interior Designer', trade: 'Renovation', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Sunil Gupta', role: 'Plumber', trade: 'Renovation', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Anthony G.', role: 'Carpenter', trade: 'Renovation', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=256&auto=format&fit=crop' },
+    { name: 'Hussain D.', role: 'Painter', trade: 'Renovation', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&auto=format&fit=crop' }
   ];
 
   showAssignDropdown = false;
   newMilestoneName = '';
 
-  templates: ProjectTemplate[] = [
-    {
-      id: 't1',
-      name: 'Standard Residential House',
-      type: 'Residential',
-      version: '1.0',
-      milestones: [
-        { 
-          id: 'm1', name: 'Planning & Design', order: 1, durationDays: 30, color: 'blue', progress: 0,
-          subMilestones: [
-            { id: 'sm1', name: 'Design Approval', order: 1, durationDays: 15, progress: 0, status: 'Pending', tasks: [
-              { id: 'tk1', title: 'Architectural Design', order: 1, durationDays: 10, projectId: '', status: 'Pending', priority: 'High', deadline: '', role: 'Lead Architect', subtasks: [
-                { id: 'st1', name: 'Floor Plan', order: 1, isCompleted: false, isChecklist: true },
-                { id: 'st2', name: 'Elevation', order: 2, isCompleted: false, isChecklist: true }
-              ]}
-            ]}
-          ]
-        }
-      ]
-    }
-  ];
+  projectTypes = ['Commercial', 'Residential', 'Industrial', 'Infrastructure', 'Institutional', 'Renovation'];
+  templates: ProjectTemplate[] = [];
 
   roleMapping: { [role: string]: string } = {};
   templateRoles: string[] = [];
@@ -76,6 +72,16 @@ export class NewProjectWizard {
       { item: 'Reinforcement Steel', quantity: 15, unit: 'MT' }
     ]
   };
+
+  get filteredMembers() {
+    if (this.projectForm.type === 'Renovation') {
+      return this.availableMembers.filter(m => m.trade === 'Renovation' || m.trade === 'Management' || m.trade === 'Electrical');
+    }
+    if (this.projectForm.type === 'Industrial') {
+      return this.availableMembers.filter(m => m.trade === 'Industrial' || m.trade === 'Mechanical' || m.trade === 'Electrical' || m.trade === 'Management');
+    }
+    return this.availableMembers;
+  }
 
   nextStep() {
     if (this.currentStep < 5) {
@@ -109,6 +115,12 @@ export class NewProjectWizard {
       });
       this.newMilestoneName = '';
     }
+  }
+
+  ngOnInit() {
+    this.templateService.getTemplates().subscribe(t => {
+      this.templates = t;
+    });
   }
 
   simulateUpload() {

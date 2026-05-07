@@ -519,96 +519,193 @@
         </div>
       </div>
       
-      <div class="space-y-3">
-        <div *ngFor="let request of getPendingSettlements()" class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/10 group animate-in slide-in-from-bottom-2 duration-300">
-          <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary overflow-hidden border border-primary/5">
-              <img *ngIf="getVendorLogo(request.vendorId)" [src]="getVendorLogo(request.vendorId)" class="w-full h-full object-cover">
-              <span *ngIf="!getVendorLogo(request.vendorId)" class="material-symbols-outlined text-[20px]">history_edu</span>
+      <div class="space-y-4">
+        <div *ngFor="let request of getPendingSettlements()" class="relative group bg-surface-container-lowest rounded-2xl p-6 shadow-sm border border-outline-variant/10 hover:shadow-xl hover:translate-x-1 transition-all duration-300 overflow-hidden">
+          <!-- Animated Background Glow -->
+          <div class="absolute -right-12 -top-12 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-colors"></div>
+          
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+            <div class="flex items-center gap-5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-primary shadow-inner border border-primary/5 group-hover:scale-110 transition-transform">
+                <img *ngIf="getVendorLogo(request.vendorId)" [src]="getVendorLogo(request.vendorId)" class="w-full h-full object-cover rounded-xl">
+                <span *ngIf="!getVendorLogo(request.vendorId)" class="material-symbols-outlined text-[28px]">account_balance_wallet</span>
+              </div>
+              <div>
+                <p class="font-black text-on-surface text-base uppercase tracking-tight group-hover:text-primary transition-colors">{{ request.vendorName }}</p>
+                <div class="flex items-center gap-3 mt-1">
+                  <span class="px-2 py-0.5 bg-surface-container-low text-[8px] font-black text-outline uppercase tracking-widest rounded border border-outline-variant/5">{{ request.basis }}</span>
+                  <span class="w-1 h-1 rounded-full bg-outline/30"></span>
+                  <p class="text-[9px] text-outline font-bold uppercase tracking-widest flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">calendar_month</span>
+                    {{ request.requestDate | date:'MMM dd, yyyy' }}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <p class="font-black text-on-surface text-xs uppercase tracking-tight">{{ request.vendorName }}</p>
-              <p class="text-[8px] text-outline font-bold uppercase tracking-widest mt-0.5">
-                {{ request.basis }} BASIS • {{ request.requestDate | date:'mediumDate' }} • POC {{ request.workPercentage }}%
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center gap-4">
-            <div class="text-right">
-              <p class="font-black text-on-surface text-sm tracking-tight">₹{{ request.amount | number:'1.0-0' }}</p>
-              <p class="text-[8px] text-amber-600 font-bold uppercase tracking-widest mt-0.5">PENDING APPROVAL</p>
-            </div>
-            <div class="flex items-center gap-2">
-              <button (click)="approveSettlement(request)" class="p-2 rounded-lg bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all flex items-center gap-1">
-                <span class="text-[8px] font-black uppercase">Approve</span>
-                <span class="material-symbols-outlined text-[16px]">check_circle</span>
-              </button>
-              <button (click)="rejectSettlement(request)" class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all flex items-center gap-1">
-                <span class="text-[8px] font-black uppercase">Reject</span>
-                <span class="material-symbols-outlined text-[16px]">cancel</span>
-              </button>
+
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 lg:gap-12">
+              <div class="flex flex-col">
+                <p class="text-[8px] text-outline font-black uppercase tracking-widest mb-1">PROPOSED SETTLEMENT</p>
+                <div class="flex items-baseline gap-1">
+                  <span class="text-xl font-black text-on-surface">₹{{ request.amount | number:'1.0-0' }}</span>
+                  <span class="text-[9px] text-amber-600 font-black uppercase tracking-widest">Pending</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <button (click)="approveSettlement(request)" class="h-11 px-5 rounded-xl bg-primary text-white hover:bg-primary/90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20 border-none cursor-pointer">
+                  <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                  <span class="text-[10px] font-black uppercase tracking-widest">Approve</span>
+                </button>
+                <button (click)="rejectSettlement(request)" class="h-11 px-5 rounded-xl bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all flex items-center gap-2 border border-red-100 group-hover:border-transparent cursor-pointer">
+                  <span class="material-symbols-outlined text-[20px]">cancel</span>
+                  <span class="text-[10px] font-black uppercase tracking-widest">Reject</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="getPendingSettlements().length === 0" class="py-12 text-center">
-          <span class="material-symbols-outlined text-outline/30 text-4xl mb-2">payments</span>
-          <p class="text-[10px] text-outline/50 font-bold uppercase tracking-widest">No active settlement requests for this period</p>
+        <div *ngIf="getPendingSettlements().length === 0" class="py-20 text-center bg-surface-container-low/20 rounded-2xl border border-dashed border-outline-variant/20">
+          <div class="w-20 h-20 bg-surface-container-low rounded-full flex items-center justify-center mx-auto mb-4 border border-outline-variant/10">
+            <span class="material-symbols-outlined text-outline/30 text-4xl">inventory_2</span>
+          </div>
+          <h5 class="text-xs font-black text-on-surface uppercase tracking-widest mb-1">Pipeline Empty</h5>
+          <p class="text-[10px] text-outline font-bold uppercase tracking-widest">All settlement requests have been processed for Site 104</p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
+</div>
 
 <!-- Settlement Request Modal -->
 <div *ngIf="showSettlementModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
   <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" (click)="showSettlementModal = false"></div>
-  <div class="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-300 border border-outline-variant/10">
-    <div class="p-6 border-b border-outline-variant/10 bg-surface-container-low/30">
-      <div class="flex items-center justify-between mb-2">
-        <h3 class="text-lg font-black text-on-surface uppercase tracking-tight">Settlement Request</h3>
-        <button (click)="showSettlementModal = false" class="material-symbols-outlined text-outline hover:text-on-surface transition-colors cursor-pointer">close</button>
+  <div class="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-300 border border-outline-variant/10">
+    <div class="p-8 border-b border-outline-variant/10 bg-surface-container-low/30">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-xl font-black text-on-surface uppercase tracking-tight">Initiate Settlement Request</h3>
+          <p class="text-[10px] text-primary font-black uppercase tracking-[0.2em] mt-1">RECONCILIATION PHASE ACTIVE</p>
+        </div>
+        <button (click)="showSettlementModal = false" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors cursor-pointer border-none bg-transparent">
+          <span class="material-symbols-outlined text-outline">close</span>
+        </button>
       </div>
-      <p class="text-[9px] text-outline font-bold uppercase tracking-widest">VENDOR: {{ activeSettlement?.vendorName }}</p>
+      <div class="flex items-center gap-4 mt-2">
+        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/10">
+          <span class="material-symbols-outlined text-[24px]">store</span>
+        </div>
+        <div>
+          <p class="text-sm font-black text-on-surface uppercase">{{ activeSettlement?.vendorName }}</p>
+          <p class="text-[9px] text-outline font-bold uppercase tracking-widest">ID: VND-{{ activeSettlement?.vendorId }} • Project: {{ project.projectCode }}</p>
+        </div>
+      </div>
     </div>
     
-    <div class="p-6 space-y-6">
-      <div>
-        <label class="text-[10px] font-black text-outline uppercase tracking-widest block mb-3 ml-1">Reconciliation Basis</label>
-        <div class="grid grid-cols-3 gap-3">
-          <button (click)="updateSettlementBasis('POC')" [class.bg-primary]="selectedBasis === 'POC'" [class.text-white]="selectedBasis === 'POC'" class="px-3 py-2 border border-outline-variant/10 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">Work POC</button>
-          <button (click)="updateSettlementBasis('Milestone')" [class.bg-primary]="selectedBasis === 'Milestone'" [class.text-white]="selectedBasis === 'Milestone'" class="px-3 py-2 border border-outline-variant/10 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">Milestone</button>
-          <button (click)="updateSettlementBasis('LumpSum')" [class.bg-primary]="selectedBasis === 'LumpSum'" [class.text-white]="selectedBasis === 'LumpSum'" class="px-3 py-2 border border-outline-variant/10 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all">Lump Sum</button>
-        </div>
+    <div class="p-8 space-y-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button (click)="updateSettlementBasis('POC')" [class]="(selectedBasis === 'POC' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'bg-surface-container-low text-outline hover:bg-surface-container-high') + ' flex flex-col items-center gap-2 p-4 rounded-2xl border border-outline-variant/5 transition-all cursor-pointer border-none'">
+          <span class="material-symbols-outlined">analytics</span>
+          <span class="text-[9px] font-black uppercase tracking-widest">Work POC</span>
+        </button>
+        <button (click)="updateSettlementBasis('Milestone')" [class]="(selectedBasis === 'Milestone' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'bg-surface-container-low text-outline hover:bg-surface-container-high') + ' flex flex-col items-center gap-2 p-4 rounded-2xl border border-outline-variant/5 transition-all cursor-pointer border-none'">
+          <span class="material-symbols-outlined">flag</span>
+          <span class="text-[9px] font-black uppercase tracking-widest">Milestone</span>
+        </button>
+        <button (click)="updateSettlementBasis('LumpSum')" [class]="(selectedBasis === 'LumpSum' ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105' : 'bg-surface-container-low text-outline hover:bg-surface-container-high') + ' flex flex-col items-center gap-2 p-4 rounded-2xl border border-outline-variant/5 transition-all cursor-pointer border-none'">
+          <span class="material-symbols-outlined">payments</span>
+          <span class="text-[9px] font-black uppercase tracking-widest">Lump Sum</span>
+        </button>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
-        <div class="p-4 bg-green-50 rounded-xl border border-green-100">
-          <p class="text-[8px] font-black text-green-700/60 uppercase tracking-widest mb-1">SUGGESTED SETTLEMENT</p>
-          <div *ngIf="selectedBasis !== 'LumpSum'" class="text-xl font-black text-green-700">₹{{ activeSettlement?.amount | number:'1.0-0' }}</div>
-          <div *ngIf="selectedBasis === 'LumpSum'" class="flex items-center gap-1">
-            <span class="text-xl font-black text-green-700">₹</span>
-            <input type="number" [(ngModel)]="activeSettlement.amount" class="bg-transparent border-b border-green-700/30 w-full text-xl font-black text-green-700 focus:outline-none focus:border-green-700">
+      <div class="grid grid-cols-2 gap-6">
+        <div class="p-6 bg-green-50 rounded-2xl border border-green-100 flex flex-col justify-center">
+          <p class="text-[9px] font-black text-green-700/60 uppercase tracking-widest mb-2">CALCULATED SETTLEMENT</p>
+          <div *ngIf="selectedBasis !== 'LumpSum'" class="text-3xl font-black text-green-700">₹{{ activeSettlement?.amount | number:'1.0-0' }}</div>
+          <div *ngIf="selectedBasis === 'LumpSum'" class="flex items-center gap-2 border-b-2 border-green-700/20 py-1">
+            <span class="text-2xl font-black text-green-700">₹</span>
+            <input type="number" [(ngModel)]="activeSettlement.amount" class="bg-transparent w-full text-2xl font-black text-green-700 focus:outline-none border-none" placeholder="0">
           </div>
         </div>
-        <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/10">
-          <p class="text-[8px] font-black text-outline uppercase tracking-widest mb-1">WORK VERIFIED</p>
-          <p class="text-xl font-black text-on-surface">{{ activeSettlement?.workPercentage }}%</p>
+        <div class="p-6 bg-surface-container-low rounded-2xl border border-outline-variant/10 flex flex-col justify-center">
+          <p class="text-[9px] font-black text-outline uppercase tracking-widest mb-2">CERTIFIED WORK PROGRESS</p>
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-black text-on-surface">{{ activeSettlement?.workPercentage }}%</span>
+            <span class="text-[10px] text-outline font-bold uppercase">Verified</span>
+          </div>
         </div>
       </div>
 
-      <div class="p-4 bg-surface-container-low/50 rounded-xl border border-outline-variant/10 text-[10px] text-on-surface-variant italic leading-relaxed">
-        "{{ activeSettlement?.justification }}"
+      <div class="space-y-3">
+        <label class="text-[10px] font-black text-outline uppercase tracking-widest ml-1">Submission Justification</label>
+        <div class="p-5 bg-surface-container-low/50 rounded-2xl border border-outline-variant/10 text-xs text-on-surface-variant italic leading-relaxed relative">
+          <span class="material-symbols-outlined absolute -top-3 -left-1 text-primary/20 text-3xl">format_quote</span>
+          "{{ activeSettlement?.justification }}"
+        </div>
       </div>
 
-      <div class="flex gap-3 pt-2">
-        <button (click)="showSettlementModal = false" class="flex-1 py-3 bg-surface-container-high rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-surface-container-highest transition-all">
+      <div class="flex gap-4 pt-4">
+        <button (click)="showSettlementModal = false" class="flex-1 py-4 bg-surface-container-high rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-surface-container-highest transition-all border-none cursor-pointer">
+          Discard
+        </button>
+        <button (click)="submitSettlement()" class="flex-1 py-4 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 border-none cursor-pointer">
+          Submit to Governance
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Decision Modal (Approve/Reject) -->
+<div *ngIf="showDecisionModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" (click)="showDecisionModal = false"></div>
+  <div class="relative bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-300 border border-outline-variant/10">
+    <div class="p-6 border-b border-outline-variant/10" [ngClass]="{'bg-primary/5': decisionType === 'Approve', 'bg-red-50': decisionType === 'Reject'}">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center" [ngClass]="{'bg-primary/10': decisionType === 'Approve', 'bg-red-100': decisionType === 'Reject'}" [class.text-primary]="decisionType === 'Approve'" [class.text-red-600]="decisionType === 'Reject'">
+            <span class="material-symbols-outlined">{{ decisionType === 'Approve' ? 'verified' : 'gavel' }}</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-black text-on-surface uppercase tracking-tight">{{ decisionType }} Settlement</h3>
+            <p class="text-[9px] font-black uppercase tracking-widest" [class.text-primary]="decisionType === 'Approve'" [class.text-red-600]="decisionType === 'Reject'">Reviewing Request from {{ activeDecisionRequest?.vendorName }}</p>
+          </div>
+        </div>
+        <button (click)="showDecisionModal = false" class="material-symbols-outlined text-outline hover:text-on-surface transition-colors cursor-pointer border-none bg-transparent">close</button>
+      </div>
+    </div>
+    
+    <div class="p-8 space-y-6">
+      <div class="bg-surface-container-low/50 rounded-2xl p-6 border border-outline-variant/10">
+        <div class="grid grid-cols-2 gap-8">
+          <div>
+            <p class="text-[8px] font-black text-outline uppercase tracking-widest mb-1">SETTLEMENT AMOUNT</p>
+            <p class="text-2xl font-black text-on-surface">₹{{ activeDecisionRequest?.amount | number:'1.0-0' }}</p>
+          </div>
+          <div>
+            <p class="text-[8px] font-black text-outline uppercase tracking-widest mb-1">WORK BASIS</p>
+            <p class="text-sm font-black text-on-surface uppercase">{{ activeDecisionRequest?.basis }} ({{ activeDecisionRequest?.workPercentage }}%)</p>
+          </div>
+        </div>
+        <div class="mt-6 pt-6 border-t border-outline-variant/10">
+          <p class="text-[8px] font-black text-outline uppercase tracking-widest mb-2">VENDOR JUSTIFICATION</p>
+          <p class="text-xs text-on-surface-variant italic leading-relaxed">"{{ activeDecisionRequest?.justification }}"</p>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <label class="text-[10px] font-black text-outline uppercase tracking-widest ml-1">{{ decisionType }}al Comments</label>
+        <textarea [(ngModel)]="decisionJustification" [placeholder]="decisionType === 'Approve' ? 'Confirm verification of work...' : 'Provide reason for rejection...'" class="w-full h-24 bg-surface-container-low border-none rounded-2xl p-4 text-xs text-on-surface font-medium focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none"></textarea>
+      </div>
+
+      <div class="flex gap-4">
+        <button (click)="showDecisionModal = false" class="flex-1 py-4 bg-surface-container-high rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-surface-container-highest transition-all border-none cursor-pointer">
           Cancel
         </button>
-        <button (click)="submitSettlement()" class="flex-1 py-3 bg-primary text-white rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-          Confirm Request
+        <button (click)="submitDecision()" [class.bg-primary]="decisionType === 'Approve'" [class.bg-red-600]="decisionType === 'Reject'" class="flex-1 py-4 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:opacity-90 transition-all shadow-lg border-none cursor-pointer">
+          Finalize {{ decisionType }}al
         </button>
       </div>
     </div>
@@ -624,7 +721,7 @@
         <h3 class="text-base font-black text-on-surface tracking-tight uppercase">Manual POC Override</h3>
         <p class="text-[9px] text-outline font-bold uppercase tracking-widest mt-0.5">Approval required for manual entry</p>
       </div>
-      <button (click)="showOverrideModal = false" class="material-symbols-outlined text-outline hover:text-on-surface transition-colors cursor-pointer">close</button>
+      <button (click)="showOverrideModal = false" class="material-symbols-outlined text-outline hover:text-on-surface transition-colors cursor-pointer border-none bg-transparent">close</button>
     </div>
     
     <div class="p-6 space-y-4">
@@ -645,8 +742,8 @@
     </div>
     
     <div class="px-6 py-4 bg-surface-container-low flex justify-end gap-3">
-      <button (click)="showOverrideModal = false" class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest text-outline hover:text-on-surface transition-colors cursor-pointer">Cancel</button>
-      <button (click)="submitOverride()" class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest bg-primary text-on-primary hover:bg-primary/90 transition-colors cursor-pointer shadow-md flex items-center gap-1.5">
+      <button (click)="showOverrideModal = false" class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest text-outline hover:text-on-surface transition-colors cursor-pointer border-none bg-transparent">Cancel</button>
+      <button (click)="submitOverride()" class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest bg-primary text-on-primary hover:bg-primary/90 transition-colors cursor-pointer shadow-md flex items-center gap-1.5 border-none">
         <span class="material-symbols-outlined text-[12px]">send</span> Submit for Approval
       </button>
     </div>

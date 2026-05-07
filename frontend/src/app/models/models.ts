@@ -8,12 +8,6 @@ export interface ProjectDocument {
   size?: string;
 }
 
-export interface TaskDependency {
-  predecessorId: string;
-  type: DependencyType;
-  lag?: number;
-}
-
 export interface SubTask {
   id: string;
   name: string;
@@ -180,103 +174,11 @@ export interface Project {
 
 export type DependencyType = 'FS' | 'SS' | 'FF' | 'SF';
 
-export interface Lead {
-  id: string;
-  projectCode: string; // associated project
-  source: string; // e.g., referral, marketing
-  title: string;
-  value: number;
-  status: 'New' | 'Qualified' | 'Lost' | 'Converted';
-  createdAt: string;
+export interface TaskDependency {
+  predecessorId: string;
+  type: DependencyType;
+  lag: number; // in days
 }
-
-export interface Sale {
-  id: string;
-  projectCode: string;
-  type: 'Private' | 'Public';
-  customerName: string;
-  amount: number;
-  contractId?: string;
-  status: 'Pending' | 'Approved' | 'Closed' | 'Cancelled';
-  createdAt: string;
-}
-
-export interface Tender {
-  id: string;
-  projectCode: string;
-  description: string;
-  estimatedValue: number;
-  submissionDate: string;
-  status: 'Open' | 'Submitted' | 'Awarded' | 'Rejected';
-}
-
-export interface PurchaseOrder {
-  id: string;
-  projectCode: string;
-  vendorId: string;
-  quantity: number;
-  unit: string;
-  tenureMonths: number;
-  createdAt: string;
-  status: 'Draft' | 'Submitted' | 'Approved' | 'Rejected';
-}
-
-export interface Invoice {
-  id: string;
-  projectCode: string;
-  milestoneId: string;
-  amount: number;
-  generatedAt: string;
-  status: 'Draft' | 'Sent' | 'Approved' | 'Paid' | 'Rejected';
-}
-
-export interface InvoiceApproval {
-  id: string;
-  invoiceId: string;
-  approverId: string;
-  approved: boolean;
-  comment?: string;
-  timestamp: string;
-}
-
-export interface CreditDebitNote {
-  id: string;
-  invoiceId: string;
-  type: 'Credit' | 'Debit';
-  amount: number;
-  reason: string;
-  status: 'Draft' | 'Approved' | 'Rejected';
-  createdAt: string;
-}
-
-export interface CollectionTracking {
-  id: string;
-  invoiceId: string;
-  agingStage: 'A1' | 'A2' | 'A3';
-  amountDue: number;
-  dueDate: string;
-  status: 'Pending' | 'Collected' | 'WrittenOff';
-}
-
-export interface EmailAlert {
-  id: string;
-  recipientId: string;
-  projectCode?: string; // Optional project context
-  subject: string;
-  body: string;
-  triggeredAt: string;
-  read: boolean;
-}
-
-export interface MilestoneBilling {
-  id: string;
-  projectCode: string;
-  milestoneId: string;
-  invoiceId: string;
-  amount: number;
-  generatedAt: string;
-}
-
 
 export interface SiteUpdate {
   id: string;
@@ -371,7 +273,7 @@ export interface SettlementRequest {
   workPercentage: number;
   milestoneId?: string;
   justification: string;
-  status: 'Draft' | 'Pending' | 'Approved' | 'Paid' | 'Rejected';
+  status: 'Draft' | 'Pending' | 'Approved' | 'Paid';
 }
 
 export interface Vendor {
@@ -623,7 +525,6 @@ export interface InventoryReturn {
 
   createdAt: string;
 }
-
 
 export interface Branch {
   id: string;

@@ -197,7 +197,101 @@
           </div>
         </section>
 
+        <!-- Inventory Management (Handover & Returns) -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-2">
+              <h3 class="text-xs font-black uppercase tracking-[0.15em] text-slate-400">Inventory Management</h3>
+              <span class="px-2 py-0.5 rounded bg-indigo-600 text-[8px] font-bold text-white uppercase tracking-tighter">Handover Workflow</span>
+            </div>
+            <div class="flex gap-2">
+              <button (click)="openRequestInventoryModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[9px] font-black uppercase tracking-widest hover:bg-blue-100 transition-colors cursor-pointer border border-blue-100 dark:border-blue-800">
+                <span class="material-symbols-outlined text-[14px]">add_shopping_cart</span>
+                Request Material
+              </button>
+              <button (click)="openReturnInventoryModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-[9px] font-black uppercase tracking-widest hover:bg-amber-100 transition-colors cursor-pointer border border-amber-100 dark:border-amber-800">
+                <span class="material-symbols-outlined text-[14px]">assignment_return</span>
+                Return / Excess
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Requests -->
+          @if (inventoryRequests.length > 0) {
+            <div class="space-y-3">
+              <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1">Active Requests</p>
+              @for (req of inventoryRequests; track req.id) {
+                <div class="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group hover:border-blue-500/30 transition-all">
+                  <div class="flex items-center gap-4">
+                    <div [class]="getRequestStatusColor(req.status)" class="w-10 h-10 rounded-xl flex items-center justify-center shadow-inner">
+                      <span class="material-symbols-outlined text-[20px]">{{ getRequestStatusIcon(req.status) }}</span>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-black text-slate-900 dark:text-slate-50 uppercase tracking-tight">{{ req.id }}</span>
+                        <span [class]="getRequestStatusClass(req.status)" class="px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-wider">
+                          {{ req.status }}
+                        </span>
+                      </div>
+                      <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">
+                        {{ req.items.length }} Items • {{ req.updatedAt | date:'MMM d, h:mm a' }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    @if (req.status === 'Approved') {
+                      <button (click)="issueInventory(req)" class="px-3 py-1.5 bg-blue-600 text-white text-[9px] font-black uppercase tracking-widest rounded-lg shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-colors cursor-pointer">
+                        Issue Materials
+                      </button>
+                    }
+                    <button (click)="viewInventoryRequestDetail(req)" class="material-symbols-outlined text-slate-400 hover:text-blue-600 transition-colors cursor-pointer">arrow_forward</button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Active Returns -->
+          @if (inventoryReturns.length > 0) {
+            <div class="space-y-3 mt-6">
+              <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 ml-1">Active Returns</p>
+              @for (ret of inventoryReturns; track ret.id) {
+                <div class="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 group hover:border-amber-500/30 transition-all">
+                  <div class="flex items-center gap-4">
+                    <div [class]="getReturnStatusColor(ret.status)" class="w-10 h-10 rounded-xl flex items-center justify-center shadow-inner">
+                      <span class="material-symbols-outlined text-[20px]">assignment_return</span>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-black text-slate-900 dark:text-slate-50 uppercase tracking-tight">{{ ret.id }}</span>
+                        <span [class]="getReturnStatusClass(ret.status)" class="px-1.5 py-0.5 rounded text-[7px] font-black uppercase tracking-wider">
+                          {{ ret.status }}
+                        </span>
+                      </div>
+                      <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">
+                        {{ ret.returnType }} • {{ ret.createdAt | date:'MMM d, h:mm a' }}
+                      </p>
+                    </div>
+                  </div>
+                  <button (click)="viewInventoryReturnDetail(ret)" class="material-symbols-outlined text-slate-400 hover:text-amber-600 transition-colors cursor-pointer">arrow_forward</button>
+                </div>
+              }
+            </div>
+          }
+
+          @if (inventoryRequests.length === 0 && inventoryReturns.length === 0) {
+            <div class="bg-slate-50 dark:bg-slate-800/30 rounded-2xl p-8 border border-dashed border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center text-center">
+              <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-3">
+                <span class="material-symbols-outlined text-slate-300">inventory_2</span>
+              </div>
+              <p class="text-xs font-black text-slate-400 uppercase tracking-widest">No Inventory Activity</p>
+              <p class="text-[10px] text-slate-400 mt-1 max-w-[200px]">Link materials from the warehouse to this task via handover requests.</p>
+            </div>
+          }
+        </section>
+
         <!-- Attachments -->
+
         <section>
           <div class="flex items-center justify-between mb-6">
             <h3 class="text-xs font-black uppercase tracking-[0.15em] text-slate-400">File Attachments</h3>

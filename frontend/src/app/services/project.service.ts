@@ -2,14 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Project } from '../models/models';
+import { BehaviorSubject } from 'rxjs';
+
+export type { Project };
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
   private apiUrl = environment.apiUrl;
+  private projectsSubject = new BehaviorSubject<Project[]>([]);
+  projects$ = this.projectsSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.refreshProjects();
+  }
+
+  refreshProjects() {
+    this.http.get<Project[]>(`${this.apiUrl}/projects`).subscribe(p => this.projectsSubject.next(p));
+  }
 
   getProjects(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/projects`);
