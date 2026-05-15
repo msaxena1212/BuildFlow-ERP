@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.blue-glow {
+  box-shadow: 0 0 20px rgba(0, 74, 198, 0.15);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

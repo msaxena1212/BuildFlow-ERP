@@ -1,0 +1,662 @@
+<div (click)="closeDropdown()" class="max-w-[1400px] mx-auto p-8 animate-in">
+  <!-- Vendor Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+    <div class="space-y-3">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase shadow-sm">Verified Tier 1</span>
+        <span class="text-slate-500 dark:text-slate-400 text-xs font-bold flex items-center gap-1.5 uppercase tracking-widest">
+          <span class="material-symbols-outlined text-[16px]">location_on</span> Seattle, WA
+        </span>
+      </div>
+      <h2 class="text-5xl font-black tracking-tighter text-slate-900 dark:text-slate-50">
+        {{ selectedVendor === 'All Vendors' ? 'Portfolio Overview' : selectedVendor }}
+      </h2>
+      <p class="text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed text-lg font-light">
+        {{ selectedVendor === 'All Vendors' ? 'Operational scope and compliance status across all active vendor partnerships.' : 'Primary scope: ' + firstContractType + ' and regional operations.' }}
+      </p>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3 bg-white dark:bg-slate-800 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <span class="material-symbols-outlined text-slate-400 text-sm">business</span>
+        <select [(ngModel)]="selectedVendor" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-slate-50 outline-none cursor-pointer appearance-none pr-4">
+          @for (v of vendors; track v) { <option [value]="v">{{ v }}</option> }
+        </select>
+      </div>
+      <button *ngIf="selectedVendor !== 'All Vendors'" routerLink="/vendors/v1" class="px-6 py-3.5 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-bold rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm border border-slate-200 dark:border-slate-700 shadow-sm">
+        View Vendor Profile
+      </button>
+      <button *ngIf="selectedVendor !== 'All Vendors' && rbac.can('Contracts', 'UPDATE')" 
+              (click)="filteredContracts.length > 0 && openRenewalModal(filteredContracts[0])" 
+              class="px-8 py-3.5 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all text-sm flex items-center gap-2.5">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">history_edu</span> Renew Contract
+      </button>
+    </div>
+  </div>
+
+  <!-- Bento Grid Dashboard -->
+  <div class="grid grid-cols-12 gap-8">
+    <!-- Active Contract Summary -->
+    <div class="col-span-12 lg:col-span-8 glass-card rounded-3xl p-10 shadow-2xl shadow-slate-200/50 dark:shadow-none relative overflow-hidden group border border-white/40 dark:border-slate-800/50">
+      <div class="absolute -top-12 -right-12 p-8">
+        <span class="material-symbols-outlined text-[240px] text-primary/5 -rotate-12 group-hover:rotate-0 transition-all duration-1000">description</span>
+      </div>
+      <div class="relative z-10">
+        <div class="flex items-center justify-between mb-10">
+          <h3 class="text-xs font-black tracking-[0.2em] uppercase text-slate-400">Active Master Service Agreement {{ filteredContracts.length > 0 ? '- ' + filteredContracts[0].vendor : '' }}</h3>
+          <span class="flex items-center gap-2.5 text-blue-600 dark:text-blue-400 font-black text-xs uppercase tracking-widest">
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></span>
+            Agreement {{ filteredContracts.length > 0 ? filteredContracts[0].status : 'Inactive' }}
+          </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="space-y-4">
+            <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Contract Value</p>
+            <p class="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">${{ filteredContracts.length > 0 ? (filteredContracts[0].value | number) : '0.00' }}</p>
+            <div class="bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden shadow-inner border border-slate-200/50 dark:border-slate-700/50">
+              <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-1000 shadow-lg" [style.width.%]="filteredContracts.length > 0 ? filteredContracts[0].utilized : 0"></div>
+            </div>
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{{ filteredContracts.length > 0 ? filteredContracts[0].utilized : 0 }}% Budget Utilized • {{ filteredContracts.length > 0 ? filteredContracts[0].location : 'N/A' }}</p>
+          </div>
+          <div class="space-y-2">
+            <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-1">Effective Date</p>
+            <p class="text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ filteredContracts.length > 0 ? filteredContracts[0].effectiveDate : '--' }}</p>
+            <p class="text-xs text-slate-500 font-medium italic mt-2">{{ filteredContracts.length > 0 ? ('Owner: ' + filteredContracts[0].owner) : 'No active contract' }}</p>
+          </div>
+          <div *ngIf="filteredContracts.length > 0 && filteredContracts[0].expiryDays <= 30" class="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-2xl border border-amber-200/50 dark:border-amber-800/50 shadow-sm animate-bounce">
+            <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+              <p class="text-[10px] uppercase font-black tracking-[0.1em]">Expiration Alert</p>
+            </div>
+            <p class="text-2xl font-black text-amber-700 dark:text-amber-400 tracking-tight">{{ filteredContracts[0].expiryDays }} Days Left</p>
+            <p class="text-[11px] text-amber-700/70 dark:text-amber-400/70 mt-2 leading-relaxed font-semibold uppercase tracking-tighter">Renewal negotiation required.</p>
+          </div>
+          <div *ngIf="filteredContracts.length > 0 && filteredContracts[0].expiryDays > 30" class="bg-green-50 dark:bg-green-900/20 p-6 rounded-2xl border border-green-200/50 dark:border-green-800/50 shadow-sm">
+            <div class="flex items-center gap-2 text-green-600 dark:text-green-400 mb-2">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">shield_check</span>
+              <p class="text-[10px] uppercase font-black tracking-[0.1em]">Compliance Secured</p>
+            </div>
+            <p class="text-2xl font-black text-green-700 dark:text-green-400 tracking-tight">{{ filteredContracts[0].expiryDays }} Days Left</p>
+            <p class="text-[11px] text-green-700/70 dark:text-green-400/70 mt-2 leading-relaxed font-semibold uppercase tracking-tighter">Agreement is currently valid.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="col-span-12 lg:col-span-4 flex flex-col gap-8">
+      <div class="flex-1 glass-card rounded-3xl p-8 border border-white/40 dark:border-slate-800/50 shadow-xl flex items-center justify-between group hover:border-green-500/30 transition-all">
+        <div class="space-y-4">
+          <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Liability Insurance</p>
+          <div class="flex items-baseline gap-2">
+            <p class="text-2xl font-black text-green-600">Compliant</p>
+            <span class="text-[10px] text-slate-400 font-bold uppercase">Gold Tier</span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium mt-1">Expires March 15, 2025</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 shadow-inner group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+        </div>
+      </div>
+      <div class="flex-1 glass-card rounded-3xl p-8 border border-white/40 dark:border-slate-800/50 shadow-xl flex items-center justify-between group hover:border-blue-500/30 transition-all">
+        <div class="space-y-4">
+          <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Amendments</p>
+          <div class="flex items-baseline gap-2">
+            <p class="text-2xl font-black text-slate-900 dark:text-slate-50">03 Pending</p>
+            <span class="text-[10px] text-blue-600 font-bold uppercase tracking-widest">Review</span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium mt-1">Last update: 2 days ago</p>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 shadow-inner group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-4xl">edit_note</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document Preview List -->
+    <div class="col-span-12 lg:col-span-7 glass-card rounded-3xl shadow-2xl border border-white/40 dark:border-slate-800/50 overflow-hidden">
+      <div class="bg-white/50 dark:bg-slate-900/50 px-8 py-6 flex justify-between items-center border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-4">
+          <span class="material-symbols-outlined text-blue-600 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-xl">folder_open</span>
+          <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Legal Documentation</h3>
+        </div>
+        <div class="flex gap-2.5">
+          <button class="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-slate-400">filter_list</span>
+          </button>
+          <button class="p-2.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-slate-400">grid_view</span>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 space-y-3 max-h-[480px] overflow-y-auto">
+        @for (doc of documents; track doc.name) {
+          <div class="flex items-center justify-between p-5 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all group rounded-2xl border border-slate-100 dark:border-slate-800 cursor-pointer">
+            <div class="flex items-center gap-5">
+              <div [class]="doc.bg + ' ' + doc.color" class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+                <span class="material-symbols-outlined text-3xl">{{ doc.icon }}</span>
+              </div>
+              <div>
+                <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ doc.name }}</p>
+                <div class="flex items-center gap-3 mt-1">
+                  <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">{{ doc.type }}</p>
+                  <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                  <p class="text-[10px] text-slate-400 font-bold">{{ doc.size }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-8">
+              <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Added {{ doc.date }}</span>
+              <button class="opacity-0 group-hover:opacity-100 p-2.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl transition-all shadow-sm">
+                <span class="material-symbols-outlined text-xl">download</span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="bg-slate-50/50 dark:bg-slate-800/30 p-6 text-center border-t border-slate-100 dark:border-slate-800">
+        <button class="text-[11px] font-black text-blue-600 dark:text-blue-400 hover:underline uppercase tracking-widest bg-white dark:bg-slate-900 px-6 py-2.5 rounded-full shadow-sm">View All 24 Legal Files</button>
+      </div>
+    </div>
+
+    <!-- Signed History & Timeline -->
+    <div class="col-span-12 lg:col-span-5 glass-card rounded-3xl p-10 border border-white/40 dark:border-slate-800/50 shadow-2xl relative">
+      <h3 class="text-xl font-bold tracking-tight mb-10 text-slate-900 dark:text-slate-50 flex items-center gap-3">
+        <span class="material-symbols-outlined text-amber-500">history_edu</span> Partnership Evolution
+      </h3>
+      <div class="space-y-12 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100 dark:before:bg-slate-800">
+        @for (item of history; track item.event) {
+          <div class="relative pl-12 group">
+            <div [class]="item.active ? 'bg-blue-600 ring-4 ring-blue-100 dark:ring-blue-900/30' : 'bg-slate-200 dark:bg-slate-700 ring-4 ring-white dark:ring-slate-900'" class="absolute left-0 top-1.5 w-6 h-6 rounded-full shadow-md z-10 transition-all group-hover:scale-110"></div>
+            <div class="animate-in fade-in slide-in-from-left-4 duration-700">
+              <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight leading-none">{{ item.event }}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium leading-relaxed">{{ item.description }}</p>
+              <div class="flex items-center gap-4 mt-5">
+                @if (item.event === 'MSA Renewal Signed') {
+                  <div class="flex -space-x-3">
+                    <img class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-800 shadow-sm object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ6NqbeyzXdDdcKy8rA12bnb-D1XcFS2rr8zDl-BPEQQPcKodHtE3lG-MeVtaXdaulKwMjvYGMWDgMz7L1bQywZjuRsjgcfxQn9iVDDjn-S9c-U0mM0KIKQF0_U3aXqMPM9QZTt7m8khqSuD08ogwyCw24ghRW9YUe2bwt0s3THMMrL1xo9qBGM2z9kv1ZFUv238GeBHrkyEjR7jq4de8FvFuAzlnEaAF35yr9AkBXXUF3tIkIsYaqfofbVxV6-BNl4CPa95StjdLi" />
+                    <img class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-800 shadow-sm object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8TDdsqqYQJGbYpLmn8Lf_SCiThKyaYOfeGCjEWG51HX9N5S9gEDJ6FjFohkigCi_O0rWOFKoSaGQwFJfR9GGQaj4H3d7IswUq6CeD4wl7y6nq99p7G9KHSnVMrD6aS4K2h1tEHLAKNA4WZs6jn4qNpMOODwrgZLYMtPWdsUbmiURTCJi96kEUa3IA-NFDII9u2uE6ZSHfyyfKOtaLlVf8YQ-oS-NQ4mT1qP96sBr-mxJPlgRwt7cM8CJuqr4B1-GHPqAUg4XpDh1K" />
+                  </div>
+                }
+                <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-[0.2em]">{{ item.date }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Contracts Table Grid -->
+  <div class="mt-12 glass-card rounded-3xl shadow-2xl border border-white/40 dark:border-slate-800/50 overflow-hidden">
+    <div class="bg-white/50 dark:bg-slate-900/50 px-8 py-6 flex justify-between items-center border-b border-slate-100 dark:border-slate-800">
+      <div class="flex items-center gap-4">
+        <span class="material-symbols-outlined text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 p-2 rounded-xl">contract</span>
+        <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">All Contracts Directory</h3>
+      </div>
+      <button *appPermission="'Contracts:CREATE'" (click)="openNewContractModal()" class="text-xs font-bold bg-primary text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined text-[16px]">add</span> New Contract
+      </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-slate-50/50 dark:bg-slate-800/30 text-slate-400">
+          <tr>
+            <th class="px-8 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Vendor / Supplier</th>
+            <th class="px-8 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Contract Type</th>
+            <th class="px-8 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Contract Value</th>
+            <th class="px-8 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Status</th>
+            <th class="px-8 py-5 text-[10px] uppercase tracking-[0.2em] font-black">Effective - Expiry</th>
+            <th class="px-8 py-5 text-[10px] uppercase tracking-[0.2em] font-black text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+          @for (contract of filteredContracts; track contract.id) {
+            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors group">
+              <td class="px-8 py-6">
+                <div class="flex items-center gap-4">
+                  <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 font-black text-xs ring-4 ring-white dark:ring-slate-900 shadow-sm">{{ contract.vendor[0] }}</div>
+                  <div>
+                    <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ contract.vendor }}</p>
+                    <p class="text-[10px] text-slate-500 font-bold tracking-widest mt-0.5"><span class="material-symbols-outlined text-[10px] align-middle">location_on</span> {{ contract.location }}</p>
+                  </div>
+                </div>
+              </td>
+              <td class="px-8 py-6">
+                <span class="text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest">{{ contract.type }}</span>
+              </td>
+              <td class="px-8 py-6">
+                <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight">${{ contract.value | number }}</p>
+                <div class="flex items-center gap-2 mt-1">
+                  <div class="w-16 h-1.5 rounded-full bg-slate-200 overflow-hidden"><div class="h-full bg-blue-500" [style.width.%]="contract.utilized"></div></div>
+                  <p class="text-[10px] text-slate-500 font-bold uppercase">{{ contract.utilized }}% Utilized</p>
+                </div>
+              </td>
+              <td class="px-8 py-6">
+                @if (contract.status === 'Active') {
+                  <span class="bg-green-100 text-green-700 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active
+                  </span>
+                } @else if (contract.status === 'Expiring Soon') {
+                  <span class="bg-amber-100 text-amber-700 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-1.5 animate-pulse">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Expiring Soon
+                  </span>
+                } @else if (contract.status === 'Expired') {
+                  <span class="bg-red-100 text-red-700 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Expired
+                  </span>
+                } @else {
+                  <span class="bg-slate-100 text-slate-500 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> Terminated
+                  </span>
+                }
+              </td>
+              <td class="px-8 py-6">
+                <p class="text-xs font-bold text-slate-900 dark:text-slate-50">{{ contract.effectiveDate }}</p>
+                <p class="text-[10px] font-black tracking-widest mt-1" [class]="contract.expiryDays <= 30 ? 'text-red-500' : 'text-slate-400 uppercase'">
+                  {{ contract.expiryDate }} ({{ contract.expiryDays }} Days)
+                </p>
+              </td>
+              <td class="px-8 py-6 text-right relative" [class.z-[60]]="activeDropdownId === contract.id">
+                <button (click)="toggleDropdown(contract.id, $event)" 
+                        class="w-10 h-10 rounded-xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-md text-slate-400 hover:text-primary transition-all flex items-center justify-center ml-auto">
+                  <span class="material-symbols-outlined">more_vert</span>
+                </button>
+                
+                <!-- Actions Dropdown -->
+                <div *ngIf="activeDropdownId === contract.id" 
+                     class="absolute right-8 mt-2 w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 z-[50] overflow-hidden animate-in zoom-in-95 duration-200">
+                  <div class="p-2 space-y-1">
+                    <button (click)="openDetailsModal(contract)" class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all">
+                      <span class="material-symbols-outlined text-[18px]">visibility</span> View Details
+                    </button>
+                    @if (contract.expiryDays <= 30 && contract.status !== 'Terminated') {
+                      <button *appPermission="'Contracts:UPDATE'" (click)="openRenewalModal(contract)" class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-amber-600 hover:bg-amber-50 rounded-xl transition-all">
+                        <span class="material-symbols-outlined text-[18px]">autorenew</span> Renew Contract
+                      </button>
+                    }
+                    <button (click)="openHistoryModal(contract)" class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all">
+                      <span class="material-symbols-outlined text-[18px]">history</span> History
+                    </button>
+                    <div class="h-px bg-slate-100 dark:bg-slate-800 my-1"></div>
+                    <button *appPermission="'Contracts:DELETE'" (click)="openTerminateModal(contract)" 
+                            [disabled]="contract.status === 'Terminated'"
+                            class="w-full flex items-center gap-3 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-50 rounded-xl transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+                      <span class="material-symbols-outlined text-[18px]">block</span> Terminate
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer Compliance Notice -->
+  <footer class="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] text-slate-400 font-black uppercase tracking-[0.15em]">
+    <div class="flex items-center gap-8">
+      <span class="flex items-center gap-2 group cursor-help"><span class="material-symbols-outlined text-xs text-blue-600 group-hover:scale-125 transition-transform">lock</span> Encrypted AES-256 Cloud Storage</span>
+      <span class="flex items-center gap-2 group cursor-help"><span class="material-symbols-outlined text-xs text-blue-600 group-hover:scale-125 transition-transform">gavel</span> ISO 27001 Certified Infrastructure</span>
+    </div>
+    <div class="flex items-center gap-10">
+      <a class="hover:text-blue-600 transition-colors" href="#">Legal Compliance</a>
+      <a class="hover:text-blue-600 transition-colors" href="#">Privacy Audit</a>
+      <span class="text-slate-300 dark:text-slate-700">© 2026 BuildFlow Systems Intelligence</span>
+    </div>
+  </footer>
+</div>
+
+<!-- Renew Contract Modal -->
+<div *ngIf="showRenewalModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+  <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-primary to-primary-container p-8 text-white relative">
+      <div class="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+      <div class="relative z-10 flex justify-between items-start">
+        <div>
+          <h3 class="text-2xl font-black tracking-tight mb-1">Renew Contract</h3>
+          <p class="text-white/70 text-sm font-medium">{{ selectedContract?.vendor }}</p>
+        </div>
+        <button (click)="closeRenewalModal()" class="p-2 hover:bg-white/10 rounded-xl transition-all">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="p-10 space-y-8">
+      <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-3xl border border-slate-100 dark:border-slate-800">
+        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Current Terms</p>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-tight mb-1">Current Expiry</p>
+            <p class="text-lg font-black text-slate-900 dark:text-slate-50">{{ selectedContract?.expiryDate }}</p>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-tight mb-1">Contract Value</p>
+            <p class="text-lg font-black text-slate-900 dark:text-slate-50">${{ selectedContract?.value | number }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block ml-1">New Expiry Date</label>
+          <input type="text" [(ngModel)]="renewalForm.newExpiry" placeholder="e.g. Dec 31, 2025"
+                 class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+        </div>
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block ml-1">New Contract Value</label>
+          <input type="number" [(ngModel)]="renewalForm.newValue" 
+                 class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-primary/20 transition-all outline-none">
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="p-10 pt-0 flex gap-4">
+      <button (click)="closeRenewalModal()" class="flex-1 py-4 rounded-2xl font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 transition-all group">
+        Discard Changes
+      </button>
+      <button (click)="submitRenewal()" class="flex-[2] py-4 rounded-2xl font-bold text-white bg-gradient-to-br from-primary to-primary-container shadow-xl shadow-primary/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        Confirm Renewal
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- New Contract Modal -->
+<div *ngIf="showNewContractModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+  <div class="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20 dark:border-slate-800 animate-in zoom-in-95 duration-300">
+    <!-- Header -->
+    <div class="bg-gradient-to-br from-indigo-600 to-indigo-800 p-8 text-white relative">
+      <div class="absolute -top-6 -right-6 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl"></div>
+      <div class="relative z-10 flex justify-between items-start">
+        <div>
+          <h3 class="text-2xl font-black tracking-tight mb-1">Establish New Contract</h3>
+          <p class="text-indigo-100/70 text-sm font-medium uppercase tracking-widest">Legal Procurement Entry</p>
+        </div>
+        <button (click)="closeNewContractModal()" class="p-2 hover:bg-white/10 rounded-xl transition-all">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-10 grid grid-cols-2 gap-8 overflow-y-auto max-h-[60vh]">
+      <div class="col-span-2">
+        <div class="flex justify-between items-end mb-2 ml-1">
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Vendor / Partner Entity</label>
+          <button (click)="redirectToVendors()" class="text-[10px] font-bold text-indigo-600 hover:underline uppercase tracking-tighter">Add New Vendor +</button>
+        </div>
+        <select [(ngModel)]="newContractForm.vendor" 
+                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none appearance-none">
+          <option value="" disabled selected>Select a registered vendor...</option>
+          @for (vendor of allVendors; track vendor.id) {
+            <option [value]="vendor.name">{{ vendor.name }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contract Type</label>
+        <select [(ngModel)]="newContractForm.type" 
+                class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none appearance-none">
+          <option value="Master Service Agreement">Master Service Agreement</option>
+          <option value="Subcontractor Agreement">Subcontractor Agreement</option>
+          <option value="Material Supply Contract">Material Supply Contract</option>
+          <option value="Lease Agreement">Lease Agreement</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Total Contract Value</label>
+        <input type="number" [(ngModel)]="newContractForm.value" placeholder="Amount in USD..."
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Effective Date</label>
+        <input type="date" [(ngModel)]="newContractForm.effectiveDate" (change)="onDateChange()"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Initial Expiry Date</label>
+        <input type="date" [(ngModel)]="newContractForm.expiryDate" (change)="onDateChange()"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div class="col-span-2 bg-indigo-50/50 dark:bg-indigo-900/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-800/50 flex justify-between items-center" *ngIf="newContractForm.expiryDate">
+        <div>
+          <p class="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-0.5">Calculated Validity</p>
+          <p class="text-xs font-bold text-slate-600 dark:text-slate-400">Status will be recorded as <span class="text-indigo-600">{{ newContractForm.status }}</span></p>
+        </div>
+        <div class="text-right">
+          <p class="text-2xl font-black text-indigo-600 tracking-tighter">{{ newContractForm.expiryDays }} Days</p>
+          <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Until Expiry</p>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Project Location</label>
+        <input type="text" [(ngModel)]="newContractForm.location" placeholder="e.g. Seattle, WA"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contract Owner</label>
+        <input type="text" [(ngModel)]="newContractForm.owner" 
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Legal Signatory</label>
+        <input type="text" [(ngModel)]="newContractForm.signatory" placeholder="Full name of signatory..."
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contact Email</label>
+        <input type="email" [(ngModel)]="newContractForm.contactEmail" placeholder="vendor@example.com"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+
+      <div>
+        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block ml-1">Contact Phone</label>
+        <input type="text" [(ngModel)]="newContractForm.contactPhone" placeholder="(555) 000-0000"
+               class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-2xl p-4 text-slate-900 dark:text-slate-50 font-bold focus:ring-2 focus:ring-indigo-500/20 transition-all outline-none">
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="p-10 pt-0 flex gap-4">
+      <button (click)="closeNewContractModal()" class="flex-1 py-4 rounded-2xl font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 transition-all">
+        Cancel Entry
+      </button>
+      <button (click)="submitNewContract()" class="flex-[2] py-4 rounded-2xl font-bold text-white bg-gradient-to-br from-indigo-600 to-indigo-800 shadow-xl shadow-indigo-500/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">description</span>
+        Establish Contract
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- View Details Modal -->
+<div *ngIf="showDetailsModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" (click)="closeDetailsModal()"></div>
+  <div class="relative bg-white dark:bg-slate-900 w-full max-w-3xl rounded-[32px] shadow-2xl overflow-hidden border border-white/20 animate-in zoom-in-95 duration-300">
+    <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-8 text-white">
+      <div class="flex justify-between items-start">
+        <div>
+          <span class="bg-white/10 text-white/80 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 inline-block border border-white/10">Contract ID: {{ selectedContract?.id }}</span>
+          <h3 class="text-3xl font-black tracking-tight">{{ selectedContract?.vendor }}</h3>
+          <p class="text-slate-400 text-sm font-medium mt-1 uppercase tracking-widest">{{ selectedContract?.type }}</p>
+        </div>
+        <button (click)="closeDetailsModal()" class="p-2 hover:bg-white/10 rounded-xl transition-all">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-10 grid grid-cols-2 gap-10">
+      <div class="space-y-6">
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Financial Allocation</label>
+          <div class="bg-slate-50 dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-800">
+            <p class="text-3xl font-black text-slate-900 dark:text-slate-50 tracking-tighter mb-4">${{ selectedContract?.value | number }}</p>
+            <div class="space-y-2">
+              <div class="flex justify-between items-end">
+                <span class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Utilization</span>
+                <span class="text-sm font-bold text-indigo-600">{{ selectedContract?.utilized }}%</span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div class="h-full bg-indigo-600 shadow-[0_0_12px_rgba(79,70,229,0.4)]" [style.width.%]="selectedContract?.utilized"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
+            <span class="material-symbols-outlined text-indigo-500 mb-2">calendar_today</span>
+            <p class="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">Effective</p>
+            <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ selectedContract?.effectiveDate }}</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center">
+            <span class="material-symbols-outlined text-amber-500 mb-2">event_busy</span>
+            <p class="text-[9px] font-black uppercase text-slate-400 tracking-widest mb-1">Expiry</p>
+            <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ selectedContract?.expiryDate }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Administrative Control</label>
+          <div class="space-y-3">
+            <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-white dark:bg-slate-900 flex items-center justify-center shadow-sm">
+                <span class="material-symbols-outlined text-indigo-500">person</span>
+              </div>
+              <div>
+                <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Contract Owner</p>
+                <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ selectedContract?.owner }}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-white dark:bg-slate-900 flex items-center justify-center shadow-sm">
+                <span class="material-symbols-outlined text-indigo-500">pin_drop</span>
+              </div>
+              <div>
+                <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Operating Region</p>
+                <p class="text-sm font-bold text-slate-900 dark:text-slate-50">{{ selectedContract?.location }}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-white dark:bg-slate-900 flex items-center justify-center shadow-sm">
+                <span class="material-symbols-outlined text-indigo-500">security</span>
+              </div>
+              <div>
+                <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Current Status</p>
+                <p class="text-sm font-bold text-indigo-600">{{ selectedContract?.status }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 block">Direct Communication</label>
+          <div class="p-6 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-3xl border border-indigo-100 dark:border-indigo-800/40">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+                <span class="material-symbols-outlined text-sm">signature</span>
+              </div>
+              <div>
+                <p class="text-[9px] font-black uppercase text-indigo-400 tracking-widest leading-none mb-1">Authorized Signatory</p>
+                <p class="text-xs font-bold text-slate-900 dark:text-slate-50">{{ selectedContract?.signatory }}</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-3">
+              <a [href]="'mailto:' + selectedContract?.contactEmail" class="flex items-center gap-3 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+                <span class="material-symbols-outlined text-sm">mail</span> {{ selectedContract?.contactEmail }}
+              </a>
+              <a [href]="'tel:' + selectedContract?.contactPhone" class="flex items-center gap-3 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+                <span class="material-symbols-outlined text-sm">call</span> {{ selectedContract?.contactPhone }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-8 bg-slate-50/50 dark:bg-slate-800/30 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-4">
+      <button (click)="closeDetailsModal()" class="px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-[11px] text-slate-500 hover:bg-slate-100 transition-all">Close Snapshot</button>
+      <button class="px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-[11px] bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">print</span> Generate PDF Report
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div *ngIf="showHistoryModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+  <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md" (click)="closeHistoryModal()"></div>
+  <div class="relative bg-white dark:bg-slate-900 w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden border border-white/20 animate-in zoom-in-95 duration-300">
+    <div class="p-8 border-b border-slate-100 dark:border-slate-800">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-50">Partnership Audit History</h3>
+          <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Timeline for {{ selectedContract?.vendor }}</p>
+        </div>
+        <button (click)="closeHistoryModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all">
+          <span class="material-symbols-outlined text-slate-400">close</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-10 max-h-[60vh] overflow-y-auto">
+      <div class="space-y-12 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100 dark:before:bg-slate-800">
+        @for (item of filteredHistory; track item.id) {
+          <div class="relative pl-12 group transition-all">
+            <div [class]="item.active ? 'bg-indigo-600 ring-4 ring-indigo-100 dark:ring-indigo-900/30' : 'bg-slate-200 dark:bg-slate-700 ring-4 ring-white dark:ring-slate-900'" 
+                 class="absolute left-0 top-1.5 w-6 h-6 rounded-full shadow-md z-10"></div>
+            <div class="animate-in slide-in-from-left-4 duration-500">
+              <p class="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-1">{{ item.date }}</p>
+              <p class="text-sm font-black text-slate-900 dark:text-slate-50 tracking-tight">{{ item.event }}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed font-medium">{{ item.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="p-8 border-t border-slate-100 dark:border-slate-800 text-center">
+      <button (click)="closeHistoryModal()" class="px-10 py-3 bg-slate-900 dark:bg-slate-50 text-white dark:text-slate-900 rounded-2xl text-[11px] font-black uppercase tracking-widest shadow-xl hover:-translate-y-0.5 transition-all">Understood</button>
+    </div>
+  </div>
+</div>
+
+<!-- Terminate Modal -->
+<div *ngIf="showTerminateModal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 animate-in fade-in duration-300">
+  <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" (click)="closeTerminateModal()"></div>
+  <div class="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-[32px] shadow-2xl overflow-hidden border border-red-100/50 dark:border-red-900/20 animate-in zoom-in-95 duration-300">
+    <div class="bg-red-50 dark:bg-red-900/10 p-10 text-center">
+      <div class="w-20 h-20 bg-red-100 dark:bg-red-900/30 rounded-[24px] flex items-center justify-center mx-auto mb-6 shadow-inner">
+        <span class="material-symbols-outlined text-red-600 text-4xl">warning</span>
+      </div>
+      <h3 class="text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight mb-2">Legal Termination</h3>
+      <p class="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed">
+        You are about to terminate the contract with <span class="font-bold text-red-600">{{ selectedContract?.vendor }}</span>. This action is irreversible and will freeze all active procurement for this entity.
+      </p>
+    </div>
+
+    <div class="p-10 space-y-4">
+      <button (click)="confirmTermination()" class="w-full py-4 bg-red-600 text-white rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-xl shadow-red-500/20 hover:bg-red-700 hover:shadow-2xl hover:-translate-y-1 transition-all">Confirm Termination</button>
+      <button (click)="closeTerminateModal()" class="w-full py-4 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-slate-100 transition-all">Retain Agreement</button>
+    </div>
+  </div>
+</div>

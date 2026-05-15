@@ -1,0 +1,151 @@
+<aside class="flex flex-col h-screen py-6 px-3 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-xl w-64 fixed left-0 top-0 border-r border-slate-200/50 dark:border-slate-800/50 z-50">
+  <!-- Logo -->
+  <div class="flex items-center gap-3 px-3 mb-8">
+    <div class="w-10 h-10 bg-gradient-to-br from-primary to-primary-container rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+      <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">architecture</span>
+    </div>
+    <div>
+      <h1 class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">BuildFlow</h1>
+      <p class="text-[10px] uppercase tracking-[0.1em] text-slate-500 font-bold">ERP Solutions</p>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 space-y-0.5 overflow-y-auto pr-2 custom-scrollbar">
+    <p class="text-[9px] font-black tracking-[0.15em] text-slate-400 uppercase px-4 pt-2 pb-1">Enterprise</p>
+
+    <a routerLink="/enterprise"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">corporate_fare</span>
+      <span class="text-sm font-semibold">Enterprise Hub</span>
+    </a>
+
+    <p class="text-[9px] font-black tracking-[0.15em] text-slate-400 uppercase px-4 pt-4 pb-1">Main</p>
+
+    <a *appPermission="'Dashboard:READ'" routerLink="/dashboard"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">dashboard</span>
+      <span class="text-sm font-semibold">Dashboard</span>
+    </a>
+
+    <a *appPermission="'Projects:READ'" routerLink="/projects"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">architecture</span>
+      <span class="text-sm font-semibold">Projects</span>
+    </a>
+
+    <a *appPermission="'Projects:READ'" routerLink="/timeline"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">timeline</span>
+      <span class="text-sm font-semibold">Timeline</span>
+    </a>
+
+    <a *appPermission="'Projects:READ'" routerLink="/calendar"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+      <span class="text-sm font-semibold">Calendar</span>
+    </a>
+
+    <a *appPermission="'Team:READ'" routerLink="/team" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">group</span>
+      <span class="text-sm font-semibold">Team</span>
+    </a>
+
+    <a *appPermission="'Settings:READ'" routerLink="/rbac" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">security</span>
+      <span class="text-sm font-semibold">Access Control</span>
+    </a>
+
+    <a *appPermission="'Contracts:READ'" routerLink="/contracts" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">description</span>
+      <span class="text-sm font-semibold">Contracts</span>
+    </a>
+
+    <a *appPermission="'Tasks:READ'" routerLink="/tasks" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">assignment</span>
+      <span class="text-sm font-semibold">Tasks</span>
+    </a>
+
+    <p class="text-[9px] font-black tracking-[0.15em] text-slate-400 uppercase px-4 pt-4 pb-1">Analytics</p>
+
+    <a routerLink="/labor"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">engineering</span>
+      <span class="text-sm font-semibold">Labor</span>
+    </a>
+
+    <a *appPermission="'Reports:READ'" routerLink="/reports"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">analytics</span>
+      <span class="text-sm font-semibold">Reports</span>
+    </a>
+
+    <p class="text-[9px] font-black tracking-[0.15em] text-slate-400 uppercase px-4 pt-4 pb-1">Resources</p>
+
+    <a routerLink="/vendors"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">group</span>
+      <span class="text-sm font-semibold">Vendors</span>
+    </a>
+
+    <a *appPermission="'Materials:READ'" routerLink="/materials"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">inventory_2</span>
+      <span class="text-sm font-semibold">Materials</span>
+    </a>
+
+    <a routerLink="/equipment"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">precision_manufacturing</span>
+      <span class="text-sm font-semibold">Equipment</span>
+    </a>
+
+    <a routerLink="/safety"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">security</span>
+      <span class="text-sm font-semibold">Safety & HSE</span>
+    </a>
+
+    <a *appPermission="'Quotes:READ'" routerLink="/quotations"
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm"
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">request_quote</span>
+      <span class="text-sm font-semibold">Quotations</span>
+    </a>
+  </nav>
+
+  <div class="mt-auto pt-4 px-1">
+    <a *appPermission="'Settings:READ'" routerLink="/settings" 
+       routerLinkActive="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" 
+       class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 text-slate-500 dark:text-slate-400 hover:bg-white/70 dark:hover:bg-slate-800/50 hover:text-slate-800 group">
+      <span class="material-symbols-outlined text-[20px]">settings</span>
+      <span class="text-sm font-semibold">Settings</span>
+    </a>
+    
+    <div *appPermission="'Projects:CREATE'" class="mt-4 px-2">
+      <a routerLink="/new-project" class="w-full bg-gradient-to-br from-blue-600 to-indigo-700 text-white font-bold py-3 rounded-xl shadow-[0px_8px_16px_rgba(37,99,235,0.2)] hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <span class="material-symbols-outlined">add</span>
+          <span>New Project</span>
+      </a>
+    </div>
+  </div>
+</aside>

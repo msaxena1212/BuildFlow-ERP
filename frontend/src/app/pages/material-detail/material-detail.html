@@ -1,0 +1,484 @@
+<!-- Main Content Canvas -->
+<main class="flex-grow p-4 md:p-8 lg:p-12 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-32">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-outline text-xs uppercase tracking-widest mb-6">
+        <a class="hover:text-primary transition-colors cursor-pointer" routerLink="/materials">Inventory</a>
+        <span class="material-symbols-outlined text-xs">chevron_right</span>
+        <span class="text-on-surface">{{ material?.name || 'Loading...' }}</span>
+    </div>
+
+    <!-- Material Header Asymmetric Layout -->
+    <div class="flex flex-col xl:flex-row gap-8 mb-12 items-start">
+        <div class="flex-grow">
+            <div class="flex items-center gap-4 mb-2">
+                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter"
+                      [ngClass]="material?.status === 'Critical' ? 'bg-red-100 text-error' : 'bg-green-100 text-green-700'">
+                    Status: {{ material?.status || '...' }}
+                </span>
+                <span class="text-outline text-sm font-medium">SKU: {{ material?.sku || '...' }}</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface mb-4">{{ material?.name || '...' }}</h1>
+            <p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+                High-performance structural concrete mix designed for heavy-duty foundations and reinforcement columns. Verified for Site 102 specifications.
+            </p>
+        </div>
+        <div class="flex flex-wrap gap-3 xl:mt-4">
+            <button (click)="openAdjustModal()" class="flex items-center gap-2 bg-surface-container-highest text-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-surface-container-high transition-all cursor-pointer">
+                <span class="material-symbols-outlined" style="font-size: 20px;">edit_document</span>
+                Adjust Stock
+            </button>
+            <button (click)="openScheduleModal()" class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold text-sm shadow-md active:scale-95 transition-all cursor-pointer">
+                <span class="material-symbols-outlined" style="font-size: 20px;">local_shipping</span>
+                Schedule Delivery
+            </button>
+            <button class="p-3 bg-surface-container-low text-on-surface-variant rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">print</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bento Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+        <!-- Inventory Analytics Card -->
+        <div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10 shadow-sm">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h3 class="text-xs font-black uppercase tracking-widest text-outline mb-1">Inventory Analytics</h3>
+                    <h4 class="text-2xl font-bold tracking-tight">Stock Level (Last 30 Days)</h4>
+                </div>
+                <div class="text-right">
+                    <p class="text-3xl font-black text-primary tracking-tighter">{{ material?.stock?.current || 0 }} {{ material?.category === 'Electrical' ? 'm' : 'Units' }}</p>
+                    <p class="text-[10px] font-bold uppercase tracking-widest" [ngClass]="material?.status === 'Critical' ? 'text-red-600' : 'text-green-600'">
+                        {{ material?.stock?.percent }}% Capacity Hooked
+                    </p>
+                </div>
+            </div>
+
+            <!-- SVG Chart Mockup -->
+            <div class="h-64 w-full relative group">
+                <svg class="w-full h-full" viewBox="0 0 800 200">
+                    <defs>
+                        <linearGradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+                            <stop offset="0%" stop-color="#2563eb" stop-opacity="0.2"></stop>
+                            <stop offset="100%" stop-color="#2563eb" stop-opacity="0"></stop>
+                        </linearGradient>
+                    </defs>
+                    <path d="M0,150 Q100,140 200,160 T400,100 T600,120 T800,40 L800,200 L0,200 Z" fill="url(#chartGradient)"></path>
+                    <path d="M0,150 Q100,140 200,160 T400,100 T600,120 T800,40" fill="none" stroke="#004ac6" stroke-linecap="round" stroke-width="4"></path>
+                    
+                    <!-- Grid Lines -->
+                    <line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="180" y2="180"></line>
+                    <line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="130" y2="130"></line>
+                    <line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="80" y2="80"></line>
+                </svg>
+                <div class="absolute top-1/2 left-3/4 -translate-y-full px-3 py-2 bg-inverse-surface text-inverse-on-surface rounded-lg text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                    May 18: 4,250 kg
+                </div>
+            </div>
+            
+            <div class="flex justify-between mt-4 text-[10px] font-bold text-outline uppercase tracking-widest">
+                <span>20 Apr</span>
+                <span>30 Apr</span>
+                <span>10 May</span>
+                <span>Today</span>
+            </div>
+        </div>
+
+        <!-- Related Documents Asymmetric Card -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/5">
+                <h3 class="text-xs font-black uppercase tracking-widest text-outline mb-6">Documentation</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+                        <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold text-on-surface">Safety Data Sheet (SDS)</p>
+                            <p class="text-[10px] text-outline uppercase">v2.4 • Updated Jan 2024</p>
+                        </div>
+                        <span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold text-on-surface">Quality Certification</p>
+                            <p class="text-[10px] text-outline uppercase">ASTM-C39-GradeA</p>
+                        </div>
+                        <span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+                        <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold text-on-surface">Usage Guidelines</p>
+                            <p class="text-[10px] text-outline uppercase">Site Manual PDF</p>
+                        </div>
+                        <span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warehouse Visualization Mockup -->
+            <div class="relative rounded-xl overflow-hidden h-40 group shadow-sm bg-slate-200">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-white/60 mb-1 z-10">Stored at</p>
+                    <h5 class="text-xl font-bold text-white tracking-tight z-10">Zone B, Row 12, Rack 4</h5>
+                </div>
+                <!-- CSS overlay to mimic brightness and contrast -->
+                <div class="absolute inset-0 bg-black/40 z-0"></div>
+            </div>
+        </div>
+
+        <!-- Recent Deliveries Table -->
+        <div class="lg:col-span-12 bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/5">
+            <div class="px-8 py-6 flex justify-between items-center border-b border-outline-variant/10">
+                <h3 class="text-xs font-black uppercase tracking-widest text-outline">Recent Deliveries &amp; Logistics</h3>
+                <button (click)="viewLogs()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer text-xs font-black uppercase text-primary border border-primary/20">View All Logs</button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-surface-container-low text-[10px] font-black uppercase tracking-widest text-outline">
+                        <tr>
+                            <th class="px-8 py-4">Delivery Date</th>
+                            <th class="px-8 py-4">Quantity</th>
+                            <th class="px-8 py-4">Batch Number</th>
+                            <th class="px-8 py-4">Inspector</th>
+                            <th class="px-8 py-4">Status</th>
+                            <th class="px-8 py-4 text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm font-medium">
+                        @for (log of deliveries; track log.batch) {
+                            <tr class="transition-colors hover:bg-surface-container-high/40 cursor-pointer" [ngClass]="log.status === 'Approved' ? 'bg-surface-container-lowest' : 'bg-surface-container-lowest'">
+                                <td class="px-8 py-5 text-on-surface" (click)="viewLogs(log.batch)">{{ log.date }}</td>
+                                <td class="px-8 py-5">{{ log.qty }}</td>
+                                <td class="px-8 py-5 font-mono text-xs">{{ log.batch }}</td>
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-full bg-slate-300"></div>
+                                        <span>{{ log.inspector }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5">
+                                    <div class="flex items-center gap-1.5" [ngClass]="{'text-green-600': log.status === 'Approved', 'text-amber-600': log.status === 'Pending QC', 'text-slate-500': log.status === 'Scheduled'}">
+                                        <span class="w-2 h-2 rounded-full" [ngClass]="log.dotColor"></span>
+                                        <span class="text-xs font-bold uppercase tracking-tighter">{{ log.textStatus }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5 text-right relative">
+                                    <button (click)="$event.stopPropagation(); activeActionMenu = (activeActionMenu === log.batch ? null : log.batch)" class="p-1 hover:bg-surface-container-high rounded-full transition-colors cursor-pointer">
+                                        <span class="material-symbols-outlined text-outline">more_vert</span>
+                                    </button>
+
+                                    <!-- Contextual Action Dropdown -->
+                                    @if(activeActionMenu === log.batch) {
+                                        <div class="absolute right-8 top-12 z-50 bg-white dark:bg-slate-900 shadow-2xl rounded-xl border border-outline-variant/10 py-2 w-48 animate-in fade-in slide-in-from-top-2" (click)="$event.stopPropagation()">
+                                            <button (click)="openQC(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-green-600 cursor-pointer">
+                                                <span class="material-symbols-outlined text-sm">verified_user</span>
+                                                Perform QC Pass
+                                            </button>
+                                            <button (click)="openQC(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-error cursor-pointer">
+                                                <span class="material-symbols-outlined text-sm">report</span>
+                                                Log QC Failure
+                                            </button>
+                                            <div class="h-[1px] bg-slate-100 my-1 mx-2"></div>
+                                            <button (click)="openLogs(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-on-surface cursor-pointer">
+                                                <span class="material-symbols-outlined text-sm">description</span>
+                                                Full View Logs
+                                            </button>
+                                            <button (click)="openDelivery(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-primary cursor-pointer">
+                                                <span class="material-symbols-outlined text-sm">fact_check</span>
+                                                Confirm Delivery
+                                            </button>
+                                            <button (click)="openUpdate(log)" class="w-full px-4 py-2 text-left text-xs font-bold hover:bg-slate-50 flex items-center gap-2 text-outline cursor-pointer">
+                                                <span class="material-symbols-outlined text-sm">edit</span>
+                                                Update Entry
+                                            </button>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- MODAL OVERLAYS (Batch Specific) -->
+
+<!-- 1. QC Decision Modal -->
+@if (showQCModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showQCModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight text-on-surface">Material QC Decision</h3>
+                    <p class="text-xs font-bold text-outline uppercase tracking-widest mt-1">Batch: {{ selectedBatch.batch }}</p>
+                </div>
+                <button (click)="showQCModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <div class="p-4 bg-slate-50 rounded-2xl flex flex-col gap-2">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-outline">Checklist Highlights</p>
+                    <div class="flex items-center gap-3 text-xs font-bold text-on-surface">
+                        <span class="material-symbols-outlined text-green-600 text-sm">check_circle</span>
+                        Packaging Integrity Verified
+                    </div>
+                    <div class="flex items-center gap-3 text-xs font-bold text-on-surface">
+                        <span class="material-symbols-outlined text-green-600 text-sm">check_circle</span>
+                        Quantity Match ({{ selectedBatch.qty }})
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <button (click)="confirmQC('Rejected')" class="flex-1 py-4 rounded-2xl bg-red-50 text-red-700 font-black uppercase tracking-widest border border-red-100 hover:bg-red-100 transition-colors cursor-pointer">Log Failure</button>
+                    <button (click)="confirmQC('Approved')" class="flex-1 py-4 rounded-2xl bg-green-600 text-white font-black uppercase tracking-widest shadow-lg shadow-green-200 hover:scale-[1.02] transition-transform cursor-pointer">Pass QC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- 2. Logistics Journey Logs Modal -->
+@if (showLogModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showLogModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-2xl w-full max-w-lg p-10" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-10">
+                <h3 class="text-3xl font-black tracking-tight">Logistics Timeline</h3>
+                <button (click)="showLogModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-0 relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-4 top-2 bottom-2 w-0.5 bg-slate-200 dark:bg-slate-800"></div>
+
+                <div class="relative pl-12 pb-10">
+                    <div class="absolute left-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center border-4 border-white dark:border-slate-900">
+                        <span class="material-symbols-outlined text-xs text-green-700 font-black">check</span>
+                    </div>
+                    <p class="text-xs font-black uppercase tracking-widest text-outline">May 10, 09:42 AM</p>
+                    <p class="font-bold text-on-surface">Material Dispatched</p>
+                    <p class="text-xs text-outline">Vendor Facility Outbound - Hyderabad Hub</p>
+                </div>
+
+                <div class="relative pl-12 pb-10">
+                    <div class="absolute left-0 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center border-4 border-white dark:border-slate-900">
+                        <span class="material-symbols-outlined text-xs text-blue-700 font-black">local_shipping</span>
+                    </div>
+                    <p class="text-xs font-black uppercase tracking-widest text-outline">May 11, 04:15 PM</p>
+                    <p class="font-bold text-on-surface">In Transit</p>
+                    <p class="text-xs text-outline">Courier Partner: BlueDart Logistics</p>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center border-4 border-white dark:border-slate-900">
+                        <span class="material-symbols-outlined text-xs text-amber-700 font-black">login</span>
+                    </div>
+                    <p class="text-xs font-black uppercase tracking-widest text-outline">{{ selectedBatch.date }}</p>
+                    <p class="font-bold text-on-surface">Arrived at Site</p>
+                    <p class="text-xs text-outline">Gate Entry Recorded - Inspector: {{ selectedBatch.inspector }}</p>
+                </div>
+            </div>
+
+            <button (click)="showLogModal = false" class="w-full mt-10 py-4 rounded-2xl bg-on-surface text-white font-black uppercase tracking-widest cursor-pointer">Close Tracking</button>
+        </div>
+    </div>
+}
+
+<!-- 3. Confirm Delivery Modal -->
+@if (showDeliveryModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showDeliveryModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black tracking-tight">Final Confirmation</h3>
+                <button (click)="showDeliveryModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <div class="p-4 bg-primary/5 rounded-2xl border border-primary/10">
+                    <p class="text-xs text-primary font-bold">You are confirming the physical receipt of {{ selectedBatch.qty }} for Batch {{ selectedBatch.batch }}.</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Receiver Name</label>
+                        <input type="text" value="James Wilson" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 bg-slate-50 text-sm font-bold outline-none cursor-not-allowed">
+                    </div>
+                    <div class="border-2 border-dashed border-outline-variant/20 rounded-2xl p-6 flex flex-col items-center justify-center gap-2 hover:bg-slate-50 cursor-pointer">
+                        <span class="material-symbols-outlined text-primary text-3xl">signature</span>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-outline">Digital Signature Required</p>
+                    </div>
+                </div>
+
+                <button (click)="finalConfirmDelivery()" class="w-full py-4 rounded-2xl bg-primary text-white font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform cursor-pointer">Confirm Receipt</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- 4. Update Batch Metadata Modal -->
+@if (showUpdateModal && selectedBatch) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-4" (click)="showUpdateModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-black tracking-tight">Edit Batch Entry</h3>
+                <button (click)="showUpdateModal = false" class="p-2 hover:bg-slate-100 rounded-lg cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Batch Identity</label>
+                    <input [(ngModel)]="selectedBatch.batch" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Arrived Qty</label>
+                        <input [(ngModel)]="selectedBatch.qty" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Arrival Date</label>
+                        <input [(ngModel)]="selectedBatch.date" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1.5 block">Assigned Inspector</label>
+                    <input [(ngModel)]="selectedBatch.inspector" type="text" class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/20 text-sm font-bold outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-10">
+                <button (click)="showUpdateModal = false" class="flex-1 py-3.5 rounded-2xl border border-outline-variant/20 text-sm font-black uppercase tracking-widest cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="saveBatchUpdate()" class="flex-1 py-3.5 rounded-2xl bg-primary text-white text-sm font-black uppercase tracking-widest cursor-pointer shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform">Save Changes</button>
+            </div>
+        </div>
+    </div>
+}
+
+    <!-- Contextual Footer Pulse -->
+    <footer class="mt-16 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-outline-variant/10 pt-12 pb-12">
+        <div class="flex items-center gap-12">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Material Integrity</p>
+                <p class="text-lg font-bold text-on-surface">100% Quality Pass</p>
+            </div>
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Consumption Rate</p>
+                <p class="text-lg font-bold text-on-surface">420kg / Day</p>
+            </div>
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Next Restock</p>
+                <p class="text-lg font-bold text-secondary">Jun 04, 2024</p>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <button class="text-xs font-bold uppercase tracking-widest text-outline hover:text-primary transition-colors cursor-pointer">Export Report</button>
+            <button (click)="deleteMaterial()" class="text-xs font-bold uppercase tracking-widest text-error hover:opacity-70 transition-colors cursor-pointer">Archive Material</button>
+        </div>
+    </footer>
+
+<!-- Modals -->
+
+<!-- Adjust Stock Modal -->
+@if (showAdjustModal) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showAdjustModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-md p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight">Adjust Stock</h3>
+                    <p class="text-sm text-outline font-medium">Manually update current inventory levels.</p>
+                </div>
+                <button (click)="showAdjustModal = false" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Current Stock ({{ material?.category === 'Electrical' ? 'm' : 'Units' }})</label>
+                    <div class="flex items-center gap-4">
+                        <input [(ngModel)]="adjustStockValue" type="number" class="flex-grow px-4 py-3 rounded-xl border border-outline-variant/20 dark:border-slate-800 text-lg font-black outline-none focus:ring-2 focus:ring-primary/30">
+                        <span class="text-outline font-bold">/ {{ material?.stock?.total }}</span>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-surface-container-low rounded-xl">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-outline">Projected Utilization</span>
+                        <span class="text-xs font-black text-primary">{{ Math.round((adjustStockValue / (material?.stock?.total || 1)) * 100) }}%</span>
+                    </div>
+                    <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+                        <div class="bg-primary h-full transition-all duration-300" [style.width.%]="(adjustStockValue / (material?.stock?.total || 1)) * 100"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button (click)="showAdjustModal = false" class="flex-1 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="updateStock()" class="flex-1 py-3 rounded-xl bg-primary text-white text-sm font-bold cursor-pointer shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">Update Inventory</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Schedule Delivery Modal -->
+@if (showScheduleModal) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4" (click)="showScheduleModal = false">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg p-8" (click)="$event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-2xl font-black tracking-tight">Schedule Delivery</h3>
+                    <p class="text-sm text-outline font-medium">Coordinate logistics for the next batch.</p>
+                </div>
+                <button (click)="showScheduleModal = false" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Recipient Site</label>
+                    <select [(ngModel)]="newDelivery.site" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 dark:border-slate-800 text-sm font-bold outline-none bg-white dark:bg-slate-900">
+                        <option>Site 102 - Skyline Plaza</option>
+                        <option>Site 105 - Harbor Heights</option>
+                        <option>Site 201 - Metro Hub</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Quantity</label>
+                    <input [(ngModel)]="newDelivery.qty" type="text" placeholder="e.g. 500 units" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 dark:border-slate-800 text-sm font-bold outline-none">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Expected Date</label>
+                    <input [(ngModel)]="newDelivery.date" type="text" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 dark:border-slate-800 text-sm font-bold outline-none">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-outline mb-1 block">Assigned Inspector</label>
+                    <input [(ngModel)]="newDelivery.inspector" type="text" class="w-full px-4 py-3 rounded-xl border border-outline-variant/20 dark:border-slate-800 text-sm font-bold outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button (click)="showScheduleModal = false" class="flex-1 py-3 rounded-xl border border-outline-variant/20 text-sm font-bold cursor-pointer hover:bg-slate-50 transition-colors">Cancel</button>
+                <button (click)="scheduleDelivery()" class="flex-1 py-3 rounded-xl bg-primary text-white text-sm font-bold cursor-pointer shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">Confirm Logistics</button>
+            </div>
+        </div>
+    </div>
+}
+</main>

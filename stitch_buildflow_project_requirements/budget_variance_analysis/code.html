@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#943700",
+                        "on-surface-variant": "#434655",
+                        "secondary": "#855300",
+                        "surface": "#f7f9fb",
+                        "tertiary-container": "#bc4800",
+                        "surface-bright": "#f7f9fb",
+                        "outline-variant": "#c3c6d7",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed": "#00174b",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "inverse-primary": "#b4c5ff",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary-container": "#eeefff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "background": "#f7f9fb",
+                        "surface-tint": "#0053db",
+                        "surface-variant": "#e0e3e5",
+                        "primary-container": "#2563eb",
+                        "surface-dim": "#d8dadc",
+                        "outline": "#737686",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-highest": "#e0e3e5",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-surface": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary-container": "#ffede6",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary": "#004ac6",
+                        "secondary-container": "#fea619",
+                        "on-secondary-container": "#684000",
+                        "secondary-fixed": "#ffddb8"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .blueprint-grid {
+            background-image: radial-gradient(circle, #c3c6d7 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 p-4 gap-2 z-40 transition-all duration-300 ease-in-out">
+<div class="flex items-center gap-3 px-2 py-4 mb-4">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Precision Management</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1 flex-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span>Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 rounded-xl shadow-sm font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span>Budget</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">engineering</span>
+<span>Labor</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span>Documents</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-xl transition-colors" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span>Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen relative">
+<!-- Top App Bar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl sticky top-0 z-30 shadow-[0px_12px_32px_rgba(15,23,42,0.06)] px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="md:hidden text-blue-700 font-black tracking-tight text-xl">BuildFlow</div>
+<h2 class="hidden md:block text-2xl font-black tracking-tight text-on-surface">Budget Variance Analysis</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline scale-75">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-primary/30 transition-all" placeholder="Search budget codes..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 shadow-sm">
+<img class="h-full w-full object-cover" data-alt="Professional project manager headshot with neutral background wearing business casual attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD8VoP9jSFpKtNe-M_B2jt5D6TmddTicvUcdC8TAU7Lz1-_qypUmf6cSUQjMnOeo2BzRPlLhJgC59WTd-IyKlHKnnu5EO6EkD6JU-Bh67BalJdVkd1XL7yqn2b6X_QkZ2DQl6ezY_MeHJNRcJMFBkJmyheSZvWhZyGtAQb44DS_yYCbyAaLZEjIwhVVll8cY8wr72UW0JDaq5OSthuM5hjV7kPWs5Q2ta_mAExp2-nipQt8PE8QLKldDadc8sB-aUYK8-q57ETqKpF"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="p-6 lg:p-10 space-y-10">
+<!-- Summary Stats (Architectural Bento) -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="md:col-span-2 p-8 bg-primary rounded-[2rem] text-white relative overflow-hidden group">
+<div class="blueprint-grid absolute inset-0"></div>
+<div class="relative z-10">
+<p class="text-sm font-bold uppercase tracking-widest opacity-80 mb-2">Total Project Variance</p>
+<h3 class="text-5xl font-black tracking-tighter mb-4">+12.4% <span class="text-lg font-normal tracking-normal opacity-70">($442.8k Over)</span></h3>
+<div class="flex items-center gap-2 text-sm bg-white/10 w-fit px-3 py-1 rounded-full backdrop-blur-md">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span>Immediate review recommended for Material Costs</span>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-white/5 text-[12rem] select-none">trending_up</span>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col justify-between border-l-4 border-secondary">
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-widest mb-1">Labor Efficiency</p>
+<h4 class="text-2xl font-bold text-on-surface">94.2%</h4>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mt-4">
+<div class="bg-secondary h-full rounded-full" style="width: 94.2%"></div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-xl shadow-sm flex flex-col justify-between border-l-4 border-primary-container">
+<div>
+<p class="text-xs font-bold text-outline uppercase tracking-widest mb-1">Actual vs Forecast</p>
+<h4 class="text-2xl font-bold text-on-surface">$3.57M</h4>
+</div>
+<p class="text-[10px] text-slate-500 mt-2 italic">Projected: $3.12M</p>
+</div>
+</section>
+<!-- Main Analysis Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Comparative Bar Chart & Table (The Blueprint Visual) -->
+<div class="xl:col-span-2 space-y-8">
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm relative">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-bold text-on-surface">Cost Comparison by Category</h3>
+<p class="text-sm text-outline">Projected vs. Actual Expenditure</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 text-xs font-medium">
+<div class="w-3 h-3 bg-surface-container-high rounded-sm"></div>
+<span>Projected</span>
+</div>
+<div class="flex items-center gap-2 text-xs font-medium">
+<div class="w-3 h-3 bg-primary rounded-sm"></div>
+<span>Actual</span>
+</div>
+</div>
+</div>
+<!-- Bar Chart Visualization -->
+<div class="space-y-6">
+<!-- Category Row -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold text-on-surface-variant uppercase tracking-tighter">
+<span>Materials</span>
+<span>+18% Variance</span>
+</div>
+<div class="relative h-10 w-full flex gap-1">
+<div class="bg-surface-container-high h-full rounded-l-lg transition-all" style="width: 70%"></div>
+<div class="bg-primary h-full rounded-r-lg transition-all" style="width: 85%"></div>
+</div>
+</div>
+<!-- Category Row -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold text-on-surface-variant uppercase tracking-tighter">
+<span>Labor &amp; Engineering</span>
+<span>-4% Variance</span>
+</div>
+<div class="relative h-10 w-full flex gap-1">
+<div class="bg-surface-container-high h-full rounded-l-lg transition-all" style="width: 60%"></div>
+<div class="bg-primary h-full rounded-r-lg transition-all" style="width: 58%"></div>
+</div>
+</div>
+<!-- Category Row -->
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold text-on-surface-variant uppercase tracking-tighter">
+<span>Equipment Rentals</span>
+<span>+22% Variance</span>
+</div>
+<div class="relative h-10 w-full flex gap-1">
+<div class="bg-surface-container-high h-full rounded-l-lg transition-all" style="width: 45%"></div>
+<div class="bg-primary h-full rounded-r-lg transition-all" style="width: 55%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-low rounded-[2rem] overflow-hidden">
+<div class="px-8 py-6 flex justify-between items-center bg-white/50 border-b border-outline-variant/20">
+<h3 class="font-bold text-on-surface">Detailed Variance Ledger</h3>
+<button class="text-primary text-xs font-bold uppercase tracking-wider hover:underline">Export CSV</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-[10px] uppercase tracking-[0.1em] text-outline">
+<th class="px-8 py-4 font-bold">Budget Code</th>
+<th class="px-8 py-4 font-bold">Description</th>
+<th class="px-8 py-4 font-bold">Projected ($)</th>
+<th class="px-8 py-4 font-bold">Actual ($)</th>
+<th class="px-8 py-4 font-bold">Variance (%)</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="bg-white hover:bg-primary-container/5 transition-colors group">
+<td class="px-8 py-5 font-mono text-xs text-primary font-bold">03-100</td>
+<td class="px-8 py-5 text-on-surface font-medium">Structural Concrete</td>
+<td class="px-8 py-5">$1,240,000</td>
+<td class="px-8 py-5">$1,488,000</td>
+<td class="px-8 py-5">
+<span class="bg-error-container text-on-error-container px-2 py-1 rounded text-xs font-bold">+20.0%</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/50 hover:bg-primary-container/5 transition-colors group">
+<td class="px-8 py-5 font-mono text-xs text-primary font-bold">05-200</td>
+<td class="px-8 py-5 text-on-surface font-medium">Steel Fabrication</td>
+<td class="px-8 py-5">$850,000</td>
+<td class="px-8 py-5">$816,000</td>
+<td class="px-8 py-5">
+<span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-bold">-4.0%</span>
+</td>
+</tr>
+<tr class="bg-white hover:bg-primary-container/5 transition-colors group">
+<td class="px-8 py-5 font-mono text-xs text-primary font-bold">08-500</td>
+<td class="px-8 py-5 text-on-surface font-medium">Glass &amp; Glazing</td>
+<td class="px-8 py-5">$420,000</td>
+<td class="px-8 py-5">$436,800</td>
+<td class="px-8 py-5">
+<span class="bg-error-container text-on-error-container px-2 py-1 rounded text-xs font-bold">+4.0%</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/50 hover:bg-primary-container/5 transition-colors group">
+<td class="px-8 py-5 font-mono text-xs text-primary font-bold">31-000</td>
+<td class="px-8 py-5 text-on-surface font-medium">Earthwork &amp; Site Pref</td>
+<td class="px-8 py-5">$210,000</td>
+<td class="px-8 py-5">$252,000</td>
+<td class="px-8 py-5">
+<span class="bg-error-container text-on-error-container px-2 py-1 rounded text-xs font-bold">+20.0%</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- AI Insights & Sidebar -->
+<div class="space-y-8">
+<!-- AI Driven Notes Card -->
+<div class="bg-inverse-surface text-inverse-on-surface p-8 rounded-[2rem] shadow-xl relative overflow-hidden">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg">psychology</span>
+</div>
+<h3 class="text-lg font-bold">AI Intelligence Unit</h3>
+</div>
+<div class="space-y-6">
+<div class="bg-white/5 p-4 rounded-xl border border-white/10">
+<p class="text-[10px] uppercase font-bold text-primary-fixed mb-2 tracking-widest">Critical Alert</p>
+<p class="text-sm leading-relaxed text-inverse-on-surface/80">Concrete costs (03-100) are trending 20% above baseline. Pattern recognition suggests regional supply chain disruptions. Recommend locking in steel prices for Phase 2 immediately.</p>
+</div>
+<div class="bg-white/5 p-4 rounded-xl border border-white/10">
+<p class="text-[10px] uppercase font-bold text-secondary-fixed mb-2 tracking-widest">Efficiency Note</p>
+<p class="text-sm leading-relaxed text-inverse-on-surface/80">Labor costs are down 4% despite project acceleration. Subcontractor B is performing 12% faster than historical averages for site prep.</p>
+</div>
+<button class="w-full py-4 bg-primary text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-all">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+                                Generate Forecast Report
+                            </button>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -bottom-12 -right-12 w-32 h-32 bg-primary/20 rounded-full blur-3xl"></div>
+</div>
+<!-- Risk heatmap -->
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm">
+<h3 class="font-bold text-on-surface mb-6">Budget Risk Heatmap</h3>
+<div class="grid grid-cols-4 grid-rows-4 gap-2 h-48">
+<div class="bg-error rounded-lg opacity-90"></div>
+<div class="bg-error rounded-lg opacity-70"></div>
+<div class="bg-error rounded-lg opacity-40"></div>
+<div class="bg-surface-container-high rounded-lg"></div>
+<div class="bg-error rounded-lg opacity-60"></div>
+<div class="bg-error rounded-lg opacity-30"></div>
+<div class="bg-surface-container-high rounded-lg"></div>
+<div class="bg-primary rounded-lg opacity-20"></div>
+<div class="bg-error rounded-lg opacity-40"></div>
+<div class="bg-surface-container-high rounded-lg"></div>
+<div class="bg-primary rounded-lg opacity-30"></div>
+<div class="bg-primary rounded-lg opacity-50"></div>
+<div class="bg-surface-container-high rounded-lg"></div>
+<div class="bg-primary rounded-lg opacity-40"></div>
+<div class="bg-primary rounded-lg opacity-70"></div>
+<div class="bg-primary rounded-lg opacity-90"></div>
+</div>
+<div class="mt-4 flex justify-between text-[10px] font-bold text-outline">
+<span>HIGH RISK</span>
+<span>ON TRACK</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button - Only on relevant dashboard contexts -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-secondary-container text-on-secondary-container rounded-2xl shadow-2xl flex items-center justify-center hover:scale-105 transition-transform z-50">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</main>
+<!-- Bottom Nav for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-outline-variant/10 px-4 py-3 flex justify-around items-center z-50">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-blue-600 font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="text-[10px]">Budget</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Reports</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Config</span>
+</a>
+</nav>
+</body></html>

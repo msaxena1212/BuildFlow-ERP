@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow | Import Materials</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#653e00",
+                        "inverse-surface": "#2d3133",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "background": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "on-primary-fixed": "#00174b",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed": "#2a1700",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-container": "#684000",
+                        "on-primary-container": "#eeefff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#855300",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-background": "#191c1e",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-tint": "#0053db",
+                        "tertiary-container": "#bc4800",
+                        "secondary-container": "#fea619",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "tertiary": "#943700",
+                        "outline": "#737686",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#004ac6",
+                        "on-surface-variant": "#434655",
+                        "on-tertiary-fixed": "#360f00",
+                        "secondary-fixed": "#ffddb8",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "outline-variant": "#c3c6d7",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "surface-dim": "#d8dadc",
+                        "inverse-primary": "#b4c5ff",
+                        "on-surface": "#191c1e"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar from JSON -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-slate-900 flex flex-col p-4 gap-2 font-['Inter'] antialiased tracking-tight z-50">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tighter text-slate-900 dark:text-white">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Construction Mgmt</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="text-sm font-medium">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-sm font-medium">Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Vendors</span>
+</a>
+<!-- Active State: Materials -->
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm rounded-lg font-semibold scale-[0.98] active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-sm">Materials</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col gap-1">
+<button class="w-full mb-4 py-2.5 px-4 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-semibold text-sm shadow-md hover:opacity-90 transition-all">
+                New Project
+            </button>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar from JSON -->
+<header class="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800/50 shadow-[0_1px_2px_rgba(0,0,0,0.03)] flex items-center justify-between h-16 px-8 ml-64">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors">search</span>
+<input class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 transition-all" placeholder="Search materials, projects, or orders..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full transition-all">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<button class="px-4 py-1.5 bg-surface-container-highest text-primary font-semibold text-sm rounded-lg hover:bg-slate-200 transition-colors">
+                Invite Team
+            </button>
+<div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ml-2">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="professional portrait of a project manager in a clean studio setting with neutral lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjTNqExNItnVYZdqZa6dU0AwUvDM-ZJQrkAQleth_BcoyT74YccoQL5FInTQF5RO4Q50rjEw-13OSDSE-RdpsUOiSKPLX3_SLLk45AiIgC8LIyMRbhGyoWx7IyMYCfsytvY6iXzhJ1_rjPmL1aYZj9vlqloidFJ0j4IXrCy-aWNUc2Zj7dhbpRcCzOO9D-B3TrbeYdJgKwJsQsq6POCf9ZqxMSEQCkySUI_xUHEvDO9NhCakCQ7bn4eJ5hro7DNGDjvsNzQvmzBrUV"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-8 max-w-6xl mx-auto">
+<!-- Header Section (Asymmetric Editorial Style) -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<nav class="flex items-center gap-2 text-xs font-bold tracking-widest text-primary uppercase mb-3">
+<span>Materials</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span>Import Flow</span>
+</nav>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface mb-4">Import Materials</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed">Streamline your procurement by batch-uploading your inventory. BuildFlow's intelligent mapping handles the structural integrity of your data.</p>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-low p-4 rounded-xl">
+<div class="text-right">
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Source File</p>
+<p class="text-sm font-semibold text-on-surface">Material_List_Q3.csv</p>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">description</span>
+</div>
+</div>
+</div>
+<!-- Progress Indicators -->
+<div class="grid grid-cols-3 gap-8 mb-12">
+<div class="relative">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">1</div>
+<span class="font-bold text-on-surface">Upload</span>
+</div>
+<div class="h-1 w-full bg-primary rounded-full"></div>
+</div>
+<div class="relative">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">2</div>
+<span class="font-bold text-on-surface">Mapping</span>
+</div>
+<div class="h-1 w-full bg-primary rounded-full"></div>
+</div>
+<div class="relative">
+<div class="flex items-center gap-3 mb-2 opacity-100">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-sm">3</div>
+<span class="font-bold text-on-surface">Validation</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-3/4"></div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout for Import Steps -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Step 2: Data Mapping (Sub-section) -->
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/20">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-bold text-on-surface">Column Mapping</h3>
+<span class="text-xs font-bold text-primary px-2 py-1 bg-primary-fixed rounded">94% Matched</span>
+</div>
+<div class="space-y-4">
+<!-- Mapping Row -->
+<div class="flex items-center gap-4 p-3 bg-surface rounded-lg">
+<div class="flex-1">
+<p class="text-[10px] font-bold text-outline uppercase">BuildFlow Field</p>
+<p class="text-sm font-semibold">Material Name</p>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">link</span>
+<div class="flex-1">
+<p class="text-[10px] font-bold text-outline uppercase">CSV Column</p>
+<p class="text-sm font-semibold text-primary">Item_Desc</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 bg-surface rounded-lg">
+<div class="flex-1">
+<p class="text-[10px] font-bold text-outline uppercase">BuildFlow Field</p>
+<p class="text-sm font-semibold">Unit Price</p>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">link</span>
+<div class="flex-1">
+<p class="text-[10px] font-bold text-outline uppercase">CSV Column</p>
+<p class="text-sm font-semibold text-primary">Cost_Per_Unit</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 bg-surface rounded-lg">
+<div class="flex-1">
+<p class="text-[10px] font-bold text-outline uppercase">BuildFlow Field</p>
+<p class="text-sm font-semibold">Stock Quantity</p>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">link</span>
+<div class="flex-1">
+<div class="px-2 py-1 border border-outline-variant rounded bg-white text-xs font-medium text-outline">
+                                    Select column...
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Summary Stats -->
+<div class="bg-primary text-white p-6 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-sm font-medium opacity-80 mb-1">Ready for Import</p>
+<h4 class="text-4xl font-extrabold mb-4">428 <span class="text-lg font-normal opacity-70">Rows</span></h4>
+<div class="flex items-center gap-2 text-xs font-bold py-2 px-3 bg-white/20 rounded-lg inline-flex">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                            No structural conflicts detected
+                        </div>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-white/10 text-9xl">analytics</span>
+</div>
+</section>
+<!-- Step 3: Final Validation -->
+<section class="col-span-12 lg:col-span-7">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden h-full flex flex-col">
+<div class="p-6 border-b border-surface-container-low flex items-center justify-between">
+<div>
+<h3 class="font-bold text-on-surface">Data Validation Review</h3>
+<p class="text-sm text-on-surface-variant">Review entries before committing to database</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 bg-surface-container-low rounded-lg text-outline">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 bg-surface-container-low rounded-lg text-outline">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low sticky top-0">
+<tr>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Status</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Material ID</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Name</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Category</th>
+<th class="px-6 py-4 text-[10px] font-bold text-outline uppercase tracking-widest">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Successful Entry 1 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                                            Valid
+                                        </span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">MAT-2091</td>
+<td class="px-6 py-5 text-sm">Reinforced Steel Rebar (12mm)</td>
+<td class="px-6 py-5 text-sm text-outline">Structural</td>
+<td class="px-6 py-5 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">edit</button>
+</td>
+</tr>
+<!-- Successful Entry 2 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                                            Valid
+                                        </span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">MAT-2092</td>
+<td class="px-6 py-5 text-sm">Portland Cement (50kg)</td>
+<td class="px-6 py-5 text-sm text-outline">Masonry</td>
+<td class="px-6 py-5 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">edit</button>
+</td>
+</tr>
+<!-- Successful Entry 3 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                                            Valid
+                                        </span>
+</td>
+<td class="px-6 py-5 text-sm font-medium">MAT-2093</td>
+<td class="px-6 py-5 text-sm">Oak Hardwood Flooring</td>
+<td class="px-6 py-5 text-sm text-outline">Finishing</td>
+<td class="px-6 py-5 text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors">edit</button>
+</td>
+</tr>
+<!-- Error Entry -->
+<tr class="bg-error-container/20">
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-error/10 text-error text-xs font-bold rounded-full">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">error</span>
+                                            Error
+                                        </span>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-error">MAT-2094</td>
+<td class="px-6 py-5 text-sm italic text-error/60">Missing Field</td>
+<td class="px-6 py-5 text-sm text-outline">Plumbing</td>
+<td class="px-6 py-5 text-right">
+<button class="px-3 py-1 bg-error text-white text-[10px] font-bold uppercase rounded hover:shadow-lg transition-all">Fix Error</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-green-500"></span>
+<span class="text-xs font-bold">3 Ready</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-error"></span>
+<span class="text-xs font-bold">1 Requires Action</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-6 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-lg hover:bg-slate-300 transition-all">
+                                Save as Draft
+                            </button>
+<button class="px-8 py-2.5 bg-gradient-to-r from-primary to-primary-container text-white font-bold rounded-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
+                                Finish Import
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Informational Footer -->
+<footer class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 p-8 border-t border-outline-variant/20">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed-variant">
+<span class="material-symbols-outlined">security</span>
+</div>
+<div>
+<h5 class="font-bold text-sm mb-1">Secure Validation</h5>
+<p class="text-xs text-outline leading-relaxed">Every entry is checked against your project's compliance rules.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant">
+<span class="material-symbols-outlined">auto_graph</span>
+</div>
+<div>
+<h5 class="font-bold text-sm mb-1">Smart Deduplication</h5>
+<p class="text-xs text-outline leading-relaxed">BuildFlow automatically flags potential duplicate materials.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined">history</span>
+</div>
+<div>
+<h5 class="font-bold text-sm mb-1">Audit Log</h5>
+<p class="text-xs text-outline leading-relaxed">Complete history of this import session is preserved for audit.</p>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

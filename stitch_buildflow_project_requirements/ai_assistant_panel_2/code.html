@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow AI Assistant - Project Alpha</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for the AI panel */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ffddb8",
+              "outline-variant": "#c3c6d7",
+              "background": "#f7f9fb",
+              "on-secondary": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary": "#ffffff",
+              "on-error-container": "#93000a",
+              "primary-fixed-dim": "#b4c5ff",
+              "outline": "#737686",
+              "surface-bright": "#f7f9fb",
+              "surface-dim": "#d8dadc",
+              "secondary-fixed-dim": "#ffb95f",
+              "on-secondary-container": "#684000",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "surface-tint": "#0053db",
+              "primary-container": "#2563eb",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-fixed": "#360f00",
+              "inverse-surface": "#2d3133",
+              "inverse-primary": "#b4c5ff",
+              "tertiary-fixed": "#ffdbcd",
+              "on-primary-container": "#eeefff",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#003ea8",
+              "on-error": "#ffffff",
+              "tertiary-container": "#bc4800",
+              "surface-container": "#eceef0",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "error-container": "#ffdad6",
+              "primary": "#004ac6",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#653e00",
+              "tertiary": "#943700",
+              "error": "#ba1a1a",
+              "secondary-container": "#fea619",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-secondary-fixed": "#2a1700",
+              "surface-variant": "#e0e3e5",
+              "secondary": "#855300",
+              "on-primary-fixed": "#00174b",
+              "on-tertiary-container": "#ffede6",
+              "surface": "#f7f9fb",
+              "on-surface-variant": "#434655"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none flex justify-between items-center px-8 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black tracking-tighter text-blue-700 dark:text-blue-500">Apex Construction</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Projects</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Schedule</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden">
+<img alt="User profile avatar" data-alt="professional headshot of a male construction project manager in business casual attire with a focused expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUsbImo3slb-cGyGQ2gjTjRWx_Ycvk0KAefvcTpZdPcPSKn0ANb_AvUaRtt7iit7clYjeaAejEpnBikxS8HSN6C6qejOPGZJHfHcMePddd17y8ae4sYiB7NrFZvAwC36S2Lmah7EG-AqmnJoP4rOtkg8bHtqF2qEa4kHNJLAXg7p_kj96i81iEE0XgUOPr13nvemWLOvIdsk3cdBHHV_lCNxSUKjBrjIj7Sl2V2MM_PRh9VMWbl8j2hDyLl6yhXoZuJNcr_P9pwbR7"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-40 bg-slate-100 dark:bg-slate-950 flex flex-col p-4 gap-y-2 pt-20">
+<div class="mb-6 px-2">
+<h2 class="text-lg font-bold text-slate-900 dark:white">Project Alpha</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400">Site 104 - London</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-medium text-sm">Timeline</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-medium text-sm">Budget</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+<span class="font-medium text-sm">Files</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 rounded-xl shadow-sm transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-medium text-sm">AI Assistant</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-1">
+<button class="w-full py-3 mb-4 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-bold text-sm shadow-md active:scale-95 transition-transform">
+                New Report
+            </button>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-medium text-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-medium text-sm">Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-16 h-screen w-full bg-surface">
+<div class="p-8 grid grid-cols-12 gap-8 h-full">
+<!-- Background Content (Simulating Project Overview) -->
+<div class="col-span-12 lg:col-span-7 flex flex-col gap-8 overflow-y-auto pb-20 custom-scrollbar">
+<header>
+<h1 class="text-4xl font-extrabold tracking-tighter text-on-surface mb-2">BuildFlow Workspace</h1>
+<p class="text-on-surface-variant max-w-lg">Monitoring real-time telemetry from Site 104. All systems operational.</p>
+</header>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/20">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-bold tracking-widest text-outline uppercase">Completion</span>
+<span class="text-primary font-bold">64%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[64%] rounded-full"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/20">
+<div class="flex justify-between items-start mb-4">
+<span class="text-xs font-bold tracking-widest text-outline uppercase">Active Labor</span>
+<span class="text-secondary font-bold">42 Crews</span>
+</div>
+<div class="flex gap-1">
+<div class="h-4 w-1 bg-secondary rounded-full"></div>
+<div class="h-4 w-1 bg-secondary rounded-full"></div>
+<div class="h-4 w-1 bg-secondary rounded-full opacity-50"></div>
+<div class="h-4 w-1 bg-secondary rounded-full"></div>
+<div class="h-4 w-1 bg-secondary rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold">Structural Timeline</h3>
+<span class="material-symbols-outlined text-outline" data-icon="more_horiz">more_horiz</span>
+</div>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="foundation">foundation</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="font-bold">Foundation Phase</span>
+<span class="text-xs font-medium text-error">Delayed</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full">
+<div class="bg-error h-full w-[90%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="architecture">architecture</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="font-bold">Steel Framing</span>
+<span class="text-xs font-medium text-secondary">In Progress</span>
+</div>
+<div class="w-full bg-surface-container h-1 rounded-full">
+<div class="bg-secondary h-full w-[25%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Image -->
+<div class="relative h-64 rounded-xl overflow-hidden group">
+<img alt="Construction Site" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="dramatic wide shot of a massive construction site with multiple yellow cranes at dusk under a deep orange sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_ZyA8uDZ-GHlXdI0D5qezxj3jSiZ4z7B9IleSRYPAc950djTyE_WLvOtGQzNaPEV2nXtZX-NuCpZhksT2mpClFFobk7BJCr-ym4BiESHaAGOuHalBX0h2L4oGT5uVe8K-eXnc5vaU_C1oDJgyQEx1jyyNc_KX3j8DG2LEwzsw_TQ9xqCWtPXvVkDRpLq-IaiEkOM2wTEA0G0pC0yvmvUTA-BhK65R2eMD7wLDRY1b4WemCDx2r5PnGM7DGF4BCmzdqO7zh5IeTqnL"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
+<div>
+<span class="px-3 py-1 bg-blue-600 text-[10px] font-bold text-white rounded-full uppercase tracking-widest mb-2 inline-block">Live Feed</span>
+<h4 class="text-white text-2xl font-bold">North Wing Progress</h4>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Assistant Panel (The Hero of the Screen) -->
+<div class="col-span-12 lg:col-span-5 h-full pb-20">
+<div class="bg-slate-900 text-white rounded-[2rem] h-full flex flex-col overflow-hidden shadow-2xl relative border border-white/5 backdrop-blur-3xl">
+<!-- Glassy Glow effects -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Header -->
+<header class="p-6 border-b border-white/10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+<span class="material-symbols-outlined text-white" data-icon="smart_toy" data-weight="fill" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div>
+<h3 class="font-bold text-lg leading-tight">BuildFlow AI</h3>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-[10px] uppercase tracking-widest text-white/50 font-bold">Analysing Site 104</span>
+</div>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="open_in_full">open_in_full</span>
+</button>
+</header>
+<!-- Insights / Alerts -->
+<div class="px-6 py-6 space-y-4">
+<div class="flex items-center justify-between mb-2">
+<h4 class="text-xs font-bold tracking-widest text-white/40 uppercase">Predictive Insights</h4>
+<span class="text-[10px] text-primary-fixed-dim bg-primary/20 px-2 py-0.5 rounded-full">3 New</span>
+</div>
+<!-- Alert 1 -->
+<div class="bg-white/5 border border-white/5 p-4 rounded-2xl hover:bg-white/10 transition-colors group">
+<div class="flex gap-4">
+<div class="mt-1 w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-orange-400 text-sm" data-icon="cloud">cloud</span>
+</div>
+<div>
+<p class="text-sm font-medium mb-1">Potential 2-day delay in Foundation due to weather</p>
+<p class="text-xs text-white/40">Storm expected Thursday. Recommendation: Accelerate concrete pour by 12h.</p>
+</div>
+</div>
+</div>
+<!-- Alert 2 -->
+<div class="bg-white/5 border border-white/5 p-4 rounded-2xl hover:bg-white/10 transition-colors group">
+<div class="flex gap-4">
+<div class="mt-1 w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-blue-400 text-sm" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<p class="text-sm font-medium mb-1">Material cost alert for Steel</p>
+<p class="text-xs text-white/40">Market volatility detected. Buy remaining Q3 inventory now to save $14,200.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Interface -->
+<div class="flex-1 flex flex-col min-h-0 bg-black/20 mt-4 rounded-t-[2rem] border-t border-white/5">
+<div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+<!-- Bot Message -->
+<div class="flex gap-3 max-w-[85%]">
+<div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xs" data-icon="smart_toy">smart_toy</span>
+</div>
+<div class="bg-white/5 p-4 rounded-2xl rounded-tl-none text-sm text-white/80 leading-relaxed">
+                                    Hello, I've processed the latest logistics and weather data. What would you like to know about Project Alpha today?
+                                </div>
+</div>
+<!-- User Message -->
+<div class="flex gap-3 max-w-[85%] ml-auto flex-row-reverse">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xs" data-icon="person">person</span>
+</div>
+<div class="bg-primary p-4 rounded-2xl rounded-tr-none text-sm text-white leading-relaxed">
+                                    Show me the impact on the critical path if we skip the Saturday shift.
+                                </div>
+</div>
+<!-- Bot Analysis Pulse -->
+<div class="flex gap-3 items-center text-white/30 italic text-xs">
+<div class="flex gap-1">
+<div class="w-1 h-1 bg-white/30 rounded-full animate-bounce"></div>
+<div class="w-1 h-1 bg-white/30 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+<div class="w-1 h-1 bg-white/30 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+</div>
+                                Calculating critical path permutations...
+                            </div>
+</div>
+<!-- Input Area -->
+<div class="p-6">
+<div class="relative group">
+<input class="w-full bg-white/5 border-none rounded-2xl py-4 pl-6 pr-14 text-sm focus:ring-2 focus:ring-primary/50 placeholder:text-white/20 transition-all" placeholder="Ask BuildFlow anything..." type="text"/>
+<button class="absolute right-2 top-2 bottom-2 w-10 bg-primary hover:bg-primary-container rounded-xl flex items-center justify-center transition-colors shadow-lg">
+<span class="material-symbols-outlined text-white text-lg" data-icon="arrow_upward">arrow_upward</span>
+</button>
+</div>
+<div class="flex gap-2 mt-4 overflow-x-auto no-scrollbar pb-2">
+<button class="shrink-0 px-4 py-2 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white/5 transition-colors">Budget Status</button>
+<button class="shrink-0 px-4 py-2 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white/5 transition-colors">Vendor Delay</button>
+<button class="shrink-0 px-4 py-2 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest hover:bg-white/5 transition-colors">Site Safety</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Hidden as per hierarchy rules for detailed/assistant focused screens) -->
+</body></html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow - Project Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#653e00",
+              "inverse-surface": "#2d3133",
+              "surface-container": "#eceef0",
+              "on-tertiary-container": "#ffede6",
+              "secondary-fixed-dim": "#ffb95f",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "background": "#f7f9fb",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#2563eb",
+              "on-primary-fixed": "#00174b",
+              "error-container": "#ffdad6",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-fixed": "#2a1700",
+              "error": "#ba1a1a",
+              "surface-container-high": "#e6e8ea",
+              "on-secondary-container": "#684000",
+              "on-primary-container": "#eeefff",
+              "on-secondary": "#ffffff",
+              "secondary": "#855300",
+              "on-error-container": "#93000a",
+              "surface-bright": "#f7f9fb",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-fixed": "#ffdbcd",
+              "on-background": "#191c1e",
+              "surface-container-highest": "#e0e3e5",
+              "surface-tint": "#0053db",
+              "tertiary-container": "#bc4800",
+              "secondary-container": "#fea619",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "primary-fixed-dim": "#b4c5ff",
+              "tertiary": "#943700",
+              "outline": "#737686",
+              "surface-variant": "#e0e3e5",
+              "primary": "#004ac6",
+              "on-surface-variant": "#434655",
+              "on-tertiary-fixed": "#360f00",
+              "secondary-fixed": "#ffddb8",
+              "on-error": "#ffffff",
+              "surface": "#f7f9fb",
+              "outline-variant": "#c3c6d7",
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-dim": "#d8dadc",
+              "inverse-primary": "#b4c5ff",
+              "on-surface": "#191c1e"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden">
+<!-- Side Navigation Bar -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-slate-900 flex flex-col p-4 gap-2 font-['Inter'] antialiased tracking-tight">
+<div class="flex items-center gap-3 px-2 mb-6">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tighter text-slate-900 dark:text-white">BuildFlow</h1>
+<p class="text-[10px] text-slate-500 font-medium uppercase tracking-widest">Construction Mgmt</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm rounded-lg font-semibold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">architecture</span>
+<span class="text-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-sm font-medium">Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Vendors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-sm font-medium">Materials</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-slate-200 dark:border-slate-800 pt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-sm font-medium">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas (Background for Modal) -->
+<main class="ml-64 min-h-screen bg-surface">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800/50 shadow-[0_1px_2px_rgba(0,0,0,0.03)] flex items-center justify-between h-16 px-8">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 transition-all" placeholder="Search projects, documents, or team..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm hover:opacity-90 transition-opacity">Invite Team</button>
+<img alt="User Avatar" class="w-8 h-8 rounded-full border border-slate-200" data-alt="portrait of a senior project manager with grey beard in a professional headshot with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMr4VHOavshPEwDA0RIjdRhJ4X8waLN-gaHMb6ebhfqTglgz1sXs8h4XOoX_emKiBKu7oqd_k1P4RmMBgtRh1LbttUNYlC21S9qMBj7g-SjhtB3ki13YrHPX0CeZdBwKzSH5XNvlSm1m9hQ3W2VWLlq0PirsAKO6A3i3sb4Y0McqvOqLYbqdKRX8-4ercd9Df70P4L8Q3dexlDsDaiPclE7A5sYgYU-MTKVdfYRswQsTxlelrbgTPEIsYGGhc3sQD3QiaWHao1Fetq"/>
+</div>
+</header>
+<!-- Project Detail Content (Faded Out/Underneath) -->
+<div class="p-12 opacity-40 pointer-events-none">
+<div class="flex items-end justify-between mb-12">
+<div>
+<p class="text-label-sm font-bold tracking-[0.05em] uppercase text-outline mb-2">Project #BF-2024-08</p>
+<h2 class="text-display-md font-extrabold tracking-tight text-on-surface leading-tight">The Skybridge Residences</h2>
+</div>
+<div class="flex gap-4">
+<div class="text-right">
+<p class="text-label-sm text-outline uppercase tracking-wider mb-1">Completion</p>
+<p class="text-headline-sm font-bold">74%</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<div class="col-span-8 space-y-8">
+<div class="h-96 w-full bg-surface-container-low rounded-xl overflow-hidden relative">
+<img alt="Site View" class="w-full h-full object-cover" data-alt="architectural concrete construction site with steel rebar and clear blue sky in bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXRFBPDGL0qb-LX9vuBNiuwn9_BUqoU2YivDmoIAAvlyqf0X4NOr7Q3Ya4yn7j4bmAVcT4Xpzs0j5-ptBsl14ABsOQVdLd3TQVzIkHHNn-3bDjgGdYSKtlBLHIdxN1d_jtkB1gH3F8yhBoupIJSRoMTCmIGI4GcIKOShk7tE3dQZXXM-9HZ6vH71Y4vvH5yZBd4LlMqJzKfGoiP9fGZJxAmPykHViwIFh0pszGgoZ7Urw6tS1dROSE-aPK-MDxeJJN9QBtB3GggWR8"/>
+</div>
+</div>
+<div class="col-span-4 space-y-6">
+<div class="bg-surface-container-low p-6 rounded-xl">
+<h4 class="text-label-md font-bold text-on-surface mb-4 uppercase tracking-wider">Site Team</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200"></div>
+<div class="h-4 w-32 bg-slate-200 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual Action Modal: Add Site Note Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+<!-- Modal Container -->
+<div class="relative w-full max-w-xl bg-surface-container-lowest rounded-xl shadow-[0px_12px_32px_rgba(15,23,42,0.12)] overflow-hidden flex flex-col">
+<!-- Modal Header -->
+<div class="px-6 py-5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-fixed text-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">note_add</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-bold text-on-surface tracking-tight">Add Site Note</h3>
+<p class="text-xs text-outline font-medium uppercase tracking-wider">Skybridge Residences • Sector A</p>
+</div>
+</div>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body / Form -->
+<div class="px-6 pb-6 space-y-6">
+<!-- Rich Text Editor Simulated -->
+<div class="space-y-2">
+<label class="text-label-sm font-bold text-outline uppercase tracking-wider">Note Content</label>
+<div class="bg-surface-container-low rounded-xl overflow-hidden border border-transparent focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+<div class="px-4 py-2 border-b border-outline-variant/20 flex items-center gap-4 text-outline">
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">format_bold</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">format_italic</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">format_list_bulleted</span>
+<span class="material-symbols-outlined text-sm cursor-pointer hover:text-primary transition-colors">link</span>
+</div>
+<textarea class="w-full bg-transparent border-none focus:ring-0 p-4 text-sm resize-none" placeholder="Detail the site conditions or updates..." rows="4"></textarea>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<!-- Assignee Selection -->
+<div class="space-y-2">
+<label class="text-label-sm font-bold text-outline uppercase tracking-wider">Notify Member</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-sm appearance-none focus:ring-2 focus:ring-primary/20 cursor-pointer">
+<option>Select Assignee</option>
+<option>Marcus Thorne (Lead Arch)</option>
+<option>Sarah Chen (Safety Officer)</option>
+<option>David Miller (Site Super)</option>
+</select>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">person</span>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Urgent Toggle -->
+<div class="space-y-2">
+<label class="text-label-sm font-bold text-outline uppercase tracking-wider">Safety Status</label>
+<div class="flex items-center justify-between bg-surface-container-low px-4 py-3 rounded-xl border-outline-variant/10">
+<span class="text-sm font-medium text-on-surface">Urgent Issue</span>
+<button class="w-10 h-6 bg-surface-container-highest rounded-full p-1 transition-colors relative">
+<div class="w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</button>
+</div>
+</div>
+</div>
+<!-- Attach Photo Button -->
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-4 py-3 bg-surface-container-high text-on-surface-variant rounded-xl text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined">add_a_photo</span>
+                        Attach Photo
+                    </button>
+<div class="flex -space-x-2">
+<!-- Placeholder for attached thumbnails -->
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest border-2 border-white relative overflow-hidden">
+<img class="w-full h-full object-cover opacity-60" data-alt="close up of structural steel joints on a construction site with sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8wJTGwNTlsjpBawtCZczj7ToAoFCSKSMOoDGo5JVw3Ntkip_ckUiEpsQ8EEQnlneQEROACRMSOrSA63S3HTv8zLRIb7juJU-MQkXOJPZMWkVa_Q4DPsw72YNK92ndQbpNiWC6aDVjGrXc_ejxss2o3zrxiXyezsSMXUeFJnJ8I1Wy6qsVP61WnWbDDwEHDidsZTXcs-tj0rLfTsvpH_juTzuB_cPhObLPUPRyB7ViZy7lGuJrCNV9ks_t6I9U6lrUpLz9n_2dZYN2"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-on-surface">close</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer Actions -->
+<div class="px-6 py-6 bg-surface-container-low/50 flex items-center justify-end gap-3">
+<button class="px-6 py-3 text-sm font-bold text-outline hover:text-on-surface transition-colors">Cancel</button>
+<button class="px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl text-sm font-bold shadow-[0_4px_12px_rgba(0,74,198,0.2)] hover:shadow-[0_6px_16px_rgba(0,74,198,0.3)] transition-all">
+                    Post Site Note
+                </button>
+</div>
+</div>
+</div>
+</body></html>

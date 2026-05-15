@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | BuildFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f7f9fb",
+              "surface-dim": "#d8dadc",
+              "tertiary-container": "#bc4800",
+              "inverse-surface": "#2d3133",
+              "tertiary-fixed-dim": "#ffb596",
+              "on-error-container": "#93000a",
+              "on-surface-variant": "#434655",
+              "surface-tint": "#0053db",
+              "outline": "#737686",
+              "secondary-fixed": "#ffddb8",
+              "secondary-fixed-dim": "#ffb95f",
+              "secondary": "#855300",
+              "secondary-container": "#fea619",
+              "on-tertiary-fixed": "#360f00",
+              "on-tertiary-container": "#ffede6",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-secondary-fixed": "#2a1700",
+              "on-primary-fixed": "#00174b",
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-secondary-container": "#684000",
+              "outline-variant": "#c3c6d7",
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-fixed": "#ffdbcd",
+              "tertiary": "#943700",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eceef0",
+              "surface-variant": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "primary-fixed-dim": "#b4c5ff",
+              "surface-container-highest": "#e0e3e5",
+              "primary-container": "#2563eb",
+              "surface": "#f7f9fb",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "on-surface": "#191c1e",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              "on-secondary-fixed-variant": "#653e00",
+              "inverse-on-surface": "#eff1f3",
+              "on-primary-container": "#eeefff",
+              "on-background": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-bright": "#f7f9fb",
+              "inverse-primary": "#b4c5ff",
+              "primary": "#004ac6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-effect { backdrop-filter: blur(20px); }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex overflow-hidden">
+<!-- SideNavBar (from JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 flex flex-col p-4 gap-y-2 border-r border-slate-200/20 z-50">
+<div class="mb-8 px-2 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-600 leading-none">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-[0.1em] text-slate-500 font-bold">Construction Mgmt</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all active:translate-x-1 duration-150 text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all active:translate-x-1 duration-150 text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+                Projects
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all active:translate-x-1 duration-150 text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                Tasks
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all active:translate-x-1 duration-150 text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                Vendors
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all active:translate-x-1 duration-150 text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                Materials
+            </a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-200/50 rounded-lg transition-all active:translate-x-1 duration-150 text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Reports
+            </a>
+<!-- Active Tab: Settings -->
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white shadow-sm rounded-lg text-blue-600 active:translate-x-1 duration-150 text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Project
+            </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 flex-1 flex flex-col min-h-screen overflow-y-auto">
+<!-- TopAppBar (from JSON) -->
+<header class="w-full h-16 sticky top-0 z-40 bg-slate-50/80 backdrop-blur-xl flex items-center justify-between px-6">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="search">search</span>
+<input class="w-full bg-slate-100 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400" placeholder="Search settings or team members..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="w-9 h-9 rounded-full object-cover" data-alt="Close up portrait of a professional male project manager with short hair and a confident smile in a bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANOT5B5ucBwpqKtIddF6o7tfD0GR5GswVLvJa-ghZ5JDboO4cEiWe2tFcBPR6r6YBcEoeUEz5mHX7rLNGcoP5-1kqSl3ONrfyL4Y7XiGlnJO2PXDBTbhNd50lL1jI4Q6KLFmWmbccLjuvhMkLyprTRBDS4g79VXMsGk7d4UkYv0hdeAPeBzkbDok_OepAcLEN5514Bv75BLQBMetlvwPpiI2ILXiE3V8CS0nrupL874HBdZMdZsim1BSBpwFIJsu9hUz6uuRA2-ruW"/>
+<span class="text-sm font-semibold text-slate-900">David Chen</span>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-8 max-w-6xl mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-10">
+<h2 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">Workspace Settings</h2>
+<p class="text-on-surface-variant text-lg">Manage your personal profile, team permissions, and global project defaults.</p>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<!-- Navigation Column -->
+<div class="col-span-12 md:col-span-3 space-y-1">
+<button class="w-full text-left px-4 py-3 rounded-xl bg-surface-container-lowest text-primary font-bold shadow-sm flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]" data-icon="person">person</span>
+                        Profile
+                    </button>
+<button class="w-full text-left px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]" data-icon="groups">groups</span>
+                        Team Management
+                    </button>
+<button class="w-full text-left px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications_active">notifications_active</span>
+                        Notifications
+                    </button>
+<button class="w-full text-left px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings_suggest">settings_suggest</span>
+                        Project Defaults
+                    </button>
+<button class="w-full text-left px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]" data-icon="credit_card">credit_card</span>
+                        Billing &amp; Plan
+                    </button>
+</div>
+<!-- Main Content Column -->
+<div class="col-span-12 md:col-span-9 space-y-8">
+<!-- Profile Card -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-[0px_12px_32px_rgba(15,23,42,0.04)]">
+<div class="flex items-center gap-6 mb-8">
+<div class="relative">
+<img alt="David Chen Profile" class="w-24 h-24 rounded-2xl object-cover ring-4 ring-background" data-alt="Professional headshot of a smiling man in his 30s wearing a grey sweater, clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_9xDS31BUdRi-_u0dhbBFWFCvYoZ9Z6U2ELEzKxAcx6u-Fb8Tn2jtCE-yjJPB4s7CHMjrklo3yqtrs-ZDY5hF4_IoS3jcgfidqLfPHlVaszynfLAWANSHtdyrutPl7uIydqkE29D4TmiP-zUSWoZIuo_hMBEcDtG1IFqdUbjODv1ZMak8PY0bjfduCnwMxj88CQOXmvYH2_okHOsIfHYmaU9bBr2rN1tvhRd4EJ61gmB4UyEHD8Jl22HfA9Qo27wJY6oKdniZKo-u"/>
+<button class="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-md border border-slate-100 hover:bg-slate-50">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="edit">edit</span>
+</button>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-on-surface">David Chen</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-3 py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded-full text-[10px] font-black uppercase tracking-widest">Project Manager</span>
+<span class="text-on-surface-variant text-sm">• david.c@buildflow.ai</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline ml-1">Full Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium" type="text" value="David Chen"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline ml-1">Email Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium" type="email" value="david.c@buildflow.ai"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline ml-1">Phone Number</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium" type="text" value="+1 (555) 902-3481"/>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline ml-1">Timezone</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium">
+<option>Pacific Time (PT)</option>
+<option>Eastern Time (ET)</option>
+<option>GMT</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Notifications Toggles -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-[0px_12px_32px_rgba(15,23,42,0.04)]">
+<div class="mb-6">
+<h4 class="text-lg font-bold text-on-surface">Notification Preferences</h4>
+<p class="text-sm text-on-surface-variant">Control how and when you want to be notified about project updates.</p>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="font-semibold text-on-surface">Email Summaries</p>
+<p class="text-xs text-on-surface-variant">Receive daily highlights of project activity.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="font-semibold text-on-surface">Push Notifications</p>
+<p class="text-xs text-on-surface-variant">Real-time alerts for direct mentions and task assignments.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="font-semibold text-on-surface">Vendor Portal Updates</p>
+<p class="text-xs text-on-surface-variant">Get notified when vendors upload documents or bid proposals.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Team Management Snippet -->
+<section class="bg-surface-container-lowest rounded-xl p-8 shadow-[0px_12px_32px_rgba(15,23,42,0.04)]">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h4 class="text-lg font-bold text-on-surface">Active Team Members</h4>
+<p class="text-sm text-on-surface-variant">There are 12 active users on your workspace plan.</p>
+</div>
+<button class="bg-surface-container-low text-primary px-4 py-2 rounded-lg font-semibold text-sm hover:bg-surface-container-high transition-colors">
+                                Manage All
+                            </button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl">
+<img alt="Team Member" class="w-10 h-10 rounded-full object-cover" data-alt="Professional woman architect wearing glasses, minimalist modern background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWkDzFpYP7xU2ifgbJ_b5Vupygcf6KAUaTvA0t7mmXIM9hOCGiUSlS8EGURQXqoubzvmmGYv3d6ICHRzvUAuipk6i6LLPyWCOpY13-JsC-gld3hnUKy_uqkOY60NgllK4IguqC1MzHgzfXY5ACUVhFY8bwwRTYA_fm1T4_92NJ5oofGorC3uD9EF8yyQFks9u-_r8cSppWVUCYaSfJZRozF1aLJDVdLrZzXHH0JLLEcFxOhdtk81lFL_0J_RMwvmpyyQjgcJ3qopTQ"/>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Elena Rodriguez</p>
+<p class="text-xs text-on-surface-variant">Lead Architect • elena.r@buildflow.ai</p>
+</div>
+<span class="text-xs font-semibold px-2 py-1 bg-surface-variant rounded">Admin</span>
+</div>
+<div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl">
+<img alt="Team Member" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a male site engineer with a warm smile, outdoor construction site background blurred" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV1Xsg-N7ip0hHIZgt8Yj-Z3ARF2HFMIwgNtr6cY7gdVzBpY_TPCX6EP5FR_h6_8wMyaa2IIiXixO_jrFh1H4GW7KyfhbkNZ74Nw_hQqpdAErbLREM3ijWh2Q4tl1pLAksvR7wfGRhaEexFkIz7SwoOrc9TfCJKdMCjGthDG-d3AOhJeK8uPCI_wW0Yvx7rJ4P7BafQUSiJVVjOLI_8lADj51Uyhd8TgxAL8rhqfJQlRNO7SWua9BPJc7Tdd4AOBZOBxuNWfqEX5Of"/>
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Marcus Thorne</p>
+<p class="text-xs text-on-surface-variant">Site Supervisor • m.thorne@buildflow.ai</p>
+</div>
+<span class="text-xs font-semibold px-2 py-1 bg-surface-variant rounded">Editor</span>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border-2 border-dashed border-outline-variant rounded-xl text-outline font-semibold hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="person_add">person_add</span>
+                            Invite New Member
+                        </button>
+</section>
+<!-- Sticky Footer Actions -->
+<div class="flex items-center justify-end gap-4 pt-4 border-t border-outline-variant/20">
+<button class="px-6 py-2.5 text-on-surface-variant font-semibold hover:bg-surface-container-low rounded-xl transition-colors">Discard Changes</button>
+<button class="px-8 py-2.5 bg-gradient-to-r from-primary to-primary-container text-on-primary font-bold rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-all">Save Changes</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

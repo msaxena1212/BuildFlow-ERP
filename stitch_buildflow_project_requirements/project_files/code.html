@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow - File Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ffddb8",
+              "outline-variant": "#c3c6d7",
+              "background": "#f7f9fb",
+              "on-secondary": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary": "#ffffff",
+              "on-error-container": "#93000a",
+              "primary-fixed-dim": "#b4c5ff",
+              "outline": "#737686",
+              "surface-bright": "#f7f9fb",
+              "surface-dim": "#d8dadc",
+              "secondary-fixed-dim": "#ffb95f",
+              "on-secondary-container": "#684000",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "surface-tint": "#0053db",
+              "primary-container": "#2563eb",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-fixed": "#360f00",
+              "inverse-surface": "#2d3133",
+              "inverse-primary": "#b4c5ff",
+              "tertiary-fixed": "#ffdbcd",
+              "on-primary-container": "#eeefff",
+              "on-primary": "#ffffff",
+              "on-primary-fixed-variant": "#003ea8",
+              "on-error": "#ffffff",
+              "tertiary-container": "#bc4800",
+              "surface-container": "#eceef0",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "error-container": "#ffdad6",
+              "primary": "#004ac6",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#653e00",
+              "tertiary": "#943700",
+              "error": "#ba1a1a",
+              "secondary-container": "#fea619",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "on-secondary-fixed": "#2a1700",
+              "surface-variant": "#e0e3e5",
+              "secondary": "#855300",
+              "on-primary-fixed": "#00174b",
+              "on-tertiary-container": "#ffede6",
+              "surface": "#f7f9fb",
+              "on-surface-variant": "#434655"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl shadow-sm h-16 flex justify-between items-center px-8">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black tracking-tighter text-blue-700">Apex Construction</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-500 font-medium hover:text-slate-900 transition-colors" href="#">Projects</a>
+<a class="text-slate-500 font-medium hover:text-slate-900 transition-colors" href="#">Schedule</a>
+<a class="text-slate-500 font-medium hover:text-slate-900 transition-colors" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-lg transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-200/50 rounded-lg transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant/20">
+<img alt="User profile avatar" data-alt="Professional headshot of a construction project manager in a clean studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjlBsBNbIBqv_WylqjFaNK5wjwSh6V6IAVJC_eKw8nJYo5CDHle2A5TDgZWf8NO3l2VLLDivpsoSIgsIPMn6CI4eeBpoUDqeWqbUV-S6fUmMbNvPMAkdoLz7KNLS7Uhe0vLFc6xgUmIRfmhsjsRGJ45AgiuOo-zHn5c8VOsCot9JoBtzlZoacWL1x-IxG6-e506nnzAYKv_7Tb_0wTvvAnRdBjgL4wzRxCOkH4L-CfoCnSaFVqdCa2rWwYMPllUpDUH1jLlxnwMIzR"/>
+</div>
+</div>
+</header>
+<div class="flex pt-16">
+<!-- SideNavBar -->
+<aside class="h-[calc(100vh-64px)] w-64 fixed left-0 top-16 z-40 bg-slate-100 flex flex-col p-4 gap-y-2">
+<div class="mb-6 px-2">
+<h2 class="text-lg font-bold text-slate-900">Project Alpha</h2>
+<p class="text-xs text-slate-500 font-medium">Site 104 - London</p>
+</div>
+<a class="flex items-center gap-3 p-3 text-slate-500 font-medium hover:bg-slate-200 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 font-medium hover:bg-slate-200 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span>Timeline</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 font-medium hover:bg-slate-200 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Budget</span>
+</a>
+<!-- ACTIVE TAB: Files -->
+<a class="flex items-center gap-3 p-3 bg-white text-blue-600 rounded-xl shadow-sm transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-bold">Files</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 font-medium hover:bg-slate-200 rounded-lg transition-all duration-300" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span>AI Assistant</span>
+</a>
+<div class="mt-auto flex flex-col gap-1">
+<button class="mb-4 mx-2 bg-gradient-to-br from-primary to-primary-container text-white py-2.5 rounded-xl font-bold shadow-md active:scale-95 transition-all">
+                    New Report
+                </button>
+<a class="flex items-center gap-3 p-2 text-slate-500 text-sm hover:bg-slate-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-lg">help_outline</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 p-2 text-slate-500 text-sm hover:bg-slate-200 rounded-lg" href="#">
+<span class="material-symbols-outlined text-lg">person</span>
+<span>Account</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 w-full p-8 min-h-[calc(100vh-64px)]">
+<!-- Header Section -->
+<section class="flex justify-between items-end mb-12">
+<div>
+<h1 class="text-4xl font-bold tracking-tight text-on-surface mb-2">Project Files</h1>
+<p class="text-on-surface-variant font-medium">Manage blueprints, structural CADs, and site documentation.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-5 py-2.5 rounded-xl bg-surface-container-highest text-primary font-bold transition-all active:scale-95">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined">upload_file</span>
+                            Upload
+                        </span>
+</button>
+<button class="px-5 py-2.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-bold shadow-lg transition-all active:scale-95">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                            Create New
+                        </span>
+</button>
+</div>
+</section>
+<!-- File Explorer Grid -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Folders & Main View (Bento Style) -->
+<div class="col-span-8 flex flex-col gap-8">
+<!-- Quick Access Folders -->
+<div class="grid grid-cols-3 gap-4">
+<div class="p-6 bg-surface-container-lowest rounded-xl group cursor-pointer hover:bg-white transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">more_vert</span>
+</div>
+<h3 class="font-bold text-on-surface">Blueprints</h3>
+<p class="text-xs text-on-surface-variant mt-1">124 files • 1.2 GB</p>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-xl group cursor-pointer hover:bg-white transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">more_vert</span>
+</div>
+<h3 class="font-bold text-on-surface">Site Photos</h3>
+<p class="text-xs text-on-surface-variant mt-1">842 files • 4.5 GB</p>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-xl group cursor-pointer hover:bg-white transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-tertiary-container text-3xl" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">more_vert</span>
+</div>
+<h3 class="font-bold text-on-surface">Contracts</h3>
+<p class="text-xs text-on-surface-variant mt-1">12 files • 45 MB</p>
+</div>
+</div>
+<!-- Recent Files List -->
+<div class="bg-surface-container-lowest rounded-xl p-8">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl font-bold tracking-tight">Recent Documents</h2>
+<div class="flex items-center gap-2 text-primary font-bold text-sm cursor-pointer">
+                                View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<!-- File Item -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-lg">
+<span class="material-symbols-outlined text-blue-600">architecture</span>
+</div>
+<div>
+<h4 class="font-bold text-sm">Ground_Floor_Structural_V3.cad</h4>
+<p class="text-xs text-on-surface-variant">Modified 2 hours ago by James W.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs font-bold text-outline-variant px-2 py-1 bg-surface-container-high rounded uppercase tracking-wider">CAD</span>
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">signature</span>
+</button>
+<span class="material-symbols-outlined text-outline">more_horiz</span>
+</div>
+</div>
+<!-- File Item -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center bg-red-100 rounded-lg">
+<span class="material-symbols-outlined text-red-600">picture_as_pdf</span>
+</div>
+<div>
+<h4 class="font-bold text-sm">Site_Inspection_Report_Aug_24.pdf</h4>
+<p class="text-xs text-on-surface-variant">Modified Yesterday by Sarah L.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs font-bold text-outline-variant px-2 py-1 bg-surface-container-high rounded uppercase tracking-wider">PDF</span>
+<button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-all flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-sm">verified</span>
+                                        Signed
+                                    </button>
+<span class="material-symbols-outlined text-outline">more_horiz</span>
+</div>
+</div>
+<!-- File Item -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center bg-amber-100 rounded-lg">
+<span class="material-symbols-outlined text-amber-600">image</span>
+</div>
+<div>
+<h4 class="font-bold text-sm">North_Foundation_Pour_01.jpg</h4>
+<p class="text-xs text-on-surface-variant">Modified 3 days ago by Mike T.</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-xs font-bold text-outline-variant px-2 py-1 bg-surface-container-high rounded uppercase tracking-wider">IMG</span>
+<button class="p-2 text-outline hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">download</span>
+</button>
+<span class="material-symbols-outlined text-outline">more_horiz</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Details & Signature Workflow -->
+<div class="col-span-4 flex flex-col gap-8">
+<!-- File Preview Card -->
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
+<div class="aspect-video relative bg-surface-container-high">
+<img alt="Blueprint Preview" class="w-full h-full object-cover opacity-80" data-alt="Technical blueprint of a modern skyscraper foundation with precise architectural lines and measurements" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_qVrthZZVnHnQt66BZN07Aou989gzgMRB9y-NMjXYwOmv1158gp_Uc6sLSTN__ldP1Io62A0trk2iNyTZ5bjL5pxJ7gYcTz6NWPeBpFzbF5t0N-CFsSjEFHqYd4D18HJj18unp8CUHM-si6ZCGnm_4uyaWPmGlSDtARywEazzUs8_vzobyYCY7eGcj1kaBYUYK7Zw0mAgrfZMOAVUDaQBAR-nBCBDtZ5cn0hc5AgyvXRXlCmoyieVagIj0Bii2mLr_Uhwfnnj3gJS"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-12 h-12 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">fullscreen</span>
+</button>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-bold text-lg mb-1">Foundations_Rev_B.pdf</h3>
+<p class="text-xs text-on-surface-variant mb-6 uppercase tracking-widest font-bold">Document Details</p>
+<div class="space-y-4 mb-8">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Status</span>
+<span class="font-bold text-secondary">Pending Signature</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Author</span>
+<span class="font-bold">Ar. Elena Rossi</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Version</span>
+<span class="font-bold">2.4.0</span>
+</div>
+</div>
+<!-- Signature Workflow Module -->
+<div class="p-5 bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-xl">draw</span>
+<h4 class="font-bold text-sm">Request Signature</h4>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-4">
+                                    Select the required stakeholders to sign off on this revision before site execution.
+                                </p>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-between p-2 hover:bg-white rounded-lg transition-colors cursor-pointer">
+<div class="flex items-center gap-2">
+<img alt="Approver" class="w-6 h-6 rounded-full" data-alt="Portrait of a senior structural engineer with grey hair and glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDusjfZ-roS1S9W1vkYigq4F3iolIAjZzxBIqajMPRj-hTjhSDD3aCxk9vPaaMdf4BdPxRVmwGMbGFBT68zEFT8fnSFXBKh4mEWydp5Nfzl3i-LYa3rrmJGDqybxm678oy0hBf7GuiCw12GaazUA3y9ARMbkSpRKvG1mmBj6LWyN1YBRsqvVtodiU7qs1vRyZqangvFzcFOhP9-ORXOuDueKRX7XrtwaKITzv13-BhSBTJbwjnPXLZ8glDaasKLJAfijfT4Zrla1mgy"/>
+<span class="text-xs font-medium">David Chen (Lead Eng.)</span>
+</div>
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+</div>
+<div class="flex items-center justify-between p-2 hover:bg-white rounded-lg transition-colors cursor-pointer">
+<div class="flex items-center gap-2">
+<img alt="Approver" class="w-6 h-6 rounded-full" data-alt="Portrait of a professional woman in a business suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_BXivbjPQNqV8fgRVHzfOGSyk3c4F5yz_GHbrgPxnYYc_UrXoEIxLDFGSepS26GUCgb-f_OGgbujeYc5PmANJHPXPRppYCREOptNB8OVdYY0jQXguT6QiWlP1Xk_U2T4NhzkSLi3sSJozmyNmC5UvdX7GzO5i_YLyL9n0vt_lJD-GaCpSvV23KtRAncYvldz0kSJPrsYK3I5H92Xhpk6KFrhw23l-_Eq32qsIQJCo3_LxI3-FavlTHCdKl5bQ3QfcESvFVZU2WVTZ"/>
+<span class="text-xs font-medium">Sarah Jenkins (Site Mgr.)</span>
+</div>
+<span class="material-symbols-outlined text-outline text-lg">add_circle</span>
+</div>
+</div>
+<button class="w-full bg-primary text-white py-3 rounded-lg font-bold text-sm hover:shadow-lg active:scale-95 transition-all">
+                                    Send Signature Request
+                                </button>
+</div>
+</div>
+</div>
+<!-- Storage Usage Card -->
+<div class="p-6 bg-surface-container-low rounded-2xl">
+<div class="flex justify-between items-center mb-4">
+<span class="text-sm font-bold">Storage Usage</span>
+<span class="text-xs text-on-surface-variant">72% used</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden mb-4">
+<div class="h-full bg-primary rounded-full" style="width: 72%;"></div>
+</div>
+<p class="text-xs text-on-surface-variant font-medium">14.4 GB of 20 GB used across 3 active projects.</p>
+<button class="mt-4 w-full py-2 text-primary font-bold text-sm border-2 border-primary/20 rounded-xl hover:bg-primary/5 transition-colors">
+                            Upgrade Storage
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

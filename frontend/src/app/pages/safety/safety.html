@@ -1,0 +1,112 @@
+<div class="max-w-full mx-auto p-4 md:p-8 animate-in fade-in duration-700">
+  <header class="mb-12">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+      <div>
+        <p class="text-rose-600 font-black tracking-[0.3em] uppercase text-[10px] mb-2">Zero-Harm Directive</p>
+        <h1 class="text-2xl md:text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter leading-none mb-4 uppercase">
+          Safety & HSE Compliance.
+        </h1>
+        <p class="text-slate-500 dark:text-slate-400 max-w-xl text-lg font-medium leading-relaxed">
+          Site-wide incident tracking, automated risk assessment, and occupational health governance.
+        </p>
+      </div>
+      
+      <div class="flex gap-4">
+        <button class="px-6 py-3 bg-rose-600 text-white font-black rounded-2xl text-xs hover:scale-105 transition-all shadow-xl shadow-rose-200">
+          Report New Incident
+        </button>
+        <button class="px-6 py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 font-black rounded-2xl border border-slate-200 dark:border-slate-700 text-xs hover:bg-slate-50 transition-all shadow-sm">
+          Safety Audit
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Safety Metrics Bento -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+    <div class="glass-card p-8 rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-2xl bg-emerald-600 text-white relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+      <p class="text-[10px] font-black uppercase tracking-widest text-emerald-200 mb-2">Incident Free Days</p>
+      <p class="text-5xl font-black tracking-tighter">{{ stats.incidentFreeDays }}</p>
+      <div class="mt-6 flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">verified</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-100">Exceeding Site Baseline</span>
+      </div>
+    </div>
+    
+    <div class="glass-card p-8 rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-2xl">
+      <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Safe Man-Hours</p>
+      <p class="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">{{ stats.safeManHours | number }}</p>
+      <p class="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Across 12 Global Nodes</p>
+    </div>
+
+    <div class="glass-card p-8 rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-2xl">
+      <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">LTI Rate (Last 12M)</p>
+      <p class="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">{{ stats.ltiRate }}</p>
+      <div class="mt-4 flex items-center gap-2 text-emerald-500">
+        <span class="material-symbols-outlined text-sm">trending_down</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest">15% Reduction</span>
+      </div>
+    </div>
+
+    <div class="glass-card p-8 rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-2xl">
+      <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-2">Compliance Audits</p>
+      <p class="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tighter">{{ stats.totalAudits }}</p>
+      <p class="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">100% On-Schedule</p>
+    </div>
+  </div>
+
+  <!-- Recent Incidents Vault -->
+  <div class="glass-card rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-2xl overflow-hidden">
+    <div class="p-8 border-b border-slate-100 dark:border-slate-800 bg-white/30 dark:bg-slate-900/30">
+      <h2 class="text-2xl font-black text-slate-900 dark:text-slate-50 tracking-tight">Safety Incident Intelligence</h2>
+      <p class="text-sm text-slate-500 font-medium italic mt-0.5">Real-time recording and corrective action verification.</p>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="bg-slate-50/50 dark:bg-slate-900/50 text-slate-400">
+            <th class="px-8 py-6 text-[10px] uppercase font-black tracking-widest">Incident Details</th>
+            <th class="px-6 py-6 text-[10px] uppercase font-black tracking-widest text-center">Category</th>
+            <th class="px-6 py-6 text-[10px] uppercase font-black tracking-widest text-center">Severity</th>
+            <th class="px-6 py-6 text-[10px] uppercase font-black tracking-widest text-center">Status</th>
+            <th class="px-8 py-6 text-[10px] uppercase font-black tracking-widest text-right">Corrective Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-800/50">
+          @for (inc of incidents; track inc.id) {
+            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-900/20 transition-all group cursor-pointer">
+              <td class="px-8 py-6">
+                <div>
+                  <p class="text-sm font-black text-slate-900 dark:text-slate-50">{{ inc.title }}</p>
+                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">{{ inc.date }} • Reported by {{ inc.reporter }}</p>
+                </div>
+              </td>
+              <td class="px-6 py-6 text-center">
+                <span class="text-xs font-bold text-slate-600">{{ inc.category }}</span>
+              </td>
+              <td class="px-6 py-6">
+                <div class="flex justify-center">
+                  <span [class]="getSeverityColor(inc.severity)" class="px-3 py-1 rounded-lg text-[10px] font-black border">
+                    {{ inc.severity }}
+                  </span>
+                </div>
+              </td>
+              <td class="px-6 py-6">
+                <div class="flex justify-center">
+                  <span [class]="getStatusColor(inc.status)" class="px-3 py-1 rounded-lg text-[10px] font-black border">
+                    {{ inc.status }}
+                  </span>
+                </div>
+              </td>
+              <td class="px-8 py-6 text-right">
+                <p class="text-[10px] text-slate-500 font-medium italic max-w-xs ml-auto line-clamp-1">{{ inc.correctiveAction }}</p>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

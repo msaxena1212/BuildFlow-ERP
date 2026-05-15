@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow - Tasks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdbcd",
+              "on-primary-container": "#eeefff",
+              "surface-variant": "#e0e3e5",
+              "secondary-fixed-dim": "#ffb95f",
+              "surface-container-low": "#f2f4f6",
+              "on-secondary-container": "#684000",
+              "on-primary-fixed": "#00174b",
+              "on-secondary": "#ffffff",
+              "outline-variant": "#c3c6d7",
+              "on-error-container": "#93000a",
+              "primary-fixed-dim": "#b4c5ff",
+              "outline": "#737686",
+              "inverse-primary": "#b4c5ff",
+              "error": "#ba1a1a",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-surface-variant": "#434655",
+              "background": "#f7f9fb",
+              "on-tertiary-container": "#ffede6",
+              "on-primary": "#ffffff",
+              "surface-container": "#eceef0",
+              "surface-tint": "#0053db",
+              "surface-container-high": "#e6e8ea",
+              "secondary": "#855300",
+              "on-primary-fixed-variant": "#003ea8",
+              "on-secondary-fixed-variant": "#653e00",
+              "inverse-surface": "#2d3133",
+              "primary-container": "#2563eb",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#ffddb8",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed": "#dbe1ff",
+              "on-secondary-fixed": "#2a1700",
+              "error-container": "#ffdad6",
+              "on-surface": "#191c1e",
+              "tertiary": "#943700",
+              "on-background": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-error": "#ffffff",
+              "surface": "#f7f9fb",
+              "on-tertiary-fixed": "#360f00",
+              "surface-bright": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-container": "#bc4800",
+              "secondary-container": "#fea619",
+              "tertiary-fixed-dim": "#ffb596",
+              "primary": "#004ac6"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .blueprint-grid {
+            background-image: radial-gradient(circle, #c3c6d7 1px, transparent 1px);
+            background-size: 32px 32px;
+            background-attachment: fixed;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e0e3e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased overflow-hidden blueprint-grid">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-4 z-40 h-screen w-64 border-r-0 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-xl font-['Inter'] antialiased text-sm font-medium tracking-tight">
+<div class="flex items-center gap-3 mb-8 px-2">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-2xl" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">BuildFlow</h1>
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Construction Management</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 transition-all duration-200 ease-in-out hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 transition-all duration-200 ease-in-out hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span>Projects</span>
+</a>
+<!-- Active State: Tasks -->
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm rounded-xl transition-all duration-200 ease-in-out hover:translate-x-1 scale-[0.98]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 transition-all duration-200 ease-in-out hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Vendors</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 transition-all duration-200 ease-in-out hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Materials</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 transition-all duration-200 ease-in-out hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/30 transition-all duration-200 ease-in-out hover:translate-x-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6">
+<button class="w-full flex items-center justify-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-2xl font-bold shadow-xl shadow-primary/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                New Project
+            </button>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="flex items-center justify-between w-full h-16 px-8 ml-64 max-w-[calc(100%-16rem)] fixed top-0 sticky z-30 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md font-['Inter'] font-semibold text-lg">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-full ring-1 ring-outline-variant/20 focus-within:ring-primary/30 transition-all">
+<span class="material-symbols-outlined text-slate-400 text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-normal w-64 placeholder:text-slate-400" placeholder="Search tasks, materials..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full p-2 text-slate-400 dark:text-slate-500 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full p-2 text-slate-400 dark:text-slate-500 transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-px bg-outline-variant/30 mx-2"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-on-surface">Alex Rivera</p>
+<p class="text-[10px] text-slate-500 font-medium">Site Manager</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-xl object-cover ring-2 ring-white shadow-md" data-alt="professional portrait of a construction site manager with a clean blue collared shirt and friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm35LCCcPpbxo1IxK-A1C-S7FSOb5iw7bNgeNJBmyZWNaYJKmnHfQNWtwclN5CC_3-wlGy1MSUXsdOfMaM5QqE2YNqom4JcHZTJK9ps1ttBnf4Bui-VT3GxfQ2snzj3PuVnljgq4iyBAiJbIJupfLcUEsJyArL12JmkG6DI_4b_BYebuIzcdpce3KV09YsPu9Myijy3yIRacWsPRFddYYfrXDpXtDMiT2KUiyAKFUnO3nVsG5WLaiVhXex3YwAkaPmZXoNS-xAHKeD"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-4 px-8 pb-12 overflow-y-auto h-[calc(100vh-64px)]">
+<!-- Dashboard Header -->
+<div class="mb-10 mt-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary mb-2 block">Skyline Plaza Project</span>
+<h2 class="text-4xl font-black tracking-tight text-on-surface leading-none">Task Management</h2>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex -space-x-3">
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="profile avatar of John Doe, senior architect" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4CZeaYB7fJXEtjKFkVujKuYnqc32Vz4RirffP91HCE-igMSlf58IRegCTvDiO-n6vn8GSii3hmQCT9wn7MZCO7LYC87Mix-nc0uOD0_dHzMdyYmVbfUFLAGo6sFmnu6r5xb66CI_FUi6YCEqOcUKyBiL2helT79G1OiGR1inPdCcO87KgZ9ygFt4Q9GbiYVVfSvdkQ-o38syvfzzZJtPCCht9KpCLNPH4NAfNB_nmM9iLmnFOQ8z1D6W3w9caWMwVul6E7XtJszA-"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="profile avatar of Sarah Miller, project coordinator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1RmRziofMuKPCOGKlk1YnapBSbLaEfo01m3q_4lcO8xWYBy9DKhbId94OYnRLdh0YKtETgTw4OBQS76xCwa3GI8lqHXQEh4qQQyAWfHCmwY_elYYp6wMji5eXHwrqZcUD4iEoGkyYIRyKMxXR2lEAw34APWS_Omi6iwEz2PTn97envSoQbpymAyVXp1E00dhY0AgRi3UNTNPZdT8tKT6Oe6M4gpGCg1r2U1-D3cACjbZQSMZS2qrf08cBFkc50Xkbgk1epsoox4yv"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface" data-alt="profile avatar of Robert King, lead engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8baYgQ3t4oMOHGPKXfFarqNItNIVVIfHOd53B1k7u3hLEDI1NYxbXwlB4obDhV4NFcKoh8XmJmz--LGSGjwi-6_5tek1bR_4g0zR8sP-PKdjXkmPZWQPWYZ_WxA4kNCyBSgF7hIdr8RLZJs4XGSqYbw-_kXxfo-jZFLySHpFqmRgQ_aH6iI-s-i2NZhe1wBHjRb3yN5siRJVrfnA1aetRFHVhFPPyPAuU9CJDj0_GJxvMIbyHt4DkCEkTrU9YIyXXMafDVs-F6tao"/>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-slate-200 flex items-center justify-center text-[10px] font-bold">+5</div>
+</div>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-lowest text-on-surface text-sm font-bold rounded-xl shadow-sm hover:shadow-md transition-all">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                    Filters
+                </button>
+</div>
+</div>
+<!-- Kanban Board Layout -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 min-h-[716px]">
+<!-- Column: To Do -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between px-2 mb-2">
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-slate-400"></div>
+<h3 class="text-sm font-black uppercase tracking-widest text-on-surface-variant">To Do</h3>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-[10px] font-black text-slate-500">4</span>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<!-- Task Card 1 -->
+<div class="glass-card p-5 rounded-2xl shadow-sm border border-white/40 group hover:shadow-xl hover:-translate-y-1 transition-all cursor-grab active:cursor-grabbing">
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 rounded-md bg-red-100 text-red-700 text-[10px] font-black uppercase tracking-tighter">High Priority</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-400 text-lg">more_horiz</span>
+</button>
+</div>
+<h4 class="font-bold text-slate-900 mb-2 leading-snug">Foundational Reinforcement Review</h4>
+<p class="text-xs text-slate-500 mb-6 line-clamp-2">Audit the steel rebar placement for Sector B-4 following the heavy rain inspection reports.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            Oct 24, 2023
+                        </div>
+<img class="w-6 h-6 rounded-lg" data-alt="architect profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoRMWgVC4z1Ua54NyduAyjaqUcpMABUCt4ymY7Pfze2n-lHdB9xejwHxBqWzXf1MnHt-PYbTmKhK7rkxBq6T6jQy-9ry53QiJWObXaTxUdsS9-1PjJ7MVlH497ZmKanP3mWVRWo1fiPmg5g7t07IR7Ur8fSxtaEiGPUHGbWPyjDkUL9ZllEX3Qh9zjND377JfowkMwBfEK7GtNG5QzKRZwOwVByMgaJJY0b1fxKo1KU3ppFfyO9gSUN8VHM4erWo2T1b3fnM0aeKgE"/>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="glass-card p-5 rounded-2xl shadow-sm border border-white/40 group hover:shadow-xl hover:-translate-y-1 transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 rounded-md bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-tighter">Medium Priority</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-slate-400 text-lg">more_horiz</span>
+</button>
+</div>
+<h4 class="font-bold text-slate-900 mb-2 leading-snug">Material Delivery: Floor Tiles</h4>
+<p class="text-xs text-slate-500 mb-6 line-clamp-2">Coordinate unloading of 400 pallets of Grade A ceramic tiles for the lobby area.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            Oct 26, 2023
+                        </div>
+<img class="w-6 h-6 rounded-lg" data-alt="logistics coordinator photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAudk_c82wiM2MBWr7OTYj48W1CdiunBxuq780hcF8c0FR_xNiZD7b74yss6NA1haasX-d83uY4yfXbZ17M1EMJbaj4nB8OONUEz9fkJmrEVqLeKSimK04TbRyX7xRwouyUYAAH8G1JriFjc2HLcPWtOMnaIOpIQ_c1vQ67hBMGuLN3JTNwXf_7Ms3R4B-NJSHwD3EdlzwZrZWl8u0MDZqdkDK4-0h4cHczxpo73uWDlnzLpEbNbvQyW8CoYXlBDD5Vv8YmEHPXYyUV"/>
+</div>
+</div>
+</div>
+<!-- Column: In Progress -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between px-2 mb-2">
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-secondary"></div>
+<h3 class="text-sm font-black uppercase tracking-widest text-on-surface-variant">In Progress</h3>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-[10px] font-black text-secondary">2</span>
+</div>
+</div>
+<!-- Task Card 3 -->
+<div class="glass-card p-5 rounded-2xl shadow-sm border border-white/40 group hover:shadow-xl hover:-translate-y-1 transition-all relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 rounded-md bg-amber-100 text-amber-700 text-[10px] font-black uppercase tracking-tighter">Low Priority</span>
+</div>
+<h4 class="font-bold text-slate-900 mb-2 leading-snug">Electrical Conduit Installation</h4>
+<div class="w-full bg-slate-100 h-1.5 rounded-full mb-4">
+<div class="bg-secondary h-1.5 rounded-full w-[65%]"></div>
+</div>
+<p class="text-[10px] font-bold text-slate-400 mb-6">65% Completed</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-[10px] font-bold text-secondary">
+<span class="material-symbols-outlined text-sm">update</span>
+                            In Progress
+                        </div>
+<img class="w-6 h-6 rounded-lg" data-alt="electrical engineer profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKm5P5NhrF5J7Dp0IwYlyOA0lRaYzLodVkuCShEp3I-fUxMCFkjvqP4KKnzMxPMSeO5aaHOaNkCrnFyPF9pkzRzVgsaxCXQEBjdb4j0uDsW_jTOkmVVoFTvg8xKMumaQdgrPnGJ8APU9CKo2yhoaxZbTe6dB3mklD0YtGUdYR0Xt3a3a8QKp8nRxkhShpKzsjqK9qVzohZOfZWDtMq6CGR1iZ_l4gNggbA-2n3Q-qN94jWZsoYpxPSrCFTvbN5a0CXhE5kC6nQ9g6o"/>
+</div>
+</div>
+</div>
+<!-- Column: Review -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between px-2 mb-2">
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+<h3 class="text-sm font-black uppercase tracking-widest text-on-surface-variant">Review</h3>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-[10px] font-black text-primary">1</span>
+</div>
+</div>
+<!-- Task Card 4 -->
+<div class="glass-card p-5 rounded-2xl shadow-sm border border-white/40 group hover:shadow-xl hover:-translate-y-1 transition-all bg-primary-fixed/5">
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 rounded-md bg-red-100 text-red-700 text-[10px] font-black uppercase tracking-tighter">High Priority</span>
+</div>
+<h4 class="font-bold text-slate-900 mb-2 leading-snug">Structural Load Testing Report</h4>
+<p class="text-xs text-slate-500 mb-6 line-clamp-2">Review final stress test results for the cantilevered terrace on Floor 12.</p>
+<div class="bg-white/50 rounded-xl p-3 mb-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">description</span>
+<div class="text-[10px]">
+<p class="font-bold text-slate-700">stress_test_v4.pdf</p>
+<p class="text-slate-400">4.2 MB</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-[10px] font-bold text-primary">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                            Awaiting Approval
+                        </div>
+<div class="flex -space-x-2">
+<img class="w-6 h-6 rounded-lg ring-2 ring-white" data-alt="architect avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlzv382bQdBaspnd36QkLXo11nB579Hpv89hNV3TeHwFpafe7hZcM9F4hwi-QRJ_RRP-eMw0Pxo0Prl_QtK1pkQNxHbFk_2Zji8x8R4XKW6v4eqKw-fdGlLn85gbwFPWV95lMCHJiDGo8ubYq_p10cPXNeGdiKTrD2d4SRYxFDmKOROTQ2QnATLVPPlCNKooRk5HrUMNFuyiRPJUsEFVnRXEwNnjWXB7kceeqE-oKw5DjsTCP02iELJfnEHkcS418JPj-HxGodFbHl"/>
+<img class="w-6 h-6 rounded-lg ring-2 ring-white" data-alt="engineer avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCmAzMNPcrHEosxP83ZhZTbeAMcr579CBK2uRXchFewP4_T9n3A8y_6o4ZR7fy9QT3plAq31PxLkuGX2jmpvQMqEe_BjcBMQiCe7nXVc5S1pjlZA3-cnicOslYI7FdfOkbjFTkRUFIUZrhrkEDVlMrrSzKW2hlZjL65N0vkDPhLoCZLmOU2Ud5cuAkmsh3vAZvHoH8HnHuRqJMH5QkXAZGOcSdsywEzKwT2tDTDxA8f4xMs6gkge18qzHaH9NKV0Fimt4V0ChfSyAK"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Column: Completed -->
+<div class="flex flex-col gap-4 opacity-75">
+<div class="flex items-center justify-between px-2 mb-2">
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+<h3 class="text-sm font-black uppercase tracking-widest text-on-surface-variant">Completed</h3>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-[10px] font-black text-slate-500">12</span>
+</div>
+</div>
+<!-- Task Card 5 -->
+<div class="glass-card p-5 rounded-2xl shadow-sm border border-white/40 bg-slate-50/50 grayscale-[0.5]">
+<div class="flex justify-between items-start mb-4">
+<span class="px-2 py-1 rounded-md bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-tighter">Archived</span>
+</div>
+<h4 class="font-bold text-slate-400 mb-2 line-through leading-snug">Demolition Sector A-1</h4>
+<div class="flex items-center gap-2 text-[10px] font-bold text-green-600">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Verified Complete
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary-container text-white shadow-2xl shadow-primary/40 flex items-center justify-center active:scale-90 transition-all z-50 group">
+<span class="material-symbols-outlined text-3xl transition-transform group-hover:rotate-90">add</span>
+<div class="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl">
+            Create New Task
+        </div>
+</button>
+</body></html>

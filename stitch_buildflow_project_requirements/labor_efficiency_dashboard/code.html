@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Labor Efficiency Dashboard | BuildFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#943700",
+              "on-surface-variant": "#434655",
+              "secondary": "#855300",
+              "surface": "#f7f9fb",
+              "tertiary-container": "#bc4800",
+              "surface-bright": "#f7f9fb",
+              "outline-variant": "#c3c6d7",
+              "on-error": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              "on-primary-fixed": "#00174b",
+              "on-primary-fixed-variant": "#003ea8",
+              "inverse-primary": "#b4c5ff",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#ffb596",
+              "secondary-fixed-dim": "#ffb95f",
+              "primary-fixed-dim": "#b4c5ff",
+              "primary-fixed": "#dbe1ff",
+              "on-primary-container": "#eeefff",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#653e00",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "background": "#f7f9fb",
+              "surface-tint": "#0053db",
+              "surface-variant": "#e0e3e5",
+              "primary-container": "#2563eb",
+              "surface-dim": "#d8dadc",
+              "outline": "#737686",
+              "on-secondary-fixed": "#2a1700",
+              "on-background": "#191c1e",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-low": "#f2f4f6",
+              "surface-container-highest": "#e0e3e5",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "on-surface": "#191c1e",
+              "error-container": "#ffdad6",
+              "surface-container": "#eceef0",
+              "on-tertiary-fixed": "#360f00",
+              "on-tertiary-container": "#ffede6",
+              "tertiary-fixed": "#ffdbcd",
+              "primary": "#004ac6",
+              "secondary-container": "#fea619",
+              "on-secondary-container": "#684000",
+              "secondary-fixed": "#ffddb8"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .blueprint-grid {
+            background-image: radial-gradient(circle, #c3c6d7 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased flex">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 flex flex-col p-4 gap-2 z-40 hidden md:flex">
+<div class="flex items-center gap-3 px-2 mb-8 mt-2">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white" data-icon="engineering">engineering</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white leading-none">BuildFlow</h1>
+<p class="text-[10px] text-slate-500 font-medium tracking-widest uppercase mt-1">Precision Management</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-500 hover:bg-slate-200/50 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-500 hover:bg-slate-200/50 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+<span>Projects</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-500 hover:bg-slate-200/50 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-500 hover:bg-slate-200/50 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Budget</span>
+</a>
+<!-- Active State Logic: Labor is the current intent -->
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 rounded-xl shadow-sm transition-all duration-300 font-bold" href="#">
+<span class="material-symbols-outlined" data-icon="engineering">engineering</span>
+<span>Labor</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-blue-500 hover:bg-slate-200/50 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Documents</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 pt-4">
+<button class="mb-4 bg-gradient-to-br from-primary to-primary-container text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+<span>Create New Report</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 hover:text-blue-500 hover:bg-slate-200/50 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-600 hover:text-blue-500 hover:bg-slate-200/50 rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span>Support</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 md:ml-64 min-h-screen relative">
+<!-- TopAppBar (Execution from JSON) -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex items-center justify-between px-6 py-3 w-full docked full-width top-0 sticky z-30 font-['Inter'] antialiased shadow-[0px_12px_32px_rgba(15,23,42,0.06)]">
+<div class="flex items-center gap-4">
+<div class="md:hidden w-8 h-8 bg-blue-700 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="engineering">engineering</span>
+</div>
+<h2 class="text-xl font-black tracking-tight text-blue-700 dark:text-blue-400">BuildFlow</h2>
+</div>
+<div class="hidden md:flex flex-1 max-w-md mx-8">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/30" placeholder="Search labor logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-slate-200 ml-2">
+<img alt="User profile avatar" data-alt="close-up portrait of a professional male architect in his 40s wearing glasses and a focused expression in a bright office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF89wU7SOteKlC2s7HC4wlKxjMOME9n_EKlzH5xmWo0gtXfH9aH9Bh2LANLOdx1MYdTVcwBNsbD7oWJIg9pXouHRPiUjarlqwhYfNyrY0Fk4s2Bi33ZqGUqLrffQR81mzyS4O-2VxUu8e1ZJBsMIL5x6gPDPnKWLMZAFuUEF67mT95Y4hyZ-IH2p1_t4VnKEMFkMqfvx9FsIrN8QM_LVYtHU8NAL1ShWOiD6QPlq7JjnTsWUcjVVBBjFyXA6O5bBFIpf1Cb7bmJ5dP"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="p-6 md:p-10 max-w-7xl mx-auto space-y-8">
+<!-- Header Section (Asymmetric Editorial Style) -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<p class="text-primary font-bold tracking-[0.2em] uppercase text-xs">Analytics Core</p>
+<h1 class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter leading-none">Labor Efficiency.</h1>
+<p class="text-on-surface-variant max-w-md mt-4 text-lg font-light leading-relaxed">
+                        Real-time tracking of workforce velocity and contractor performance across all active job sites.
+                    </p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-4">
+<div class="text-right">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Active Crews</p>
+<p class="text-2xl font-bold">42</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Main Visualization -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Primary Efficiency Heatmap -->
+<div class="md:col-span-8 bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10 relative overflow-hidden">
+<div class="blueprint-grid absolute inset-0 pointer-events-none"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-bold text-lg text-on-surface">Workforce Productivity Heatmap</h3>
+<p class="text-sm text-on-surface-variant">Task completion density per hour interval</p>
+</div>
+<select class="bg-surface border-none text-xs font-bold rounded-lg py-1 px-3 focus:ring-0">
+<option>Last 7 Days</option>
+<option>This Month</option>
+</select>
+</div>
+<!-- Mock Heatmap -->
+<div class="grid grid-cols-7 gap-2">
+<!-- Column Headers -->
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Mon</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Tue</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Wed</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Thu</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Fri</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Sat</div>
+<div class="text-[10px] font-bold text-slate-400 text-center uppercase">Sun</div>
+<!-- Heatmap Cells - Grid logic -->
+<div class="space-y-2 col-span-7">
+<div class="grid grid-cols-7 gap-2 h-16">
+<div class="bg-primary/10 rounded-lg"></div>
+<div class="bg-primary/40 rounded-lg"></div>
+<div class="bg-primary/80 rounded-lg"></div>
+<div class="bg-primary/60 rounded-lg"></div>
+<div class="bg-primary/30 rounded-lg"></div>
+<div class="bg-slate-100 rounded-lg"></div>
+<div class="bg-slate-100 rounded-lg"></div>
+</div>
+<div class="grid grid-cols-7 gap-2 h-16">
+<div class="bg-primary/20 rounded-lg"></div>
+<div class="bg-primary/90 rounded-lg"></div>
+<div class="bg-primary/100 rounded-lg"></div>
+<div class="bg-primary/70 rounded-lg"></div>
+<div class="bg-primary/40 rounded-lg"></div>
+<div class="bg-slate-100 rounded-lg"></div>
+<div class="bg-slate-100 rounded-lg"></div>
+</div>
+<div class="grid grid-cols-7 gap-2 h-16">
+<div class="bg-primary/5 rounded-lg"></div>
+<div class="bg-primary/30 rounded-lg"></div>
+<div class="bg-primary/60 rounded-lg"></div>
+<div class="bg-primary/50 rounded-lg"></div>
+<div class="bg-primary/20 rounded-lg"></div>
+<div class="bg-primary/10 rounded-lg"></div>
+<div class="bg-slate-100 rounded-lg"></div>
+</div>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-end gap-2">
+<span class="text-[10px] font-bold text-slate-400 uppercase">Efficiency Level:</span>
+<div class="flex gap-1">
+<div class="w-3 h-3 bg-primary/10 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary/40 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary/70 rounded-sm"></div>
+<div class="w-3 h-3 bg-primary rounded-sm"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Labor Requirement Forecast -->
+<div class="md:col-span-4 bg-primary text-white rounded-xl p-6 flex flex-col justify-between overflow-hidden relative shadow-2xl shadow-primary/30">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-9xl" data-icon="trending_up">trending_up</span>
+</div>
+<div class="relative z-10">
+<h3 class="text-sm font-bold tracking-widest uppercase opacity-70 mb-2">Requirement Forecast</h3>
+<p class="text-3xl font-black leading-tight">1,240 <span class="text-lg font-medium opacity-80">Man-Hours</span></p>
+<p class="text-sm mt-2 opacity-80">Projected demand for the upcoming week based on phase 4 scheduling.</p>
+</div>
+<div class="relative z-10 mt-8 space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold uppercase">
+<span>Structural Steel</span>
+<span>82%</span>
+</div>
+<div class="h-2 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[82%] rounded-full"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-xs font-bold uppercase">
+<span>Electrical Grid</span>
+<span>45%</span>
+</div>
+<div class="h-2 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-white w-[45%] rounded-full"></div>
+</div>
+</div>
+<button class="w-full bg-white/10 hover:bg-white/20 transition-colors py-3 rounded-lg text-sm font-bold mt-2">
+                            View Detailed Schedule
+                        </button>
+</div>
+</div>
+<!-- Team Completion Rates -->
+<div class="md:col-span-12 lg:col-span-7 bg-surface-container-low rounded-xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg">Top Performing Contractors</h3>
+<button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline">Full Audit</button>
+</div>
+<div class="space-y-4">
+<!-- Contractor Row -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between group hover:scale-[1.01] transition-transform duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+<img alt="Contractor Logo" class="w-8 h-8 rounded" data-alt="minimalist modern vector logo for construction contractor company" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfGGCdUe8xfkR9yXzgVibDJjqB4GMs5H9sHqZOiLEhewQk1KAFCdSwAV-pjonjSog_907IsMGuA3Xl48EVpXenMONqdnHSKVkUpTjtnCqhw7aKS3Wb1JzcNYALG2FW2aCExHIxZ9_vVr7ItmDEtev-g5rlCMSeR3onFG55egOz7t5BtbEm3WmqoW2B-qGB6dkhdYUEdkNG2SMEGmzPyQQnt4MTrqk_lK7IXZyZtNBjMC5XpwN84Fk6TBr9nyq5agIdfXdy_lxRZepa"/>
+</div>
+<div>
+<p class="font-bold">Apex Concrete Solutions</p>
+<p class="text-xs text-on-surface-variant font-medium">12 Active Personnel</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Efficiency</p>
+<p class="text-lg font-black text-green-600">94.8%</p>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Tasks</p>
+<p class="text-lg font-black">28/30</p>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Contractor Row -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between group hover:scale-[1.01] transition-transform duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+<img alt="Contractor Logo" class="w-8 h-8 rounded" data-alt="minimalist geometric logo for electrical engineering firm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjZUEAAaayP_P5xTmog9TMmo9VEmQnJeC1OtYoxOgjqZveHg24LtXHJEoiSVMkGa6YZlt-5woRIjA0vklSLugtCnRH9ALFN9Em6Gp2jNCyb_Xz5aO5PEtMZhlAruvrMXrKibO64O4N0GBDx-oJjbD5C9OK8U-C5DYWNxI1VV4SNWOnp8SOGHtsx4lVNYv47148qaTiJDnBzhSiqGLIVbtUtfkQAAVTLgl_qygqS0r44FIHgyug5gk418l1uK-F6KeghH13lLDwRIjS"/>
+</div>
+<div>
+<p class="font-bold">Vanguard Electrical</p>
+<p class="text-xs text-on-surface-variant font-medium">8 Active Personnel</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Efficiency</p>
+<p class="text-lg font-black text-blue-600">88.2%</p>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Tasks</p>
+<p class="text-lg font-black">15/17</p>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Contractor Row -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between group hover:scale-[1.01] transition-transform duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+<img alt="Contractor Logo" class="w-8 h-8 rounded" data-alt="modern industrial logo for heavy steel works company" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbaknLWnXup9P__CArLmzADSnktqSRmRxR__1ZsxrPnxJr9EF89Jl7DR9wLdJkWD-2RooG8S31pUCaBOV4UpPAqHJ_WDGdy2Rt7bbYcE0JH9joLHZQYYpFdJGvsKTDmyEjWfL9YNyBJFFHMKfa7G451JHGAKUXp3Gx3b96rafJL4XhiNZqwXzweVRi82KJrzrp3loSMhGqqEFHVjtioYZUDTqQ1N76FQ7Fek0infioZQYKC9Z8_bP7uudI4eqqbK2EcNJDdfldzOZk"/>
+</div>
+<div>
+<p class="font-bold">Horizon Steelworks</p>
+<p class="text-xs text-on-surface-variant font-medium">24 Active Personnel</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Efficiency</p>
+<p class="text-lg font-black text-secondary">76.5%</p>
+</div>
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Tasks</p>
+<p class="text-lg font-black">42/55</p>
+</div>
+<span class="material-symbols-outlined text-slate-300" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Labor Availability Chart Module -->
+<div class="md:col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10">
+<h3 class="font-bold text-lg mb-6">Productivity Velocity</h3>
+<div class="relative h-64 w-full flex items-end gap-1">
+<!-- Simple bar visualization for productivity trends -->
+<div class="flex-1 bg-surface-container flex flex-col justify-end group cursor-pointer">
+<div class="bg-primary/20 h-[40%] group-hover:bg-primary/40 transition-colors"></div>
+<p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK1</p>
+</div>
+<div class="flex-1 bg-surface-container flex flex-col justify-end group cursor-pointer">
+<div class="bg-primary/20 h-[55%] group-hover:bg-primary/40 transition-colors"></div>
+<p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK2</p>
+</div>
+<div class="flex-1 bg-surface-container flex flex-col justify-end group cursor-pointer">
+<div class="bg-primary/20 h-[48%] group-hover:bg-primary/40 transition-colors"></div>
+<p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK3</p>
+</div>
+<div class="flex-1 bg-surface-container flex flex-col justify-end group cursor-pointer">
+<div class="bg-primary/20 h-[75%] group-hover:bg-primary/40 transition-colors"></div>
+<p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK4</p>
+</div>
+<div class="flex-1 bg-surface-container flex flex-col justify-end group cursor-pointer">
+<div class="bg-primary h-[85%] group-hover:brightness-110 transition-colors"></div>
+<p class="text-[8px] font-bold text-primary text-center mt-2">WK5</p>
+</div>
+<div class="flex-1 bg-surface-container flex flex-col justify-end group cursor-pointer">
+<div class="bg-slate-200 h-[20%] border-t-2 border-dashed border-slate-400"></div>
+<p class="text-[8px] font-bold text-slate-400 text-center mt-2">WK6</p>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Weekly Delta</p>
+<p class="text-xl font-black text-green-600">+12.4%</p>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Avg Completion</p>
+<p class="text-xl font-black">4.2 <span class="text-xs font-normal">days</span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- Focus Module: Detailed Timeline -->
+<section class="mt-12">
+<div class="flex items-center gap-4 mb-8">
+<h2 class="text-2xl font-black tracking-tight">Active Shift Activity</h2>
+<div class="h-px flex-1 bg-outline-variant opacity-20"></div>
+</div>
+<div class="overflow-x-auto pb-4">
+<div class="min-w-[800px] flex flex-col gap-2">
+<!-- Timeline Row -->
+<div class="grid grid-cols-12 items-center gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors">
+<div class="col-span-2 flex items-center gap-3">
+<img alt="Worker profile" class="w-8 h-8 rounded-full" data-alt="headshot of a female construction safety officer with blonde hair wearing a white hard hat and yellow high-visibility vest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAyOvDxwm7IY0fGzIcQewafXbHLkhV-OUeDRgpe-ymlTiSF9hWPY5xwBf-2prAqKdk9IcvsKvxTko5295kb7C7PYVsBgmb3T34K9pNFtGtJe89fMaS9GJ_8EjbgAxjAnY6Zm1m1Zw7sE2he8Oi2cJrVb6qMCuHA6g-_aA0cl19DhNAsXu41XLTSob64u0jvX1TDdqkvRc-gdbpX9OsXR1e3DVpAX0AknzrS7cwF9FPuxoMlyvVopoOqU3Y7xwR0OlwYFxh5RBNaWkr"/>
+<div>
+<p class="text-sm font-bold">Sarah Jenkins</p>
+<p class="text-[10px] text-slate-500">Foreman</p>
+</div>
+</div>
+<div class="col-span-8 px-4">
+<div class="relative h-4 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="absolute left-[10%] w-[60%] h-full bg-primary/20 border-x border-primary/40 flex items-center px-2">
+<span class="text-[8px] font-bold text-primary truncate">Site Supervision: North Wing</span>
+</div>
+<div class="absolute left-[75%] w-[15%] h-full bg-secondary-container/30 border-x border-secondary-container flex items-center px-2">
+<span class="text-[8px] font-bold text-secondary truncate">Safety Audit</span>
+</div>
+</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">On Site</span>
+</div>
+</div>
+<!-- Timeline Row -->
+<div class="grid grid-cols-12 items-center gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors">
+<div class="col-span-2 flex items-center gap-3">
+<img alt="Worker profile" class="w-8 h-8 rounded-full" data-alt="portrait of a focused male electrician with a beard wearing a blue work shirt and tool belt in an industrial setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvmrDmdNuYaE5vTixXe6B6Wbv3m1nAaRGc5AeHwtiGjCNtTkdqJt9_thcbj1ZTdTZzag-PHoimyOwQO-Vt9i1fHGa5hBC6XudSDWNKFcdtksoSSOKHlB79jV_dagoeD4b3vfmR_Bsh83DuEKlVupf5xcxS4MMW8a97mPzfu6gEuMVHsF1KdGw7q3xZYIemN0C8ANuiM4AAK9Q5krlxO6bnYXlmTEc04Fx6DJArq8ABEhFBOzFNsqzpEv5lj_YDyQGf9wughldNujAP"/>
+<div>
+<p class="text-sm font-bold">Mark Thompson</p>
+<p class="text-[10px] text-slate-500">Specialist</p>
+</div>
+</div>
+<div class="col-span-8 px-4">
+<div class="relative h-4 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="absolute left-[5%] w-[80%] h-full bg-primary border-x border-white/20 flex items-center px-2">
+<span class="text-[8px] font-bold text-white truncate">HVAC Installation &amp; Testing</span>
+</div>
+</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">Active</span>
+</div>
+</div>
+<!-- Timeline Row -->
+<div class="grid grid-cols-12 items-center gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors opacity-60">
+<div class="col-span-2 flex items-center gap-3">
+<img alt="Worker profile" class="w-8 h-8 rounded-full" data-alt="older male construction veteran with grey hair and a friendly face wearing a denim shirt and orange safety glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMHu1AoGxzN0A4YerVdmDCWb6JGssEqddkZe8bLO1hL9c6kQj8ENGSLpy_IHkhKPE_P5DVYmjZTkgPv1IGSQxusoo0wiybasGzRLMk9_jTuMy4klgoC_AMhf75yd6SAgdT-gKhNAFaSWFtjzo2YW-ollq9L1BzgY8Q-mzvRKZqFHbuQ3TG5B2oKActl7Q5DXWjg4pYLxaViDtH98f3-nLBz2SNDgHWJRJqz2vQwc19Sskhvy5_oFlY-ZD-ZDjWt4XvW7VEhX1WBM-R"/>
+<div>
+<p class="text-sm font-bold">David Rossi</p>
+<p class="text-[10px] text-slate-500">Logistics</p>
+</div>
+</div>
+<div class="col-span-8 px-4">
+<div class="relative h-4 w-full bg-slate-200 rounded-full overflow-hidden">
+<div class="absolute left-[0%] w-[30%] h-full bg-slate-400/30 flex items-center px-2">
+<span class="text-[8px] font-bold text-slate-600 truncate">Inventory Check</span>
+</div>
+</div>
+</div>
+<div class="col-span-2 text-right">
+<span class="bg-slate-200 text-slate-500 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">Offline</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- FAB Suppression Check: Labor Page (Primary dashboard) - FAB OK -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform duration-200 z-50 group">
+<span class="material-symbols-outlined text-2xl" data-icon="add">add</span>
+<span class="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                Add Labor Entry
+            </span>
+</button>
+</main>
+<!-- BottomNavBar (Mobile Responsive Pivot) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-around items-center py-3 z-50 border-none shadow-[0px_-12px_32px_rgba(15,23,42,0.06)]">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-bold uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+<span class="text-[10px] font-bold uppercase">Projects</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-blue-700" href="#">
+<span class="material-symbols-outlined" data-icon="engineering">engineering</span>
+<span class="text-[10px] font-bold uppercase">Labor</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-bold uppercase">Settings</span>
+</a>
+</nav>
+</body></html>

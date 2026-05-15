@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BuildFlow - New Project Wizard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary-fixed": "#dbe1ff",
+                "on-secondary-fixed-variant": "#653e00",
+                "secondary-fixed": "#ffddb8",
+                "surface-variant": "#e0e3e5",
+                "on-tertiary-fixed": "#360f00",
+                "tertiary-fixed-dim": "#ffb596",
+                "surface-dim": "#d8dadc",
+                "on-primary-fixed": "#00174b",
+                "on-tertiary": "#ffffff",
+                "on-tertiary-container": "#ffede6",
+                "on-error": "#ffffff",
+                "surface-bright": "#f7f9fb",
+                "secondary-fixed-dim": "#ffb95f",
+                "surface-container-highest": "#e0e3e5",
+                "surface-container": "#eceef0",
+                "surface-container-high": "#e6e8ea",
+                "surface-container-lowest": "#ffffff",
+                "on-primary": "#ffffff",
+                "inverse-surface": "#2d3133",
+                "outline": "#737686",
+                "surface-tint": "#0053db",
+                "error": "#ba1a1a",
+                "primary-container": "#2563eb",
+                "on-secondary": "#ffffff",
+                "tertiary": "#943700",
+                "on-surface-variant": "#434655",
+                "inverse-on-surface": "#eff1f3",
+                "outline-variant": "#c3c6d7",
+                "error-container": "#ffdad6",
+                "tertiary-container": "#bc4800",
+                "on-surface": "#191c1e",
+                "secondary-container": "#fea619",
+                "secondary": "#855300",
+                "inverse-primary": "#b4c5ff",
+                "on-primary-container": "#eeefff",
+                "on-tertiary-fixed-variant": "#7d2d00",
+                "on-error-container": "#93000a",
+                "background": "#f7f9fb",
+                "surface": "#f7f9fb",
+                "on-secondary-fixed": "#2a1700",
+                "tertiary-fixed": "#ffdbcd",
+                "on-background": "#191c1e",
+                "primary-fixed-dim": "#b4c5ff",
+                "on-primary-fixed-variant": "#003ea8",
+                "surface-container-low": "#f2f4f6",
+                "primary": "#004ac6",
+                "on-secondary-container": "#684000"
+              },
+              fontFamily: {
+                "headline": ["Inter"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-4 bg-slate-50 dark:bg-slate-900 h-screen w-64 border-r-0 z-50">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-xl shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white" data-icon="architecture">architecture</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50 leading-tight">BuildFlow</h1>
+<p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Construction Management</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-3 px-3 py-2.5 font-inter antialiased text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Projects (Active based on Intent: Project Creation) -->
+<a class="flex items-center gap-3 px-3 py-2.5 font-inter antialiased text-sm text-blue-600 dark:text-blue-400 font-semibold bg-white dark:bg-slate-800 shadow-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span>Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-inter antialiased text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="assignment_turned_in">assignment_turned_in</span>
+<span>Tasks</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-inter antialiased text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Vendors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-inter antialiased text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Materials</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-inter antialiased text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 font-inter antialiased text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6">
+<button class="w-full flex items-center justify-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white py-3 px-4 rounded-xl font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all scale-98 active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_circle">add_circle</span>
+                New Project
+            </button>
+</div>
+</aside>
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 w-full flex justify-between items-center h-16 px-8 ml-64 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50 z-40">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full group focus-within:ring-2 focus-within:ring-blue-500/30 rounded-full transition-all">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-full py-2 pl-12 pr-4 text-sm focus:ring-0 placeholder:text-slate-400" placeholder="Search blueprints, tasks, or materials..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2 ml-auto">
+<button class="hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full p-2 transition-colors relative">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<div class="flex items-center gap-3 pl-2">
+<img class="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10" data-alt="close-up portrait of a professional male architect in a bright modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdDJ1kJqU2rUjRdO5TBulkLueriokUS8X3-T2ZoI2AMbRXoBHd-7KPRqi-K5a6Xsfh5NTeDX3lc-1LM13kuCd6GqfcoH6MWJu_Dwi0yG6e_SugIEZVT7MxHVqtc2KBGT281lZMOadtXgjtbvY5AMxWd7H_bLKziAMYO3NoPw-_84C-YPHgse1HktlJb6wS87HiCxlxe_bAhHrrzwg_fhmRK6gS1No4jFV1EegcJv9ZLurhD_WvbAMh6l-unfOvV9A1xWatarDGPUyH"/>
+<span class="hidden lg:block text-sm font-semibold text-slate-700 dark:text-slate-300">Marcus Sterling</span>
+</div>
+</div>
+</header>
+<!-- Main Content / Wizard Shell -->
+<main class="ml-64 pt-16 h-screen overflow-y-auto bg-surface">
+<div class="max-w-6xl mx-auto px-12 py-12">
+<!-- Architectural Header -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+<div class="space-y-2">
+<span class="text-xs font-bold tracking-[0.2em] text-primary uppercase">Blueprint Session</span>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface">Create New Project</h2>
+<p class="text-on-surface-variant max-w-md">Initialize your construction workflow with precise specifications and resource allocation.</p>
+</div>
+<!-- Stepper -->
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-primary/30">01</div>
+<span class="text-[10px] font-bold uppercase tracking-wider mt-2 text-primary">General</span>
+</div>
+<div class="w-12 h-[2px] bg-primary-fixed mb-6"></div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-sm">02</div>
+<span class="text-[10px] font-bold uppercase tracking-wider mt-2 text-outline">Team</span>
+</div>
+<div class="w-12 h-[2px] bg-surface-container-high mb-6"></div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-sm">03</div>
+<span class="text-[10px] font-bold uppercase tracking-wider mt-2 text-outline">Budget</span>
+</div>
+<div class="w-12 h-[2px] bg-surface-container-high mb-6"></div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-sm">04</div>
+<span class="text-[10px] font-bold uppercase tracking-wider mt-2 text-outline">Timeline</span>
+</div>
+</div>
+</div>
+<!-- Wizard Layout: Bento-Inspired Form -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Primary Inputs -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<section class="bg-surface-container-lowest p-10 rounded-xl shadow-sm border border-outline-variant/10">
+<h3 class="text-xl font-bold mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+                            General Information
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="col-span-2 space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-wider text-outline ml-1">Project Name</label>
+<input class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 rounded-xl py-4 px-5 text-on-surface transition-all placeholder:text-outline-variant" placeholder="e.g. Skyline Residency Phase II" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-wider text-outline ml-1">Project Type</label>
+<select class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 rounded-xl py-4 px-5 text-on-surface appearance-none">
+<option>Commercial High-rise</option>
+<option>Residential Multi-family</option>
+<option>Industrial Warehouse</option>
+<option>Public Infrastructure</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-wider text-outline ml-1">Site Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline text-xl" data-icon="location_on">location_on</span>
+<input class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 rounded-xl py-4 px-5 text-on-surface transition-all placeholder:text-outline-variant" placeholder="Chicago, IL" type="text"/>
+</div>
+</div>
+<div class="col-span-2 space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-wider text-outline ml-1">Project Scope &amp; Description</label>
+<textarea class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 rounded-xl py-4 px-5 text-on-surface transition-all placeholder:text-outline-variant resize-none" placeholder="Briefly describe the architectural vision and technical constraints..." rows="4"></textarea>
+</div>
+</div>
+</section>
+<!-- Bottom Action Bar -->
+<div class="flex items-center justify-between pt-4">
+<button class="flex items-center gap-2 text-outline font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+                            Cancel
+                        </button>
+<button class="bg-gradient-to-r from-primary to-primary-container text-white px-10 py-4 rounded-xl font-bold flex items-center gap-3 shadow-xl shadow-primary/25 hover:translate-y-[-2px] active:translate-y-0 transition-all">
+                            Continue to Team
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Contextual Preview / Visuals -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Project Preview Card -->
+<div class="bg-primary text-white p-8 rounded-xl shadow-2xl relative overflow-hidden group">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent)] pointer-events-none"></div>
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-12">
+<span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Preview Mode</span>
+<span class="material-symbols-outlined opacity-50" data-icon="architecture">architecture</span>
+</div>
+<div class="space-y-4">
+<p class="text-white/60 text-xs font-bold uppercase tracking-widest">Project Concept</p>
+<h4 class="text-2xl font-bold leading-tight">Define your next landmark project.</h4>
+<p class="text-white/80 text-sm leading-relaxed">As you fill in the details, BuildFlow calculates preliminary material estimates and resource availability in real-time.</p>
+</div>
+</div>
+</div>
+<!-- Image Placeholder Card -->
+<div class="aspect-square bg-surface-container-high rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" data-alt="architectural rendering of a modern glass skyscraper reflecting the blue sky at sunset with sharp geometric lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNsPOHXqMiHgxf6vfamDgcQali0zONuDADkFQ7P6vsnYAHmkFypj7hHubZB1A0eKtfbLcaxNhrGdcFyKsAdM9O2VhXjMRfvnJwsRv4f3jQ-gI5gCTQ5Y94_hWJKmotG8kMJB_Q9i_NzkabvWkP4V-Wvy1w6K7_w8KDBRYeKKSnKGGPVQ7j0fQHOBHxIR-kw2ElWWez7g2LbpXKrsnge5vOWoNk2rwYeD1cJ0K_g6DdwR2MG62qb6wZLXAM6yHKVIDGu1bATePq7kdF"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
+<span class="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-1">Architecture</span>
+<h5 class="text-white font-bold text-lg">Visual Blueprint</h5>
+</div>
+</div>
+<!-- Status / Pulse Info -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant/10 space-y-6">
+<h4 class="text-[10px] font-bold uppercase tracking-widest text-outline">Wizard Checklist</h4>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Project Identity
+                            </li>
+<li class="flex items-center gap-3 text-sm font-medium text-outline">
+<span class="material-symbols-outlined text-[18px]" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+                                Stakeholder Access
+                            </li>
+<li class="flex items-center gap-3 text-sm font-medium text-outline">
+<span class="material-symbols-outlined text-[18px]" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+                                Fiscal Framework
+                            </li>
+<li class="flex items-center gap-3 text-sm font-medium text-outline">
+<span class="material-symbols-outlined text-[18px]" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+                                Critical Path Milestones
+                            </li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Material Details | ProConstruct</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-container-highest": "#e0e3e5",
+                "on-secondary-fixed": "#2a1700",
+                "on-background": "#191c1e",
+                "surface-dim": "#d8dadc",
+                "tertiary-container": "#bc4800",
+                "on-surface": "#191c1e",
+                "secondary-container": "#fea619",
+                "inverse-on-surface": "#eff1f3",
+                "error": "#ba1a1a",
+                "surface-tint": "#0053db",
+                "secondary": "#855300",
+                "on-secondary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-high": "#e6e8ea",
+                "outline-variant": "#c3c6d7",
+                "on-primary-fixed": "#00174b",
+                "primary-fixed-dim": "#b4c5ff",
+                "inverse-primary": "#b4c5ff",
+                "on-tertiary-fixed": "#360f00",
+                "surface": "#f7f9fb",
+                "on-tertiary-fixed-variant": "#7d2d00",
+                "surface-container-low": "#f2f4f6",
+                "on-primary-container": "#eeefff",
+                "background": "#f7f9fb",
+                "surface-bright": "#f7f9fb",
+                "primary-container": "#2563eb",
+                "on-primary-fixed-variant": "#003ea8",
+                "secondary-fixed": "#ffddb8",
+                "tertiary-fixed": "#ffdbcd",
+                "on-error": "#ffffff",
+                "primary-fixed": "#dbe1ff",
+                "inverse-surface": "#2d3133",
+                "surface-variant": "#e0e3e5",
+                "secondary-fixed-dim": "#ffb95f",
+                "primary": "#004ac6",
+                "on-tertiary-container": "#ffede6",
+                "on-surface-variant": "#434655",
+                "on-secondary-fixed-variant": "#653e00",
+                "tertiary": "#943700",
+                "error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#ffb596",
+                "surface-container": "#eceef0",
+                "on-primary": "#ffffff",
+                "on-secondary-container": "#684000",
+                "on-error-container": "#93000a",
+                "outline": "#737686",
+                "on-tertiary": "#ffffff"
+              },
+              fontFamily: {
+                "headline": ["Inter"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .tonal-shift {
+            background-color: #f2f4f6;
+        }
+        .architectural-shadow {
+            box-shadow: 0px 12px 32px rgba(15, 23, 42, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-sm dark:shadow-none docked full-width top-0 sticky z-50 flex justify-between items-center w-full px-6 py-3">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black tracking-tighter text-blue-700 dark:text-blue-500">ProConstruct</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-3 py-1 rounded-lg" href="#">Projects</a>
+<a class="text-blue-700 dark:text-blue-400 font-bold border-b-2 border-blue-600 px-3 py-1" href="#">Inventory</a>
+<a class="text-slate-500 dark:text-slate-400 font-medium hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-3 py-1 rounded-lg" href="#">Teams</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/30 w-64" placeholder="Search resources..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-2 text-slate-400" style="font-size: 20px;">search</span>
+</div>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-slate-500 cursor-pointer" data-icon="help">help</span>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-outline-variant/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOO4gamGXKnLDZBvpsTt7cCdjGeznQNedBjBZ6BHl-KN5HCWiazUllexY2QakfirPA_p1QQvtxESPZH8D7fv_DA0_tszZl9Qm5gO8QWP035MDzdCBAHgpoVwtWe4aZAYkARVJ3lqZ8H-aEJNLpMs4Tp6Zyt3I8pn5pIsWjrEpF0irzn0CLQF_wmbvKvfbtIqlr0ltOPG9VFWebUPoimE7NxwTUu_bQCFBo0tU9styVuEliQamFeTpD77AQ-t76Qcemq-oqIE8_Vn7E"/>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="bg-slate-100 dark:bg-slate-900 h-screen w-64 fixed left-0 top-0 z-40 flex flex-col h-full py-6 hidden lg:flex mt-[56px]">
+<div class="px-6 mb-8">
+<p class="font-inter text-sm font-semibold tracking-wide uppercase text-slate-600 dark:text-slate-400">Project Alpha</p>
+<p class="text-[10px] text-slate-400 uppercase tracking-[0.1em]">Site 102 - Austin, TX</p>
+</div>
+<nav class="flex-grow">
+<div class="text-slate-600 dark:text-slate-400 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-semibold tracking-wide uppercase">Dashboard</span>
+</div>
+<div class="text-slate-600 dark:text-slate-400 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-inter text-sm font-semibold tracking-wide uppercase">Material Logs</span>
+</div>
+<div class="bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="warehouse" style="font-variation-settings: 'FILL' 1;">warehouse</span>
+<span class="font-inter text-sm font-semibold tracking-wide uppercase">Inventory</span>
+</div>
+<div class="text-slate-600 dark:text-slate-400 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-inter text-sm font-semibold tracking-wide uppercase">Procurement</span>
+</div>
+<div class="text-slate-600 dark:text-slate-400 mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-inter text-sm font-semibold tracking-wide uppercase">Reports</span>
+</div>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-xl font-bold text-sm tracking-tight flex items-center justify-center gap-2 mb-6">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                    New Material Entry
+                </button>
+<div class="space-y-1">
+<div class="text-slate-500 mx-2 px-4 py-2 flex items-center gap-3 text-xs font-semibold uppercase tracking-widest hover:bg-slate-200 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+                        Settings
+                    </div>
+<div class="text-slate-500 mx-2 px-4 py-2 flex items-center gap-3 text-xs font-semibold uppercase tracking-widest hover:bg-slate-200 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-sm" data-icon="contact_support">contact_support</span>
+                        Support
+                    </div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow lg:ml-64 p-4 md:p-8 lg:p-12 mt-4">
+<!-- Breadcrumb -->
+<div class="flex items-center gap-2 text-outline text-xs uppercase tracking-widest mb-6">
+<a class="hover:text-primary transition-colors" href="#">Inventory</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-on-surface">Concrete Mix Grade-A</span>
+</div>
+<!-- Material Header Asymmetric Layout -->
+<div class="flex flex-col xl:flex-row gap-8 mb-12 items-start">
+<div class="flex-grow">
+<div class="flex items-center gap-4 mb-2">
+<span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-black uppercase tracking-tighter">Status: Optimal</span>
+<span class="text-outline text-sm font-medium">SKU: CONC-MIX-GR-A-09</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter text-on-surface mb-4">Concrete Mix Grade-A</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+                        High-performance structural concrete mix designed for heavy-duty foundations and reinforcement columns. Verified for Site 102 specifications.
+                    </p>
+</div>
+<div class="flex flex-wrap gap-3 xl:mt-4">
+<button class="flex items-center gap-2 bg-surface-container-highest text-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" style="font-size: 20px;">edit_document</span>
+                        Adjust Stock
+                    </button>
+<button class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white px-6 py-3 rounded-xl font-bold text-sm shadow-md active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-size: 20px;">local_shipping</span>
+                        Schedule Delivery
+                    </button>
+<button class="p-3 bg-surface-container-low text-on-surface-variant rounded-xl hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">print</span>
+</button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+<!-- Inventory Analytics Card -->
+<div class="lg:col-span-8 bg-surface-container-lowest architectural-shadow rounded-xl p-8 border border-outline-variant/10">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="text-xs font-black uppercase tracking-widest text-outline mb-1">Inventory Analytics</h3>
+<h4 class="text-2xl font-bold tracking-tight">Stock Level (Last 30 Days)</h4>
+</div>
+<div class="text-right">
+<p class="text-3xl font-black text-primary tracking-tighter">4,250 kg</p>
+<p class="text-[10px] text-green-600 font-bold uppercase tracking-widest">+12.4% vs last week</p>
+</div>
+</div>
+<!-- SVG Chart Mockup -->
+<div class="h-64 w-full relative group">
+<svg class="w-full h-full" viewbox="0 0 800 200">
+<defs>
+<lineargradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#2563eb" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#2563eb" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,150 Q100,140 200,160 T400,100 T600,120 T800,40 L800,200 L0,200 Z" fill="url(#chartGradient)"></path>
+<path d="M0,150 Q100,140 200,160 T400,100 T600,120 T800,40" fill="none" stroke="#004ac6" stroke-linecap="round" stroke-width="4"></path>
+<!-- Grid Lines -->
+<line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="180" y2="180"></line>
+<line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="130" y2="130"></line>
+<line stroke="#e0e3e5" stroke-dasharray="4" x1="0" x2="800" y1="80" y2="80"></line>
+</svg>
+<div class="absolute top-1/2 left-3/4 -translate-y-full px-3 py-2 bg-inverse-surface text-inverse-on-surface rounded-lg text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                            May 18: 4,250 kg
+                        </div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-outline uppercase tracking-widest">
+<span>20 Apr</span>
+<span>30 Apr</span>
+<span>10 May</span>
+<span>Today</span>
+</div>
+</div>
+<!-- Related Documents Asymmetric Card -->
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low rounded-xl p-6 border border-outline-variant/5">
+<h3 class="text-xs font-black uppercase tracking-widest text-outline mb-6">Documentation</h3>
+<div class="space-y-4">
+<div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">picture_as_pdf</span>
+</div>
+<div class="flex-grow">
+<p class="text-sm font-bold text-on-surface">Safety Data Sheet (SDS)</p>
+<p class="text-[10px] text-outline uppercase">v2.4 • Updated Jan 2024</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+</div>
+<div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex-grow">
+<p class="text-sm font-bold text-on-surface">Quality Certification</p>
+<p class="text-[10px] text-outline uppercase">ASTM-C39-GradeA</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+</div>
+<div class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-xl hover:translate-x-1 transition-transform cursor-pointer group">
+<div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+<div class="flex-grow">
+<p class="text-sm font-bold text-on-surface">Usage Guidelines</p>
+<p class="text-[10px] text-outline uppercase">Site Manual PDF</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary">download</span>
+</div>
+</div>
+</div>
+<!-- Warehouse Visualization Mockup -->
+<div class="relative rounded-xl overflow-hidden h-40 group">
+<img class="w-full h-full object-cover grayscale brightness-50 group-hover:scale-110 transition-transform duration-700" data-alt="industrial warehouse interior with organized pallets of construction materials and dramatic high contrast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ00Eq6AgycNnezWojeEgHdaipBJQdLe-iuPHQvfKyIzz9owMGiTmQ6tzwQidXG5CDOv7Dl49xyyHkxEIIzdZeQENNxfZsMstS-aHCqA-nPN3aqh1vPTC-pYoivmW4DuhiHX0UuxKyQIppLwXvqTXOytJP7o6dpsIekGV2kID6DjjeIKyYKrbSJu2RLozd1IQdoaEUfLtA7bFW7zj8KHlPBfEUtTOFgeOibmf4gKhdDXiUQgB3z2y8eDXiAx9Q3XHzoWZud5ap7cyV"/>
+<div class="absolute inset-0 p-6 flex flex-col justify-end">
+<p class="text-[10px] font-black uppercase tracking-[0.2em] text-white/60 mb-1">Stored at</p>
+<h5 class="text-xl font-bold text-white tracking-tight">Zone B, Row 12, Rack 4</h5>
+</div>
+</div>
+</div>
+<!-- Recent Deliveries Table (No Dividers Rule) -->
+<div class="lg:col-span-12 bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/5">
+<div class="px-8 py-6 flex justify-between items-center border-b border-outline-variant/10">
+<h3 class="text-xs font-black uppercase tracking-widest text-outline">Recent Deliveries &amp; Logistics</h3>
+<button class="text-primary text-xs font-bold uppercase hover:underline">View All Logs</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-[10px] font-black uppercase tracking-widest text-outline">
+<th class="px-8 py-4">Delivery Date</th>
+<th class="px-8 py-4">Quantity</th>
+<th class="px-8 py-4">Batch Number</th>
+<th class="px-8 py-4">Inspector</th>
+<th class="px-8 py-4">Status</th>
+<th class="px-8 py-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-sm font-medium">
+<tr class="bg-surface-container-lowest transition-colors hover:bg-surface-container-high/40">
+<td class="px-8 py-5 text-on-surface">May 12, 2024</td>
+<td class="px-8 py-5">2,500 kg</td>
+<td class="px-8 py-5 font-mono text-xs">#BTC-882-A</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<img alt="Inspector avatar" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjHnorOgT8yFLfIRZOWJSm9LYUxMqSiO0KNbUhZ71hQf6XzqHeSgGYmNbITQKcimNui7c_vhYPFITTqo_dEOJvWfXChm6diKoWul8A7NGitj3Molx_b6Y_luI-yPeuEUUNm7MTzQN1DXyKJUJYBdcMzH-ik04PXAo9TaOJo8U9pwZ1fp5AkmwH2QsKwIsVokMGHcWr1aE-AarZ3hZqM6dAOLh-ZsD6GZA0IN1V5qBmPAMwZmwA_ko4fWb2NgQ5lB_MXb6A9eMvg0gh"/>
+<span>M. Henderson</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-1.5 text-green-600">
+<span class="w-2 h-2 rounded-full bg-green-600"></span>
+<span class="text-xs font-bold uppercase tracking-tighter">Approved</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low transition-colors hover:bg-surface-container-high/40">
+<td class="px-8 py-5 text-on-surface">May 05, 2024</td>
+<td class="px-8 py-5">2,500 kg</td>
+<td class="px-8 py-5 font-mono text-xs">#BTC-741-A</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<img alt="Inspector avatar" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqhbQ8RG5SCLJKK34hA3kCEEb30Gwjg-0_fC2hZCPbvT0vNXp8BlRSc44qBdbtLo8jGhNDWOnQb3wHM0_FS9OpHuTK2DjVq1DRj662jTcmRJOjVvSslT5P_FFHNZ1R82tT8-oEsAeFtCpFKvMtAmdPBv5QvArPjcXmT-KH-ea7Q__SN6nrkFXhDd46a-smMAjT7Sqdu3C-Fd2pqEwSRwDgs2ciFbZzptiaYBh9Wcs4ppGkiARh3npKvMDd2Qwp_7Fru8NcY9doSL3E"/>
+<span>S. Petrov</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-1.5 text-green-600">
+<span class="w-2 h-2 rounded-full bg-green-600"></span>
+<span class="text-xs font-bold uppercase tracking-tighter">Approved</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</td>
+</tr>
+<tr class="bg-surface-container-lowest transition-colors hover:bg-surface-container-high/40">
+<td class="px-8 py-5 text-on-surface">Apr 28, 2024</td>
+<td class="px-8 py-5">1,200 kg</td>
+<td class="px-8 py-5 font-mono text-xs">#BTC-612-B</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-2">
+<img alt="Inspector avatar" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9WV2rUdWA2yrpw3l0A3qK76PP60HDSy8XbJbQ1PoenqwMjJ37ZaGWibNg8MCoUkUmySBawduT8CtymU57xGT30vc-VQhDTeREFIsNKhD-TNc3i0lFhiskYkyFFgy1TcP3LhBl3tp6L2pmYF1aLjJW9iv5KSw6vz2nb9P7nHQIbWMehzdve-JJiZu_Cm2vzKXRjQUIz8JbNeU2nKFjvJSrtJfuKrYAGe5SsvqBeNGc77vMkHiTW9LrllP7WhCGY3Jvtlc-ogL9EGUo"/>
+<span>M. Henderson</span>
+</div>
+</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-1.5 text-amber-600">
+<span class="w-2 h-2 rounded-full bg-amber-600"></span>
+<span class="text-xs font-bold uppercase tracking-tighter">Pending QC</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary">more_vert</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Contextual Footer Pulse -->
+<footer class="mt-16 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-outline-variant/10 pt-12 mb-12">
+<div class="flex items-center gap-12">
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Material Integrity</p>
+<p class="text-lg font-bold">100% Quality Pass</p>
+</div>
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Consumption Rate</p>
+<p class="text-lg font-bold">420kg / Day</p>
+</div>
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-outline mb-1">Next Restock</p>
+<p class="text-lg font-bold text-secondary">Jun 04, 2024</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="text-xs font-bold uppercase tracking-widest text-outline hover:text-primary transition-colors">Export Report</button>
+<button class="text-xs font-bold uppercase tracking-widest text-outline hover:text-primary transition-colors">Archive Material</button>
+</div>
+</footer>
+</main>
+</div>
+<!-- Mobile Bottom NavBar (Hidden on Web) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 flex justify-around py-3 px-6 z-50">
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold mt-1 uppercase">Home</span>
+</div>
+<div class="flex flex-col items-center text-blue-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">warehouse</span>
+<span class="text-[10px] font-bold mt-1 uppercase">Stock</span>
+</div>
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="text-[10px] font-bold mt-1 uppercase">Orders</span>
+</div>
+<div class="flex flex-col items-center text-slate-400">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold mt-1 uppercase">User</span>
+</div>
+</nav>
+</body></html>
