@@ -5,12 +5,14 @@ const mock_data_1 = require("../data/mock-data");
 class SettlementService {
     static generateSuggestedSettlement(vendorId, projectId, basis) {
         var _a, _b, _c;
-        console.log(`[SettlementService] Generating request for Vendor: ${vendorId}, Project: ${projectId}, Basis: ${basis}`);
-        const project = mock_data_1.projects.find(p => p.id === projectId);
-        const vendor = mock_data_1.vendors.find(v => v.id == vendorId);
+        console.log(`[SettlementService] Generating request for Vendor: ${vendorId} (Type: ${typeof vendorId}), Project: ${projectId}`);
+        const project = mock_data_1.projects.find(p => p.id === projectId || p.projectCode === projectId);
+        const vendor = mock_data_1.vendors.find(v => v.id.toString() === vendorId.toString());
         if (!project || !vendor) {
-            console.error(`[SettlementService] Project (${!!project}) or Vendor (${!!vendor}) not found`);
-            throw new Error('Project or Vendor not found');
+            console.error(`[SettlementService] Search Failed. Project: ${!!project}, Vendor: ${!!vendor}`);
+            console.log('[SettlementService] Input ProjectID:', projectId);
+            console.log('[SettlementService] Input VendorID:', vendorId);
+            throw new Error(`Project (${projectId}) or Vendor (${vendorId}) not found in database.`);
         }
         // Find the contract for this vendor and project
         const vendorContract = mock_data_1.contracts.find(c => c.vendor === vendor.name);
@@ -66,7 +68,7 @@ class SettlementService {
         };
     }
     static saveSettlementRequest(request) {
-        const vendor = mock_data_1.vendors.find(v => v.id == request.vendorId);
+        const vendor = mock_data_1.vendors.find(v => v.id.toString() === request.vendorId.toString());
         if (vendor) {
             if (!vendor.settlementRequests)
                 vendor.settlementRequests = [];
@@ -87,6 +89,24 @@ class SettlementService {
             vendor.statusColor = 'bg-red-100 text-red-700';
             return request;
         }
+    }
+    static updateSettlementRequest(vendorId, updatedRequest) {
+        const vendor = mock_data_1.vendors.find(v => v.id.toString() === vendorId.toString());
+        if (vendor && vendor.settlementRequests) {
+            const index = vendor.settlementRequests.findIndex((r) => r.id === updatedRequest.id);
+            if (index !== -1) {
+                vendor.settlementRequests[index] = Object.assign(Object.assign({}, vendor.settlementRequests[index]), updatedRequest);
+                // Update corresponding invoice status
+                if (vendor.invoices) {
+                    const invIndex = vendor.invoices.findIndex((inv) => inv.number === `SET-${updatedRequest.id.toUpperCase()}`);
+                    if (invIndex !== -1) {
+                        vendor.invoices[invIndex].status = updatedRequest.status === 'Approved' ? 'Paid' : (updatedRequest.status === 'Rejected' ? 'Rejected' : 'Pending');
+                    }
+                }
+                return vendor.settlementRequests[index];
+            }
+        }
+        return null;
     }
     // --- Retention Release Intelligence ---
     static getRetentionAlerts(projectId) {
